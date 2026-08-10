@@ -601,6 +601,10 @@
          background written here would outrank that stylesheet and put them
          back to brown-on-brown */
       if (n.closest && n.closest('.kb-sky,#kh-root,#ka-root,#kq-player,#optGrid,.role-tabs')) continue;
+      /* A stripped slab has already been decided on. deBlue clears inline
+         background to re-derive, which would wipe that transparency straight
+         back to the page's own white. */
+      if (n.classList.contains('kid-seam')) continue;
 
       /* Drop whatever this pass wrote last time before measuring. kid-bg runs
          before kid-ui and kid-home have injected their sheets, so a first-pass
@@ -724,12 +728,26 @@
     list.forEach(function (n) {
       if (n.hasAttribute('data-kid-seam')) return;
       var r = n.getBoundingClientRect();
-      if (r.width < vw * 0.55 || r.height < vh * 0.5) return;   // page-sized only
+      /* A panel does not have to be full-bleed to blot out the page. The
+         tutor's stage is 53% of the viewport beside its transcript column —
+         under the old 55% bar it was never a "slab", and it painted a white
+         sheet over the whole call. Judge it on area instead of on either
+         edge alone. */
+      if (r.width < vw * 0.4 || r.height < vh * 0.4) return;
+      if ((r.width * r.height) < (vw * vh) * 0.28) return;
       var cs = getComputedStyle(n);
       var c = rgbaOf(cs.backgroundColor);
       var covers = (c && c.a >= .5) || cs.backgroundImage !== 'none';
       if (!covers) return;
       n.classList.add('kid-seam');
+      /* Inline, not just the class. `.kid-seam` is a CLASS selector, and a page
+         that styles its stage as `#stage{background:#fff}` beats it on
+         specificity no matter how many !importants the class carries — which
+         is exactly how the tutor kept painting a white sheet over the call.
+         An inline !important outranks every selector there is. */
+      n.style.setProperty('background', 'transparent', 'important');
+      n.style.setProperty('background-color', 'transparent', 'important');
+      n.style.setProperty('background-image', 'none', 'important');
       n.setAttribute('data-kid-seam', '1');
     });
   }
@@ -822,9 +840,9 @@
     document.documentElement.classList.remove('light-mode');
     /* order matters: clear the slab, warm the surfaces, then judge ink
        against the surfaces those two passes actually left behind */
-    seamless();
     deBlue();
     glassFields();
+    seamless();      // last: nothing after it can put the slab back
     inkFix();
   }
 
@@ -861,7 +879,7 @@
         for (var d = 0; d < SIDES.length; d++) t.style.removeProperty(SIDES[d]);
       }
       clearTimeout(pending);
-      pending = setTimeout(function () { seamless(); deBlue(); glassFields(); inkFix(); }, 140);
+      pending = setTimeout(function () { deBlue(); glassFields(); seamless(); inkFix(); }, 140);
     });
     mo.observe(document.body, {
       childList: true, subtree: true, attributes: true, attributeFilter: ['class']

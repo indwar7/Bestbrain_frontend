@@ -15,7 +15,10 @@
     var last = (location.pathname.split('/').pop() || '').toLowerCase();
     return (last.replace(/\.html$/, '')) || 'index';
   }
-  if (pageKey() !== 'index') return;
+  /* Under the router this file loads once and the route changes under it, so
+     the check belongs at mount time, not at load time. */
+  var SPA = !!document.getElementById('root');
+  function onHome() { return pageKey() === 'index'; }
 
   var I = (window.KidTheme && window.KidTheme.ICON) || {};
 
@@ -298,6 +301,7 @@
   }
 
   function build() {
+    if (document.getElementById('kh-root')) return;
     var style = document.createElement('style');
     style.id = 'kh-css';
     style.textContent = CSS;
@@ -457,12 +461,21 @@
       '</div>' +
       '<div class="kh-copy">© 2026 BestBrain · Learn smart, score better.</div></footer>';
 
-    /* swap the page content — the repo file on disk is untouched */
-    Array.prototype.slice.call(document.body.children).forEach(function (n) {
-      if (n.classList && (n.classList.contains('kb-sky') || n.id === 'pal-mascot')) return;
-      if (n.tagName === 'SCRIPT') return;
-      n.remove();
-    });
+    /* Static pages own their DOM, so their content is removed outright. Under
+       the router it is only HIDDEN: React still owns those nodes, and deleting
+       them leaves its tree describing a page that no longer exists — the next
+       render then throws. Hiding is reversible, which is exactly what leaving
+       the home route needs. */
+    if (SPA) {
+      var host = document.getElementById('root');
+      if (host) host.style.display = 'none';
+    } else {
+      Array.prototype.slice.call(document.body.children).forEach(function (n) {
+        if (n.classList && (n.classList.contains('kb-sky') || n.id === 'pal-mascot')) return;
+        if (n.tagName === 'SCRIPT') return;
+        n.remove();
+      });
+    }
     document.body.appendChild(root);
     document.body.style.padding = '0';
 
@@ -534,9 +547,39 @@
     });
   }
 
+  function unmount() {
+    var root = document.getElementById('kh-root');
+    if (root) root.remove();
+    var host = document.getElementById('root');
+    if (host) host.style.display = '';
+    document.body.style.padding = '';
+  }
+
+  function sync() {
+    if (onHome()) {
+      if (!document.getElementById('kh-root')) build();
+    } else {
+      unmount();
+    }
+  }
+
+  function start() {
+    sync();
+    if (!SPA) return;
+    ['pushState', 'replaceState'].forEach(function (m) {
+      var orig = history[m];
+      history[m] = function () {
+        var r = orig.apply(this, arguments);
+        setTimeout(sync, 60);
+        return r;
+      };
+    });
+    window.addEventListener('popstate', function () { setTimeout(sync, 60); });
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', build);
+    document.addEventListener('DOMContentLoaded', start);
   } else {
-    build();
+    start();
   }
 })();
