@@ -249,14 +249,19 @@
     'display:inline-flex!important;align-items:center!important;justify-content:center!important;' +
     'gap:10px!important;padding:0 22px!important;white-space:nowrap!important;' +
     'text-overflow:ellipsis;overflow:hidden;}' +
-  /* the waiting state reads as waiting, not as a broken label */
+  /* The waiting state must not resize anything. Whatever the page puts inside
+     the button while it works — a spinner div, an svg, a pseudo-element — is
+     clamped to a fixed 16px and told not to grow, because a loader that
+     inherits the button's height renders as a circle the size of the button
+     and the whole card appears to lurch. */
   '#ka-slot button[type=submit]:disabled{opacity:1!important;filter:saturate(.85);}' +
-  '#ka-slot button[type=submit]::after{content:"";width:0;height:0;border-radius:50%;' +
-    'border:0 solid rgba(10,10,10,.28);border-top-color:#0A0A0A;' +
-    'transition:width .2s ease,height .2s ease,border-width .2s ease;}' +
-  '#ka-slot button[type=submit].is-busy::after{width:16px;height:16px;border-width:2.5px;' +
-    'animation:ka-spin .7s linear infinite;}' +
-  '@keyframes ka-spin{to{transform:rotate(360deg)}}' +
+  '#ka-slot button[type=submit] > *{max-height:20px;flex:0 0 auto!important;align-self:center!important;}' +
+  '#ka-slot button[type=submit] .spinner,#ka-slot button[type=submit] .loader,' +
+  '#ka-slot button[type=submit] [class*=spin],#ka-slot button[type=submit] svg{' +
+    'width:16px!important;height:16px!important;min-width:16px!important;min-height:16px!important;' +
+    'max-width:16px!important;max-height:16px!important;flex:0 0 16px!important;' +
+    'border-width:2px!important;}' +
+  '#ka-slot button[type=submit].is-busy{pointer-events:none;}' +
   /* the two ways forward, unmistakable */
   '#ka-slot .signup-link,#ka-slot .forgot-password{font-weight:800!important;}' +
   '#ka-slot .signup-link a,#ka-slot .forgot-password a{' +
