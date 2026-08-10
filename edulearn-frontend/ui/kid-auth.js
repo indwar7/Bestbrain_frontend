@@ -46,7 +46,10 @@
       { i: 'mic', t: 'Ask out loud', d: 'Speak a doubt in English, Hindi or Hinglish' },
       { i: 'book', t: 'Your exact syllabus', d: 'NCERT chapters for Classes 6 to 9' },
       { i: 'chart', t: 'Proof you improved', d: 'Every session tracked, nothing guessed' },
+      { i: 'book', t: 'Right where you stopped', d: 'Your chapter, your progress, still there' },
     ],
+    quote: 'It explains the same doubt three different ways until it clicks.',
+    who: 'Aarav B. · Class 6',
   } : {
     eyebrow: 'Start free',
     head: 'Learning that<br><em>answers back</em>.',
@@ -56,7 +59,10 @@
       { i: 'mic', t: 'Doubts answered in seconds', d: 'Voice or type, day or night' },
       { i: 'book', t: 'Mapped to NCERT', d: 'Classes 6 to 9, CBSE aligned' },
       { i: 'shield', t: 'Safe for children', d: 'Age-appropriate answers, always' },
+      { i: 'chart', t: 'Progress you can see', d: 'Every chapter, every score, in one place' },
     ],
+    quote: 'My son stopped waiting for the next class to ask his doubts.',
+    who: 'Meera S. · parent, Class 7',
   };
 
   var PROOF = [
@@ -116,6 +122,7 @@
   '#ka-root .ka-feats li:nth-child(1){animation-delay:.10s}' +
   '#ka-root .ka-feats li:nth-child(2){animation-delay:.20s}' +
   '#ka-root .ka-feats li:nth-child(3){animation-delay:.30s}' +
+  '#ka-root .ka-feats li:nth-child(4){animation-delay:.38s}' +
   '#ka-root .ka-feats .fi{width:36px;height:36px;flex-shrink:0;border-radius:12px;display:grid;place-items:center;' +
     'background:rgba(255,122,0,.18);box-shadow:inset 0 0 0 1px rgba(255,122,0,.3);}' +
   '#ka-root .ka-feats .fi svg{width:18px;height:18px;color:#FFC98A;}' +
@@ -123,7 +130,14 @@
   '#ka-root .ka-feats span{display:block;margin-top:3px;font-size:12.5px;line-height:1.5;}' +
   '@keyframes ka-in{to{opacity:1;transform:none}}' +
 
-  '#ka-root .ka-proof{display:flex;align-items:center;gap:clamp(16px,2.4vw,30px);margin-top:auto;' +
+  '#ka-root .ka-quote{margin:26px 0 0;padding:18px 20px;border-radius:18px;' +
+    'background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);' +
+    'border-left:3px solid #FF7A00;' +
+    'opacity:0;transform:translateY(14px);animation:ka-in .7s cubic-bezier(.22,1,.36,1) .42s forwards;}' +
+  '#ka-root .ka-quote blockquote{margin:0;font-size:15px;line-height:1.6;font-weight:600;}' +
+  '#ka-root .ka-quote figcaption{margin-top:10px;font-size:12.5px;font-weight:800;' +
+    'color:#FFC98A!important;-webkit-text-fill-color:#FFC98A!important;}' +
+  '#ka-root .ka-proof{display:flex;align-items:center;gap:clamp(16px,2.4vw,30px);margin-top:28px;' +
     'padding-top:26px;border-top:1px solid rgba(255,255,255,.1);}' +
   '#ka-root .ka-proof .n{font-size:23px;font-weight:900;letter-spacing:-.02em;line-height:1;}' +
   '#ka-root .ka-proof .l{font-size:11.5px;font-weight:700;margin-top:5px;letter-spacing:.03em;}' +
@@ -291,6 +305,8 @@
         '<h1 class="ka-head">' + COPY.head + '</h1>' +
         '<p class="ka-sub">' + COPY.sub + '</p>' +
         '<ul class="ka-feats">' + feats + '</ul>' +
+        '<figure class="ka-quote"><blockquote>' + COPY.quote + '</blockquote>' +
+        '<figcaption>' + COPY.who + '</figcaption></figure>' +
       '</div>' +
       '<div class="ka-proof">' + proof + '</div>';
   }
