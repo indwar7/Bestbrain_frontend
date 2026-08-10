@@ -1,4 +1,14 @@
-/* Preview probe (?__probe=1), read-only: sky inventory + contrast audit. */
+/* ============================================================
+   Preview probe — opt-in via ?__probe=1, read-only.
+   Never loads during ordinary browsing. Reports what the skin
+   actually rendered, so a regression is caught by measurement
+   rather than by eye:
+
+     white  — surfaces still painted light on the dark canvas
+     ink    — text that fails contrast against what sits behind it
+     sky    — stars / icons / formulas that reached the page
+     order  — chapters lifted for having real content
+   ============================================================ */
 (function () {
   function lum(str) {
     var n = (str || '').match(/[\d.]+/g);
@@ -22,9 +32,11 @@
         var bi = cs.backgroundImage;
         if (bi && bi.indexOf('gradient') !== -1) {
           var st = bi.match(/rgba?\([^)]+\)/g);
-          if (st) { var t = 0, k = 0;
+          if (st) {
+            var t = 0, k = 0;
             for (var q = 0; q < st.length; q++) { var v = lum(st[q]); if (v !== null) { t += v; k++; } }
-            if (k) return t / k; }
+            if (k) return t / k;
+          }
         }
       }
       w = w.parentElement; hops++;
@@ -32,7 +44,6 @@
     return 0.02;
   }
   setTimeout(function () {
-    var sky = document.querySelector('body > .kb-sky');
     var all = document.body.querySelectorAll('*'), white = 0, low = 0;
     for (var i = 0; i < all.length; i++) {
       var n = all[i];
@@ -49,14 +60,11 @@
         }
       }
     }
-    var hues = {};
-    if (sky) sky.querySelectorAll('.kb-i').forEach(function (e) {
-      hues[getComputedStyle(e).color] = 1;
-    });
-    document.title = 'PROBE| stars=' + (sky ? sky.querySelectorAll('.kb-star').length : 0) +
+    var sky = document.querySelector('body > .kb-sky');
+    document.title = 'PROBE| white=' + white + ' lowcontrast=' + low +
+      ' stars=' + (sky ? sky.querySelectorAll('.kb-star').length : 0) +
       ' icons=' + (sky ? sky.querySelectorAll('.kb-i').length : 0) +
       ' formulas=' + (sky ? sky.querySelectorAll('.kb-f').length : 0) +
-      ' colours=' + Object.keys(hues).length +
-      ' white=' + white + ' lowcontrast=' + low;
+      ' contentTags=' + document.querySelectorAll('.kc-tag').length;
   }, 9000);
 })();

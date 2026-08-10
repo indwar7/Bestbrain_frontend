@@ -30,6 +30,22 @@
     return;
   }
 
+  /* With the real backend answering, the demo session must NOT be seeded: a
+     made-up token is rejected on the first call, and Learn, Videos, Live and
+     Arena would all render their empty state while looking logged in. Leave
+     the visitor logged out instead — role-guard sends them to the sign-in
+     screen and the session that follows is a genuine one. */
+  if (window.__PREVIEW_BACKEND_LIVE__) {
+    /* keep a stale demo token from an offline run from poisoning a live one */
+    try {
+      if (localStorage.getItem('edulearn_token') === 'preview-demo-token') {
+        localStorage.removeItem('edulearn_token');
+        localStorage.removeItem('edulearn_user');
+      }
+    } catch (e) {}
+    return;
+  }
+
   try {
     localStorage.setItem('edulearn_api', location.origin);
     localStorage.setItem('edulearn_token', 'preview-demo-token');

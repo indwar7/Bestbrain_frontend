@@ -23,6 +23,7 @@
 import http from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
+import { Readable } from 'node:stream';
 
 const HERE = path.dirname(new URL(import.meta.url).pathname);
 /* The repo root is this file's parent — derived, never hard-coded, so a fresh
@@ -35,6 +36,132 @@ const PORT = 5500;
    it on a server by mistake, nothing outside that machine can reach it. */
 const HOST = '127.0.0.1';
 const HOME = '/edulearn-frontend/index.html';
+
+/* ------------------------------------------------------------------
+   THE REAL BACKEND
+   Everything under /api/ is forwarded to the actual server when it is
+   running, so Learn, Videos, Lessons, Live, Quizzes and Arena work on
+   real data instead of stubs. Forwarding (rather than pointing the
+   frontend straight at :4000) keeps every call same-origin, so cookies
+   and the refresh flow behave exactly as they do in production and CORS
+   never enters the picture.
+
+   When the backend is NOT running the demo brain below answers instead,
+   so the preview still opens on a laptop with nothing else started.
+   ------------------------------------------------------------------ */
+const BACKEND = process.env.BESTBRAIN_BACKEND || 'http://localhost:4000';
+
+let backendUp = false;
+let probedAt = 0;
+
+async function backendLive() {
+  const now = Date.now();
+  if (now - probedAt < 4000) return backendUp;   // don't probe on every asset
+  probedAt = now;
+  try {
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), 900);
+    const r = await fetch(BACKEND + '/', { signal: ctl.signal });
+    clearTimeout(timer);
+    backendUp = r.status < 500;
+  } catch {
+    backendUp = false;
+  }
+  return backendUp;
+}
+
+const HOP_BY_HOP = new Set([
+  'connection', 'keep-alive', 'transfer-encoding', 'upgrade',
+  'proxy-authenticate', 'proxy-authorization', 'te', 'trailer',
+  'content-encoding', 'content-length'
+]);
+
+async function readRaw(req) {
+  const chunks = [];
+  for await (const c of req) chunks.push(c);
+  return Buffer.concat(chunks);
+}
+
+/* Returns true when the call was handled upstream. A transport failure
+   returns false so the caller can fall back to the demo answers. */
+async function proxyApi(req, res) {
+  const headers = {};
+  for (const [k, v] of Object.entries(req.headers)) {
+    if (!HOP_BY_HOP.has(k) && k !== 'host') headers[k] = v;
+  }
+  const init = { method: req.method, headers, redirect: 'manual' };
+  if (req.method !== 'GET' && req.method !== 'HEAD') init.body = await readRaw(req);
+
+  let upstream;
+  try {
+    upstream = await fetch(BACKEND + req.url, init);
+  } catch {
+    backendUp = false;              // it died mid-session; demo takes over
+    return false;
+  }
+
+  const out = {};
+  upstream.headers.forEach((v, k) => { if (!HOP_BY_HOP.has(k)) out[k] = v; });
+  const cookies = upstream.headers.getSetCookie ? upstream.headers.getSetCookie() : null;
+  if (cookies && cookies.length) { delete out['set-cookie']; out['Set-Cookie'] = cookies; }
+
+  res.writeHead(upstream.status, out);
+  if (!upstream.body) { res.end(); return true; }
+  /* piped, never buffered — the tutor replies over SSE and a buffered
+     proxy would hold the whole answer back until the stream closed */
+  Readable.fromWeb(upstream.body).pipe(res);
+  return true;
+}
+
+/* The tutor gets its own proxy because it is the one call that can fail
+   *after* it has started answering: the backend streams `event: error`
+   with pal_not_configured when its AI credentials are missing, which is a
+   200 response carrying a failure. So the first frame is read before any
+   header is written — if it is an error, nothing has been committed yet and
+   the on-device brain answers instead. A student asking a doubt gets an
+   answer either way. */
+async function proxyTutor(req, res, raw) {
+  const headers = {};
+  for (const [k, v] of Object.entries(req.headers)) {
+    if (!HOP_BY_HOP.has(k) && k !== 'host') headers[k] = v;
+  }
+  let upstream;
+  try {
+    upstream = await fetch(BACKEND + req.url, { method: 'POST', headers, body: raw });
+  } catch {
+    backendUp = false;
+    return false;
+  }
+  if (!upstream.ok || !upstream.body) return false;
+
+  const reader = upstream.body.getReader();
+  let first;
+  try { first = await reader.read(); } catch { return false; }
+  const head = first.value ? Buffer.from(first.value).toString('utf8') : '';
+  if (/event:\s*error/.test(head)) {
+    console.log('  tutor .. backend could not answer — using the on-device brain');
+    try { await reader.cancel(); } catch { /* already gone */ }
+    return false;
+  }
+
+  const out = {};
+  upstream.headers.forEach((v, k) => { if (!HOP_BY_HOP.has(k)) out[k] = v; });
+  res.writeHead(upstream.status, out);
+  if (first.value) res.write(Buffer.from(first.value));
+  if (first.done) { res.end(); return true; }
+
+  (async () => {
+    try {
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        res.write(Buffer.from(value));
+      }
+    } catch { /* client hung up */ }
+    res.end();
+  })();
+  return true;
+}
 
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
@@ -68,16 +195,22 @@ const BODY_TAG =
   '\n<!-- preview only --><script src="/__preview/kid-home.js"></script>' +
   '\n<!-- preview only --><script src="/__preview/kid-auth.js"></script>' +
   '\n<!-- preview only --><script src="/__preview/kid-call.js"></script>' +
-  '\n<!-- preview only --><script src="/__preview/kid-quiz.js"></script>\n';
+  '\n<!-- preview only --><script src="/__preview/kid-quiz.js"></script>' +
+  '\n<!-- preview only --><script src="/__preview/kid-content.js"></script>\n';
 
 /* A debugging probe, opt-in via ?__probe=1 so ordinary browsing never sees it.
    It reports computed styles into <title>, which headless --dump-dom prints. */
 const PROBE_TAG = '\n<!-- preview only --><script src="/__preview/probe.js"></script>\n';
 
-function inject(html, probe) {
+function inject(html, probe, live) {
   let out = html;
+  /* Tell the page whether a real backend is answering. session.js seeds a demo
+     session only when it is NOT — against a live backend a fake token would be
+     rejected on the first call, and every screen would look broken. */
+  const flag = '\n<!-- preview only --><script>window.__PREVIEW_BACKEND_LIVE__=' +
+    (live ? 'true' : 'false') + ';</script>';
   const head = out.match(/<head[^>]*>/i);
-  out = head ? out.replace(head[0], head[0] + HEAD_TAG) : HEAD_TAG + out;
+  out = head ? out.replace(head[0], head[0] + flag + HEAD_TAG) : flag + HEAD_TAG + out;
   const close = out.lastIndexOf('</body>');
   const tail = probe ? BODY_TAG + PROBE_TAG : BODY_TAG;
   return close === -1 ? out + tail : out.slice(0, close) + tail + out.slice(close);
@@ -150,9 +283,12 @@ async function readJson(req) {
   try { return JSON.parse(body || '{}'); } catch { return {}; }
 }
 
-async function serveTutorStream(req, res) {
-  let body = '';
-  for await (const chunk of req) body += chunk;
+async function serveTutorStream(req, res, preRead) {
+  let body = preRead;
+  if (body === undefined) {
+    body = '';
+    for await (const chunk of req) body += chunk;
+  }
   let msg = '';
   try { msg = JSON.parse(body || '{}').message || ''; } catch { /* keep '' */ }
   console.log('  tutor <<', JSON.stringify(msg).slice(0, 90));
@@ -190,6 +326,19 @@ const server = http.createServer(async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     if (req.method === 'OPTIONS') { res.writeHead(204); return res.end(); }
+
+    /* Real backend first. Only if it is not there — or dies mid-call — do the
+       demo answers below take over, so a laptop with nothing else running
+       still opens the preview. */
+    const isTutor = pathname === '/api/pal/tutor/stream' && req.method === 'POST';
+    if (await backendLive()) {
+      if (isTutor) {
+        const raw = await readRaw(req);
+        if (await proxyTutor(req, res, raw)) return;
+        return serveTutorStream(req, res, raw.toString('utf8'));
+      }
+      if (await proxyApi(req, res)) return;
+    }
   }
   if (pathname === '/api/pal/tutor/stream' && req.method === 'POST') {
     return serveTutorStream(req, res);
@@ -271,7 +420,7 @@ const server = http.createServer(async (req, res) => {
     if (ext === '.html') {
       const html = await readFile(file, 'utf8');
       res.writeHead(200, { 'Content-Type': type, 'Cache-Control': 'no-store' });
-      return res.end(inject(html, /__probe=1/.test(req.url || '')));
+      return res.end(inject(html, /__probe=1/.test(req.url || ''), await backendLive()));
     }
     const body = await readFile(file);
     res.writeHead(200, { 'Content-Type': type, 'Cache-Control': 'no-store' });
