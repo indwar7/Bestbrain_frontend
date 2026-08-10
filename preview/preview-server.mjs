@@ -196,7 +196,8 @@ const BODY_TAG =
   '\n<!-- preview only --><script src="/__preview/kid-auth.js"></script>' +
   '\n<!-- preview only --><script src="/__preview/kid-call.js"></script>' +
   '\n<!-- preview only --><script src="/__preview/kid-quiz.js"></script>' +
-  '\n<!-- preview only --><script src="/__preview/kid-content.js"></script>\n';
+  '\n<!-- preview only --><script src="/__preview/kid-content.js"></script>' +
+  '\n<!-- preview only --><script src="/__preview/kid-pdf.js"></script>\n';
 
 /* A debugging probe, opt-in via ?__probe=1 so ordinary browsing never sees it.
    It reports computed styles into <title>, which headless --dump-dom prints. */
