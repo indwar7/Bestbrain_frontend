@@ -21,8 +21,10 @@
 (function () {
   'use strict';
 
-  var page = (location.pathname.split('/').pop() || '').toLowerCase().replace(/\.html$/, '');
-  if (page !== 'learn') return;
+  function pageKey() {
+    return (location.pathname.split('/').pop() || '').toLowerCase().replace(/\.html$/, '') || 'index';
+  }
+  if (['learn', 'dashboard'].indexOf(pageKey()) === -1) return;
 
   /* ---------- matching ----------
      The backend links content to a chapter by class + subject + a word
@@ -179,6 +181,45 @@
     return true;
   }
 
+  /* The dashboard opens a brand-new student on the first chapter of the first
+     subject in the syllabus — which is whatever the curriculum happens to list
+     first, not whatever they can actually watch. Send them to a chapter that
+     has a lecture waiting instead: the first click of the product should not
+     land on an empty stage. */
+  function fixStartHere(videos, notes) {
+    var host = document.querySelector('.nextup__row');
+    if (!host) return;
+
+    var title = host.querySelector('.nextup__title');
+    var sub = host.querySelector('.nextup__sub');
+    var kicker = host.querySelector('.nextup__kicker');
+    var cta = host.querySelector('.nextup__cta');
+    if (!title || !cta) return;
+    if (host.dataset.kcDone) return;
+
+    /* prefer something with a video — that is what "start here" should mean */
+    var pick = videos[0] || notes[0];
+    if (!pick) return;
+
+    var chapter = pick.title || pick.topic;
+    var subject = pick.subject || 'Science';
+    host.dataset.kcDone = '1';
+
+    if (kicker) kicker.textContent = 'Start here';
+    title.textContent = chapter;
+    if (sub) sub.textContent = subject + ' · lecture and notes ready';
+
+    /* Link to the chapter's own video stage. The lesson hub matches content by
+       class + subject + topic, which is the same rule the backend uses — so
+       the video that made this the pick is the video that opens. */
+    var cls = currentClass() || 6;
+    cta.setAttribute('href',
+      'learn.html?class=' + cls + '&subject=' + encodeURIComponent(subject) +
+      '&topic=' + encodeURIComponent(chapter) + '&view=video');
+    var label = cta.querySelector('span');
+    if (label) label.textContent = 'Watch the lecture';
+  }
+
   function run() {
     var cls = currentClass();
     if (!cls) return;
@@ -186,6 +227,13 @@
     Promise.all([load('videos', cls), load('notes', cls)]).then(function (res) {
       var videos = res[0], notes = res[1];
       if (!videos.length && !notes.length) return;   // nothing uploaded — leave it alone
+
+      if (pageKey() === 'dashboard') {
+        fixStartHere(videos, notes);
+        setTimeout(function () { fixStartHere(videos, notes); }, 900);
+        return;
+      }
+
       applied = apply(videos, notes);
 
       /* the list re-renders on subject and class switches */
