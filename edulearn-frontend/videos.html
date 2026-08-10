@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Redesign: dark canvas before any stylesheet parses, so switching pages
+     never flashes white. boot.js is not deferred on purpose — the theme
+     classes have to be set before the page CSS lands. -->
+<meta name="color-scheme" content="dark">
+<style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
+<script src="ui/boot.js"></script>
   <meta charset="UTF-8">
   <!-- Apply saved theme before paint to avoid a light-mode flash. -->
   <script>/* light-only product: strip any stale dark preference before paint */try{document.documentElement.classList.remove('dark-mode');localStorage.setItem('edulearn-theme','light');}catch(e){}</script>
@@ -717,5 +723,10 @@
     </linearGradient>
   </defs>
 </svg>
+
+<!-- Redesign: look only. Every screen keeps the layout it already has. -->
+<script defer src="ui/kid-bg.js"></script>
+<script defer src="ui/kid-quiz.js"></script>
+<script defer src="ui/kid-content.js"></script>
 </body>
 </html>

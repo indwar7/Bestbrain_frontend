@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Redesign: dark canvas before any stylesheet parses, so switching pages
+     never flashes white. boot.js is not deferred on purpose — the theme
+     classes have to be set before the page CSS lands. -->
+<meta name="color-scheme" content="dark">
+<style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
+<script src="ui/boot.js"></script>
 <meta charset="UTF-8">
 <!-- Centralized role guard + nav access control. MUST load first (before body
      paints) so a disallowed user is redirected without seeing page content. -->
@@ -67,6 +73,10 @@ html.dark-mode .role.is-on.r-teacher{color:var(--peri)}
   transition:transform .3s var(--ease);
 }
 .btn-new:hover{transform:translateY(-1px)}
+.btn-doubt{display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line-strong);background:var(--card);color:var(--cream);font-weight:700;font-size:13.5px;padding:10px;border-radius:13px;transition:all .3s var(--ease)}
+.btn-doubt:hover{transform:translateY(-1px);border-color:rgba(244,63,94,.5);box-shadow:var(--shadow-soft)}
+.btn-doubt .live-dot{width:8px;height:8px;border-radius:50%;background:var(--rose);flex:none;animation:doubtblink 1.6s infinite}
+@keyframes doubtblink{0%,100%{opacity:1}50%{opacity:.3}}
 .side__label{margin-top:4px}
 .chatlist{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:4px;min-height:0;margin:0 -6px;padding:0 6px}
 .chatitem{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:11px;font-size:13.5px;color:var(--muted);text-align:left;transition:background .2s var(--ease),color .2s var(--ease);overflow:hidden}
@@ -229,6 +239,13 @@ html.dark-mode .bubble a{color:var(--teal)}
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
       New chat
     </button>
+    <!-- Live voice call with PAL. Student-only (see role-guard ACCESS) —
+         unhidden below once EduGuard confirms this role may open it. -->
+    <a class="btn-doubt" id="doubtBtn" href="tutor.html" hidden>
+      <span class="live-dot"></span>
+      Live doubt session
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="11.5" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5"/></svg>
+    </a>
     <span class="mono side__label">Recent chats</span>
     <div class="chatlist" id="chatList"></div>
     <div class="side__foot">PAL answers from the BestBrain syllabus and your activity on this device. Prototype — answers are generated locally.</div>
@@ -893,6 +910,25 @@ function sendMessage(text){
 /* ============================================================
    WIRING
    ============================================================ */
+// Reveal the live doubt session launcher only for roles the guard would let
+// through (students) — otherwise the link would just bounce off role-guard.
+// In the SPA this script runs without role-guard.js, so when EduGuard is
+// absent fall back to reading the stored session role directly.
+(function(){
+  var doubtBtn = document.getElementById('doubtBtn');
+  if (!doubtBtn) return;
+  var allowed;
+  if (window.EduGuard) {
+    allowed = EduGuard.loggedIn && EduGuard.can('tutor.html');
+  } else {
+    var u = null;
+    try { u = JSON.parse(localStorage.getItem('edulearn_user') || 'null'); } catch(e){}
+    var r = u && String(u.role || '').toLowerCase();
+    allowed = r === 'student' || r === 'admin';
+  }
+  if (allowed) doubtBtn.hidden = false;
+})();
+
 function autosize(){
   input.style.height = 'auto';
   input.style.height = Math.min(input.scrollHeight, 130) + 'px';
@@ -983,5 +1019,10 @@ window._palRenderThread = renderThread;
 </script>
 <script src="../theme.js"></script>
 <script src="../features-panel.js"></script>
+
+<!-- Redesign: look only. Every screen keeps the layout it already has. -->
+<script defer src="ui/kid-bg.js"></script>
+<script defer src="ui/kid-quiz.js"></script>
+<script defer src="ui/kid-content.js"></script>
 </body>
 </html>

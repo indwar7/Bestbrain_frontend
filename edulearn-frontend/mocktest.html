@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Redesign: dark canvas before any stylesheet parses, so switching pages
+     never flashes white. boot.js is not deferred on purpose — the theme
+     classes have to be set before the page CSS lands. -->
+<meta name="color-scheme" content="dark">
+<style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
+<script src="ui/boot.js"></script>
 <meta charset="UTF-8">
 <!-- Centralized role guard + nav access control. MUST load first (before body
      paints) so a disallowed user is redirected without seeing page content. -->
@@ -841,5 +847,10 @@ if (sharedChapter && CHAPTER_SUBJECT[sharedChapter]) {
 <script src="account-menu.js"></script>
 <script src="../theme.js"></script>
 <script src="../features-panel.js"></script>
+
+<!-- Redesign: look only. Every screen keeps the layout it already has. -->
+<script defer src="ui/kid-bg.js"></script>
+<script defer src="ui/kid-quiz.js"></script>
+<script defer src="ui/kid-content.js"></script>
 </body>
 </html>
