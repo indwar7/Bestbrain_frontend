@@ -301,7 +301,10 @@
   'html.kid-dark .btn-primary,html.kid-dark .btn-cta,html.kid-dark button.primary,' +
   'html.kid-dark .nav-cta,html.kid-dark .cta-primary,html.kid-dark form button[type=submit]{' +
     'font-weight:900!important;letter-spacing:.01em!important;font-size:15.5px!important;' +
-    'box-shadow:0 14px 34px rgba(255,122,0,.46),inset 0 1px 0 rgba(255,255,255,.36)!important;}' +
+    'background:linear-gradient(120deg,#FFC400,#FFDD3C)!important;' +
+    'color:#0A0A0A!important;-webkit-text-fill-color:#0A0A0A!important;' +
+    'box-shadow:0 0 0 1px rgba(255,214,60,.5),0 14px 34px rgba(255,200,0,.44),' +
+      'inset 0 1px 0 rgba(255,255,255,.45)!important;}' +
   'html.kid-dark .btn-primary:hover,html.kid-dark .nav-cta:hover,' +
   'html.kid-dark form button[type=submit]:hover{' +
     'transform:translateY(-2px);box-shadow:0 20px 46px rgba(255,122,0,.58)!important;}';

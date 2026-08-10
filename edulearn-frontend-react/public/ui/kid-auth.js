@@ -214,13 +214,19 @@
     'margin-right:8px!important;vertical-align:-3px;}' +
 
   /* primary + secondary actions */
+  /* Yellow, not amber. This is the one control on the screen that has to be
+     found without looking for it, and yellow on near-black is the sharpest
+     pairing the palette has — black text on it reads at about 15:1. */
   '#ka-slot .btn,#ka-slot .btn-primary,#ka-slot button[type=submit]{' +
     'width:100%!important;padding:14px 20px!important;border-radius:14px!important;border:0!important;' +
-    'font-size:15px!important;font-weight:800!important;cursor:pointer;' +
-    'background:linear-gradient(120deg,#FF7A00,#FFA726)!important;' +
+    'font-size:15px!important;font-weight:900!important;cursor:pointer;' +
+    'background:linear-gradient(120deg,#FFC400,#FFDD3C)!important;' +
     'color:#0A0A0A!important;-webkit-text-fill-color:#0A0A0A!important;' +
-    'box-shadow:0 14px 34px rgba(255,122,0,.42),inset 0 1px 0 rgba(255,255,255,.38)!important;' +
+    'box-shadow:0 0 0 1px rgba(255,214,60,.55),0 14px 36px rgba(255,200,0,.45),' +
+      'inset 0 1px 0 rgba(255,255,255,.5)!important;' +
     'transition:transform .28s cubic-bezier(.22,1,.36,1),box-shadow .28s ease,filter .28s ease!important;}' +
+  '#ka-slot .btn:hover,#ka-slot .btn-primary:hover,#ka-slot button[type=submit]:hover{' +
+    'box-shadow:0 0 0 1px rgba(255,221,60,.75),0 20px 48px rgba(255,200,0,.6)!important;}' +
   '#ka-slot .btn:hover,#ka-slot .btn-primary:hover,#ka-slot button[type=submit]:hover{' +
     'transform:translateY(-2px);box-shadow:0 20px 46px rgba(255,122,0,.55)!important;filter:brightness(1.04);}' +
   '#ka-slot .btn:active,#ka-slot .btn-primary:active{transform:translateY(0) scale(.99);}' +
