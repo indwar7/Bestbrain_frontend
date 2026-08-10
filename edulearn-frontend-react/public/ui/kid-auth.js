@@ -132,7 +132,11 @@
   /* ---------- right: the card ---------- */
   '#ka-root .ka-main{display:flex;align-items:center;justify-content:center;' +
     'padding:clamp(30px,4vw,58px) clamp(20px,4vw,52px);}' +
-  '#ka-root .ka-card{position:relative;width:100%;max-width:452px;border-radius:26px;' +
+  /* A fixed width, not a max-width. The card is sized to its contents
+     otherwise, so the moment a browser adds a password-manager icon, or the
+     submit button's label changes to "Signing in…", the whole card resizes
+     under the cursor. */
+  '#ka-root .ka-card{position:relative;width:452px;max-width:100%;border-radius:26px;' +
     'padding:clamp(26px,3vw,38px);background:rgba(14,11,9,.58);' +
     'border:1px solid rgba(255,255,255,.13);' +
     'backdrop-filter:blur(30px) saturate(1.25);-webkit-backdrop-filter:blur(30px) saturate(1.25);' +
@@ -222,6 +226,10 @@
   '#ka-slot .social-btn:hover{background:rgba(255,255,255,.1)!important;transform:translateY(-2px);' +
     'border-color:rgba(255,255,255,.24)!important;}' +
 
+  '#ka-slot .btn,#ka-slot .btn-primary,#ka-slot button[type=submit]{' +
+    'font-weight:900!important;font-size:15.5px!important;letter-spacing:.01em!important;}' +
+  '#ka-slot .signup-link a,#ka-slot .forgot-password a{' +
+    'color:#FFC98A!important;-webkit-text-fill-color:#FFC98A!important;font-weight:900!important;}' +
   '#ka-slot .forgot-password{text-align:right!important;margin:-4px 0 16px!important;font-size:13px!important;}' +
   '#ka-slot .forgot-password a,#ka-slot .signup-link a,#ka-slot a{font-weight:800!important;' +
     'text-decoration:none!important;}' +

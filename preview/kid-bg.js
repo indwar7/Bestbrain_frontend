@@ -600,7 +600,7 @@
       /* the quiz options are styled explicitly by kid-quiz — an inline warm
          background written here would outrank that stylesheet and put them
          back to brown-on-brown */
-      if (n.closest && n.closest('.kb-sky,#kh-root,#ka-root,#kq-player,#optGrid')) continue;
+      if (n.closest && n.closest('.kb-sky,#kh-root,#ka-root,#kq-player,#optGrid,.role-tabs')) continue;
 
       /* Drop whatever this pass wrote last time before measuring. kid-bg runs
          before kid-ui and kid-home have injected their sheets, so a first-pass
@@ -842,11 +842,30 @@
        cards, chat replies. Anything that arrives later has to be measured too,
        or it lands with the page's own black ink on the dark canvas. */
     var pending = 0;
-    var mo = new MutationObserver(function () {
+    var mo = new MutationObserver(function (recs) {
+      /* A class change is how a page says "this element looks different now" —
+         an active tab, a selected option, a current nav item. Our warmed colour
+         is pinned inline with !important, so it would survive that change and
+         leave the highlight stuck on whatever was selected first. Forget what
+         we wrote for those elements so the next pass derives them again. */
+      for (var i = 0; i < recs.length; i++) {
+        var r = recs[i];
+        if (r.type !== 'attributes' || r.attributeName !== 'class') continue;
+        var t = r.target;
+        if (!t.hasAttribute || !t.hasAttribute('data-kid-warm')) continue;
+        t.removeAttribute('data-kid-warm');
+        t.removeAttribute('data-kid-bg');
+        t.removeAttribute('data-kid-ink');
+        t.style.removeProperty('background-color');
+        t.style.removeProperty('background-image');
+        for (var d = 0; d < SIDES.length; d++) t.style.removeProperty(SIDES[d]);
+      }
       clearTimeout(pending);
       pending = setTimeout(function () { seamless(); deBlue(); glassFields(); inkFix(); }, 140);
     });
-    mo.observe(document.body, { childList: true, subtree: true });
+    mo.observe(document.body, {
+      childList: true, subtree: true, attributes: true, attributeFilter: ['class']
+    });
   }
 
   if (document.readyState === 'loading') {

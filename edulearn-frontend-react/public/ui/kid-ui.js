@@ -291,6 +291,48 @@
     });
   }
 
+  /* ---------- the way in ----------
+     "Start free" describes the price; a student is choosing to learn, not to
+     buy. The label says that, and the button is weighted so the eye lands on
+     it before anything else on the page. */
+  var CTA_CSS =
+  'html.kid-dark .btn-primary,html.kid-dark .btn-cta,html.kid-dark button.primary,' +
+  'html.kid-dark .nav-cta,html.kid-dark .cta-primary,html.kid-dark form button[type=submit]{' +
+    'font-weight:900!important;letter-spacing:.01em!important;font-size:15.5px!important;' +
+    'box-shadow:0 14px 34px rgba(255,122,0,.46),inset 0 1px 0 rgba(255,255,255,.36)!important;}' +
+  'html.kid-dark .btn-primary:hover,html.kid-dark .nav-cta:hover,' +
+  'html.kid-dark form button[type=submit]:hover{' +
+    'transform:translateY(-2px);box-shadow:0 20px 46px rgba(255,122,0,.58)!important;}';
+
+  var CTA_WORDS = [
+    [/\bStart free\b/g, 'Start learning'],
+    [/\bStart Free\b/g, 'Start Learning'],
+    [/\bstart free\b/g, 'start learning']
+  ];
+
+  function ctaPass() {
+    if (!document.getElementById('kid-cta-css')) {
+      var st = document.createElement('style');
+      st.id = 'kid-cta-css';
+      st.textContent = CTA_CSS;
+      document.head.appendChild(st);
+    }
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        var p = n.parentNode;
+        if (!p || p.nodeName === 'SCRIPT' || p.nodeName === 'STYLE') return NodeFilter.FILTER_REJECT;
+        return /start free/i.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    var hits = [], n;
+    while ((n = w.nextNode())) hits.push(n);
+    hits.forEach(function (t) {
+      var v = t.nodeValue;
+      for (var i = 0; i < CTA_WORDS.length; i++) v = v.replace(CTA_WORDS[i][0], CTA_WORDS[i][1]);
+      if (v !== t.nodeValue) t.nodeValue = v;
+    });
+  }
+
   function build() {
     if (document.getElementById('kid-ui-css')) return;
     var style = document.createElement('style');
@@ -302,6 +344,10 @@
     buildTop();
     buildMascot();
     wireMotion();
+    ctaPass();
+    /* kid-home swaps the homepage body in after us — relabel what it built */
+    setTimeout(ctaPass, 300);
+    setTimeout(ctaPass, 1200);
   }
 
   function buildRail() {
@@ -408,6 +454,10 @@
   }
 
   function buildMascot() {
+    /* The public pages are a first impression, and on a sign-up screen the
+       mascot's speech bubble lands squarely on the copy it is meant to sell.
+       It belongs to the app, once you are inside it. */
+    if (NO_RAIL.indexOf(pageKey()) !== -1) return;
     if (document.getElementById('pal-mascot')) return;
     var wrap = document.createElement('div');
     wrap.id = 'pal-mascot';
@@ -505,6 +555,7 @@
       buildRail();          // no-op until nav.nav exists — the observer retries
       buildTop();
     }
+    ctaPass();
   }
 
   function start() {
