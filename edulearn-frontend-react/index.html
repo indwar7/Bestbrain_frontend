@@ -82,14 +82,18 @@
       kid-quiz clarifies the answer options; kid-content sorts chapters that
       have real content to the top. Every screen keeps the layout it has today.
 
+      kid-ui moves the nav into the left rail — the same shell on every screen.
+
       Deliberately NOT here:
-        kid-ui.js   — moves the top nav into a left sidebar rail. That is a
-                      layout change, not a look change.
-        kid-auth.js — rebuilds login/signup as a split screen, same reason.
-        kid-home.js — replaces the homepage body, which would fight the router.
+        kid-home.js — replaces the homepage body outright, which would leave
+                      React's tree and the DOM disagreeing on the one route
+                      the router owns most.
         session.js  — seeds a demo login, which has no business in a build.
     -->
     <script defer src="/ui/kid-bg.js"></script>
+    <script defer src="/ui/kid-ui.js"></script>
+    <script defer src="/ui/kid-auth.js"></script>
+    <script defer src="/ui/kid-call.js"></script>
     <script defer src="/ui/kid-quiz.js"></script>
     <script defer src="/ui/kid-content.js"></script>
   </body>
