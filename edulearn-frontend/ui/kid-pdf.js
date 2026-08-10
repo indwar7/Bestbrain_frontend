@@ -23,9 +23,19 @@
   var page = (location.pathname.split('/').pop() || '').toLowerCase().replace(/\.html$/, '');
   if (page !== 'tutor') return;
 
+  /* The app resolves its own API host — a deployed build talks to a different
+     origin than the one it is served from. Reading that first is the only way
+     these calls land where every other call in the app lands; location.origin
+     is a last resort for the static pages, which are same-origin anyway. */
   function api() {
-    try { return localStorage.getItem('edulearn_api') || location.origin; }
-    catch (e) { return location.origin; }
+    try {
+      if (window.EduAPI && window.EduAPI.API_BASE) return window.EduAPI.API_BASE;
+    } catch (e) { /* not on this page */ }
+    try {
+      var o = localStorage.getItem('edulearn_api');
+      if (o) return o.replace(/\/+$/, '');
+    } catch (e) { /* storage blocked */ }
+    return location.origin;
   }
   function token() {
     try { return localStorage.getItem('edulearn_token') || ''; } catch (e) { return ''; }

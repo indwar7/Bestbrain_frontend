@@ -883,6 +883,12 @@
     requestAnimationFrame(sync);
     setTimeout(sync, 400);
     setTimeout(sync, 1400);
+    /* Late, direct passes. The mutation-driven work waits for idle time, and
+       idle can be a long way off on a busy page — or never arrive under an
+       automated browser. A slab that only appears once the route has finished
+       laying out must not depend on it. */
+    setTimeout(sync, 2600);
+    setTimeout(sync, 4200);
     window.addEventListener('resize', seamless);
 
     /* Pages fetch their real content after first paint — chapter rows, class
