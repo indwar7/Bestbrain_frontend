@@ -423,6 +423,94 @@
     });
   }
 
+  // ---- AI Tutor (live doubt session) ----
+  // Streams a voice-optimized PAL reply over SSE (POST /api/pal/tutor/stream).
+  // EventSource can't POST, so this reads the response body stream directly.
+  // handlers: { onChunk(text), signal? (AbortSignal) }
+  // Resolves { sessionId } once the stream finishes; rejects with err.status /
+  // err.code set (like request()) on HTTP or in-stream errors. Retries once
+  // through the shared refresh flow when the access token has expired.
+  async function tutorStream(message, sessionId, handlers, isRetry) {
+    handlers = handlers || {};
+    var headers = { 'Content-Type': 'application/json' };
+    var token = getToken();
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+
+    var res;
+    try {
+      res = await fetch(API_BASE + '/api/pal/tutor/stream', {
+        method: 'POST',
+        headers: headers,
+        credentials: 'include',
+        body: JSON.stringify(
+          sessionId ? { message: message, sessionId: sessionId } : { message: message }
+        ),
+        signal: handlers.signal,
+      });
+    } catch (networkErr) {
+      if (networkErr && networkErr.name === 'AbortError') throw networkErr;
+      throw new Error(
+        'Could not reach ' + API_BASE + '. It may be down, or the browser may ' +
+        'have blocked the response (CORS). Check the Network tab for details.'
+      );
+    }
+
+    if (res.status === 401 && !isRetry && token) {
+      var fresh = await refreshAccessToken();
+      if (fresh) return tutorStream(message, sessionId, handlers, true);
+    }
+
+    if (!res.ok) {
+      var data = null;
+      try { data = await res.json(); } catch (e) { data = {}; }
+      var err = new Error(data.error || 'Request failed (' + res.status + ')');
+      err.status = res.status;
+      err.code = data.code;
+      throw err;
+    }
+
+    // Minimal SSE parser: frames are separated by a blank line; each frame has
+    // "event: <name>" and "data: <json>" lines (matches the backend's writer).
+    var reader = res.body.getReader();
+    var decoder = new TextDecoder();
+    var buf = '';
+    var result = { sessionId: null };
+
+    function handleFrame(frame) {
+      var ev = 'message';
+      var data = '';
+      frame.split('\n').forEach(function (line) {
+        if (line.indexOf('event: ') === 0) ev = line.slice(7).trim();
+        else if (line.indexOf('data: ') === 0) data += line.slice(6);
+      });
+      var payload = {};
+      try { payload = JSON.parse(data || '{}'); } catch (e) {}
+      if (ev === 'chunk') {
+        if (handlers.onChunk && payload.text) handlers.onChunk(payload.text);
+      } else if (ev === 'done') {
+        result.sessionId = payload.sessionId || null;
+      } else if (ev === 'error') {
+        // The stream already sent a 200, so errors arrive as events.
+        var serr = new Error(payload.error || 'PAL is unavailable right now');
+        serr.code = payload.code;
+        throw serr;
+      }
+    }
+
+    for (;;) {
+      var r = await reader.read();
+      if (r.done) break;
+      buf += decoder.decode(r.value, { stream: true });
+      var idx;
+      while ((idx = buf.indexOf('\n\n')) !== -1) {
+        var frame = buf.slice(0, idx);
+        buf = buf.slice(idx + 2);
+        if (frame.trim()) handleFrame(frame);
+      }
+    }
+    return result;
+  }
+
   async function renamePalSession(id, title) {
     return request('/api/pal/sessions/' + id, {
       method: 'PATCH',
@@ -564,6 +652,7 @@
     listPalSessions: listPalSessions,
     getPalSession: getPalSession,
     chatPal: chatPal,
+    tutorStream: tutorStream,
     renamePalSession: renamePalSession,
     deletePalSession: deletePalSession,
   };

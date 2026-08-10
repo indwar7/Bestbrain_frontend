@@ -55,10 +55,12 @@
   //     surfaces — teachers and parents must NOT see or open them. Teachers
   //     author tests via create-test.html, not the student mocktest page.
   //   * PAL serves students, teachers (worksheets), and parents (progress).
+  //   * tutor (the live voice doubt session) is a STUDENT surface — it exists
+  //     to answer a student's own doubts aloud.
   //   * create-test / upload are teacher tools (each also self-gates in-page).
   //   * Live, Videos, Dashboard are shared by all roles.
   var ACCESS = {
-    student: ['learn.html', 'live.html', 'challenge.html', 'mocktest.html', 'pal.html', 'lesson.html', 'videos.html', 'dashboard.html'],
+    student: ['learn.html', 'live.html', 'challenge.html', 'mocktest.html', 'pal.html', 'tutor.html', 'lesson.html', 'videos.html', 'dashboard.html'],
     teacher: ['live.html', 'create-test.html', 'upload.html', 'pal.html', 'videos.html', 'dashboard.html'],
     parent: ['live.html', 'pal.html', 'videos.html', 'dashboard.html'],
     admin: null // null = unrestricted
