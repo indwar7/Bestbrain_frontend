@@ -20,8 +20,12 @@
 (function () {
   'use strict';
 
-  var page = (location.pathname.split('/').pop() || '').toLowerCase().replace(/\.html$/, '');
-  if (page !== 'tutor') return;
+  /* Reachable from anywhere. It was gated to the tutor page, which is also
+     the one place a student had no reason to look for it. */
+  function pageKey() {
+    return (location.pathname.split('/').pop() || '').toLowerCase().replace(/\.html$/, '') || 'index';
+  }
+  var PUBLIC = ['index', 'login', 'signup'];
 
   /* The app resolves its own API host — a deployed build talks to a different
      origin than the one it is served from. Reading that first is the only way
@@ -402,7 +406,14 @@
     document.body.appendChild(b);
   }
 
-  function start() { style(); launcher(); }
+  /* The rail is the front door — see kid-ui. This is the handle it pulls. */
+  window.KidPDF = { open: open, close: close };
+
+  function start() {
+    if (PUBLIC.indexOf(pageKey()) !== -1) return;   // not on the public pages
+    style();
+    if (pageKey() === 'tutor') launcher();          // and a shortcut where it was born
+  }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);

@@ -95,8 +95,9 @@
     'outline:2px solid #FFA726!important;outline-offset:3px!important;border-radius:12px;}' +
 
   /* scroll reveal */
-  '.kid-rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);}' +
-  '.kid-rv.in{opacity:1;transform:none;}' +
+  '.kid-rv{opacity:1;transform:translateY(14px);' +
+    'transition:transform .45s cubic-bezier(.22,1,.36,1);}' +
+  '.kid-rv.in{transform:none;}' +
 
   /* ================= THE RAIL ================= */
   'html.kid-rail-on{--kid-rail:' + RAIL + 'px;}' +
@@ -407,6 +408,25 @@
         var cur = links.querySelector('a[href*="tutor"]');
         if (cur) cur.classList.add('is-current');
       }
+
+      /* PDF Maker has no page of its own — it is a panel. It still belongs in
+         the rail, because a feature a student cannot find is a feature that
+         does not exist, and the tutor page was the one place they had no
+         reason to look for it. */
+      if (!links.querySelector('.kid-pdf-link')) {
+        var pdf = document.createElement('a');
+        pdf.className = 'nav__link kid-pdf-link';
+        pdf.href = '#';
+        pdf.innerHTML = '<i class="ki" style="color:#FFB347">' +
+          ((window.KidTheme && window.KidTheme.ICON.book) || '') + '</i>PDF Maker';
+        pdf.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (window.KidPDF) window.KidPDF.open();
+        });
+        var after = links.querySelector('a[href*="tutor"]');
+        if (after && after.nextSibling) links.insertBefore(pdf, after.nextSibling);
+        else links.appendChild(pdf);
+      }
     }
 
     var xp = document.createElement('div');
@@ -518,33 +538,42 @@
       ).forEach(function (n, idx) {
         if (n.dataset.kidRv) return;
         n.dataset.kidRv = '1';
+
+        /* Never hide what the reader is already looking at. An entrance
+           animation on above-the-fold content does not read as polish, it
+           reads as the page being slow — the words are simply not there yet.
+           Anything already on screen renders immediately; only what is still
+           below the fold gets an entrance, where the animation is free. */
+        var r = n.getBoundingClientRect();
+        if (r.top < window.innerHeight * 1.05) return;
+
         n.classList.add('kid-rv');
-        n.style.transitionDelay = ((idx % 8) * 55) + 'ms';
+        n.style.transitionDelay = ((idx % 8) * 45) + 'ms';
         io.observe(n);
       });
     }
     observe();
     setTimeout(observe, 900);
-    setTimeout(revealAll, 1500);
+    setTimeout(revealAll, 400);
 
     /* a route swap brings its own cards — watch for them, and keep the
        fail-safe behind each batch */
     var pending = 0;
     new MutationObserver(function () {
       clearTimeout(pending);
-      pending = setTimeout(function () { observe(); setTimeout(revealAll, 1200); }, 200);
+      pending = setTimeout(function () { observe(); setTimeout(revealAll, 400); }, 160);
     }).observe(document.body, { childList: true, subtree: true });
 
     ['pushState', 'replaceState'].forEach(function (m) {
       var orig = history[m];
       history[m] = function () {
         var r = orig.apply(this, arguments);
-        setTimeout(function () { observe(); setTimeout(revealAll, 1000); }, 80);
+        setTimeout(function () { observe(); setTimeout(revealAll, 400); }, 60);
         return r;
       };
     });
     window.addEventListener('popstate', function () {
-      setTimeout(function () { observe(); setTimeout(revealAll, 1000); }, 80);
+      setTimeout(function () { observe(); setTimeout(revealAll, 400); }, 60);
     });
 
     document.addEventListener('click', function (e) {

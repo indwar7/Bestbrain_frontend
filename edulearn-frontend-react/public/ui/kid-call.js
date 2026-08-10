@@ -125,3 +125,213 @@
     build();
   }
 })();
+
+/* ============================================================
+   AI TUTOR — CHAT ALONGSIDE THE CALL
+   ------------------------------------------------------------
+   The call answers out loud, which is the point of it — and the
+   wrong tool when a student is in a quiet room, wants to paste a
+   question, or needs the answer to stay on screen while they copy
+   it into a notebook. The right-hand column gets a real one-to-one
+   chat that talks to the same tutor endpoint the call uses, so
+   both are the same PAL with the same syllabus, differing only in
+   how the answer arrives.
+
+   It streams. A tutor that thinks for six seconds and then dumps a
+   paragraph feels broken; one that starts answering immediately
+   feels like a person.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var page = (location.pathname.split('/').pop() || '').toLowerCase().replace(/\.html$/, '');
+  if (page !== 'tutor') return;
+
+  function api() {
+    try {
+      if (window.EduAPI && window.EduAPI.API_BASE) return window.EduAPI.API_BASE;
+    } catch (e) {}
+    try {
+      var o = localStorage.getItem('edulearn_api');
+      if (o) return o.replace(/\/+$/, '');
+    } catch (e) {}
+    return location.origin;
+  }
+  function token() {
+    try { return localStorage.getItem('edulearn_token') || ''; } catch (e) { return ''; }
+  }
+
+  var CSS =
+  '#kx{display:flex;flex-direction:column;gap:10px;margin-top:16px;min-height:0;flex:1;}' +
+  '#kx-hd{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:900;' +
+    'letter-spacing:.12em;text-transform:uppercase;' +
+    'color:#FFC98A!important;-webkit-text-fill-color:#FFC98A!important;}' +
+  '#kx-hd .d{width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 10px #34D399;}' +
+  '#kx-log{flex:1;min-height:120px;max-height:46vh;overflow:auto;display:flex;flex-direction:column;' +
+    'gap:10px;padding:4px 2px;}' +
+  '.kx-msg{max-width:92%;padding:11px 14px;border-radius:16px;font-size:13.5px;line-height:1.6;' +
+    'white-space:pre-wrap;word-break:break-word;' +
+    'animation:kx-in .28s cubic-bezier(.22,1,.36,1);}' +
+  '@keyframes kx-in{from{opacity:0;transform:translateY(6px)}}' +
+  '.kx-msg.me{align-self:flex-end;background:linear-gradient(120deg,#FF7A00,#FFA726);' +
+    'border-radius:16px 16px 5px 16px;' +
+    'color:#0A0A0A!important;-webkit-text-fill-color:#0A0A0A!important;font-weight:700;}' +
+  '.kx-msg.pal{align-self:flex-start;background:rgba(255,255,255,.07);' +
+    'border:1px solid rgba(255,255,255,.13);border-radius:16px 16px 16px 5px;' +
+    'color:#fff!important;-webkit-text-fill-color:#fff!important;}' +
+  '.kx-msg.pal.think::after{content:"";display:inline-block;width:6px;height:6px;margin-left:4px;' +
+    'border-radius:50%;background:#FFB347;animation:kx-blink 1s ease-in-out infinite;}' +
+  '@keyframes kx-blink{0%,100%{opacity:1}50%{opacity:.2}}' +
+  '#kx-form{display:flex;gap:8px;align-items:flex-end;}' +
+  '#kx-in{flex:1;resize:none;max-height:110px;padding:12px 14px;border-radius:14px;' +
+    'font-family:inherit;font-size:14px;line-height:1.5;' +
+    'background:rgba(255,255,255,.06)!important;border:1px solid rgba(255,255,255,.16)!important;' +
+    'color:#fff!important;-webkit-text-fill-color:#fff!important;outline:none;' +
+    'transition:border-color .22s ease,box-shadow .22s ease;}' +
+  '#kx-in:focus{border-color:rgba(255,150,60,.75)!important;box-shadow:0 0 0 4px rgba(255,122,0,.16);}' +
+  '#kx-in::placeholder{color:rgba(255,255,255,.5)!important;' +
+    '-webkit-text-fill-color:rgba(255,255,255,.5)!important;}' +
+  '#kx-send{width:46px;height:46px;flex:none;border:0;border-radius:14px;cursor:pointer;' +
+    'display:grid;place-items:center;background:linear-gradient(120deg,#FF7A00,#FFA726);' +
+    'box-shadow:0 10px 24px rgba(255,122,0,.4);' +
+    'transition:transform .22s cubic-bezier(.22,1,.36,1),opacity .2s ease;}' +
+  '#kx-send:hover:not(:disabled){transform:translateY(-2px);}' +
+  '#kx-send:disabled{opacity:.5;cursor:default;}' +
+  '#kx-send svg{width:18px;height:18px;color:#0A0A0A;}' +
+  '#kx-hint{font-size:11.5px;' +
+    'color:rgba(255,255,255,.6)!important;-webkit-text-fill-color:rgba(255,255,255,.6)!important;}';
+
+  function style() {
+    if (document.getElementById('kx-css')) return;
+    var s = document.createElement('style');
+    s.id = 'kx-css';
+    s.textContent = CSS;
+    document.head.appendChild(s);
+  }
+
+  var log, input, send, sessionId = null, busy = false;
+
+  function bubble(who, text) {
+    var b = document.createElement('div');
+    b.className = 'kx-msg ' + who;
+    b.textContent = text;              // model output stays text, always
+    log.appendChild(b);
+    log.scrollTop = log.scrollHeight;
+    return b;
+  }
+
+  function ask(q) {
+    if (busy || !q.trim()) return;
+    busy = true;
+    send.disabled = true;
+    bubble('me', q.trim());
+    input.value = '';
+    input.style.height = '';
+
+    var reply = bubble('pal', '');
+    reply.classList.add('think');
+
+    var body = sessionId ? { message: q, sessionId: sessionId } : { message: q };
+
+    fetch(api() + '/api/pal/tutor/stream', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token() },
+      body: JSON.stringify(body)
+    }).then(function (res) {
+      if (!res.ok || !res.body) throw new Error('no stream');
+      var reader = res.body.getReader();
+      var dec = new TextDecoder();
+      var buf = '';
+
+      /* The reply arrives as SSE frames. Render each chunk as it lands rather
+         than waiting for the stream to close — a tutor that pauses and then
+         dumps a paragraph reads as broken. */
+      function pump() {
+        return reader.read().then(function (r) {
+          if (r.done) return;
+          buf += dec.decode(r.value, { stream: true });
+          var frames = buf.split('\n\n');
+          buf = frames.pop();
+          frames.forEach(function (f) {
+            var ev = (f.match(/event:\s*(\w+)/) || [])[1];
+            var dm = f.match(/data:\s*(.+)/);
+            if (!dm) return;
+            var data;
+            try { data = JSON.parse(dm[1]); } catch (e) { return; }
+            if (ev === 'chunk' && data.text) {
+              reply.classList.remove('think');
+              reply.textContent += data.text;
+              log.scrollTop = log.scrollHeight;
+            } else if (ev === 'done') {
+              if (data.sessionId) sessionId = data.sessionId;
+            } else if (ev === 'error') {
+              reply.classList.remove('think');
+              reply.textContent = data.error || 'PAL could not answer that just now.';
+            }
+          });
+          return pump();
+        });
+      }
+      return pump();
+    }).catch(function () {
+      reply.classList.remove('think');
+      if (!reply.textContent) reply.textContent = 'Could not reach PAL. Check your connection and try again.';
+    }).then(function () {
+      reply.classList.remove('think');
+      if (!reply.textContent) reply.textContent = 'PAL had nothing to say — try asking it another way.';
+      busy = false;
+      send.disabled = false;
+      input.focus();
+    });
+  }
+
+  function build() {
+    if (document.getElementById('kx')) return;
+    /* the transcript column is the natural home: same subject, same session */
+    var host = document.querySelector('.transcript') ||
+               document.querySelector('.tr-panel,.side,aside');
+    if (!host) return;
+
+    style();
+
+    var wrap = document.createElement('div');
+    wrap.id = 'kx';
+    wrap.innerHTML =
+      '<div id="kx-hd"><span class="d"></span>Ask by chat</div>' +
+      '<div id="kx-log"></div>' +
+      '<form id="kx-form">' +
+        '<textarea id="kx-in" rows="1" placeholder="Type your doubt…"></textarea>' +
+        '<button id="kx-send" type="submit" aria-label="Send">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+          'stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>' +
+        '</button>' +
+      '</form>' +
+      '<div id="kx-hint">Enter to send · Shift + Enter for a new line</div>';
+    host.appendChild(wrap);
+
+    log = wrap.querySelector('#kx-log');
+    input = wrap.querySelector('#kx-in');
+    send = wrap.querySelector('#kx-send');
+
+    bubble('pal', 'Type a doubt and I will answer here. Prefer to talk? Tap the mic.');
+
+    wrap.querySelector('#kx-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      ask(input.value);
+    });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(input.value); }
+    });
+    input.addEventListener('input', function () {
+      input.style.height = 'auto';
+      input.style.height = Math.min(110, input.scrollHeight) + 'px';
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(build, 400); });
+  } else {
+    setTimeout(build, 400);
+  }
+  setTimeout(build, 1500);   // the panel is rendered by the page's own script
+})();

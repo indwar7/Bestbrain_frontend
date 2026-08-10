@@ -282,9 +282,9 @@
   '.kh-copy{max-width:1180px;margin:0 auto;padding:0 clamp(20px,4vw,32px) 40px;' +
     'font-size:12.5px;color:rgba(255,255,255,.4);}' +
 
-  '.kh-rv{opacity:0;transform:translateY(28px);' +
+  '.kh-rv{opacity:1;transform:translateY(16px);' +
     'transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1);}' +
-  '.kh-rv.in{opacity:1;transform:none;}' +
+  '.kh-rv.in{transform:none;}' +
   '@media(prefers-reduced-motion:reduce){.kh-rv{opacity:1;transform:none;}' +
     '.kh-orbit .spin,.kh-core,.kh-orbit .node i{animation:none!important;}}';
 
@@ -498,9 +498,25 @@
 
     document.querySelectorAll('.kh-rv').forEach(function (n, i) {
       if (reduce) { n.classList.add('in'); return; }
+
+      /* The hero is above the fold, and it was starting at opacity:0 — so the
+         first thing a visitor saw was an empty page waiting for an observer.
+         An entrance is only worth having where the reader has not arrived
+         yet. Anything already on screen is shown at once. */
+      var r = n.getBoundingClientRect();
+      if (r.top < window.innerHeight * 1.05) { n.classList.add('in'); return; }
+
       n.style.transitionDelay = ((i % 8) * 60) + 'ms';
       io.observe(n);
     });
+
+    /* and nothing may stay hidden because an observer never fired */
+    setTimeout(function () {
+      document.querySelectorAll('.kh-rv:not(.in)').forEach(function (n) {
+        var r = n.getBoundingClientRect();
+        if (r.top < window.innerHeight * 1.5) n.classList.add('in');
+      });
+    }, 400);
 
     function countUp(el) {
       var to = parseInt(el.dataset.to, 10);

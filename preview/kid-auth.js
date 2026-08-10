@@ -240,8 +240,29 @@
   '#ka-slot .social-btn:hover{background:rgba(255,255,255,.1)!important;transform:translateY(-2px);' +
     'border-color:rgba(255,255,255,.24)!important;}' +
 
+  /* One height, whatever the label says. The page swaps the label to
+     "Signing in…" mid-submit, and a button sized to its text grows under the
+     cursor at the exact moment the reader is waiting on it. */
   '#ka-slot .btn,#ka-slot .btn-primary,#ka-slot button[type=submit]{' +
-    'font-weight:900!important;font-size:15.5px!important;letter-spacing:.01em!important;}' +
+    'font-weight:900!important;font-size:15.5px!important;letter-spacing:.01em!important;' +
+    'height:52px!important;min-height:52px!important;line-height:1!important;' +
+    'display:inline-flex!important;align-items:center!important;justify-content:center!important;' +
+    'gap:10px!important;padding:0 22px!important;white-space:nowrap!important;' +
+    'text-overflow:ellipsis;overflow:hidden;}' +
+  /* the waiting state reads as waiting, not as a broken label */
+  '#ka-slot button[type=submit]:disabled{opacity:1!important;filter:saturate(.85);}' +
+  '#ka-slot button[type=submit]::after{content:"";width:0;height:0;border-radius:50%;' +
+    'border:0 solid rgba(10,10,10,.28);border-top-color:#0A0A0A;' +
+    'transition:width .2s ease,height .2s ease,border-width .2s ease;}' +
+  '#ka-slot button[type=submit].is-busy::after{width:16px;height:16px;border-width:2.5px;' +
+    'animation:ka-spin .7s linear infinite;}' +
+  '@keyframes ka-spin{to{transform:rotate(360deg)}}' +
+  /* the two ways forward, unmistakable */
+  '#ka-slot .signup-link,#ka-slot .forgot-password{font-weight:800!important;}' +
+  '#ka-slot .signup-link a,#ka-slot .forgot-password a{' +
+    'color:#FFB347!important;-webkit-text-fill-color:#FFB347!important;' +
+    'text-decoration:underline!important;text-underline-offset:3px!important;' +
+    'text-decoration-thickness:2px!important;}' +
   '#ka-slot .signup-link a,#ka-slot .forgot-password a{' +
     'color:#FFC98A!important;-webkit-text-fill-color:#FFC98A!important;font-weight:900!important;}' +
   '#ka-slot .forgot-password{text-align:right!important;margin:-4px 0 16px!important;font-size:13px!important;}' +
@@ -350,7 +371,22 @@
     shell.parentNode.removeChild(shell);
   }
 
-  function start() { style(); build(); }
+  /* The page signals "working" by rewriting the button's text. Watch for that
+     and mark the button, so the spinner belongs to the state rather than to a
+     handler we would have to intercept — the form's own submit logic is never
+     touched. */
+  function watchBusy() {
+    var slot = document.getElementById('ka-slot');
+    if (!slot) return;
+    new MutationObserver(function () {
+      slot.querySelectorAll('button[type=submit]').forEach(function (b) {
+        var busy = /…|\.\.\.|signing|creating|sending|verifying|please wait/i.test(b.textContent || '');
+        b.classList.toggle('is-busy', busy);
+      });
+    }).observe(slot, { childList: true, subtree: true, characterData: true });
+  }
+
+  function start() { style(); build(); watchBusy(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);
