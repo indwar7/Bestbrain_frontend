@@ -593,14 +593,28 @@
   function deBlue() {
     derivePass++;
     warmTokens();
-    var all = document.body.querySelectorAll('*');
+    /* getComputedStyle is a forced style recalc, and running it over every
+       node on every mutation is what made scrolling crawl. Once the early
+       passes have settled, the selector engine filters to nodes we have never
+       touched — which on a stable page is none of them, so a mutation costs
+       almost nothing. */
+    var all = derivePass > SETTLE
+      ? document.body.querySelectorAll('*:not([data-kid-warm])')
+      : document.body.querySelectorAll('*');
     for (var i = 0; i < all.length; i++) {
       var n = all[i], v;
       if (n.tagName === 'SCRIPT' || n.tagName === 'STYLE') continue;
       /* the quiz options are styled explicitly by kid-quiz — an inline warm
          background written here would outrank that stylesheet and put them
          back to brown-on-brown */
-      if (n.closest && n.closest('.kb-sky,#kh-root,#ka-root,#kq-player,#optGrid,.role-tabs')) continue;
+      if (n.closest && n.closest('.kb-sky,#kh-root,#ka-root,#kq-player,#optGrid,.role-tabs')) {
+        /* Mark it even though we are leaving it alone: the settled-pass filter
+           keys off this attribute, and a skipped subtree that stays unmarked is
+           re-queried and re-measured on every mutation for the life of the page
+           — which on the homepage was most of the DOM. */
+        n.setAttribute('data-kid-warm', 'skip');
+        continue;
+      }
       /* A stripped slab has already been decided on. deBlue clears inline
          background to re-derive, which would wipe that transparency straight
          back to the page's own white. */
@@ -692,7 +706,7 @@
      their glass is re-asserted on every pass rather than once. Writing an
      unchanged value is a no-op, so this restarts no transitions. */
   function glassFields() {
-    var f = document.querySelectorAll('input,textarea,select');
+    var f = document.querySelectorAll('input:not([data-kid-fld]),textarea:not([data-kid-fld]),select:not([data-kid-fld])');
     for (var i = 0; i < f.length; i++) {
       var n = f[i], t = (n.type || '').toLowerCase();
       if (t === 'checkbox' || t === 'radio' || t === 'range' || t === 'color') continue;
@@ -702,6 +716,7 @@
       if (!c || c.a < .4 || lum(fcs.backgroundColor) < .75) continue;
       n.style.setProperty('background-color', 'rgba(255,255,255,.06)', 'important');
       n.style.setProperty('border-color', 'rgba(255,255,255,.16)', 'important');
+      n.setAttribute('data-kid-fld', '1');
     }
   }
 
@@ -717,6 +732,7 @@
       if (depth > 4) return;
       for (var i = 0; i < node.children.length; i++) {
         var c = node.children[i];
+        if (c.hasAttribute('data-kid-seam')) continue;
         if (c.classList.contains('kb-sky') || c.id === 'pal-mascot' ||
             c.id === 'kid-rail' || c.id === 'kid-top' ||
             c.id === 'kh-root' || c.id === 'ka-root' || c.id === 'kq-player') continue;
@@ -803,14 +819,27 @@
      genuinely bright surface goes dark. Measured per element, so a pastel
      subject tile and a black card both come out readable without either
      being named in a selector. */
+  var inkPass = 0;
   function inkFix() {
-    var all = document.body.querySelectorAll('*');
+    inkPass++;
+    var all = inkPass > SETTLE
+      ? document.body.querySelectorAll('*:not([data-kid-ink])')
+      : document.body.querySelectorAll('*');
     for (var i = 0; i < all.length; i++) {
       var n = all[i];
-      if (n.namespaceURI !== 'http://www.w3.org/1999/xhtml') continue;
-      if (n.tagName === 'SCRIPT' || n.tagName === 'STYLE') continue;
-      if (n.closest('.kb-sky,#kq-player')) continue;
-      if (!ownsText(n)) continue;
+      /* Mark these too. An element the pass will never act on still costs a
+         query and a style read on every mutation if it stays unmarked — and
+         SVG nodes alone are most of the sky. */
+      if (n.namespaceURI !== 'http://www.w3.org/1999/xhtml') {
+        if (n.setAttribute) n.setAttribute('data-kid-ink', 'svg');
+        continue;
+      }
+      if (n.tagName === 'SCRIPT' || n.tagName === 'STYLE') {
+        n.setAttribute('data-kid-ink', 'skip');
+        continue;
+      }
+      if (n.closest('.kb-sky,#kq-player')) { n.setAttribute('data-kid-ink', 'skip'); continue; }
+      if (!ownsText(n)) { n.setAttribute('data-kid-ink', 'notext'); continue; }
       var cs = getComputedStyle(n);
       var s = surfaceLum(n, cs);
       if (s === null) s = .02;                       // nothing opaque: the canvas
@@ -879,7 +908,13 @@
         for (var d = 0; d < SIDES.length; d++) t.style.removeProperty(SIDES[d]);
       }
       clearTimeout(pending);
-      pending = setTimeout(function () { deBlue(); glassFields(); seamless(); inkFix(); }, 140);
+      /* Idle time, not the next tick: a burst of nodes during a scroll should
+         not put four full passes in front of the frame the user is waiting on. */
+      pending = setTimeout(function () {
+        var run = function () { deBlue(); glassFields(); seamless(); inkFix(); };
+        if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 600 });
+        else run();
+      }, 260);
     });
     mo.observe(document.body, {
       childList: true, subtree: true, attributes: true, attributeFilter: ['class']
