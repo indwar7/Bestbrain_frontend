@@ -2,6 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
+    <!--
+      The redesigned skin. `color-scheme` and the inline rule below run before
+      any stylesheet is parsed, which is what stops the browser painting a
+      white frame between routes. boot.js is deliberately NOT deferred: it has
+      to set the theme classes before the page CSS lands, or the first frame
+      is the old light theme.
+    -->
+    <meta name="color-scheme" content="dark" />
+    <style>
+      html { background: #050505 !important; color-scheme: dark; }
+      html body { background: #050505; }
+    </style>
+    <script src="/ui/boot.js"></script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BestBrain · Learn Smart, Score Better</title>
@@ -58,5 +72,25 @@
     <script defer src="/theme.js"></script>
     <script defer src="/account-menu.js"></script>
     <script defer src="/features-panel.js"></script>
+
+    <!--
+      The skin. Same contract as the scripts above: self-contained vanilla DOM
+      scripts that attach once and keep working across client-side navigation
+      (each watches the DOM for the content a route swaps in).
+
+      Only the look ships. kid-bg restyles surfaces, ink and the background;
+      kid-quiz clarifies the answer options; kid-content sorts chapters that
+      have real content to the top. Every screen keeps the layout it has today.
+
+      Deliberately NOT here:
+        kid-ui.js   — moves the top nav into a left sidebar rail. That is a
+                      layout change, not a look change.
+        kid-auth.js — rebuilds login/signup as a split screen, same reason.
+        kid-home.js — replaces the homepage body, which would fight the router.
+        session.js  — seeds a demo login, which has no business in a build.
+    -->
+    <script defer src="/ui/kid-bg.js"></script>
+    <script defer src="/ui/kid-quiz.js"></script>
+    <script defer src="/ui/kid-content.js"></script>
   </body>
 </html>

@@ -51,6 +51,13 @@
       var cs = getComputedStyle(n), r = n.getBoundingClientRect();
       if (r.width < 2 || r.height < 2) continue;
       var bl = lum(cs.backgroundColor);
+      if (bl === null && cs.backgroundImage && cs.backgroundImage.indexOf('gradient') !== -1) {
+        /* a light gradient is a light surface — a colour-only test walks past
+           the sticky header that is exactly that */
+        var st = cs.backgroundImage.match(/rgba?\([^)]+\)/g), t = 0, k = 0;
+        if (st) for (var q = 0; q < st.length; q++) { var v = lum(st[q]); if (v !== null) { t += v; k++; } }
+        if (k) bl = t / k;
+      }
       if (bl !== null && bl > .8 && r.width > 90 && r.height > 22) white++;
       if (ownsText(n) && cs.visibility !== 'hidden' && cs.opacity !== '0') {
         var tc = lum(cs.webkitTextFillColor || cs.color);
