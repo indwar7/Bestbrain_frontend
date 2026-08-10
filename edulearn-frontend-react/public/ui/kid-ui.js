@@ -140,6 +140,7 @@
   /* nav links */
   '#kid-rail .nav__links{display:flex!important;flex-direction:column!important;gap:4px!important;margin:0!important;flex-shrink:0;}' +
   '#kid-rail .nav__link{position:relative;display:flex!important;align-items:center;gap:12px;' +
+    'justify-content:flex-start!important;text-align:left!important;width:100%!important;' +
     'padding:11px 13px!important;border-radius:14px!important;' +
     'font-size:14.5px!important;font-weight:700!important;color:rgba(255,255,255,.8)!important;' +
     'text-decoration:none!important;white-space:nowrap;' +
@@ -498,6 +499,19 @@
       });
     }, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
 
+    /* The fail-safe. A reveal animation starts its subject at opacity:0 and
+       trusts an observer to turn it back on — so anything the observer misses
+       is not "un-animated", it is GONE. Content arriving on a route the
+       observer was not watching is exactly that case, and a blank screen is a
+       far worse failure than an entrance that does not play. Everything is
+       revealed on a timer regardless; the observer only decides whether it
+       gets to animate on the way in. */
+    function revealAll() {
+      document.querySelectorAll('.kid-rv:not(.in)').forEach(function (n) {
+        n.classList.add('in');
+      });
+    }
+
     function observe() {
       document.querySelectorAll(
         '.pcard,.vcard,.card,.feature-card,.feat-card,.qcard,.optcard,.subjcard,.cont-card,.tablecard'
@@ -511,6 +525,27 @@
     }
     observe();
     setTimeout(observe, 900);
+    setTimeout(revealAll, 1500);
+
+    /* a route swap brings its own cards — watch for them, and keep the
+       fail-safe behind each batch */
+    var pending = 0;
+    new MutationObserver(function () {
+      clearTimeout(pending);
+      pending = setTimeout(function () { observe(); setTimeout(revealAll, 1200); }, 200);
+    }).observe(document.body, { childList: true, subtree: true });
+
+    ['pushState', 'replaceState'].forEach(function (m) {
+      var orig = history[m];
+      history[m] = function () {
+        var r = orig.apply(this, arguments);
+        setTimeout(function () { observe(); setTimeout(revealAll, 1000); }, 80);
+        return r;
+      };
+    });
+    window.addEventListener('popstate', function () {
+      setTimeout(function () { observe(); setTimeout(revealAll, 1000); }, 80);
+    });
 
     document.addEventListener('click', function (e) {
       var b = e.target.closest('.btn-primary,.btn,.cta,.btn-cta,button.primary,a.btn');

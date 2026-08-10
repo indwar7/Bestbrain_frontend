@@ -33,7 +33,7 @@
 
   var CSS =
   /* ---------- the launcher ---------- */
-  '#kp-open{position:fixed;right:22px;bottom:22px;z-index:70;display:inline-flex;align-items:center;' +
+  '#kp-open{position:fixed;right:22px;bottom:86px;z-index:80;display:inline-flex;align-items:center;' +
     'gap:10px;padding:13px 20px;border:0;border-radius:99px;cursor:pointer;font-size:14px;font-weight:800;' +
     'background:linear-gradient(120deg,#FF7A00,#FFA726);color:#0A0A0A!important;' +
     '-webkit-text-fill-color:#0A0A0A!important;' +
