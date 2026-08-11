@@ -148,8 +148,10 @@
     '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>' +
     '<path d="M14 3v5h5M9 13h6M9 17h4"/></svg>';
 
-  var SUGGEST = ['Photosynthesis', "Newton's Laws of Motion", 'Acids and Bases',
-    'The Human Digestive System', 'Light and Reflection'];
+  /* Class 6 chapters, and not science alone — a study sheet is as useful for
+     fractions or the Mughal empire as it is for photosynthesis. */
+  var SUGGEST = ['Food: Where Does It Come From?', 'Fractions', 'Light and Shadows',
+    'Electricity and Circuits', 'Our Past — Early Humans'];
 
   var doc = null;
 
@@ -228,9 +230,9 @@
     wrap.innerHTML =
       '<div class="kp-box">' +
         '<div class="kp-hd">' +
-          '<span class="kp-eye">' + ICON + 'AI Tutor</span>' +
+          '<span class="kp-eye">' + ICON + 'Study sheet</span>' +
           '<h2>PDF Generator</h2>' +
-          '<p>Enter a science topic and generate a structured NCERT-based study PDF.</p>' +
+          '<p>Enter any chapter or topic from your syllabus and get a structured, NCERT-aligned study sheet.</p>' +
         '</div>' +
         '<div class="kp-body">' +
           '<div class="kp-row">' +

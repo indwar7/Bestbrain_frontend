@@ -118,7 +118,7 @@
   '#ka-root .ka-feats li{display:flex;gap:14px;align-items:flex-start;padding:13px 15px;border-radius:16px;' +
     'background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);' +
     'backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);' +
-    'opacity:0;transform:translateY(14px);animation:ka-in .7s cubic-bezier(.22,1,.36,1) forwards;}' +
+    'opacity:1;transform:translateY(12px);animation:ka-slide .55s cubic-bezier(.22,1,.36,1) forwards;}' +
   '#ka-root .ka-feats li:nth-child(1){animation-delay:.10s}' +
   '#ka-root .ka-feats li:nth-child(2){animation-delay:.20s}' +
   '#ka-root .ka-feats li:nth-child(3){animation-delay:.30s}' +
@@ -133,7 +133,7 @@
   '#ka-root .ka-quote{margin:26px 0 0;padding:18px 20px;border-radius:18px;' +
     'background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);' +
     'border-left:3px solid #FF7A00;' +
-    'opacity:0;transform:translateY(14px);animation:ka-in .7s cubic-bezier(.22,1,.36,1) .42s forwards;}' +
+    'opacity:1;transform:translateY(12px);animation:ka-slide .55s cubic-bezier(.22,1,.36,1) .2s forwards;}' +
   '#ka-root .ka-quote blockquote{margin:0;font-size:15px;line-height:1.6;font-weight:600;}' +
   '#ka-root .ka-quote figcaption{margin-top:10px;font-size:12.5px;font-weight:800;' +
     'color:#FFC98A!important;-webkit-text-fill-color:#FFC98A!important;}' +
@@ -155,7 +155,13 @@
     'border:1px solid rgba(255,255,255,.13);' +
     'backdrop-filter:blur(30px) saturate(1.25);-webkit-backdrop-filter:blur(30px) saturate(1.25);' +
     'box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.09);' +
-    'opacity:0;transform:translateY(20px);animation:ka-in .75s cubic-bezier(.22,1,.36,1) .06s forwards;}' +
+    /* Visible first, animated second. This card held the sign-in form at
+       opacity:0 and trusted an entrance animation to bring it back — so any
+       load where that animation did not run left the form present, laid out,
+       and permanently invisible, with nothing in the console to say so. A
+       transform alone cannot hide anything. */
+    'opacity:1;transform:translateY(14px);animation:ka-slide .5s cubic-bezier(.22,1,.36,1) forwards;}' +
+  '@keyframes ka-slide{to{transform:none}}' +
   '#ka-root .ka-card::before{content:"";position:absolute;left:26px;right:26px;top:0;height:2px;' +
     'border-radius:0 0 3px 3px;background:linear-gradient(90deg,transparent,#FF7A00,#FFB347,transparent);}' +
 
