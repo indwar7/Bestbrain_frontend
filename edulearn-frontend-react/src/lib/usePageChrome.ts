@@ -26,19 +26,19 @@ import { PAGE_FONTS } from './pageFonts';
  * content instead of filling the viewport.
  */
 const THEME_CSS = new Set([
-  'index', 'dashboard', 'learn', 'lesson', 'mocktest', 'challenge', 'pal', 'live',
+  'index', 'dashboard', 'learn', 'lesson', 'mocktest', 'challenge', 'pal', 'tutor', 'live',
 ]);
 
 /** Pages that loaded ../features-panel.js. */
 const FEATURES_PANEL = new Set([
   'index', 'dashboard', 'learn', 'lesson', 'mocktest', 'create-test',
-  'challenge', 'pal', 'live', 'signup',
+  'challenge', 'pal', 'tutor', 'live', 'signup',
 ]);
 
 /** Pages that loaded account-menu.js (the settings FAB, overlay and panel). */
 const ACCOUNT_MENU = new Set([
   'dashboard', 'learn', 'lesson', 'mocktest', 'take-test', 'create-test',
-  'challenge', 'pal', 'live',
+  'challenge', 'pal', 'tutor', 'live',
 ]);
 
 /**

@@ -16,6 +16,7 @@ export const PAGE_FONTS: Record<string, string> = {
   "create-test": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,480&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono&display=swap",
   challenge: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono:ital@0;1&display=swap",
   pal: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono:ital@0;1&display=swap",
+  tutor: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono:ital@0;1&display=swap",
   live: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono:ital@0;1&display=swap",
   login: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Nunito:wght@400;500;600;700;800;900&display=swap",
   signup: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Nunito:wght@400;500;600;700;800;900&display=swap",

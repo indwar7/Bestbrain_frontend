@@ -15,6 +15,7 @@ import Dashboard from './pages/Dashboard';
 import Learn from './pages/Learn';
 import Lesson from './pages/Lesson';
 import Pal from './pages/Pal';
+import Tutor from './pages/Tutor';
 import Challenge from './pages/Challenge';
 import MockTest from './pages/MockTest';
 import TakeTest from './pages/TakeTest';
@@ -86,6 +87,9 @@ export default function App() {
         */}
         <Route path="/lesson" element={<Navigate to="/learn" replace />} />
         <Route path="/pal" element={<ProtectedRoute page="pal"><Pal /></ProtectedRoute>} />
+        {/* Live doubt session — the voice call with PAL. Student-only, like
+            the static site's tutor.html (see AuthContext ACCESS). */}
+        <Route path="/tutor" element={<ProtectedRoute page="tutor"><Tutor /></ProtectedRoute>} />
         <Route path="/challenge" element={<ProtectedRoute page="challenge"><Challenge /></ProtectedRoute>} />
         <Route path="/mocktest" element={<ProtectedRoute page="mocktest"><MockTest /></ProtectedRoute>} />
         <Route path="/live" element={<ProtectedRoute page="live"><Live /></ProtectedRoute>} />

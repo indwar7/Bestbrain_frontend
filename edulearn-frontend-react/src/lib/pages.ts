@@ -19,6 +19,7 @@ export const ROUTE_BY_PAGE: Record<string, string> = {
   'create-test': '/create-test',
   challenge: '/challenge',
   pal: '/pal',
+  tutor: '/tutor',
   live: '/live',
   upload: '/upload',
   admin: '/admin',
