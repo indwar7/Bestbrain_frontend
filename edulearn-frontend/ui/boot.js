@@ -38,6 +38,49 @@
     /* kill the browser's own white paint between documents */
     'html{color-scheme:dark;}';
 
+  /* ------------------------------------------------------------------
+     An expired session must end the session.
+
+     When the access token dies the API answers 401 — and the app went on
+     rendering a fully signed-in shell with stale numbers, offering a banner
+     that said "please refresh" for a state refreshing cannot fix. A student
+     was left looking at yesterday's progress with no way to understand why.
+
+     Every response is watched here rather than in each caller: one place to
+     get right, and it covers the page scripts as well as the app's own client.
+     ------------------------------------------------------------------ */
+  var native = window.fetch;
+  if (typeof native === 'function' && !window.__kidAuthGuard) {
+    window.__kidAuthGuard = true;
+    var signingOut = false;
+
+    window.fetch = function (input, init) {
+      return native.apply(this, arguments).then(function (res) {
+        try {
+          var url = typeof input === 'string' ? input : (input && input.url) || '';
+          /* only the app's own API — a 401 from anywhere else is not our session */
+          if (res.status === 401 && /\/api\//.test(url) && !/\/auth\/(login|signup|refresh)/.test(url)) {
+            if (!signingOut) {
+              signingOut = true;
+              try {
+                localStorage.removeItem('edulearn_token');
+                localStorage.removeItem('edulearn_user');
+              } catch (e) {}
+              var here = (location.pathname.split('/').pop() || '').toLowerCase();
+              if (here.indexOf('login') === -1 && here.indexOf('signup') === -1) {
+                /* let the caller see its own 401 first, then leave */
+                setTimeout(function () {
+                  location.href = here.indexOf('.html') !== -1 ? 'login.html' : '/login';
+                }, 60);
+              }
+            }
+          }
+        } catch (e) { /* never let the guard break a response */ }
+        return res;
+      });
+    };
+  }
+
   var s = document.createElement('style');
   s.id = 'kid-boot';
   s.textContent = css;
