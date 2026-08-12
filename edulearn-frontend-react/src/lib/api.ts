@@ -373,6 +373,96 @@ export function chatPal(message: string, sessionId?: string) {
   if (sessionId) body.sessionId = sessionId;
   return request('/api/pal/chat', { method: 'POST', body });
 }
+/**
+ * AI Tutor (live doubt session) — streams a voice-optimized PAL reply over SSE
+ * (POST /api/pal/tutor/stream). EventSource can't POST, so this reads the
+ * response body stream directly. Port of api.js's tutorStream, kept in sync
+ * because the lifted tutor.js page script calls it via window.EduAPI.
+ * Resolves { sessionId } when the stream finishes; rejects with status/code
+ * set like request(). Retries once through the shared refresh flow on 401.
+ */
+export async function tutorStream(
+  message: string,
+  sessionId: string | null,
+  handlers: { onChunk?: (text: string) => void; signal?: AbortSignal } = {},
+  isRetry = false
+): Promise<{ sessionId: string | null }> {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  const token = getToken();
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+
+  let res: Response;
+  try {
+    res = await fetch(API_BASE + '/api/pal/tutor/stream', {
+      method: 'POST',
+      headers,
+      credentials: 'include',
+      body: JSON.stringify(sessionId ? { message, sessionId } : { message }),
+      signal: handlers.signal,
+    });
+  } catch (networkErr) {
+    if ((networkErr as Error)?.name === 'AbortError') throw networkErr;
+    throw new Error(
+      `Could not reach ${API_BASE}. It may be down, or the browser may have blocked the response (CORS).`
+    );
+  }
+
+  if (res.status === 401 && !isRetry && token) {
+    const fresh = await refreshAccessToken();
+    if (fresh) return tutorStream(message, sessionId, handlers, true);
+  }
+
+  if (!res.ok) {
+    let data: any = {};
+    try { data = await res.json(); } catch { data = {}; }
+    const err = new Error(data.error || `Request failed (${res.status})`) as ApiError;
+    err.status = res.status;
+    err.code = data.code;
+    throw err;
+  }
+
+  // Minimal SSE parser: frames separated by a blank line, each frame carrying
+  // "event: <name>" and "data: <json>" lines (matches the backend's writer).
+  const reader = res.body!.getReader();
+  const decoder = new TextDecoder();
+  let buf = '';
+  const result: { sessionId: string | null } = { sessionId: null };
+
+  const handleFrame = (frame: string) => {
+    let ev = 'message';
+    let data = '';
+    for (const line of frame.split('\n')) {
+      if (line.startsWith('event: ')) ev = line.slice(7).trim();
+      else if (line.startsWith('data: ')) data += line.slice(6);
+    }
+    let payload: any = {};
+    try { payload = JSON.parse(data || '{}'); } catch { /* keep {} */ }
+    if (ev === 'chunk') {
+      if (handlers.onChunk && payload.text) handlers.onChunk(payload.text);
+    } else if (ev === 'done') {
+      result.sessionId = payload.sessionId || null;
+    } else if (ev === 'error') {
+      // The stream already sent a 200, so errors arrive as events.
+      const serr = new Error(payload.error || 'PAL is unavailable right now') as ApiError;
+      serr.code = payload.code;
+      throw serr;
+    }
+  };
+
+  for (;;) {
+    const r = await reader.read();
+    if (r.done) break;
+    buf += decoder.decode(r.value, { stream: true });
+    let idx;
+    while ((idx = buf.indexOf('\n\n')) !== -1) {
+      const frame = buf.slice(0, idx);
+      buf = buf.slice(idx + 2);
+      if (frame.trim()) handleFrame(frame);
+    }
+  }
+  return result;
+}
+
 export function renamePalSession(id: string, title: string) {
   return request(`/api/pal/sessions/${id}`, { method: 'PATCH', body: { title } });
 }

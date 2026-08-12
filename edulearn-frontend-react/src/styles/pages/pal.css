@@ -56,6 +56,10 @@ html.dark-mode .role.is-on.r-teacher{color:var(--peri)}
   transition:transform .3s var(--ease);
 }
 .btn-new:hover{transform:translateY(-1px)}
+.btn-doubt{display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line-strong);background:var(--card);color:var(--cream);font-weight:700;font-size:13.5px;padding:10px;border-radius:13px;transition:all .3s var(--ease)}
+.btn-doubt:hover{transform:translateY(-1px);border-color:rgba(244,63,94,.5);box-shadow:var(--shadow-soft)}
+.btn-doubt .live-dot{width:8px;height:8px;border-radius:50%;background:var(--rose);flex:none;animation:doubtblink 1.6s infinite}
+@keyframes doubtblink{0%,100%{opacity:1}50%{opacity:.3}}
 .side__label{margin-top:4px}
 .chatlist{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:4px;min-height:0;margin:0 -6px;padding:0 6px}
 .chatitem{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:11px;font-size:13.5px;color:var(--muted);text-align:left;transition:background .2s var(--ease),color .2s var(--ease);overflow:hidden}

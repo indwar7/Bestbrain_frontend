@@ -641,6 +641,25 @@ function sendMessage(text){
 /* ============================================================
    WIRING
    ============================================================ */
+// Reveal the live doubt session launcher only for roles the guard would let
+// through (students) — otherwise the link would just bounce off role-guard.
+// In the SPA this script runs without role-guard.js, so when EduGuard is
+// absent fall back to reading the stored session role directly.
+(function(){
+  var doubtBtn = document.getElementById('doubtBtn');
+  if (!doubtBtn) return;
+  var allowed;
+  if (window.EduGuard) {
+    allowed = EduGuard.loggedIn && EduGuard.can('tutor.html');
+  } else {
+    var u = null;
+    try { u = JSON.parse(localStorage.getItem('edulearn_user') || 'null'); } catch(e){}
+    var r = u && String(u.role || '').toLowerCase();
+    allowed = r === 'student' || r === 'admin';
+  }
+  if (allowed) doubtBtn.hidden = false;
+})();
+
 function autosize(){
   input.style.height = 'auto';
   input.style.height = Math.min(input.scrollHeight, 130) + 'px';

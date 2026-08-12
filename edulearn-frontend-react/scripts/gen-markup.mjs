@@ -29,6 +29,7 @@ const PAGES = {
   'create-test': 'CreateTestMarkup',
   challenge: 'ChallengeMarkup',
   pal: 'PalMarkup',
+  tutor: 'TutorMarkup',
   live: 'LiveMarkup',
   login: 'LoginMarkup',
   signup: 'SignupMarkup',

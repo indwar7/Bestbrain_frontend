@@ -15,7 +15,7 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 const ACCESS: Record<string, string[] | null> = {
-  student: ['learn', 'live', 'challenge', 'mocktest', 'pal', 'lesson', 'videos', 'dashboard'],
+  student: ['learn', 'live', 'challenge', 'mocktest', 'pal', 'tutor', 'lesson', 'videos', 'dashboard'],
   teacher: ['live', 'create-test', 'upload', 'pal', 'videos', 'dashboard'],
   parent: ['pal', 'videos', 'dashboard'],
   admin: null,

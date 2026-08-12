@@ -43,6 +43,25 @@ export default function PalMarkup() {
             </svg>
             {" New chat "}
           </button>
+          {/* Live voice call with PAL. Student-only (see role-guard ACCESS) —
+           unhidden below once EduGuard confirms this role may open it. */}
+          <a className="btn-doubt" id="doubtBtn" href="tutor.html" hidden={true}>
+            <span className="live-dot" />
+            {" Live doubt session "}
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="9" y="2.5" width="6" height="11.5" rx="3" />
+              <path d="M5 11a7 7 0 0 0 14 0M12 18v3.5" />
+            </svg>
+          </a>
           {' '}
           <span className="mono side__label">
             Recent chats
