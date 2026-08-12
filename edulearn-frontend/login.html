@@ -203,7 +203,7 @@
     html.light-mode .otp-digit{background:#F4F7FB;border-color:rgba(15,23,42,.1);color:#0F1425}
   </style>
   <!-- Apply saved light/dark before paint (dark is the default). -->
-  <script>try{document.documentElement.classList.add('light-mode');localStorage.setItem('edulearn-theme','light');}catch(e){document.documentElement.classList.add('light-mode');}</script>
+  <script>try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}}</script>
 <link rel="stylesheet" href="../vivid.css">
 </head>
 <body>
@@ -633,7 +633,7 @@
        Settings (after login), not here — this just honours a saved 'light'. -->
   <script>
     (function () {
-      try{document.documentElement.classList.add('light-mode');localStorage.setItem('edulearn-theme','light');}catch(e){document.documentElement.classList.add('light-mode');}
+      try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}}
     })();
   </script>
 

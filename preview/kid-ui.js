@@ -145,9 +145,11 @@
     'transform:translateY(-3px)!important;filter:brightness(1.06);' +
     'box-shadow:0 16px 42px rgba(255,122,0,.55)!important;}' +
   '.btn-primary:active,.btn:active,a.btn:active{transform:translateY(-1px) scale(.98)!important;}' +
+  /* Sized and clipped in JS; kept dim and modest on purpose — at .5 white and
+     2.6x it read as a flashbulb rather than a touch response. */
   '.kid-ripple{position:absolute;border-radius:50%;transform:scale(0);pointer-events:none;' +
-    'background:rgba(255,255,255,.5);animation:kid-rip .6s ease-out forwards;}' +
-  '@keyframes kid-rip{to{transform:scale(2.6);opacity:0}}' +
+    'background:rgba(255,255,255,.3);animation:kid-rip .6s ease-out forwards;}' +
+  '@keyframes kid-rip{to{transform:scale(1.8);opacity:0}}' +
 
   /* scrollbar / selection / focus ring */
   '::-webkit-scrollbar{width:11px;height:11px;}' +
@@ -727,14 +729,36 @@
     document.addEventListener('click', function (e) {
       var b = e.target.closest('.btn-primary,.btn,.cta,.btn-cta,button.primary,a.btn');
       if (!b) return;
+
+      /* Never on a button that submits. Sizing the circle to the button was
+         fine for a chip and wrong for anything wide: a full-width "Sign In"
+         is ~400px across, so the ripple was a 400px circle that then scaled
+         2.6x — a white disc bigger than the card, arriving at the exact
+         moment the student is waiting to learn whether their password
+         worked. It reads as the page breaking, not as feedback. */
+      if (b.matches('button[type=submit],input[type=submit]')) return;
+
       var r = b.getBoundingClientRect();
-      var d = Math.max(r.width, r.height);
+      /* And cap it everywhere else. A ripple is decoration; past ~120px it
+         stops reading as a touch response and starts reading as a flash. */
+      var d = Math.min(Math.max(r.width, r.height), 120);
+
+      /* Keep it inside the button. Without a positioned, clipping host the
+         circle is laid out against whatever ancestor happens to be
+         positioned, which is how it ends up painted across the page. */
+      if (getComputedStyle(b).position === 'static') b.style.position = 'relative';
+      var prevOverflow = b.style.overflow;
+      b.style.overflow = 'hidden';
+
       var s = document.createElement('span');
       s.className = 'kid-ripple';
       s.style.cssText = 'width:' + d + 'px;height:' + d + 'px;left:' +
         (e.clientX - r.left - d / 2) + 'px;top:' + (e.clientY - r.top - d / 2) + 'px;';
       b.appendChild(s);
-      setTimeout(function () { s.remove(); }, 620);
+      setTimeout(function () {
+        s.remove();
+        b.style.overflow = prevOverflow;
+      }, 620);
     }, true);
   }
 

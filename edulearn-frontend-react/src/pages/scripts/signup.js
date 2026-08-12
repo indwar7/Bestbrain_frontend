@@ -12,7 +12,7 @@ export default function init({ location, document, window, onCleanup }) {
 
 /* ---- next <script> block ---- */
 
-try{document.documentElement.classList.add('light-mode');localStorage.setItem('edulearn-theme','light');}catch(e){document.documentElement.classList.add('light-mode');}
+try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}}
 
 /* ---- next <script> block ---- */
 
@@ -277,7 +277,7 @@ try{document.documentElement.classList.add('light-mode');localStorage.setItem('e
 /* ---- next <script> block ---- */
 
 
-    (function () { try{document.documentElement.classList.add('light-mode');localStorage.setItem('edulearn-theme','light');}catch(e){document.documentElement.classList.add('light-mode');} })();
+    (function () { try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}} })();
   
 
 

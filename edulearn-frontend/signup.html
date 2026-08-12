@@ -234,7 +234,7 @@
     html.light-mode select option{background:#fff;color:#0F1425}
     html.light-mode .checkbox-group,html.light-mode .signin-link{color:#5C6478}
   </style>
-  <script>try{document.documentElement.classList.add('light-mode');localStorage.setItem('edulearn-theme','light');}catch(e){document.documentElement.classList.add('light-mode');}</script>
+  <script>try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}}</script>
 <link rel="stylesheet" href="../vivid.css">
 </head>
 <body>
@@ -784,7 +784,7 @@
     }
   </script>
   <script>
-    (function () { try{document.documentElement.classList.add('light-mode');localStorage.setItem('edulearn-theme','light');}catch(e){document.documentElement.classList.add('light-mode');} })();
+    (function () { try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}} })();
   </script>
 <script src="../features-panel.js"></script>
 
