@@ -19,8 +19,41 @@
 
   /* classes first — every themed rule keys off these */
   var h = document.documentElement;
-  h.classList.add('kidbg', 'kid-dark', 'dark-mode');
+  h.classList.add('kidbg', 'kid-dark', 'dark-mode', 'kid-booting');
   h.classList.remove('light-mode');
+
+  /* The reveal, and every guarantee that it happens.
+
+     kid-bg calls this the moment its first pass is done. Everything else
+     here is a backstop: if that script is slow, fails to parse, or never
+     loads at all, the page must still become visible. Each path is
+     independent on purpose — a single missed reveal means a blank screen,
+     which is a worse bug than the one being fixed. */
+  var safety = 0;
+  function reveal() {
+    clearTimeout(safety);
+    h.classList.remove('kid-booting');
+  }
+  /* Re-armed on client-side navigation: the router swaps in another of the
+     product's own screens, so the same window reopens on every route change,
+     not just the first load. The safety timer is re-armed with it. */
+  function hold(ms) {
+    h.classList.add('kid-booting');
+    clearTimeout(safety);
+    safety = setTimeout(reveal, ms || 900);
+  }
+  window.__kidReveal = reveal;
+  window.__kidHold = hold;
+
+  safety = setTimeout(reveal, 1400);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(reveal, 700); });
+  } else {
+    setTimeout(reveal, 250);
+  }
+  window.addEventListener('load', function () { setTimeout(reveal, 120); });
+  /* A script blowing up must not leave the page blank. */
+  window.addEventListener('error', function () { reveal(); }, true);
 
   /* Critical CSS. `html` and `body` get the canvas immediately, and the ink
      law is repeated here so the first frame's text is already white rather
@@ -36,7 +69,24 @@
     'html.kid-dark h1,html.kid-dark h2,html.kid-dark h3,html.kid-dark h4,html.kid-dark h5,html.kid-dark h6{' +
       'color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;}' +
     /* kill the browser's own white paint between documents */
-    'html{color-scheme:dark;}';
+    'html{color-scheme:dark;}' +
+    /* ----------------------------------------------------------------
+       Hold the content back until the skin has been over it once.
+
+       The pre-redesign screens are not a stale cache — they are the real
+       markup. React (and each static page) renders the product's own
+       layout, and the skin restyles it a beat later, so the old design is
+       genuinely on screen in between. No amount of making that beat
+       shorter removes it; the content simply must not be shown until the
+       skin has run.
+
+       Only body's opacity is held. html keeps the dark canvas above, so
+       this reads as the page still loading rather than as a flash of a
+       different product. Revealed by kid-bg once its first pass lands,
+       with the timeouts below as a hard backstop — content that never
+       comes back would be far worse than the flash this replaces. */
+    'html.kid-booting body{opacity:0!important;}' +
+    'html body{transition:opacity .16s ease-out;}';
 
   /* ------------------------------------------------------------------
      An expired session must end the session.

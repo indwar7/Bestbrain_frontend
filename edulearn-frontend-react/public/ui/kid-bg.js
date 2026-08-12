@@ -880,7 +880,14 @@
     sync();
     /* the sibling preview sheets inject during this same tick — one frame
        later the cascade is complete, so re-derive against the real palette */
-    requestAnimationFrame(sync);
+    requestAnimationFrame(function () {
+      sync();
+      /* The content has now been restyled at least once, so it is safe to
+         show. boot.js hid it precisely to cover this window — the product's
+         own screens render first and would otherwise be visible in their
+         pre-redesign form while this ran. */
+      if (window.__kidReveal) window.__kidReveal();
+    });
     setTimeout(sync, 400);
     setTimeout(sync, 1400);
     /* Late, direct passes. The mutation-driven work waits for idle time, and
@@ -938,8 +945,19 @@
      start() itself, which would bolt on another MutationObserver and another
      resize listener every single navigation and never remove the old ones. */
   function onNav() {
+    /* The router is about to swap in another of the product's own screens.
+       Hold it back the same way the first load is held, or the pre-redesign
+       look shows again on every click. Kept short — two frames is enough for
+       React to render and for the pass below to restyle what it rendered. */
+    if (window.__kidHold) window.__kidHold(700);
     sync();
-    requestAnimationFrame(sync);
+    requestAnimationFrame(function () {
+      sync();
+      requestAnimationFrame(function () {
+        sync();
+        if (window.__kidReveal) window.__kidReveal();
+      });
+    });
     setTimeout(sync, 400);
   }
   ['pushState', 'replaceState'].forEach(function (m) {
