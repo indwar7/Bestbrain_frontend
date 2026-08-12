@@ -1,18 +1,4 @@
 {
-  "//": [
-    "Config for `serve -s dist` (vercel/serve), which is how the EC2 frontend box",
-    "runs the built app. serve reads this file from the directory it serves, and",
-    "Vite copies public/ into dist/ verbatim, so it lands next to index.html.",
-    "",
-    "Without it serve sends no Cache-Control at all — only an ETag — so browsers",
-    "fall back to heuristic caching and can hold a stale copy of the unhashed",
-    "root files across a deploy. That is exactly what made a rebuilt site still",
-    "look unchanged on a phone: vivid.css keeps the same filename every build and",
-    "carries the whole mobile layer, so a cached copy hides the entire deploy.",
-    "",
-    "The .htaccess beside this file expresses the same policy for Apache hosting",
-    "(Hostinger). Keep the two in step."
-  ],
   "headers": [
     {
       "source": "**/*",
