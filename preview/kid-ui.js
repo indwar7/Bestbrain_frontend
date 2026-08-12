@@ -776,25 +776,40 @@
 
     if (!SPA) return;
 
+    /* A route change swaps in a whole new page's worth of DOM at once — until
+       the rail catches up, whatever was built for the PREVIOUS route (wrong
+       links, wrong "current" highlight) is what's on screen, which is what
+       reads as "the old design" for a beat after every sidebar click. The
+       180ms debounce below exists to stop routine, incremental mutations
+       (typing, lazy content) from re-running this on every keystroke — but
+       applying that same patience to a just-fired navigation is exactly
+       backwards, so the next mutation after one gets reacted to fast instead. */
+    var navPending = false;
+
     /* React mounts after us and swaps content on navigation — watch for both */
     ['pushState', 'replaceState'].forEach(function (m) {
       var orig = history[m];
       history[m] = function () {
         var r = orig.apply(this, arguments);
-        setTimeout(ensure, 60);
-        setTimeout(ensure, 500);
+        navPending = true;
+        ensure();                 // covers a render that already landed synchronously
+        setTimeout(ensure, 500);  // ultimate fallback if the observer below misses it
         return r;
       };
     });
     window.addEventListener('popstate', function () {
-      setTimeout(ensure, 60);
+      navPending = true;
+      ensure();
       setTimeout(ensure, 500);
     });
 
     var pending = 0;
     new MutationObserver(function () {
       clearTimeout(pending);
-      pending = setTimeout(ensure, 180);
+      pending = setTimeout(function () {
+        navPending = false;
+        ensure();
+      }, navPending ? 16 : 180);
     }).observe(document.body, { childList: true, subtree: true });
   }
 

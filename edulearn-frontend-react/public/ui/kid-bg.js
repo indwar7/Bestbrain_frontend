@@ -933,16 +933,25 @@
     start();
   }
 
+  /* A route change, not routine content arriving — react on the same close
+     schedule start() already uses (sync, next frame, 400ms) without calling
+     start() itself, which would bolt on another MutationObserver and another
+     resize listener every single navigation and never remove the old ones. */
+  function onNav() {
+    sync();
+    requestAnimationFrame(sync);
+    setTimeout(sync, 400);
+  }
   ['pushState', 'replaceState'].forEach(function (m) {
     var orig = history[m];
     if (typeof orig !== 'function') return;
     history[m] = function () {
       var r = orig.apply(this, arguments);
-      setTimeout(start, 0);
+      onNav();
       return r;
     };
   });
-  window.addEventListener('popstate', function () { setTimeout(start, 0); });
+  window.addEventListener('popstate', onNav);
 
   window.KidTheme = { ICON: ICON, TINT: TINT };
 })();
