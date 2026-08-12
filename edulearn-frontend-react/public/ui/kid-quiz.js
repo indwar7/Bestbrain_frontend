@@ -42,6 +42,17 @@
   }
   var SKIP_TAGS = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, TEXTAREA: 1 };
 
+  /* A URL is not prose — "test" inside take-test.html is a filename, not the
+     word this pass exists to relabel. A teacher's create-a-quiz screen
+     displays its own share link as plain text, and that link was rewritten
+     into take-quiz.html — a page that does not exist — the moment it hit
+     the DOM, silently turning a working link into a dead one. Anything that
+     reads like a URL or a file path is left alone. */
+  function looksLikeUrlOrPath(s) {
+    return /^https?:\/\//i.test(s) || /^[\w.-]+\/[\w./-]+/.test(s) ||
+      /[\w-]\.(html?|php|json|js|css|png|jpe?g|svg|pdf)\b/i.test(s);
+  }
+
   function rewordTree(root) {
     if (!root) return;
     var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
@@ -49,7 +60,9 @@
         var p = n.parentNode;
         if (!p || SKIP_TAGS[p.nodeName]) return NodeFilter.FILTER_REJECT;
         if (p.closest && p.closest('#kq-player')) return NodeFilter.FILTER_REJECT;
-        return /test/i.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        if (!/test/i.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+        if (looksLikeUrlOrPath(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
       }
     });
     var hits = [], n;
@@ -64,13 +77,13 @@
     for (var i = 0; i < els.length; i++) {
       for (var a = 0; a < attrs.length; a++) {
         var v = els[i].getAttribute(attrs[a]);
-        if (v && /test/i.test(v)) {
+        if (v && /test/i.test(v) && !looksLikeUrlOrPath(v)) {
           var nv = reword(v);
           if (nv !== v) els[i].setAttribute(attrs[a], nv);
         }
       }
     }
-    if (/test/i.test(document.title)) document.title = reword(document.title);
+    if (/test/i.test(document.title) && !looksLikeUrlOrPath(document.title)) document.title = reword(document.title);
   }
 
   /* =========================================================
