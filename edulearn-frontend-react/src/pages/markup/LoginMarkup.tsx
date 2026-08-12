@@ -216,7 +216,7 @@ export default function LoginMarkup() {
                       <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" />
                     </svg>
                     {' '}
-                    <input type="password" id="password" placeholder="••••••••" required={true} />
+                    <input type="password" id="password" placeholder="••••••••" autoComplete="current-password" required={true} />
                     {' '}
                     <button
                       type="button"

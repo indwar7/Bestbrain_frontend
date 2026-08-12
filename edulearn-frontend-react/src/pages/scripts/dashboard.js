@@ -1062,7 +1062,7 @@ function paintAttention(reps){
     '</div>' +
     '<div style="flex:1;min-width:200px">' +
       '<div style="font-weight:700;font-size:16px;color:' + c + '">' + verdict + '</div>' +
-      '<div style="color:var(--muted);font-size:14px;margin:3px 0 12px">' + esc(r.topic) + ' · ' + d.toLocaleDateString() + '</div>' +
+      '<div style="color:var(--muted);font-size:14px;margin:3px 0 12px">' + esc(r.topic) + ' · ' + d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) + '</div>' +
       '<div style="display:flex;gap:20px;flex-wrap:wrap">' +
         '<div><b style="font-family:Fraunces,serif;font-size:19px">' + r.onScreenPct + '%</b><div class="mono" style="color:var(--muted)">eyes on screen</div></div>' +
         '<div><b style="font-family:Fraunces,serif;font-size:19px">' + (r.lookAwayCount || 0) + '</b><div class="mono" style="color:var(--muted)">looked away</div></div>' +
@@ -1287,6 +1287,17 @@ async function bootAuth(){
   // Re-render the sections that depend on which class the student is in —
   // they first painted with the default (Class 7) before auth resolved.
   try { buildSubjectMap(); buildNextUp(); } catch(e){}
+
+  // QA S-03: "Subject mastery" carried a literal, untouched "NCERT · CL 7" —
+  // nothing above ever re-rendered it, so every class saw Class 7's label
+  // forever, same bug as the two calls just above it.
+  try {
+    var mcl = document.getElementById('masteryClassLabel');
+    if (mcl) {
+      var realCls = parseInt(String(user.className || '').replace(/\D+/g, ''), 10) || 7;
+      mcl.textContent = 'NCERT · CL ' + realCls;
+    }
+  } catch(e){}
 
   // Lock the UI to this user's role and show them their own view only.
   lockToRole(user.role);

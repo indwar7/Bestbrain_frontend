@@ -506,7 +506,7 @@ function renderAttempts(){
     html += '<div class="att">' +
       '<span class="lvlpill" style="background:' + lv[1] + '">' + lv[0] + '</span>' +
       '<div><div style="font-weight:600;font-size:13.5px">' + esc(a.test) + '</div>' +
-      '<div class="d">' + new Date(a.dateISO).toLocaleDateString() + '</div></div>' +
+      '<div class="d">' + new Date(a.dateISO).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) + '</div></div>' +
       '<span class="pct">' + a.mastery + '%</span></div>';
   });
   host.innerHTML = html;

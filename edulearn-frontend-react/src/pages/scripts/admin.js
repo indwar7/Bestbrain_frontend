@@ -34,7 +34,7 @@ export default function init({ location, document, window, onCleanup }) {
     var DATA = { users: [], counts:{}, total:0 };
 
     function fmtDate(d){
-      try { var x = new Date(d); return x.toLocaleDateString() + ' ' + x.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); }
+      try { var x = new Date(d); return x.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) + ' ' + x.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); }
       catch(e){ return ''; }
     }
 

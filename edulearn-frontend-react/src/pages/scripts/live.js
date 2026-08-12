@@ -10,6 +10,70 @@ export default function init({ location, document, window, onCleanup }) {
 (function(){
 'use strict';
 
+/* QA S-03: the syllabus section further down the page was hand-authored for
+   Class 7 only and shown to every class regardless — a Class 6 student was
+   looking at Newton's laws and polynomials. curriculum.js is already loaded
+   globally (see index.html) and is the same shared source dashboard.js
+   already builds chapter data from; this rebuilds the panel for the
+   signed-in student's real class instead of lying about which one they're
+   in. Class 7's grid is genuinely curated — a teacher picked which chapters
+   are foundational/high-weightage — so it is left exactly as authored;
+   every other class gets its own real chapters without inventing a
+   "must-do" star this code has no basis to award. */
+(function rebuildSyllabusForRealClass(){
+  var section = document.querySelector('.syl');
+  if (!section) return;
+
+  var cls = 7;
+  try {
+    var u = JSON.parse(localStorage.getItem('edulearn_user') || 'null');
+    var n = parseInt(String((u && (u.class || u.className)) || ''), 10);
+    if (!n) { var m = String((u && u.className) || '').match(/\d+/); if (m) n = parseInt(m[0], 10); }
+    if (n) cls = n;
+  } catch (e) {}
+
+  if (cls === 7) return;
+
+  var C = window.EduCurriculum;
+  var data = C && C.CURRICULUM && C.CURRICULUM[String(cls)];
+  if (!data) return;
+
+  var ICONS = {
+    science: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6M10 2v6.5L5.2 17A2 2 0 0 0 7 20h10a2 2 0 0 0 1.8-3L14 8.5V2"/><path d="M7.5 14h9"/></svg>',
+    maths: '<span style="font-family:\'Fraunces\',serif;font-weight:700;font-size:18px;line-height:1">x&sup2;</span>',
+    social: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"/></svg>',
+    english: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+    hindi: '<span style="font-family:\'Nunito\',sans-serif;font-weight:800;font-size:19px;line-height:1">अ</span>'
+  };
+
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  var subjects = (C.SUBJECTS || []).filter(function (s) { return data[s.key] && data[s.key].length; });
+  var html = subjects.map(function (s, si) {
+    var chapters = data[s.key];
+    var rows = chapters.map(function (ch, i) {
+      var num = String(i + 1).length < 2 ? '0' + (i + 1) : String(i + 1);
+      return '<li class="sylc__ch"><span class="sylc__n">' + num + '</span>' +
+        '<span class="sylc__t">' + esc(ch[1]) + '</span></li>';
+    }).join('');
+    return '<article class="sylc rv" style="--sa:' + s.accent + ';animation-delay:' + (0.22 + si * 0.04) + 's">' +
+      '<div class="sylc__hd"><span class="sylc__ic">' + (ICONS[s.key] || '') + '</span>' +
+      '<div><div class="sylc__name">' + esc(s.en) + '</div>' +
+      '<div class="sylc__count">' + chapters.length + ' chapters</div></div></div>' +
+      '<ul class="sylc__list">' + rows + '</ul></article>';
+  }).join('');
+
+  var grid = section.querySelector('.syl__grid');
+  if (grid) grid.innerHTML = html;
+
+  var h2 = section.querySelector('.syl__head h2');
+  if (h2) h2.textContent = 'Class ' + cls + ' NCERT — the full syllabus';
+  var sub = section.querySelector('.syl__sub');
+  if (sub) sub.textContent = 'Every subject, chapter by chapter, straight from the NCERT syllabus for your class.';
+  var legend = section.querySelector('.syl__legend');
+  if (legend) legend.style.display = 'none';
+})();
+
 var LS_KEY = 'edulearn_live';
 
 // Safe wrappers to LiveKit glue (live-video.js). No-op if not available.
@@ -136,7 +200,7 @@ function renderReports(){
         '<span class="rep__score" style="background:' + scoreColor(r.score) + '">' + r.score + '</span>' +
         '<div class="rep__body">' +
           '<div class="rep__topic">' + esc(r.topic) + '</div>' +
-          '<div class="rep__date">' + d.toLocaleDateString() + ' · ' + r.duration + ' attended' +
+          '<div class="rep__date">' + d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) + ' · ' + r.duration + ' attended' +
             (typeof r.onScreenPct === 'number' ? ' · ' + r.onScreenPct + '% on screen' : '') + '</div>' +
         '</div>' +
         '<span class="tag" style="color:var(--teal);border-color:rgba(61,232,197,.4)">' +
@@ -621,7 +685,7 @@ document.getElementById('leaveBtn').addEventListener('click', function(){
   document.getElementById('reportView').style.display = 'block';
   document.getElementById('repTopic').textContent = CLS.session.topic;
   document.getElementById('repDate').textContent =
-    new Date().toLocaleDateString() + ' · ' + CLS.session.tutor;
+    new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) + ' · ' + CLS.session.tutor;
   document.getElementById('repScore').textContent = score;
   document.getElementById('repArc').setAttribute('stroke-dashoffset', (314.2 * (1 - score/100)).toFixed(1));
 

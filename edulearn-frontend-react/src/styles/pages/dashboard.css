@@ -705,7 +705,12 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 .today-dot{width:9px;height:9px;border-radius:50%;display:block;border:1.5px solid #000;}
 
 /* ---------- NEXT UP: the hero action card ---------- */
-.nextup{grid-column:span 12;padding:0 !important;overflow:hidden;}
+/* QA S-14: this card was empty at first paint and jumped to its real height
+   once buildNextUp() ran (deliberately not awaited, so it can arrive well
+   after the rest of the page has settled). Reserving the height a populated
+   row actually renders at (60px icon + 48px padding, ~112px) stops that
+   push instead of chasing every downstream element it was shoving. */
+.nextup{grid-column:span 12;padding:0 !important;overflow:hidden;min-height:118px;}
 .nextup__row{display:flex;align-items:center;gap:22px;padding:24px 26px;}
 .nextup__ic{
   width:60px;height:60px;flex:none;border-radius:16px;
@@ -810,8 +815,6 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 .barchart .bar-h4{fill:var(--c5);}
 .barchart .bar-h5{fill:var(--c6);}
 .barchart .bar-htoday{fill:var(--c8);}
-.barchart .bar-track{fill:#EDEFF3;}
-.barchart text{fill:#000000;}
 
 /* tool tiles — each owns a hue on its icon chip */
 .feat-card:nth-child(6n+1) .fc-ico{background:color-mix(in srgb,var(--c1) 16%,#fff);color:var(--c1);}
@@ -837,7 +840,6 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 
 /* progress + meters */
 .prog i{background:var(--c8);}
-.hbar .htrack,.mini-bar,.donut .trk{background:#EDEFF3;}
 .heatmap{filter:saturate(1.2);}
 
 /* ---------- GitHub-style contribution calendar ----------
@@ -906,8 +908,12 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 .hcell.l4{background:#216E39;}
 .hcell:hover{outline:1px solid rgba(27,31,35,.5);outline-offset:-1px;}
 .hcell.is-today{outline:1.5px solid #0E0F14;outline-offset:-1px;}
-.hm-foot{display:flex;justify-content:space-between;align-items:center;}
-.hm-scale{display:flex;align-items:center;gap:3px;}
+/* QA S-26: space-between only inserts a gap when there's free space to
+   distribute — on a narrow card the range text and the legend land edge to
+   edge with none, reading as "…TODAYLESS  MORE". A fixed gap and the
+   ability to wrap fixes both the collision and the narrow-card case. */
+.hm-foot{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;}
+.hm-scale{display:flex;align-items:center;gap:5px;flex-wrap:nowrap;}
 /* Swatches used to match the cells at 11px; the cells now scale up to 32px, so
    nudge these too or the key reads as belonging to something else. */
 .hm-scale i{width:14px;height:14px;border-radius:3px;display:block;

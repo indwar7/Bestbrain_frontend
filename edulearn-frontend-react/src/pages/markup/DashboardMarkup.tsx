@@ -403,7 +403,7 @@ export default function DashboardMarkup() {
                     <h3 className="card-title" data-i18n="s.mastery">
                       Subject mastery
                     </h3>
-                    <span className="eyebrow">
+                    <span className="eyebrow" id="masteryClassLabel">
                       NCERT · CL 7
                     </span>
                   </div>

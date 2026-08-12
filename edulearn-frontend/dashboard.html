@@ -729,7 +729,13 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 .today-dot{width:9px;height:9px;border-radius:50%;display:block;border:1.5px solid #000;}
 
 /* ---------- NEXT UP: the hero action card ---------- */
-.nextup{grid-column:span 12;padding:0 !important;overflow:hidden;}
+/* QA S-14: this card was empty at first paint and jumped to its real height
+   once buildNextUp() ran (deliberately not awaited — see the comment near
+   its call site — so it can arrive well after the rest of the page has
+   settled). Reserving the height a populated row actually renders at (60px
+   icon + 48px padding, ~112px) stops that push instead of chasing every
+   downstream element it was shoving. */
+.nextup{grid-column:span 12;padding:0 !important;overflow:hidden;min-height:118px;}
 .nextup__row{display:flex;align-items:center;gap:22px;padding:24px 26px;}
 .nextup__ic{
   width:60px;height:60px;flex:none;border-radius:16px;
@@ -834,8 +840,6 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 .barchart .bar-h4{fill:var(--c5);}
 .barchart .bar-h5{fill:var(--c6);}
 .barchart .bar-htoday{fill:var(--c8);}
-.barchart .bar-track{fill:#EDEFF3;}
-.barchart text{fill:#000000;}
 
 /* tool tiles — each owns a hue on its icon chip */
 .feat-card:nth-child(6n+1) .fc-ico{background:color-mix(in srgb,var(--c1) 16%,#fff);color:var(--c1);}
@@ -861,7 +865,6 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 
 /* progress + meters */
 .prog i{background:var(--c8);}
-.hbar .htrack,.mini-bar,.donut .trk{background:#EDEFF3;}
 .heatmap{filter:saturate(1.2);}
 
 /* ---------- GitHub-style contribution calendar ----------
@@ -930,8 +933,12 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 .hcell.l4{background:#216E39;}
 .hcell:hover{outline:1px solid rgba(27,31,35,.5);outline-offset:-1px;}
 .hcell.is-today{outline:1.5px solid #0E0F14;outline-offset:-1px;}
-.hm-foot{display:flex;justify-content:space-between;align-items:center;}
-.hm-scale{display:flex;align-items:center;gap:3px;}
+/* QA S-26: space-between only inserts a gap when there's free space to
+   distribute — on a narrow card the range text and the legend land edge to
+   edge with none, reading as "…TODAYLESS  MORE". A fixed gap and the
+   ability to wrap fixes both the collision and the narrow-card case. */
+.hm-foot{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;}
+.hm-scale{display:flex;align-items:center;gap:5px;flex-wrap:nowrap;}
 /* Swatches used to match the cells at 11px; the cells now scale up to 32px, so
    nudge these too or the key reads as belonging to something else. */
 .hm-scale i{width:14px;height:14px;border-radius:3px;display:block;
@@ -1150,7 +1157,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
           <div class="card span5 stag" style="--i:2">
             <div class="card-head">
               <h3 class="card-title" data-i18n="s.mastery">Subject mastery</h3>
-              <span class="eyebrow">NCERT · CL 7</span>
+              <span class="eyebrow" id="masteryClassLabel">NCERT · CL 7</span>
             </div>
             <div class="donut-grid" id="donutGrid"></div>
           </div>
@@ -2564,7 +2571,7 @@ function paintAttention(reps){
     '</div>' +
     '<div style="flex:1;min-width:200px">' +
       '<div style="font-weight:700;font-size:16px;color:' + c + '">' + verdict + '</div>' +
-      '<div style="color:var(--muted);font-size:14px;margin:3px 0 12px">' + esc(r.topic) + ' · ' + d.toLocaleDateString() + '</div>' +
+      '<div style="color:var(--muted);font-size:14px;margin:3px 0 12px">' + esc(r.topic) + ' · ' + d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) + '</div>' +
       '<div style="display:flex;gap:20px;flex-wrap:wrap">' +
         '<div><b style="font-family:Fraunces,serif;font-size:19px">' + r.onScreenPct + '%</b><div class="mono" style="color:var(--muted)">eyes on screen</div></div>' +
         '<div><b style="font-family:Fraunces,serif;font-size:19px">' + (r.lookAwayCount || 0) + '</b><div class="mono" style="color:var(--muted)">looked away</div></div>' +
@@ -2789,6 +2796,17 @@ async function bootAuth(){
   // Re-render the sections that depend on which class the student is in —
   // they first painted with the default (Class 7) before auth resolved.
   try { buildSubjectMap(); buildNextUp(); } catch(e){}
+
+  // QA S-03: "Subject mastery" carried a literal, untouched "NCERT · CL 7" —
+  // nothing above ever re-rendered it, so every class saw Class 7's label
+  // forever, same bug as the two calls just above it.
+  try {
+    var mcl = document.getElementById('masteryClassLabel');
+    if (mcl) {
+      var realCls = parseInt(String(user.className || '').replace(/\D+/g, ''), 10) || 7;
+      mcl.textContent = 'NCERT · CL ' + realCls;
+    }
+  } catch(e){}
 
   // Lock the UI to this user's role and show them their own view only.
   lockToRole(user.role);

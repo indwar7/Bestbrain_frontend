@@ -201,7 +201,7 @@ export default function SignupMarkup() {
                     Password
                   </label>
                   <div className="pw-field">
-                    <input type="password" id="password" placeholder="••••••••" required={true} minLength={6} />
+                    <input type="password" id="password" placeholder="••••••••" autoComplete="new-password" required={true} minLength={6} />
                     {' '}
                     <button
                       type="button"
