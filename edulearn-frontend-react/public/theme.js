@@ -29,6 +29,15 @@ class ThemeManager {
   // opt in to light via html.light-mode, so they get that class forced on.
   applyStoredThemeSync() {
     const el = document.documentElement;
+    // ...unless the redesign skin is driving the theme. ui/boot.js runs first,
+    // in <head>, and sets .kid-dark before a single stylesheet parses, exactly
+    // so the first frame is already dark. Stripping .dark-mode here — which ran
+    // on every page load — dropped the page back to its light token set for the
+    // frames between this script and kid-bg.js's first pass, which then puts
+    // .dark-mode straight back. That flip-flop is the "old design flashes for a
+    // second" on every navigation. Whoever set .kid-dark owns the theme; leave
+    // it alone. With no skin present, the light-only behaviour below stands.
+    if (el.classList.contains('kid-dark') || el.classList.contains('kidbg')) return;
     el.classList.remove(this.darkModeClass);
     el.classList.add('light-mode');
     try {

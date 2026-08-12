@@ -17,7 +17,7 @@
      documentElement.classList before theme.js had added 'dark-mode' — leaving
      a dark-mode user looking at a moon icon labelled "Switch to dark mode".
      Every other themed page in the repo already carries this line. -->
-<script>try{document.documentElement.classList.remove('dark-mode');localStorage.setItem('edulearn-theme','light');}catch(e){}</script>
+<script>try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.remove('dark-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard — BestBrain · AI-powered learning for Bharat</title>
 <meta name="description" content="BestBrain multi-role analytics: students, teachers and parents see real learning progress. Works fully offline.">

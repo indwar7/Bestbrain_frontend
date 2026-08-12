@@ -9,7 +9,7 @@
 <script src="ui/boot.js"></script>
   <meta charset="UTF-8">
   <!-- Apply saved theme before paint to avoid a light-mode flash. -->
-  <script>/* light-only product: strip any stale dark preference before paint */try{document.documentElement.classList.remove('dark-mode');localStorage.setItem('edulearn-theme','light');}catch(e){}</script>
+  <script>/* light-only product: strip any stale dark preference before paint */try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.remove('dark-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create a Test — BestBrain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
