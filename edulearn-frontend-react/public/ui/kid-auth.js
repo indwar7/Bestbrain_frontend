@@ -403,7 +403,88 @@
     }).observe(slot, { childList: true, subtree: true, characterData: true });
   }
 
-  function start() { style(); build(); watchBusy(); }
+  /* ---------------------------------------------------------
+     QA S-11 / S-12 — two controls that did nothing, silently.
+
+     Google/Apple already called handleSocial(), which fired a blocking
+     native alert() — startling on a screen this calm, and easy to read as
+     the page having crashed. Forgot-password was a literal href="#" with no
+     backend endpoint behind it at all (confirmed: no reset route exists),
+     so building the real email flow is out of reach in this pass. Neither
+     gets left as a silent no-op: both now open the same small notice, with
+     copy that tells the student what to actually do today.
+     --------------------------------------------------------- */
+  var NOTICE_CSS =
+  '#ka-notice{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;' +
+    'padding:20px;background:rgba(3,3,3,.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);' +
+    'opacity:0;animation:ka-nfade .25s ease forwards;}' +
+  '@keyframes ka-nfade{to{opacity:1}}' +
+  '#ka-notice .box{width:min(380px,100%);padding:26px;border-radius:20px;' +
+    'background:#0E0B09;border:1px solid rgba(255,255,255,.14);' +
+    'box-shadow:0 30px 70px rgba(0,0,0,.6);text-align:center;}' +
+  '#ka-notice h3{margin:0 0 10px;font-size:18px;font-weight:900;color:#fff!important;' +
+    '-webkit-text-fill-color:#fff!important;}' +
+  '#ka-notice p{margin:0 0 20px;font-size:14px;line-height:1.6;' +
+    'color:rgba(255,255,255,.82)!important;-webkit-text-fill-color:rgba(255,255,255,.82)!important;}' +
+  '#ka-notice button{width:100%;padding:12px;border:0;border-radius:12px;cursor:pointer;' +
+    'font-size:14px;font-weight:900;background:linear-gradient(120deg,#FFC400,#FFDD3C);' +
+    'color:#0A0A0A!important;-webkit-text-fill-color:#0A0A0A!important;}';
+
+  function notice(title, body) {
+    if (document.getElementById('ka-notice')) return;
+    var st = document.getElementById('ka-notice-css');
+    if (!st) {
+      st = document.createElement('style');
+      st.id = 'ka-notice-css';
+      st.textContent = NOTICE_CSS;
+      document.head.appendChild(st);
+    }
+    var wrap = document.createElement('div');
+    wrap.id = 'ka-notice';
+    var h = document.createElement('h3'); h.textContent = title;
+    var p = document.createElement('p'); p.textContent = body;
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Got it';
+    var box = document.createElement('div'); box.className = 'box';
+    box.appendChild(h); box.appendChild(p); box.appendChild(b);
+    wrap.appendChild(box);
+    document.body.appendChild(wrap);
+    function close() { wrap.remove(); document.removeEventListener('keydown', onKey); }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    b.addEventListener('click', close);
+    wrap.addEventListener('click', function (e) { if (e.target === wrap) close(); });
+    document.addEventListener('keydown', onKey);
+  }
+
+  function wireNotices() {
+    /* Replace the page's own alert()-based handler rather than adding a
+       second click listener beside it — two handlers firing on one click
+       would show the alert AND the notice. */
+    if (typeof window.handleSocial === 'function' && !window.handleSocial.__kaWrapped) {
+      window.handleSocial = function (provider) {
+        notice('Coming soon',
+          (provider ? provider.charAt(0).toUpperCase() + provider.slice(1) : 'Social') +
+          ' sign-in isn’t connected yet — please use your email and password for now.');
+      };
+      window.handleSocial.__kaWrapped = true;
+    }
+
+    var forgot = document.querySelector('.forgot-password a');
+    if (forgot && !forgot.__kaWired) {
+      forgot.__kaWired = true;
+      forgot.addEventListener('click', function (e) {
+        e.preventDefault();
+        /* There is genuinely no reset path yet — not self-service, not an
+           admin-assisted one either. Saying so plainly beats inventing a
+           workaround the product cannot actually back up. */
+        notice('Password reset isn’t available yet',
+          'We don’t have a way to reset a forgotten password just yet — ' +
+          'it’s on the way. In the meantime, double-check you’re using the ' +
+          'email you signed up with.');
+      });
+    }
+  }
+
+  function start() { style(); build(); watchBusy(); wireNotices(); setTimeout(wireNotices, 500); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);
