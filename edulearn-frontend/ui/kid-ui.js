@@ -30,6 +30,70 @@
     catch (e) { return null; }
   }
 
+  /* ---------------------------------------------------------
+     REAL PROGRESS (QA S-07 / T-05 / T-06 / P-02)
+
+     "Level 7 · 680/1000 XP", "480 coins" and a hardcoded "🔥 7" streak were
+     literal text in this file — the same numbers for every account, on every
+     role, forever. A QA pass caught it instantly: the header disagreed with
+     the page body on the same screen, a teacher and a parent were shown a
+     student's level-up nudge, and "Class 6 · CBSE" was printed under a
+     teacher's name.
+
+     There is no coins/XP/level field anywhere in the backend (confirmed by
+     reading the API) — so the honest fix is not to invent a second backend
+     to back them. Streak is real and per-user; XP, level and coins are
+     derived from it plus badges and minutes so they move with an account's
+     actual activity instead of being the same for all 55 seeded users. And
+     the gamification cluster only renders for students — a teacher or
+     parent does not have a chapter to finish.
+     --------------------------------------------------------- */
+  function api() {
+    try {
+      if (window.EduAPI && window.EduAPI.API_BASE) return window.EduAPI.API_BASE;
+    } catch (e) {}
+    try {
+      var o = localStorage.getItem('edulearn_api');
+      if (o) return o.replace(/\/+$/, '');
+    } catch (e) {}
+    return location.origin;
+  }
+  function token() {
+    try { return localStorage.getItem('edulearn_token') || ''; } catch (e) { return ''; }
+  }
+  function role() {
+    var u = readUser();
+    return (u && u.role) || 'student';
+  }
+
+  var progressPromise = null;
+  /* One fetch, cached and shared — every chip that shows a number reads from
+     the same object, so the header and the body can no longer disagree. */
+  function loadProgress() {
+    if (progressPromise) return progressPromise;
+    var t = token();
+    if (!t) return (progressPromise = Promise.resolve(null));
+    progressPromise = fetch(api() + '/api/progress', { headers: { Authorization: 'Bearer ' + t } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { return (d && d.progress) || null; })
+      .catch(function () { return null; });
+    return progressPromise;
+  }
+
+  /* Deterministic, not fictional: the same real inputs always produce the
+     same XP, so two students with identical activity see identical numbers
+     — and a student who has done nothing sees 0, not 480. */
+  function deriveStats(p) {
+    var streak = (p && p.streak) || 0;
+    var minutes = (p && p.minutes) || 0;
+    var badges = (p && p.badges && p.badges.length) || 0;
+    var xp = Math.round(minutes * 4 + streak * 30 + badges * 150);
+    var level = Math.floor(xp / 500) + 1;
+    var xpIntoLevel = xp - (level - 1) * 500;
+    var coins = badges * 50 + Math.floor(streak / 2) * 10;
+    return { streak: streak, xp: xp, level: level, xpIntoLevel: xpIntoLevel, xpForLevel: 500, coins: coins };
+  }
+
   var G = 'rgba(255,255,255,.08)';      // glass fill
   var GB = 'rgba(255,255,255,.15)';     // glass border
 
@@ -203,7 +267,13 @@
   '@media(max-width:900px){#kid-top .hchip.b,#kid-top .hchip.c{display:none;}}' +
 
   /* ================= PAL MASCOT ================= */
-  '#pal-mascot{position:fixed;left:14px;bottom:14px;z-index:9100;display:flex;align-items:flex-end;gap:12px;' +
+  /* QA S-27: fixed at left:14px;bottom:14px, this sat directly on top of the
+     rail's own bottom-left icons (settings/logout) — same corner, same
+     stack. It had no dismiss control either, so a visitor who found it in
+     the way had no way to make it stop. Moved clear of the rail entirely,
+     given a close button, and made to stay closed once closed. */
+  '#pal-mascot{position:fixed;right:22px;bottom:150px;z-index:9050;' +
+    'display:flex;flex-direction:row-reverse;align-items:flex-end;gap:12px;' +
     'font-family:"Nunito",system-ui,sans-serif;}' +
   '#pal-orb{position:relative;width:56px;height:56px;border-radius:50%;border:0;cursor:pointer;padding:0;' +
     'background:radial-gradient(circle at 34% 28%,#FFD08A,#FF7A00 58%,#C24E00);' +
@@ -214,14 +284,20 @@
   '#pal-orb .eye{transform-origin:center;animation:pal-blink 5.4s ease-in-out infinite;}' +
   '@keyframes pal-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}' +
   '@keyframes pal-blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}' +
-  '#pal-say{max-width:250px;padding:13px 16px;border-radius:18px 18px 18px 5px;order:2;' +
+  '#pal-say{position:relative;max-width:250px;padding:13px 34px 13px 16px;' +
+    'border-radius:18px 18px 5px 18px;' +
     'background:rgba(18,18,18,.92);border:1px solid ' + GB + ';' +
     'backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);' +
     'box-shadow:0 18px 44px rgba(0,0,0,.6);font-size:13.5px;line-height:1.5;color:#fff;' +
     'opacity:0;transform:translateY(8px) scale(.96);pointer-events:none;' +
     'transition:opacity .4s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.22,1,.36,1);}' +
-  '#pal-say.on{opacity:1;transform:none;}' +
+  '#pal-say.on{opacity:1;transform:none;pointer-events:auto;}' +
   '#pal-say b{display:block;font-size:11.5px;color:#FFB347;letter-spacing:.06em;margin-bottom:3px;}' +
+  '#pal-close{position:absolute;top:8px;right:8px;width:20px;height:20px;border:0;border-radius:50%;' +
+    'display:grid;place-items:center;cursor:pointer;background:rgba(255,255,255,.1);' +
+    'color:rgba(255,255,255,.7);font-size:13px;line-height:1;}' +
+  '#pal-close:hover{background:rgba(255,255,255,.18);color:#fff;}' +
+  'html.pal-off #pal-mascot{display:none!important;}' +
 
   '@media(max-width:980px){html.kid-rail-on{--kid-rail:76px;}' +
     '#kid-rail .nav__link span.lbl,#kid-hello>div,#kid-xp,.kid-lab,#kid-rail .brand__word{display:none;}' +
@@ -368,12 +444,26 @@
 
     var u = readUser() || {};
     var name = (u.name || 'Student').split(' ')[0];
+    var isStudent = role() === 'student';
+    /* The backend's own field is className: "Class 6" — already the whole
+       label, not a bare number. Prefixing "Class " onto it a second time is
+       how "Class Class 6" happens; a bare u.class (if a page ever sets one)
+       still needs the prefix. Strip either shape down to the digits and
+       rebuild the label once, so it can never double up. */
+    var classNum = String(u.class || u.className || '6').replace(/\D+/g, '') || '6';
+    /* "Class 6 · CBSE" was printed under every account regardless of role —
+       a teacher and a parent do not have a class. Say what they actually
+       are instead of guessing a student's class for them. */
+    var sub = isStudent ? 'Class ' + classNum + ' · CBSE'
+      : role() === 'teacher' ? 'Teacher'
+      : role() === 'parent' ? 'Parent'
+      : '';
     var hello = document.createElement('div');
     hello.id = 'kid-hello';
     hello.innerHTML =
       '<span class="av">' + name.charAt(0).toUpperCase() + '</span>' +
-      '<div><b>' + name + '</b><span>Class ' + (u.class || 6) + ' · CBSE</span></div>' +
-      '<span class="streak">🔥 7</span>';
+      '<div><b>' + name + '</b><span>' + sub + '</span></div>' +
+      (isStudent ? '<span class="streak" id="kid-streak">🔥 —</span>' : '');
     rail.appendChild(hello);
 
     var lab = document.createElement('span');
@@ -432,13 +522,16 @@
       }
     }
 
-    var xp = document.createElement('div');
-    xp.id = 'kid-xp';
-    xp.innerHTML =
-      '<div class="top"><b>Level 7</b><span>680 / 1000 XP</span></div>' +
-      '<div class="tr"><i></i></div>' +
-      '<p>320 XP aur — aaj ek chapter khatam karo 🏅</p>';
-    rail.appendChild(xp);
+    /* the level-up nudge only makes sense for the person doing the levelling */
+    if (role() === 'student') {
+      var xp = document.createElement('div');
+      xp.id = 'kid-xp';
+      xp.innerHTML =
+        '<div class="top"><b>Level —</b><span>— / 500 XP</span></div>' +
+        '<div class="tr"><i style="width:0"></i></div>' +
+        '<p>Keep learning to level up 🏅</p>';
+      rail.appendChild(xp);
+    }
 
     var right = take(nav.querySelector('.nav__right'));
     if (right) rail.appendChild(right);                    // MOVE (static) / copy (SPA)
@@ -470,11 +563,42 @@
     bar.id = 'kid-top';
     bar.innerHTML =
       '<span class="kt-ttl"><span class="dot"></span></span><span class="spacer"></span>' +
-      '<span class="hchip a">🔥 7 day streak</span>' +
-      '<span class="hchip b">⭐ 480 coins</span>' +
-      '<span class="hchip c">🚀 Level 7</span>';
+      (role() === 'student'
+        ? '<span class="hchip a" id="kid-hud-streak">🔥 — day streak</span>' +
+          '<span class="hchip b" id="kid-hud-coins">⭐ — coins</span>' +
+          '<span class="hchip c" id="kid-hud-level">🚀 Level —</span>'
+        : '');
     bar.querySelector('.kt-ttl').appendChild(document.createTextNode(title));
     document.body.appendChild(bar);
+    paintProgress();
+  }
+
+  /* Fills every gamification chip from ONE fetch, so the header and the rail
+     can never show two different numbers for the same account again. */
+  function paintProgress() {
+    if (role() !== 'student') return;
+    loadProgress().then(function (p) {
+      var s = deriveStats(p);
+      var set = function (id, html) { var n = document.getElementById(id); if (n) n.innerHTML = html; };
+      set('kid-streak', '🔥 ' + s.streak);
+      set('kid-hud-streak', '🔥 ' + s.streak + ' day streak');
+      set('kid-hud-coins', '⭐ ' + s.coins + ' coins');
+      set('kid-hud-level', '🚀 Level ' + s.level);
+      var xpCard = document.getElementById('kid-xp');
+      if (xpCard) {
+        var top = xpCard.querySelector('.top');
+        if (top) top.innerHTML = '<b>Level ' + s.level + '</b><span>' + s.xpIntoLevel + ' / ' + s.xpForLevel + ' XP</span>';
+        var bar = xpCard.querySelector('.tr i');
+        if (bar) bar.style.width = Math.min(100, Math.round((s.xpIntoLevel / s.xpForLevel) * 100)) + '%';
+        var p2 = xpCard.querySelector('p');
+        if (p2) {
+          var left = s.xpForLevel - s.xpIntoLevel;
+          p2.textContent = s.xp === 0
+            ? 'Finish a chapter to start earning XP 🏅'
+            : left + ' XP to go — keep it up 🏅';
+        }
+      }
+    });
   }
 
   function buildMascot() {
@@ -483,6 +607,11 @@
        It belongs to the app, once you are inside it. */
     if (NO_RAIL.indexOf(pageKey()) !== -1) return;
     if (document.getElementById('pal-mascot')) return;
+
+    /* Once dismissed, it stays dismissed for the session — a control with
+       no way to say "stop" is not a control. */
+    try { if (sessionStorage.getItem('pal_dismissed') === '1') return; } catch (e) {}
+
     var wrap = document.createElement('div');
     wrap.id = 'pal-mascot';
     var say = document.createElement('div');
@@ -492,6 +621,17 @@
     orb.type = 'button';
     orb.setAttribute('aria-label', 'PAL says hello');
     orb.innerHTML = FACE;
+    var close = document.createElement('button');
+    close.id = 'pal-close';
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Dismiss PAL');
+    close.textContent = '×';
+    close.addEventListener('click', function (e) {
+      e.stopPropagation();
+      wrap.remove();
+      try { sessionStorage.setItem('pal_dismissed', '1'); } catch (err) {}
+    });
+    say.appendChild(close);
     wrap.appendChild(orb);
     wrap.appendChild(say);
     document.body.appendChild(wrap);
@@ -499,8 +639,13 @@
     var i = -1, hide;
     function speak() {
       i = (i + 1) % TIPS.length;
-      say.innerHTML = '<b>PAL</b>';
-      say.appendChild(document.createTextNode(TIPS[i]));
+      /* clear the previous tip but keep the close button — it is not part
+         of what gets replaced */
+      while (say.firstChild && say.firstChild !== close) say.removeChild(say.firstChild);
+      var tip = document.createElement('b');
+      tip.textContent = 'PAL';
+      say.insertBefore(tip, close);
+      say.insertBefore(document.createTextNode(TIPS[i]), close);
       say.classList.add('on');
       clearTimeout(hide);
       hide = setTimeout(function () { say.classList.remove('on'); }, 6500);
