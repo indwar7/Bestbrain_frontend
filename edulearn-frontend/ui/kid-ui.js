@@ -82,7 +82,15 @@
 
   /* Deterministic, not fictional: the same real inputs always produce the
      same XP, so two students with identical activity see identical numbers
-     — and a student who has done nothing sees 0, not 480. */
+     — and a student who has done nothing sees 0, not 480.
+
+     Coins are no longer among them. They used to be invented here from the
+     streak and badge counts, which made them a decoration: nothing awarded
+     them, nothing could spend them, and the figure existed only for as long
+     as the page was open. They are a real balance now — earned server-side
+     from progress the server has accepted, spendable, and backed by a ledger
+     — so the number comes from /api/coins instead of a formula. XP and level
+     are still derived; they are a view of the same activity, not a currency. */
   function deriveStats(p) {
     var streak = (p && p.streak) || 0;
     var minutes = (p && p.minutes) || 0;
@@ -90,7 +98,9 @@
     var xp = Math.round(minutes * 4 + streak * 30 + badges * 150);
     var level = Math.floor(xp / 500) + 1;
     var xpIntoLevel = xp - (level - 1) * 500;
-    var coins = badges * 50 + Math.floor(streak / 2) * 10;
+    /* The balance rides along on the progress payload; /api/coins is the
+       fuller view (balance + history) for a screen that wants to show it. */
+    var coins = (p && typeof p.coins === 'number') ? p.coins : 0;
     return { streak: streak, xp: xp, level: level, xpIntoLevel: xpIntoLevel, xpForLevel: 500, coins: coins };
   }
 
