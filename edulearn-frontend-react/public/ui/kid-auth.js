@@ -408,11 +408,12 @@
 
      Google/Apple already called handleSocial(), which fired a blocking
      native alert() — startling on a screen this calm, and easy to read as
-     the page having crashed. Forgot-password was a literal href="#" with no
-     backend endpoint behind it at all (confirmed: no reset route exists),
-     so building the real email flow is out of reach in this pass. Neither
-     gets left as a silent no-op: both now open the same small notice, with
-     copy that tells the student what to actually do today.
+     the page having crashed. It still opens the small notice below, because
+     that sign-in genuinely is not connected.
+
+     Forgot-password was a literal href="#" with no route behind it. It has
+     one now (see resetDialog and /api/auth/forgot-password), so it runs the
+     real two-step flow rather than apologising.
      --------------------------------------------------------- */
   var NOTICE_CSS =
   '#ka-notice{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;' +
@@ -428,7 +429,24 @@
     'color:rgba(255,255,255,.82)!important;-webkit-text-fill-color:rgba(255,255,255,.82)!important;}' +
   '#ka-notice button{width:100%;padding:12px;border:0;border-radius:12px;cursor:pointer;' +
     'font-size:14px;font-weight:900;background:linear-gradient(120deg,#FFC400,#FFDD3C);' +
-    'color:#0A0A0A!important;-webkit-text-fill-color:#0A0A0A!important;}';
+    'color:#0A0A0A!important;-webkit-text-fill-color:#0A0A0A!important;}' +
+  /* the reset dialog reuses the notice shell, with a form inside */
+  '#ka-notice .box.form{text-align:left;width:min(400px,100%);}' +
+  '#ka-notice label{display:block;font-size:12px;font-weight:800;margin:0 0 6px;' +
+    'color:rgba(255,255,255,.7)!important;-webkit-text-fill-color:rgba(255,255,255,.7)!important;}' +
+  '#ka-notice input{width:100%;padding:12px 14px;margin:0 0 14px;border-radius:12px;' +
+    'font-size:15px;background:rgba(255,255,255,.06)!important;' +
+    'border:1px solid rgba(255,255,255,.16)!important;' +
+    'color:#fff!important;-webkit-text-fill-color:#fff!important;}' +
+  '#ka-notice input:focus{outline:2px solid #FFB347!important;outline-offset:1px;}' +
+  '#ka-notice .row{display:flex;gap:10px;}' +
+  '#ka-notice .row button{flex:1;}' +
+  '#ka-notice .ghost{background:rgba(255,255,255,.08)!important;' +
+    'color:#fff!important;-webkit-text-fill-color:#fff!important;' +
+    'border:1px solid rgba(255,255,255,.18)!important;}' +
+  '#ka-notice .say{font-size:13px;line-height:1.5;margin:0 0 14px;min-height:18px;}' +
+  '#ka-notice .say.bad{color:#FF9B9B!important;-webkit-text-fill-color:#FF9B9B!important;}' +
+  '#ka-notice .say.good{color:#8FE3C0!important;-webkit-text-fill-color:#8FE3C0!important;}';
 
   function notice(title, body) {
     if (document.getElementById('ka-notice')) return;
@@ -473,15 +491,169 @@
       forgot.__kaWired = true;
       forgot.addEventListener('click', function (e) {
         e.preventDefault();
-        /* There is genuinely no reset path yet — not self-service, not an
-           admin-assisted one either. Saying so plainly beats inventing a
-           workaround the product cannot actually back up. */
-        notice('Password reset isn’t available yet',
-          'We don’t have a way to reset a forgotten password just yet — ' +
-          'it’s on the way. In the meantime, double-check you’re using the ' +
-          'email you signed up with.');
+        resetDialog();
       });
     }
+  }
+
+  /* ---------------------------------------------------------
+     FORGOT PASSWORD
+
+     Two steps against /api/auth/forgot-password and
+     /api/auth/reset-password: ask for a code, then spend it on a new
+     password. The code is emailed and scoped to resets, so a code sent to
+     confirm an address cannot be used here.
+
+     The first step's answer is deliberately the same whether or not the
+     address is registered — the screen must not become a way to find out
+     which emails have accounts — so the copy says "if that email is
+     registered" rather than claiming a message was sent.
+     --------------------------------------------------------- */
+  function apiBase() {
+    try {
+      if (window.EduAPI && window.EduAPI.API_BASE) return window.EduAPI.API_BASE;
+      var o = localStorage.getItem('edulearn_api');
+      if (o) return o.replace(/\/+$/, '');
+    } catch (e) {}
+    return location.origin;
+  }
+
+  function resetDialog() {
+    if (document.getElementById('ka-notice')) return;
+    var st = document.getElementById('ka-notice-css');
+    if (!st) {
+      st = document.createElement('style');
+      st.id = 'ka-notice-css';
+      st.textContent = NOTICE_CSS;
+      document.head.appendChild(st);
+    }
+
+    var wrap = document.createElement('div');
+    wrap.id = 'ka-notice';
+    var box = document.createElement('div');
+    box.className = 'box form';
+    wrap.appendChild(box);
+    document.body.appendChild(wrap);
+
+    function close() { wrap.remove(); document.removeEventListener('keydown', onKey); }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    document.addEventListener('keydown', onKey);
+    wrap.addEventListener('click', function (e) { if (e.target === wrap) close(); });
+
+    function say(el, msg, kind) {
+      el.textContent = msg || '';
+      el.className = 'say' + (kind ? ' ' + kind : '');
+    }
+
+    /* prefill from the sign-in form — they have almost certainly just typed it */
+    var typed = '';
+    try { typed = (document.getElementById('email') || {}).value || ''; } catch (e) {}
+
+    function stepEmail() {
+      box.innerHTML =
+        '<h3>Reset your password</h3>' +
+        '<p>Enter the email you signed up with and we’ll send you a 6-digit code.</p>' +
+        '<label for="ka-rp-email">Email</label>' +
+        '<input id="ka-rp-email" type="email" autocomplete="username" placeholder="you@example.com">' +
+        '<div class="say" id="ka-rp-say"></div>' +
+        '<div class="row">' +
+          '<button type="button" class="ghost" id="ka-rp-cancel">Cancel</button>' +
+          '<button type="button" id="ka-rp-send">Send code</button>' +
+        '</div>';
+      var email = box.querySelector('#ka-rp-email');
+      var msg = box.querySelector('#ka-rp-say');
+      email.value = typed;
+      email.focus();
+      box.querySelector('#ka-rp-cancel').addEventListener('click', close);
+
+      var btn = box.querySelector('#ka-rp-send');
+      function send() {
+        var v = (email.value || '').trim();
+        if (!v) return say(msg, 'Please enter your email.', 'bad');
+        btn.disabled = true;
+        say(msg, 'Sending…');
+        fetch(apiBase() + '/api/auth/forgot-password', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: v })
+        }).then(function (r) {
+          return r.json().then(function (d) { return { ok: r.ok, d: d }; });
+        }).then(function (res) {
+          btn.disabled = false;
+          if (!res.ok) return say(msg, res.d.error || 'Could not send the code.', 'bad');
+          stepCode(v, res.d.devCode);
+        }).catch(function () {
+          btn.disabled = false;
+          say(msg, 'Could not reach the server. Check your connection.', 'bad');
+        });
+      }
+      btn.addEventListener('click', send);
+      email.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
+    }
+
+    function stepCode(email, devCode) {
+      box.innerHTML =
+        '<h3>Enter the code</h3>' +
+        '<p>If that email is registered, a 6-digit code is on its way. It expires in 10 minutes.</p>' +
+        '<label for="ka-rp-code">6-digit code</label>' +
+        '<input id="ka-rp-code" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code">' +
+        '<label for="ka-rp-pw">New password</label>' +
+        '<input id="ka-rp-pw" type="password" placeholder="At least 6 characters" autocomplete="new-password">' +
+        '<div class="say" id="ka-rp-say"></div>' +
+        '<div class="row">' +
+          '<button type="button" class="ghost" id="ka-rp-back">Back</button>' +
+          '<button type="button" id="ka-rp-save">Set password</button>' +
+        '</div>';
+      var code = box.querySelector('#ka-rp-code');
+      var pw = box.querySelector('#ka-rp-pw');
+      var msg = box.querySelector('#ka-rp-say');
+      /* Only ever present when no mail provider is configured and the server
+         is not in production — it keeps the flow usable on a dev box. */
+      if (devCode) { code.value = devCode; say(msg, 'Dev mode: code filled in for you.', 'good'); }
+      code.focus();
+      box.querySelector('#ka-rp-back').addEventListener('click', stepEmail);
+
+      var btn = box.querySelector('#ka-rp-save');
+      function save() {
+        var c = (code.value || '').trim();
+        var p = pw.value || '';
+        if (c.length !== 6) return say(msg, 'The code is 6 digits.', 'bad');
+        if (p.length < 6) return say(msg, 'Password must be at least 6 characters.', 'bad');
+        btn.disabled = true;
+        say(msg, 'Saving…');
+        fetch(apiBase() + '/api/auth/reset-password', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, code: c, password: p })
+        }).then(function (r) {
+          return r.json().then(function (d) { return { ok: r.ok, d: d }; });
+        }).then(function (res) {
+          btn.disabled = false;
+          if (!res.ok) return say(msg, res.d.error || 'Could not reset the password.', 'bad');
+          stepDone();
+        }).catch(function () {
+          btn.disabled = false;
+          say(msg, 'Could not reach the server. Check your connection.', 'bad');
+        });
+      }
+      btn.addEventListener('click', save);
+      pw.addEventListener('keydown', function (e) { if (e.key === 'Enter') save(); });
+    }
+
+    function stepDone() {
+      box.className = 'box';
+      box.innerHTML =
+        '<h3>Password updated</h3>' +
+        '<p>You can sign in with your new password now.</p>' +
+        '<button type="button" id="ka-rp-ok">Back to sign in</button>';
+      box.querySelector('#ka-rp-ok').addEventListener('click', function () {
+        close();
+        try {
+          var pf = document.getElementById('password');
+          if (pf) { pf.value = ''; pf.focus(); }
+        } catch (e) {}
+      });
+    }
+
+    stepEmail();
   }
 
   function start() { style(); build(); watchBusy(); wireNotices(); setTimeout(wireNotices, 500); }

@@ -95,6 +95,7 @@ var I18N = {
     resume: 'Resume',
     beyond_title: 'Beyond academics',
     mastered: 'Mastered',
+    done: 'Done',
     empty_title: 'No chapters found',
     empty_pre: 'Tokky suggests —',
     footer_tag: 'Made for Bharat. Works fully offline.',
@@ -127,6 +128,7 @@ var I18N = {
     resume: 'फिर शुरू करें',
     beyond_title: 'पढ़ाई से आगे',
     mastered: 'महारत',
+    done: 'पूरा',
     empty_title: 'कोई अध्याय नहीं मिला',
     empty_pre: 'Tokky का सुझाव —',
     footer_tag: 'भारत के लिए बना। पूरी तरह ऑफ़लाइन चलता है।',
@@ -635,10 +637,13 @@ function chapterId(cls, subj, slug){
 
 function chapterProgress(id){
   var st = state.chapters[id];
-  if(!st) return { pct: 0, mastered: false, test: null };
+  if(!st) return { pct: 0, mastered: false, completed: false, test: null };
   var v = typeof st.video === 'number' ? st.video : 0;
   var p = typeof st.practice === 'number' ? st.practice : 0;
-  return { pct: Math.round((v + p) / 2), mastered: !!st.mastered, test: (st.test === 0 || st.test) ? st.test : null };
+  // `completed` is what the lesson page's "Mark as complete" writes (and what
+  // /api/progress stores). It was being loaded and then never read, so a
+  // student could mark a chapter done and the list would look untouched.
+  return { pct: Math.round((v + p) / 2), mastered: !!st.mastered, completed: !!st.completed, test: (st.test === 0 || st.test) ? st.test : null };
 }
 
 function subjName(s){ return state.lang === 'hi' ? s.hi : s.en; }
@@ -760,7 +765,9 @@ function chapterRowHTML(cls, subj, ch, number, delay, withTag){
       '<span class="chrow__dur">' + ch[2] + ' min</span>' +
       (prog.mastered
         ? '<span class="badge-mastered">' + ICONS.check + '<span>' + t('mastered') + '</span></span>'
-        : '<span class="chrow__arrow">' + ICONS.arrow + '</span>') +
+        : prog.completed
+          ? '<span class="badge-done">' + ICONS.check + '<span>' + t('done') + '</span></span>'
+          : '<span class="chrow__arrow">' + ICONS.arrow + '</span>') +
     '</span>';
   return (
     // --sa carries the SUBJECT accent so each row can be coloured by its own
