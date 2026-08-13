@@ -154,8 +154,14 @@
   '#kh-hero .trust span{display:inline-flex;align-items:center;gap:8px;}' +
   '#kh-hero .trust i{width:6px;height:6px;border-radius:50%;background:#FF7A00;font-style:normal;}' +
 
-  /* hero orbit */
-  '.kh-orbit{position:relative;width:min(560px,86vw);height:min(560px,86vw);margin:44px auto 0;}' +
+  /* hero orbit.
+     --orb is the ring's diameter, and every node's distance from the centre is
+     derived from it. That distance used to be written in vw — the viewport's
+     width, not this element's — so on a wide screen the radius came out more
+     than twice the ring's and the nodes were flung out of the circle and
+     across the hero copy above it. */
+  '.kh-orbit{--orb:min(560px,86vw);position:relative;width:var(--orb);height:var(--orb);' +
+    'margin:44px auto 0;}' +
   '.kh-orbit .ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,.09);}' +
   '.kh-orbit .r2{inset:13%;border-color:rgba(255,122,0,.18);}' +
   '.kh-orbit .r3{inset:26%;border-color:rgba(255,255,255,.07);}' +
@@ -310,15 +316,27 @@
     var root = document.createElement('div');
     root.id = 'kh-root';
 
+    /* Four nodes on the outer ring, four on the inner one (r2, inset 13%), the
+       inner set offset by 45° so the two rings interleave instead of hiding
+       each other.
+
+       Each node sits dead centre and is pushed out along its own angle:
+         rotate(a) -> translateY(-radius) -> rotate(-a)
+       The trailing rotate cancels the first, so the tile stays upright at
+       every angle instead of lying on its side at 90° and upside down at 180°.
+       Radii come from --orb, so they track the ring the node belongs to at any
+       viewport width. */
     var orbitNodes = ['brain', 'mic', 'target', 'trophy', 'book', 'code', 'graph', 'chat'];
     var orbit = orbitNodes.map(function (n, i) {
-      var half = i < 4;
-      var ang = (i % 4) * 90;
-      var rad = half ? 0 : 13;
-      return '<div class="spin' + (half ? '' : ' rev') + '" style="animation-delay:' + (-i * 4) + 's">' +
-        '<span class="node" style="left:calc(50% - 29px);top:' + (half ? '-29px' : 'calc(13% - 29px)') +
-        ';transform:rotate(' + ang + 'deg) translateY(' + (half ? 0 : 0) + 'px);transform-origin:29px ' +
-        (half ? 'calc(50vw)' : 'calc(50vw)') + '"><i>' + ic(n) + '</i></span></div>';
+      var outer = i < 4;
+      var ang = (i % 4) * 90 + (outer ? 0 : 45);
+      /* outer ring: half the diameter. inner ring r2 is inset 13% a side, so
+         its radius is (50% - 13%) = 37% of the diameter. */
+      var radius = outer ? 'calc(var(--orb) * 0.5)' : 'calc(var(--orb) * 0.37)';
+      return '<div class="spin' + (outer ? '' : ' rev') + '" style="animation-delay:' + (-i * 4) + 's">' +
+        '<span class="node" style="left:calc(50% - 29px);top:calc(50% - 29px);' +
+        'transform:rotate(' + ang + 'deg) translateY(calc(-1 * ' + radius + ')) rotate(' + (-ang) + 'deg)">' +
+        '<i>' + ic(n) + '</i></span></div>';
     }).join('');
 
     root.innerHTML =
