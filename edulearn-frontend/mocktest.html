@@ -512,14 +512,112 @@ function renderAttempts(){
   host.innerHTML = html;
 }
 
+/* ---------- whose syllabus is this? ----------
+   Every paper here used to be a Class 9 bank written into this file and served
+   to whoever opened it, so a Class 6 student sat down to Class 9 polynomials.
+   Questions now come from the API, which picks them by the class on the
+   signed-in account — a student can only be given their own. The bank below
+   survives as the sample for a visitor with no account, and says so rather
+   than passing itself off as the student's syllabus. */
+var QUIZ_USER = (function(){
+  try { return JSON.parse(localStorage.getItem('edulearn_user') || 'null'); } catch(e){ return null; }
+})();
+var QUIZ_CLASS = (function(){
+  var m = String((QUIZ_USER && QUIZ_USER.className) || '').match(/\d+/);
+  return m ? parseInt(m[0], 10) : null;
+})();
+/* card key -> the subject string the questions are stored under */
+var SUBJECT_OF = { maths: 'Maths', science: 'Science' };
+
+/* Put the student's real class on the cards instead of a flat "Class 9". */
+(function labelCards(){
+  if (!QUIZ_CLASS) return;
+  document.querySelectorAll('.pick').forEach(function(card){
+    var el = card.querySelector('.pick__subj');
+    var btn = card.querySelector('[data-test]');
+    if (!el || !btn) return;
+    var subj = SUBJECT_OF[btn.getAttribute('data-test')] || '';
+    el.textContent = 'Class ' + QUIZ_CLASS + (subj ? ' · ' + subj : '');
+  });
+})();
+
+function quizMessage(msg){
+  var host = document.querySelector('.pickgrid');
+  if (!host) return;
+  var el = document.getElementById('quizMsg');
+  if (!el) {
+    el = document.createElement('p');
+    el.id = 'quizMsg';
+    el.className = 'empty-hint';
+    el.style.cssText = 'grid-column:1/-1;margin:4px 0 0';
+    host.appendChild(el);
+  }
+  el.textContent = msg;
+}
+
 /* ---------- adaptive test engine ---------- */
 var T = null;
 var qTimerRAF = null;
 
+/* One API question in the shape the engine already reads. The answer and the
+   worked solution are deliberately missing: the server withholds them until
+   the student has committed to a choice, so the paper cannot be read ahead
+   from devtools. answer() fills them in at reveal time. */
+function fromApi(q, i){
+  return {
+    d: String(q.difficulty || 'medium').charAt(0),   // easy|medium|hard -> e|m|h
+    q: q.text,
+    opts: q.options || [],
+    apiIndex: i
+  };
+}
+
 function startTest(key){
+  // Signed in → the student's own class, decided by the server.
+  if (QUIZ_USER && window.EduAPI && EduAPI.startMockTest) return startFromApi(key);
+  startLocal(key);
+}
+
+function startFromApi(key){
+  var subject = SUBJECT_OF[key] || 'Science';
+  var params = new URLSearchParams(window.location.search);
+  var chapter = params.get('ch') || params.get('chapter') || undefined;
+  var btn = document.querySelector('[data-test="' + key + '"]');
+  var label = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Loading…'; }
+  quizMessage('');
+
+  EduAPI.startMockTest(subject, chapter, TEST_LEN).then(function(res){
+    if (btn) { btn.disabled = false; btn.textContent = label; }
+    var qs = (res && res.questions) || [];
+    if (!qs.length) {
+      quizMessage('No ' + subject + ' questions for Class ' + (QUIZ_CLASS || '—') +
+        ' yet. Your teacher adds these — check back soon.');
+      return;
+    }
+    beginTest({
+      name: 'Class ' + (QUIZ_CLASS || '') + ' ' + subject,
+      /* the results screen offers the other subject — it reads def.other */
+      other: key === 'maths' ? 'science' : 'maths',
+      bank: qs.map(fromApi)
+    }, key, res.attemptId);
+  }).catch(function(err){
+    if (btn) { btn.disabled = false; btn.textContent = label; }
+    quizMessage((err && err.message) ||
+      'Could not load your quiz. Check your connection and try again.');
+  });
+}
+
+/* The offline sample, for a visitor with no account. */
+function startLocal(key){
   var def = TESTS[key];
+  beginTest(def, key, null);
+}
+
+function beginTest(def, key, attemptId){
   T = {
     key: key, def: def,
+    attemptId: attemptId || null,   // set when the paper came from the server
     level: 'm',
     used: {},
     n: 0,
@@ -650,6 +748,34 @@ function answer(pickedIdx, timedOut){
   T.answered = true;
   /* stop the clock — the student reads the solution with no time pressure */
   cancelAnimationFrame(qTimerRAF);
+  var q = T.current;
+
+  /* A server-served question arrives without its answer, so grading is a round
+     trip. Marking it answered above already stopped the clock and locked the
+     options, so a slow network cannot be used to keep guessing. */
+  if(q.a === undefined && T.attemptId && window.EduAPI && EduAPI.answerMockQuestion){
+    EduAPI.answerMockQuestion(T.attemptId, q.apiIndex,
+      (pickedIdx === null || pickedIdx === undefined) ? -1 : pickedIdx
+    ).then(function(g){
+      q.a = g.correctIndex;
+      q.s = g.explanation || '';
+      reveal(pickedIdx, timedOut);
+    }).catch(function(){
+      /* Can't grade it — say so rather than invent a verdict. */
+      var v = document.getElementById('solVerdict');
+      v.style.color = 'var(--amber)';
+      v.textContent = 'Could not check that answer — your connection dropped.';
+      document.getElementById('solBody').textContent =
+        'This question was not counted. Tap Next to carry on.';
+      document.getElementById('solution').hidden = false;
+    });
+    return;
+  }
+
+  reveal(pickedIdx, timedOut);
+}
+
+function reveal(pickedIdx, timedOut){
   var q = T.current;
   var ok = pickedIdx === q.a;
   var took = Math.round((Date.now() - T.tStart) / 1000);
