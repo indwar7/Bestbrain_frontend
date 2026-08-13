@@ -134,14 +134,21 @@
     'border-color:rgba(255,122,0,.7)!important;background:rgba(255,255,255,.09)!important;' +
     'box-shadow:0 0 0 4px rgba(255,122,0,.16),0 0 26px rgba(255,122,0,.28)!important;}' +
 
-  /* buttons: soft-depth pills, orange primary, ripple on press */
-  '.btn-primary,.btn,.cta,.btn-cta,button.primary,a.btn{position:relative;overflow:hidden;' +
+  /* buttons: soft-depth pills, orange primary, ripple on press.
+
+     `.cta` is deliberately NOT in this list. On the homepage it names the
+     flex row that HOLDS the buttons, not a button — so the row was given a
+     999px radius and, because hovering a child hovers its parent, hovering
+     either button lit the whole strip up as one giant glowing pill behind
+     them. Only elements that are themselves clickable belong here, so a
+     .cta that really is a button still qualifies as a.cta / button.cta. */
+  '.btn-primary,.btn,a.cta,button.cta,.btn-cta,button.primary,a.btn{position:relative;overflow:hidden;' +
     'border-radius:999px!important;font-weight:700!important;' +
     'transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s ease,filter .3s ease!important;}' +
   '.btn-primary,.btn-cta,button.primary{' +
     'background:linear-gradient(120deg,#FF7A00,#FFA726)!important;color:#0A0A0A!important;' +
     'border:0!important;box-shadow:0 10px 30px rgba(255,122,0,.4),inset 0 1px 0 rgba(255,255,255,.4)!important;}' +
-  '.btn-primary:hover,.btn:hover,.cta:hover,a.btn:hover,button.primary:hover{' +
+  '.btn-primary:hover,.btn:hover,a.cta:hover,button.cta:hover,a.btn:hover,button.primary:hover{' +
     'transform:translateY(-3px)!important;filter:brightness(1.06);' +
     'box-shadow:0 16px 42px rgba(255,122,0,.55)!important;}' +
   '.btn-primary:active,.btn:active,a.btn:active{transform:translateY(-1px) scale(.98)!important;}' +
@@ -727,7 +734,10 @@
     });
 
     document.addEventListener('click', function (e) {
-      var b = e.target.closest('.btn-primary,.btn,.cta,.btn-cta,button.primary,a.btn');
+      /* Same reason as the CSS above: a bare `.cta` is the row around the
+         buttons, so closest() walked past the button that was clicked and
+         put the ripple on the whole strip. */
+      var b = e.target.closest('.btn-primary,.btn,a.cta,button.cta,.btn-cta,button.primary,a.btn');
       if (!b) return;
 
       /* Never on a button that submits. Sizing the circle to the button was
