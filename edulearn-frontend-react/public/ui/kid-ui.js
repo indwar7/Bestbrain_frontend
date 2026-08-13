@@ -772,6 +772,20 @@
     }, true);
   }
 
+  /* Settings and logout are one node, built once.
+
+     account-menu.js creates .acct-fab a single time, on load, and buildRail
+     MOVES it into the rail. Tearing the rail down therefore took the only
+     copy of settings and logout with it — and nothing rebuilds them, so on
+     a client-side route change they were gone for the rest of the session.
+     Hand it back to the body before the rail goes, and the next buildRail
+     adopts it again. */
+  function releaseFab(rail) {
+    if (!rail) return;
+    var fab = rail.querySelector('.acct-fab');
+    if (fab) document.body.appendChild(fab);
+  }
+
   /* The reconciler. Cheap enough to run often; it only acts on a change. */
   function ensure() {
     var need = NO_RAIL.indexOf(pageKey()) === -1;
@@ -779,6 +793,7 @@
 
     if (!need) {
       if (rail) {
+        releaseFab(rail);
         rail.remove();
         var top = document.getElementById('kid-top');
         if (top) top.remove();
@@ -790,6 +805,7 @@
 
     /* a rail built for another route carries that route's links and title */
     if (rail && SPA && builtFor !== pageKey()) {
+      releaseFab(rail);
       rail.remove();
       var t = document.getElementById('kid-top');
       if (t) t.remove();
@@ -801,6 +817,18 @@
       buildRail();          // no-op until nav.nav exists — the observer retries
       buildTop();
     }
+
+    /* buildRail's own adopt() gives up after 1.4s. account-menu.js waits on the
+       stored session, so on a slow load the fab can arrive after that and would
+       then sit where it was born — fixed to the viewport's top-right, floating
+       over the page instead of resting in the rail. This runs on every
+       reconcile, so it catches a late one whenever it shows up. */
+    var host = document.getElementById('kid-rail');
+    if (host) {
+      var stray = document.querySelector('.acct-fab');
+      if (stray && stray.parentElement !== host) host.appendChild(stray);
+    }
+
     ctaPass();
   }
 
