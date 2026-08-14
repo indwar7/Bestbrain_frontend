@@ -422,7 +422,10 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
         <div class="pcard__eyebrow">Start a live class</div>
         <form id="startForm" class="composer__form">
           <input id="startTitle" type="text" class="composer__field" placeholder="Class topic, e.g. Photosynthesis" required>
-          <select id="startAssign" class="composer__field" required></select>
+          <!-- Options are populated by script, so there is no visible label to
+               attach a `for` to; without a name it is announced as an unnamed
+               combobox. -->
+          <select id="startAssign" class="composer__field" required aria-label="Assign this class to a batch"></select>
           <input id="startMeetLink" type="url" class="composer__field" placeholder="Optional: paste a Google Meet link (meet.google.com/...) to use Meet instead of in-app video" pattern="https://meet\.google\.com/.*">
           <button class="btn-try composer__go" type="submit">Go live</button>
           <span id="startMsg" class="empty-hint composer__msg"></span>

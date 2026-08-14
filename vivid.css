@@ -980,14 +980,29 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   .mods{ gap:10px !important; }
 }
 
-@media (max-width:600px){
+@media (max-width:900px){
   /* Second pass on the type floor: these turned up only once the first pass
      removed the louder offenders — live's stage/roster furniture ran as small
-     as 8.5px, which is unreadable at arm's length. */
+     as 8.5px, which is unreadable at arm's length.
+
+     900px for the same reason as the first pass: a phone on its side and a
+     tablet are touch screens read at the same distance, and capping this at
+     600px left both of them with the original sizes. */
   .wtile__unit, .hm-dow, .chart-tip, .footer__boards,
   .handchip, .gaze-badge, .st, .stage__note, .roster__count,
-  .vcard__meta, .sylc__label, .lvlpill, .streakchip{
+  .vcard__meta, .sylc__label, .lvlpill, .streakchip,
+  /* the chapter reader's "notes"/"video" chips and the tutor call's hint and
+     transcript footer — the running commentary on what the call is doing */
+  #notesTagText, #videoTagText, .transcript__foot, #kx-hint{
     font-size:12px !important;
+  }
+
+  /* SVG chart labels. These sit inside the viewBox and scale with the chart,
+     so raising them cannot reflow anything outside it — and on a phone the
+     chart is a third of its desktop width, which is exactly where the day
+     names and axis stop being readable. */
+  .barchart text, .barchart .today-lab, .areachart .axis, .ring-sub{
+    font-size:13px !important;
   }
 }
 

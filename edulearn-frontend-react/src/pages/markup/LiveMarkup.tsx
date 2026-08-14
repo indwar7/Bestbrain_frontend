@@ -83,8 +83,15 @@ export default function LiveMarkup() {
                   placeholder="Class topic, e.g. Photosynthesis"
                   required={true}
                  />
-                {' '}
-                <select id="startAssign" className="composer__field" required={true} />
+                {/* Options are populated by script, so there is no visible label to
+                 attach a `for` to; without a name it is announced as an unnamed
+                 combobox. */}
+                <select
+                  id="startAssign"
+                  className="composer__field"
+                  required={true}
+                  aria-label="Assign this class to a batch"
+                 />
                 {' '}
                 <input
                   id="startMeetLink"
