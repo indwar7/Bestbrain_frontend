@@ -552,6 +552,14 @@ export default function ChallengeMarkup() {
       {' '}
       {' '}
       {' '}
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
     </>
   );
 }

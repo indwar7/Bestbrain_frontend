@@ -360,6 +360,14 @@ export default function LearnMarkup() {
       {' '}
       {' '}
       {' '}
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
     </>
   );
 }

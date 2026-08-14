@@ -270,6 +270,14 @@ export default function MockTestMarkup() {
       {' '}
       {' '}
       {' '}
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
     </>
   );
 }

@@ -154,6 +154,14 @@ export default function TutorMarkup() {
       {' '}
       {' '}
       {' '}
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
     </>
   );
 }

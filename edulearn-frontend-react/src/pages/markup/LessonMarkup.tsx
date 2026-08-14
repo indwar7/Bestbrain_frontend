@@ -261,6 +261,14 @@ export default function LessonMarkup() {
       {' '}
       {' '}
       {' '}
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
     </>
   );
 }

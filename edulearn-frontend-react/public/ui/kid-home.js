@@ -343,8 +343,14 @@
      minimum height. */
   '@media(max-width:900px){' +
     '.kh-foot-in a{padding:11px 0;min-height:44px;display:flex;align-items:center;}' +
-    '.kh-nav-in .kh-logo{min-height:44px;}' +
+    '.kh-nav-in .kh-logo{min-height:44px;min-width:44px;}' +
     '.kh-nav-in .kh-btn{min-height:44px;}' +
+    /* The card tag, the orbit caption and the journey week markers are 9.5px
+       and 11px — set for a desktop card, under the 12px floor on a phone,
+       and each one is the label that says what the thing beside it is. */
+    '.kh-tag{font-size:12px;}' +
+    '.kh-core span{font-size:12px;}' +
+    '.kh-tl-item .w{font-size:12px;}' +
   '}' +
 
   /* Narrow phones: the wordmark and two CTAs cannot share 292px. The mark is

@@ -40,7 +40,7 @@ export default function UploadMarkup() {
           <input id="title" placeholder="Numericals — Whole Numbers" />
           <div className="row">
             <div>
-              <label>
+              <label htmlFor="className">
                 Class *
               </label>
               {' '}
@@ -60,7 +60,7 @@ export default function UploadMarkup() {
               </select>
             </div>
             <div>
-              <label>
+              <label htmlFor="subject">
                 Subject *
               </label>
               {' '}
@@ -155,6 +155,8 @@ export default function UploadMarkup() {
           </div>
         </div>
       </div>
+      {/* Settings + logout. Needs api.js above it, and it renders nothing
+         when nobody is signed in. kid-ui moves its buttons into the rail. */}
       {' '}
       {' '}
       {' '}
@@ -167,6 +169,14 @@ export default function UploadMarkup() {
           </linearGradient>
         </defs>
       </svg>
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
     </>
   );
 }

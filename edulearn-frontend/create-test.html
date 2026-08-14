@@ -45,6 +45,12 @@
     .opt-row input[type="radio"]{width:18px;height:18px;flex:none;margin:0;accent-color:var(--teal);}
     .opt-row input[type="text"]{margin-bottom:0;flex:1;}
     .opt-letter{width:22px;font-family:'Fragment Mono',monospace;font-size:12px;color:var(--muted);flex:none;text-align:center;}
+    /* The radio and its letter are one control: the letter is the radio's
+       label, so tapping "B" picks B. They were separate siblings, which left
+       an 18px radio as the only way to choose the correct answer and no
+       accessible name on it at all. Laid out as a flex row so the row reads
+       exactly as it did. */
+    .opt-pick{display:flex;align-items:center;gap:10px;flex:none;cursor:pointer;}
     .qcard{border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;position:relative;}
     .qcard .qnum{font-family:'Fragment Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
     .qcard .remove{position:absolute;top:14px;right:14px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:4px;}
@@ -64,7 +70,19 @@
     .link-box span{flex:1;}
     .top-link{display:inline-block;margin-bottom:18px;color:var(--muted);font-size:13px;text-decoration:none;}
     .top-link:hover{color:var(--ink);}
-  </style>
+  
+    /* ---- phone/tablet ----
+       Picking the correct answer is the whole point of this screen, and an
+       18px radio is not something a thumb can hit reliably. The label around
+       it carries the target so the radio can stay the size it looks. */
+    @media (max-width:900px){
+      .opt-pick{min-height:44px;min-width:44px;justify-content:center;}
+      .opt-row input[type="radio"]{width:22px;height:22px;}
+      .opt-row{gap:8px;}
+      .opt-remove{min-width:44px;min-height:44px;}
+      #gate a{display:inline-block;padding:12px 4px;min-height:44px;}
+    }
+</style>
 <link rel="stylesheet" href="../vivid.css">
 </head>
 <body>
@@ -201,8 +219,10 @@
       var row = document.createElement('div');
       row.className = 'opt-row';
       row.innerHTML =
-        '<input type="radio" name="correct-' + idx + '" value="' + i + '">' +
-        '<span class="opt-letter">' + letter + '</span>' +
+        '<label class="opt-pick" title="Mark this option as the correct answer">' +
+          '<input type="radio" name="correct-' + idx + '" value="' + i + '">' +
+          '<span class="opt-letter">' + letter + '</span>' +
+        '</label>' +
         '<input type="text" class="opt-input" placeholder="Option ' + letter + '" required>' +
         '<button type="button" class="opt-remove" title="Remove this option" ' +
           'style="background:none;border:0;cursor:pointer;color:var(--muted);font-size:16px;line-height:1;">&times;</button>';
@@ -224,8 +244,10 @@
         var letter = String.fromCharCode(65 + i);
         optsHtml +=
           '<div class="opt-row">' +
-            '<input type="radio" name="correct-' + idx + '" value="' + i + '"' + (i === 0 ? ' checked' : '') + '>' +
-            '<span class="opt-letter">' + letter + '</span>' +
+            '<label class="opt-pick" title="Mark this option as the correct answer">' +
+              '<input type="radio" name="correct-' + idx + '" value="' + i + '"' + (i === 0 ? ' checked' : '') + '>' +
+              '<span class="opt-letter">' + letter + '</span>' +
+            '</label>' +
             '<input type="text" class="opt-input" placeholder="Option ' + letter + '" required>' +
             '<button type="button" class="opt-remove" title="Remove this option" ' +
               'style="background:none;border:0;cursor:pointer;color:var(--muted);font-size:16px;line-height:1;visibility:hidden;">&times;</button>' +

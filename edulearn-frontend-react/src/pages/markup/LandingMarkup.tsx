@@ -638,6 +638,15 @@ export default function LandingMarkup() {
          Product/Classes/Company/Languages footer while logged out. */}
       {' '}
       {' '}
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
     </>
   );
 }

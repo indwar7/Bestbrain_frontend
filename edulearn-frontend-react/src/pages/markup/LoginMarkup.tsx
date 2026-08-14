@@ -192,7 +192,13 @@ export default function LoginMarkup() {
                       <path d="m3 6 9 6 9-6" />
                     </svg>
                     {' '}
-                    <input type="email" id="email" placeholder="you@example.com" required={true} />
+                    <input
+                      type="email"
+                      id="email"
+                      placeholder="you@example.com"
+                      autoComplete="username"
+                      required={true}
+                     />
                   </div>
                 </div>
                 <div className="form-group reveal d4">
@@ -216,7 +222,13 @@ export default function LoginMarkup() {
                       <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" />
                     </svg>
                     {' '}
-                    <input type="password" id="password" placeholder="••••••••" autoComplete="current-password" required={true} />
+                    <input
+                      type="password"
+                      id="password"
+                      placeholder="••••••••"
+                      autoComplete="current-password"
+                      required={true}
+                     />
                     {' '}
                     <button
                       type="button"
@@ -503,6 +515,14 @@ export default function LoginMarkup() {
       {' '}
       {/* Auth pages are DARK by default (premium look). Theme is chosen from
          Settings (after login), not here — this just honours a saved 'light'. */}
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
     </>
   );
 }

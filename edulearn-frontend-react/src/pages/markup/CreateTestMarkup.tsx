@@ -115,6 +115,14 @@ export default function CreateTestMarkup() {
           </linearGradient>
         </defs>
       </svg>
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
     </>
   );
 }

@@ -170,14 +170,14 @@ export default function SignupMarkup() {
                       First Name
                     </label>
                     {' '}
-                    <input type="text" id="firstName" required={true} />
+                    <input type="text" id="firstName" autoComplete="given-name" required={true} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="lastName">
                       Last Name
                     </label>
                     {' '}
-                    <input type="text" id="lastName" required={true} />
+                    <input type="text" id="lastName" autoComplete="family-name" required={true} />
                   </div>
                 </div>
                 <div className="form-row">
@@ -186,14 +186,14 @@ export default function SignupMarkup() {
                       Email Address
                     </label>
                     {' '}
-                    <input type="email" id="email" placeholder="you@example.com" required={true} />
+                    <input type="email" id="email" placeholder="you@example.com" autoComplete="email" required={true} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="phone">
                       Phone Number
                     </label>
                     {' '}
-                    <input type="tel" id="phone" placeholder="+91 98765 43210" required={true} />
+                    <input type="tel" id="phone" placeholder="+91 98765 43210" autoComplete="tel" required={true} />
                   </div>
                 </div>
                 <div className="form-group form-row full">
@@ -201,7 +201,14 @@ export default function SignupMarkup() {
                     Password
                   </label>
                   <div className="pw-field">
-                    <input type="password" id="password" placeholder="••••••••" autoComplete="new-password" required={true} minLength={6} />
+                    <input
+                      type="password"
+                      id="password"
+                      placeholder="••••••••"
+                      autoComplete="new-password"
+                      required={true}
+                      minLength={6}
+                     />
                     {' '}
                     <button
                       type="button"
@@ -758,6 +765,14 @@ export default function SignupMarkup() {
         </main>
       </div>
       {/* /auth-shell */}
+      {' '}
+      {' '}
+      {' '}
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
       {' '}
       {' '}
       {' '}

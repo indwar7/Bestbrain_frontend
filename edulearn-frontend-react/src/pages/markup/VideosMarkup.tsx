@@ -294,6 +294,8 @@ export default function VideosMarkup() {
           </div>
         </div>
       </div>
+      {/* Settings + logout. Needs api.js above it, and it renders nothing
+         when nobody is signed in. kid-ui moves its buttons into the rail. */}
       {' '}
       {' '}
       {' '}
@@ -306,6 +308,14 @@ export default function VideosMarkup() {
           </linearGradient>
         </defs>
       </svg>
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
     </>
   );
 }

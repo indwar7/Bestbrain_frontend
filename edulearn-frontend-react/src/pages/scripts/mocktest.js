@@ -178,8 +178,9 @@ function renderAttempts(){
    Every paper here used to be a Class 9 bank written into this file and served
    to whoever opened it, so a Class 6 student sat down to Class 9 polynomials.
    Questions now come from the API, which picks them by the class on the
-   signed-in account — a student can only be given their own. The bank above
-   survives as the sample for a visitor with no account. */
+   signed-in account — a student can only be given their own. The bank below
+   survives as the sample for a visitor with no account, and says so rather
+   than passing itself off as the student's syllabus. */
 var QUIZ_USER = (function(){
   try { return JSON.parse(localStorage.getItem('edulearn_user') || 'null'); } catch(e){ return null; }
 })();
@@ -198,7 +199,7 @@ var SUBJECT_OF = { maths: 'Maths', science: 'Science' };
     var btn = card.querySelector('[data-test]');
     if (!el || !btn) return;
     var subj = SUBJECT_OF[btn.getAttribute('data-test')] || '';
-    el.textContent = 'Class ' + QUIZ_CLASS + (subj ? ' \u00b7 ' + subj : '');
+    el.textContent = 'Class ' + QUIZ_CLASS + (subj ? ' · ' + subj : '');
   });
 })();
 
@@ -226,7 +227,7 @@ var qTimerRAF = null;
    from devtools. answer() fills them in at reveal time. */
 function fromApi(q, i){
   return {
-    d: String(q.difficulty || 'medium').charAt(0),
+    d: String(q.difficulty || 'medium').charAt(0),   // easy|medium|hard -> e|m|h
     q: q.text,
     opts: q.options || [],
     apiIndex: i
@@ -234,7 +235,7 @@ function fromApi(q, i){
 }
 
 function startTest(key){
-  // Signed in -> the student's own class, decided by the server.
+  // Signed in → the student's own class, decided by the server.
   if (QUIZ_USER && window.EduAPI && EduAPI.startMockTest) return startFromApi(key);
   startLocal(key);
 }
@@ -245,19 +246,20 @@ function startFromApi(key){
   var chapter = params.get('ch') || params.get('chapter') || undefined;
   var btn = document.querySelector('[data-test="' + key + '"]');
   var label = btn ? btn.textContent : '';
-  if (btn) { btn.disabled = true; btn.textContent = 'Loading\u2026'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Loading…'; }
   quizMessage('');
 
   EduAPI.startMockTest(subject, chapter, TEST_LEN).then(function(res){
     if (btn) { btn.disabled = false; btn.textContent = label; }
     var qs = (res && res.questions) || [];
     if (!qs.length) {
-      quizMessage('No ' + subject + ' questions for Class ' + (QUIZ_CLASS || '\u2014') +
-        ' yet. Your teacher adds these \u2014 check back soon.');
+      quizMessage('No ' + subject + ' questions for Class ' + (QUIZ_CLASS || '—') +
+        ' yet. Your teacher adds these — check back soon.');
       return;
     }
     beginTest({
       name: 'Class ' + (QUIZ_CLASS || '') + ' ' + subject,
+      /* the results screen offers the other subject — it reads def.other */
       other: key === 'maths' ? 'science' : 'maths',
       bank: qs.map(fromApi)
     }, key, res.attemptId);
@@ -270,13 +272,14 @@ function startFromApi(key){
 
 /* The offline sample, for a visitor with no account. */
 function startLocal(key){
-  beginTest(TESTS[key], key, null);
+  var def = TESTS[key];
+  beginTest(def, key, null);
 }
 
 function beginTest(def, key, attemptId){
   T = {
     key: key, def: def,
-    attemptId: attemptId || null,
+    attemptId: attemptId || null,   // set when the paper came from the server
     level: 'm',
     used: {},
     n: 0,
@@ -420,9 +423,10 @@ function answer(pickedIdx, timedOut){
       q.s = g.explanation || '';
       reveal(pickedIdx, timedOut);
     }).catch(function(){
+      /* Can't grade it — say so rather than invent a verdict. */
       var v = document.getElementById('solVerdict');
       v.style.color = 'var(--amber)';
-      v.textContent = 'Could not check that answer \u2014 your connection dropped.';
+      v.textContent = 'Could not check that answer — your connection dropped.';
       document.getElementById('solBody').textContent =
         'This question was not counted. Tap Next to carry on.';
       document.getElementById('solution').hidden = false;

@@ -82,6 +82,8 @@ export default function AdminMarkup() {
           </table>
         </div>
       </div>
+      {/* Settings + logout. Needs api.js above it, and it renders nothing
+         when nobody is signed in. kid-ui moves its buttons into the rail. */}
       {' '}
       {' '}
       {' '}
@@ -94,6 +96,14 @@ export default function AdminMarkup() {
           </linearGradient>
         </defs>
       </svg>
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
     </>
   );
 }

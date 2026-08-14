@@ -6,7 +6,7 @@
    listeners can be torn down on unmount. See src/lib/pageScriptEnv.ts. */
 /* eslint-disable */
 export default function init({ location, document, window, onCleanup }) {
-/* light-only product: strip any stale dark preference before paint */try{document.documentElement.classList.remove('dark-mode');localStorage.setItem('edulearn-theme','light');}catch(e){}
+/* light-only product: strip any stale dark preference before paint */try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.remove('dark-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){}
 
 /* ---- next <script> block ---- */
 
@@ -17,12 +17,63 @@ export default function init({ location, document, window, onCleanup }) {
       document.getElementById('gate').style.display = 'block';
     }
 
-    var NUM_OPTIONS = 5;
+    /* QA T-09: every question was forced to exactly 5 options, all marked
+       `required` — a teacher could not submit a standard 4-option MCQ, let
+       alone a true/false question, even though the backend already accepts
+       2–6 (Question.ts) and the student-facing quiz renders however many a
+       question actually has. Four is the default now (the common case), and
+       each question gets its own +/− control down to 2 and up to 6 instead
+       of a number nothing here enforced consistently. */
+    var MIN_OPTIONS = 2, MAX_OPTIONS = 6, DEFAULT_OPTIONS = 4;
     var qCounter = 0;
     var host = document.getElementById('questionsHost');
 
     function esc(s){
       return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // Keeps each row's radio value / letter / placeholder in step with its
+    // actual position after an option is added or removed — the submit
+    // handler reads correctIndex straight off the checked radio's value, so
+    // a stale value there would grade the wrong option as correct.
+    function renumberOptions(card){
+      var rows = card.querySelectorAll('.opt-row');
+      var anyChecked = false;
+      rows.forEach(function(row, i){
+        var letter = String.fromCharCode(65 + i);
+        var radio = row.querySelector('input[type=radio]');
+        var input = row.querySelector('.opt-input');
+        radio.value = String(i);
+        if (radio.checked) anyChecked = true;
+        row.querySelector('.opt-letter').textContent = letter;
+        input.placeholder = 'Option ' + letter;
+        row.querySelector('.opt-remove').style.visibility = rows.length > MIN_OPTIONS ? 'visible' : 'hidden';
+      });
+      if (!anyChecked && rows.length) rows[0].querySelector('input[type=radio]').checked = true;
+      var addBtn = card.querySelector('.opt-add');
+      if (addBtn) addBtn.style.display = rows.length >= MAX_OPTIONS ? 'none' : '';
+    }
+
+    function addOption(card){
+      var idx = card.getAttribute('data-q');
+      var i = card.querySelectorAll('.opt-row').length;
+      if (i >= MAX_OPTIONS) return;
+      var letter = String.fromCharCode(65 + i);
+      var row = document.createElement('div');
+      row.className = 'opt-row';
+      row.innerHTML =
+        '<label class="opt-pick" title="Mark this option as the correct answer">' +
+          '<input type="radio" name="correct-' + idx + '" value="' + i + '">' +
+          '<span class="opt-letter">' + letter + '</span>' +
+        '</label>' +
+        '<input type="text" class="opt-input" placeholder="Option ' + letter + '" required>' +
+        '<button type="button" class="opt-remove" title="Remove this option" ' +
+          'style="background:none;border:0;cursor:pointer;color:var(--muted);font-size:16px;line-height:1;">&times;</button>';
+      card.insertBefore(row, card.lastElementChild);   // keep the "+ Add option" row last
+      row.querySelector('.opt-remove').addEventListener('click', function(){
+        if (card.querySelectorAll('.opt-row').length > MIN_OPTIONS){ row.remove(); renumberOptions(card); }
+      });
+      renumberOptions(card);
     }
 
     function addQuestion(){
@@ -32,15 +83,20 @@ export default function init({ location, document, window, onCleanup }) {
       div.className = 'qcard';
       div.setAttribute('data-q', idx);
       var optsHtml = '';
-      for (var i = 0; i < NUM_OPTIONS; i++){
+      for (var i = 0; i < DEFAULT_OPTIONS; i++){
         var letter = String.fromCharCode(65 + i);
         optsHtml +=
           '<div class="opt-row">' +
-            '<input type="radio" name="correct-' + idx + '" value="' + i + '"' + (i === 0 ? ' checked' : '') + '>' +
-            '<span class="opt-letter">' + letter + '</span>' +
+            '<label class="opt-pick" title="Mark this option as the correct answer">' +
+              '<input type="radio" name="correct-' + idx + '" value="' + i + '"' + (i === 0 ? ' checked' : '') + '>' +
+              '<span class="opt-letter">' + letter + '</span>' +
+            '</label>' +
             '<input type="text" class="opt-input" placeholder="Option ' + letter + '" required>' +
+            '<button type="button" class="opt-remove" title="Remove this option" ' +
+              'style="background:none;border:0;cursor:pointer;color:var(--muted);font-size:16px;line-height:1;visibility:hidden;">&times;</button>' +
           '</div>';
       }
+      optsHtml += '<button type="button" class="btn-ghost opt-add" style="margin-top:6px;font-size:13px;padding:6px 12px;">+ Add option</button>';
       div.innerHTML =
         '<button type="button" class="remove" title="Remove question">&times;</button>' +
         '<div class="qnum">Question ' + idx + '</div>' +
@@ -51,6 +107,12 @@ export default function init({ location, document, window, onCleanup }) {
         // Always keep at least one question card.
         if (host.children.length > 1) div.remove();
       });
+      Array.prototype.forEach.call(div.querySelectorAll('.opt-remove'), function(btn){
+        btn.addEventListener('click', function(){
+          if (div.querySelectorAll('.opt-row').length > MIN_OPTIONS){ btn.closest('.opt-row').remove(); renumberOptions(div); }
+        });
+      });
+      div.querySelector('.opt-add').addEventListener('click', function(){ addOption(div); });
     }
 
     document.getElementById('addQBtn').addEventListener('click', addQuestion);

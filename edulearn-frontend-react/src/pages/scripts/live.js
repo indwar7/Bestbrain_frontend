@@ -10,16 +10,11 @@ export default function init({ location, document, window, onCleanup }) {
 (function(){
 'use strict';
 
-/* QA S-03: the syllabus section further down the page was hand-authored for
-   Class 7 only and shown to every class regardless — a Class 6 student was
-   looking at Newton's laws and polynomials. curriculum.js is already loaded
-   globally (see index.html) and is the same shared source dashboard.js
-   already builds chapter data from; this rebuilds the panel for the
-   signed-in student's real class instead of lying about which one they're
-   in. Class 7's grid is genuinely curated — a teacher picked which chapters
-   are foundational/high-weightage — so it is left exactly as authored;
-   every other class gets its own real chapters without inventing a
-   "must-do" star this code has no basis to award. */
+/* Class 7's grid below is genuinely curated — a teacher picked which
+   chapters are foundational/high-weightage, one by one, and that judgment
+   isn't something curriculum.js's plain chapter list carries. Every other
+   class gets its own real chapters instead, without inventing a "must-do"
+   star this code has no basis to award. */
 (function rebuildSyllabusForRealClass(){
   var section = document.querySelector('.syl');
   if (!section) return;
@@ -32,11 +27,11 @@ export default function init({ location, document, window, onCleanup }) {
     if (n) cls = n;
   } catch (e) {}
 
-  if (cls === 7) return;
+  if (cls === 7) return;   // the hand-curated content already matches
 
   var C = window.EduCurriculum;
   var data = C && C.CURRICULUM && C.CURRICULUM[String(cls)];
-  if (!data) return;
+  if (!data) return;       // no data for this class — leave the fallback rather than show nothing
 
   var ICONS = {
     science: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6M10 2v6.5L5.2 17A2 2 0 0 0 7 20h10a2 2 0 0 0 1.8-3L14 8.5V2"/><path d="M7.5 14h9"/></svg>',
@@ -70,6 +65,8 @@ export default function init({ location, document, window, onCleanup }) {
   if (h2) h2.textContent = 'Class ' + cls + ' NCERT — the full syllabus';
   var sub = section.querySelector('.syl__sub');
   if (sub) sub.textContent = 'Every subject, chapter by chapter, straight from the NCERT syllabus for your class.';
+  /* the "must-do, foundational" star is Class 7's curation only — nothing
+     here has grounds to claim the same for a class it was never applied to */
   var legend = section.querySelector('.syl__legend');
   if (legend) legend.style.display = 'none';
 })();

@@ -1261,6 +1261,21 @@ export default function LiveMarkup() {
           © 2026 BestBrain Learning Pvt. Ltd. · Noida, India
         </span>
       </footer>
+      {/* QA S-03: the syllabus section below was hand-authored for Class 7 only
+       and shown to every class regardless — a Class 6 student was looking at
+       Newton's laws and polynomials. curriculum.js is the same shared source
+       dashboard.html already builds chapter data from; loading it here lets
+       the syllabus panel rebuild itself for the signed-in student's real
+       class instead of lying about which one they're in. */}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {' '}
+      {/* Redesign: look only. Every screen keeps the layout it already has. */}
       {' '}
       {' '}
       {' '}

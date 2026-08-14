@@ -373,8 +373,14 @@
       'font-size:16px!important;min-height:46px;}' +
     '#ka-slot .pw-toggle{min-width:44px;min-height:44px;display:grid!important;place-items:center;}' +
     '#ka-slot input[type=checkbox]{width:24px!important;height:24px!important;flex:0 0 auto;}' +
-    '#ka-slot .checkbox-group{align-items:flex-start!important;gap:12px!important;}' +
-    '#ka-slot .checkbox-group label{font-size:13.5px!important;line-height:1.5!important;}' +
+    '#ka-slot .checkbox-group{align-items:flex-start!important;gap:12px!important;min-height:44px;}' +
+    /* The label is `for="terms"`, so it is part of the checkbox's target. On
+       a wide phone it fits one line and the whole control came to 24px tall;
+       the padding is what takes the pair to 44px without growing the box the
+       user sees. */
+    '#ka-slot .checkbox-group label{font-size:13.5px!important;line-height:1.5!important;' +
+      'padding:10px 0!important;}' +
+    '#ka-slot .checkbox-group input[type=checkbox]{align-self:center!important;}' +
     '#ka-slot label a,#ka-slot .checkbox-group a{display:inline-block;padding:6px 2px;}' +
     '#ka-slot .forgot-password{margin:0 0 12px!important;}' +
     '#ka-slot .forgot-password a,#ka-slot .signup-link a,#ka-slot .signin-link a{' +

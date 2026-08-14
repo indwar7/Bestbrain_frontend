@@ -6,7 +6,7 @@
    listeners can be torn down on unmount. See src/lib/pageScriptEnv.ts. */
 /* eslint-disable */
 export default function init({ location, document, window, onCleanup }) {
-/* light-only product: strip any stale dark preference before paint */try{document.documentElement.classList.remove('dark-mode');localStorage.setItem('edulearn-theme','light');}catch(e){}
+/* light-only product: strip any stale dark preference before paint */try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.remove('dark-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){}
 
 /* ---- next <script> block ---- */
 
