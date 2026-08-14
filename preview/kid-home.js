@@ -122,7 +122,14 @@
   '.kh-nav-links a{padding:9px 15px;border-radius:99px;font-size:14px;font-weight:700;' +
     'color:rgba(255,255,255,.7);text-decoration:none;transition:all .3s ease;}' +
   '.kh-nav-links a:hover{color:#fff;background:rgba(255,255,255,.08);}' +
-  '@media(max-width:820px){.kh-nav-links{display:none;}}' +
+  /* the desktop size the two header CTAs used to carry inline */
+  '.kh-nav-in .kh-btn{padding:11px 20px;font-size:14px;white-space:nowrap;flex-shrink:0;}' +
+  '.kh-nav-in .kh-btn.p{padding:11px 22px;}' +
+  /* .kh-nav-links carries margin-left:auto and is what pushes the CTAs right.
+     Once it is hidden nothing does, so the logo takes over that job — but only
+     here, or on desktop it would fight the links for the same space. */
+  '@media(max-width:820px){.kh-nav-links{display:none;}' +
+    '.kh-nav-in .kh-logo{margin-right:auto;}}' +
 
   /* ---- buttons ---- */
   '.kh-btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:99px;' +
@@ -160,15 +167,22 @@
      width, not this element's — so on a wide screen the radius came out more
      than twice the ring's and the nodes were flung out of the circle and
      across the hero copy above it. */
-  '.kh-orbit{--orb:min(560px,86vw);position:relative;width:var(--orb);height:var(--orb);' +
+  '.kh-orbit{--orb:min(560px,86vw);--node:58px;position:relative;width:var(--orb);height:var(--orb);' +
     'margin:44px auto 0;}' +
+  /* .spin is inset:0 on the orbit and rotates, so its bounding box is the
+     ring's diagonal — orb x 1.41. At 86vw that box is wider than the screen
+     and it was extending the page by 33-35px on every phone size. The box is
+     empty (only .node children paint, and they ride the ring), so clipping it
+     costs nothing visually. overflow:clip rather than hidden: hidden would
+     make #kh-root a scroll container and change how the page scrolls. */
+  '#kh-root{overflow-x:clip;}' +
   '.kh-orbit .ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,.09);}' +
   '.kh-orbit .r2{inset:13%;border-color:rgba(255,122,0,.18);}' +
   '.kh-orbit .r3{inset:26%;border-color:rgba(255,255,255,.07);}' +
   '.kh-orbit .spin{position:absolute;inset:0;animation:kh-spin 34s linear infinite;}' +
   '.kh-orbit .spin.rev{animation-direction:reverse;animation-duration:46s;}' +
   '@keyframes kh-spin{to{transform:rotate(360deg)}}' +
-  '.kh-orbit .node{position:absolute;width:58px;height:58px;border-radius:18px;display:grid;place-items:center;' +
+  '.kh-orbit .node{position:absolute;width:var(--node);height:var(--node);border-radius:18px;display:grid;place-items:center;' +
     'background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);' +
     'backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);' +
     'box-shadow:0 12px 30px rgba(0,0,0,.5);color:#FFB347;}' +
@@ -192,9 +206,15 @@
 
   /* ---- glass grid ---- */
   '.kh-grid{display:grid;gap:16px;}' +
-  '.kh-g4{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}' +
-  '.kh-g3{grid-template-columns:repeat(auto-fit,minmax(290px,1fr));}' +
-  '.kh-g2{grid-template-columns:repeat(auto-fit,minmax(360px,1fr));}' +
+  /* min(Npx,100%) rather than a bare Npx floor: minmax(360px,1fr) is a hard
+     360px minimum, so on a 320px phone the track stayed 360px wide and pushed
+     the whole page past the screen edge — the homepage laid out at 380px on a
+     320px device. min() lets the track fall back to the container's width
+     when the container is the smaller of the two, which is the only case
+     where the floor was doing harm. Above these widths nothing changes. */
+  '.kh-g4{grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));}' +
+  '.kh-g3{grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr));}' +
+  '.kh-g2{grid-template-columns:repeat(auto-fit,minmax(min(360px,100%),1fr));}' +
   '.kh-card{position:relative;overflow:hidden;padding:24px;border-radius:22px;' +
     'background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);' +
     'backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);' +
@@ -291,6 +311,43 @@
   '.kh-rv{opacity:1;transform:translateY(16px);' +
     'transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1);}' +
   '.kh-rv.in{transform:none;}' +
+
+  /* ---------- phone ----------
+     The orbit nodes are 58px squares centred ON the ring, so they reach
+     orb/2 + 29px from the centre. At 86vw that is 195px from centre on a
+     320px screen — 70px past the section's content edge. Sizing the ring so
+     the nodes land inside is the difference between a decoration and a row of
+     icons hanging off the page. */
+  '@media(max-width:600px){' +
+    '.kh-orbit{--orb:min(560px,62vw);--node:46px;margin-top:32px;}' +
+    '.kh-orbit .node{border-radius:14px;}' +
+    '.kh-orbit .node svg{width:21px;height:21px;}' +
+    /* The header keeps a logo and two CTAs. At 320px "Log in" wrapped onto
+       two lines and "Start learning free" ran off the right edge, so the
+       first thing on the page was a broken row. Tighten the row, shorten the
+       primary label's padding, and let the logo give up space first. */
+    '.kh-nav-in{height:60px;gap:10px;padding:0 14px;}' +
+    '.kh-logo{font-size:17px;min-width:0;}' +
+    '.kh-logo .m{width:28px;height:28px;flex-shrink:0;}' +
+    '.kh-nav-in .kh-btn{padding:10px 14px;font-size:13.5px;}' +
+    '.kh-nav-in .kh-btn.p{padding:10px 15px;}' +
+    '.kh-nav-in .kh-btn .ar{display:none;}' +
+    /* a 1180px footer row of 170px columns collapses to one readable column */
+    '.kh-foot-in{gap:20px;}' +
+    '.kh-foot-in .c{min-width:min(170px,100%);}' +
+  '}' +
+
+  /* Narrow phones: the wordmark and two CTAs cannot share 292px. The mark is
+     the part that still identifies the site at a glance, so the word goes and
+     the buttons keep their labels — the reverse leaves two buttons nobody can
+     read next to a logo nobody needed. */
+  '@media(max-width:420px){' +
+    '.kh-nav-in{gap:8px;}' +
+    '.kh-logo{font-size:0;gap:0;flex-shrink:0;}' +
+    '.kh-logo .m{font-size:19px;}' +
+    '.kh-nav-in .kh-btn{padding:10px 13px;font-size:13px;}' +
+  '}' +
+
   '@media(prefers-reduced-motion:reduce){.kh-rv{opacity:1;transform:none;}' +
     '.kh-orbit .spin,.kh-core,.kh-orbit .node i{animation:none!important;}}';
 
@@ -333,8 +390,12 @@
       /* outer ring: half the diameter. inner ring r2 is inset 13% a side, so
          its radius is (50% - 13%) = 37% of the diameter. */
       var radius = outer ? 'calc(var(--orb) * 0.5)' : 'calc(var(--orb) * 0.37)';
+      /* The centring offset is half the node's size. Writing it as a literal
+         29px silently assumed the node is always 58px, so shrinking the node
+         for phones would have pushed all eight off-centre. --node owns the
+         size and the offset follows it. */
       return '<div class="spin' + (outer ? '' : ' rev') + '" style="animation-delay:' + (-i * 4) + 's">' +
-        '<span class="node" style="left:calc(50% - 29px);top:calc(50% - 29px);' +
+        '<span class="node" style="left:calc(50% - var(--node) / 2);top:calc(50% - var(--node) / 2);' +
         'transform:rotate(' + ang + 'deg) translateY(calc(-1 * ' + radius + ')) rotate(' + (-ang) + 'deg)">' +
         '<i>' + ic(n) + '</i></span></div>';
     }).join('');
@@ -347,8 +408,11 @@
           '<a href="#features">Features</a><a href="#how">How it works</a>' +
           '<a href="#journey">Journey</a><a href="#voices">Stories</a><a href="#faq">FAQ</a>' +
         '</nav>' +
-        '<a class="kh-btn g" href="login.html" style="padding:11px 20px;font-size:14px">Log in</a>' +
-        '<a class="kh-btn p" href="signup.html" style="padding:11px 22px;font-size:14px">Start free ' +
+        /* Sizing lives in .kh-nav-in .kh-btn, not in a style attribute: an
+           inline padding/font-size outranks every media query, so the phone
+           rules could not shrink these and the header ran off the screen. */
+        '<a class="kh-btn g" href="login.html">Log in</a>' +
+        '<a class="kh-btn p" href="signup.html">Start free ' +
           '<span class="ar">→</span></a>' +
       '</div></header>' +
 
