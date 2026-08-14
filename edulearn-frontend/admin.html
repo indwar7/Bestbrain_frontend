@@ -72,6 +72,24 @@
     .meta{color:var(--muted);font-size:12.5px;}
     .empty{padding:50px;text-align:center;color:var(--muted);}
     .err{margin:16px 0;padding:14px 16px;border-radius:12px;background:rgba(226,76,77,.1);color:#C2181C;font-size:14px;}
+
+    /* ---- phone ----
+       The roster is a five-column table inside .tablecard, which clips with
+       overflow:hidden — so on a narrow screen the last columns were cut off
+       with no way to reach them. A table is wide content: it scrolls in its
+       own container, never by taking the page sideways.
+
+       -webkit-overflow-scrolling keeps the momentum flick on iOS, and the
+       min-width is what makes the columns keep their shape instead of
+       squeezing into unreadable slivers. */
+    @media (max-width:900px){
+      .tablecard{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+      .tablecard table{min-width:620px;}
+      thead th{font-size:12px;letter-spacing:.08em;padding:14px;}
+      tbody td{padding:13px 14px;}
+      .meta{font-size:12.5px;}
+      .filters button{font-size:12px;min-height:44px;}
+    }
   </style>
 <link rel="stylesheet" href="../vivid.css">
 </head>

@@ -184,6 +184,16 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
   .rv{opacity:1;animation:none}
 }
+
+/* ---- mobile browser chrome ----
+   100vh is the viewport height WITHOUT the phone browser's toolbars, so a box
+   sized by it is taller than the area actually on screen and its last row sits
+   under the toolbar. dvh tracks the visible area as that toolbar shows and
+   hides. Declared as an @supports override rather than by editing the rules
+   above, so engines without dvh keep the 100vh they already had. */
+@supports (height:100dvh){
+  body{min-height:100dvh;}
+}
 </style>
 <link rel="stylesheet" href="../theme.css">
 <link rel="stylesheet" href="../vivid.css">

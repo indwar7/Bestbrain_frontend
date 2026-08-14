@@ -965,6 +965,16 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
   .ring-sub{font-size:12px;letter-spacing:.1em;}
   .chart-tip{font-size:12px;}
 }
+
+/* ---- mobile browser chrome ----
+   100vh is the viewport height WITHOUT the phone browser's toolbars, so a box
+   sized by it is taller than the area actually on screen and its last row sits
+   under the toolbar. dvh tracks the visible area as that toolbar shows and
+   hides. Declared as an @supports override rather than by editing the rules
+   above, so engines without dvh keep the 100vh they already had. */
+@supports (height:100dvh){
+  body{min-height:100dvh;}
+}
 </style>
   <link rel="stylesheet" href="../theme.css">
 <link rel="stylesheet" href="../vivid.css">
