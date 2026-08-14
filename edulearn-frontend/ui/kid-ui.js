@@ -393,6 +393,17 @@
        each other and on top of the page's own last card */
     '#pal-mascot{right:12px;bottom:calc(88px + env(safe-area-inset-bottom));}' +
     '#pal-orb{width:48px;height:48px;}' +
+
+    /* Nothing may end up underneath the floating furniture.
+       The mascot, the Features button and the PDF button stack in the
+       bottom-right corner and are fixed, so the last thing on a page sits
+       under them — the audit caught the question-remove button on create-test
+       and the language select on the tutor call buried 47-59% each. Reserving
+       the height they occupy is what puts the page's own last control back
+       within reach. */
+    'html.kid-rail-on body{padding-bottom:calc(104px + env(safe-area-inset-bottom))!important;}' +
+    /* and the sticky HUD must not land on whatever an in-page link jumps to */
+    'html.kid-rail-on{scroll-padding-top:68px;}' +
   '}' +
 
   /* Narrow phones: the HUD chips are the first thing to go — the same numbers
