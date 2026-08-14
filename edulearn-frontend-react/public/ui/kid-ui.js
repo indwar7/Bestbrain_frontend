@@ -359,6 +359,12 @@
     '#kid-rail .nav__link:hover{transform:none;}' +
     '#kid-hello{min-width:0;}' +
     '#kid-hello b,#kid-hello span{overflow-wrap:anywhere;}' +
+    /* 10px and 9px are desktop-rail sizes. In the drawer there is room, and
+       both sit under the 12px floor for supporting text on a phone. */
+    '.kid-lab{font-size:12px;}' +
+    '.knew{font-size:12px;padding:3px 8px;}' +
+    '#kid-hello span{font-size:12px;}' +
+    '#kid-hello .streak{font-size:13px;}' +
 
     /* the scrim: closes on tap, and hides the decorative FABs behind it */
     '#kid-scrim{position:fixed;inset:0;z-index:8950;border:0;padding:0;margin:0;' +
