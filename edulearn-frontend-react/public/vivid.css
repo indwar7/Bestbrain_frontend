@@ -897,7 +897,18 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 }
 
 /* ---------- readable type floor ---------- */
-@media (max-width:600px){
+/* 900px, not 600px.
+   This floor was written for phones and stopped at 600px, which left the two
+   viewports either side of it untouched: a phone held sideways is 667px wide
+   and a tablet is 768px, and neither of them is read from any further away
+   than a phone held upright. The audit counted 60 sub-12px labels at 667px
+   and 66 at 768px against 11 at 390px — all of them these same selectors,
+   simply out of range.
+
+   900px is the breakpoint the rest of this file already uses, and it is where
+   the rail becomes a drawer, so the whole touch layout now turns on together.
+   Above it nothing changes. */
+@media (max-width:900px){
   /* 11px eyebrow/mono labels read fine on a monitor at arm's length and not
      on a phone held at 30cm. 12px is the floor. These are the same selectors
      that set the small sizes earlier in this file, plus the per-page
@@ -910,7 +921,10 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   .ctab__count, .subjcard__go, .nextup__kicker, .greet-date,
   .how__num, .faqc__tag, .pick__subj, .qnum, .sylc__count,
   .joinband__eyebrow, .side__foot, .composer__note, .rolebadge,
-  .tag, .count{
+  .tag, .count,
+  /* found by the audit after the range widened — same kind of label, same
+     job, they were simply never in the list */
+  .wtile__unit, .chrow__meta, .feat-foot__inner span, .fcol h4{
     font-size:12px !important;
     letter-spacing:.6px !important;
   }
