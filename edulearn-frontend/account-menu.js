@@ -44,7 +44,21 @@
     '.acct-logout{margin:0 24px 28px;width:calc(100% - 48px);padding:12px;border:1px solid rgba(226,76,77,.4);border-radius:12px;background:transparent;color:#E2484D;font-weight:700;font-size:14px;cursor:pointer;transition:background .2s ease;}' +
     '.acct-logout:hover{background:rgba(226,76,77,.08);}' +
     '.acct-msg{margin:14px 24px 0;font-size:13px;padding:10px 12px;border-radius:10px;}' +
-    '.acct-msg.ok{color:#0FA983;background:rgba(15,169,131,.1);}.acct-msg.err{color:#C2181C;background:rgba(226,76,77,.1);}';
+    '.acct-msg.ok{color:#0FA983;background:rgba(15,169,131,.1);}.acct-msg.err{color:#C2181C;background:rgba(226,76,77,.1);}' +
+    /* Phone: this panel becomes a full-height sheet on a small screen, so it
+       takes phone type sizes rather than the desktop side-panel's density.
+       16px on the controls specifically — below that iOS Safari zooms the
+       page the moment a field takes focus, and the user has to pinch back out
+       to read the form they are filling in. The 10px section headings sit
+       under the 12px floor for supporting text. */
+    '@media(max-width:600px){' +
+      '.acct-sec{padding:16px;}' +
+      '.acct-sec h3{font-size:12px;letter-spacing:.14em;}' +
+      '.acct-field label{font-size:13px;}' +
+      '.acct-field input,.acct-field select{font-size:16px;min-height:46px;}' +
+      '.acct-save,.acct-logout{margin-left:16px;margin-right:16px;width:calc(100% - 32px);min-height:46px;}' +
+      '.acct-panel .am-hd{padding-top:max(18px,env(safe-area-inset-top));}' +
+    '}';
   var st = document.createElement('style');
   st.textContent = css;
   document.head.appendChild(st);
@@ -135,6 +149,22 @@
     '<button class="acct-save" id="acctSave">Save changes</button>' +
     '<button class="acct-logout" id="acctLogout">Log out</button>';
   document.body.appendChild(panel);
+
+  /*
+    Every .acct-field renders a visible <label> next to its control, but as
+    siblings and with no `for`, so nothing actually connects the two: a screen
+    reader announces "edit text, blank" for all nine, and tapping the label
+    does not focus the field. Linking them here rather than in the markup
+    keeps it to one rule that cannot be forgotten when a field is added, and
+    generates the id for the read-only controls that never had one.
+  */
+  Array.prototype.forEach.call(panel.querySelectorAll('.acct-field'), function (field, i) {
+    var label = field.querySelector('label');
+    var control = field.querySelector('input,select,textarea');
+    if (!label || !control || label.getAttribute('for')) return;
+    if (!control.id) control.id = 'acctField' + i;
+    label.setAttribute('for', control.id);
+  });
 
   // ---------- behaviour ----------
   function open(){ overlay.classList.add('open'); panel.classList.add('open'); }
