@@ -79,8 +79,19 @@
   '.auth-shell{display:none!important;}' +
   'html.kidbg body{overflow-x:hidden;}' +
 
-  '#ka-root{position:relative;z-index:1;min-height:100vh;display:grid;' +
-    'grid-template-columns:1.02fr .98fr;align-items:stretch;' +
+  /* minmax(0,…) rather than a bare fr: `1fr` is `minmax(auto,1fr)`, and that
+     auto floor is the column's min-content width. .ka-card is 452px wide, so
+     the floor was 452px and the column simply refused to shrink — on a 320px
+     phone the page laid out at 492px and the right third was cut off by
+     body{overflow-x:hidden}. Letting the column reach 0 is what makes
+     .ka-card's own max-width:100% mean anything.
+
+     min-height uses dvh so the shell tracks the visible area as the mobile
+     browser's toolbar shows and hides; 100vh is the taller, fixed number and
+     leaves the last row under the toolbar. 100vh stays as the fallback for
+     engines without dvh. */
+  '#ka-root{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:grid;' +
+    'grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);align-items:stretch;' +
     'font-family:inherit;color:#fff;}' +
 
   /* ---------- left: the story ---------- */
@@ -306,13 +317,47 @@
 
   /* ---------- responsive ---------- */
   '@media(max-width:1000px){' +
-    '#ka-root{grid-template-columns:1fr;}' +
+    '#ka-root{grid-template-columns:minmax(0,1fr);}' +
     '#ka-root .ka-brand{border-right:0;border-bottom:1px solid rgba(255,255,255,.09);' +
       'padding:26px clamp(20px,5vw,34px) 30px;}' +
     '#ka-root .ka-body{padding:18px 0 0;}' +
     '#ka-root .ka-feats,#ka-root .ka-proof{display:none;}' +
     '#ka-root .ka-head{font-size:clamp(26px,6vw,34px);}' +
     '#ka-root .ka-sub{font-size:14.5px;}' +
+  '}' +
+
+  /* ---------- phone ----------
+     The card is a fixed 452px, which is wider than every phone in the target
+     list. It needs a real width here, and its children need permission to
+     shrink: a grid/flex child defaults to min-width:auto and will hold its
+     min-content width no matter what its parent says. That is what pushed the
+     role tabs (three 125px buttons in a row), the password toggle and the
+     quote block off the right edge. */
+  '@media(max-width:600px){' +
+    '#ka-root,#ka-root .ka-brand,#ka-root .ka-body,#ka-root .ka-card{min-width:0;}' +
+    '#ka-root .ka-card{width:100%;max-width:100%;border-radius:20px;' +
+      'padding:20px clamp(14px,4.5vw,20px);}' +
+    '#ka-root .ka-body{padding:14px clamp(12px,4vw,18px) ' +
+      'max(20px,env(safe-area-inset-bottom));}' +
+    '#ka-root .ka-brand{padding:20px clamp(14px,4.5vw,20px) 22px;}' +
+    '#ka-slot,#ka-slot form,#ka-slot .role-tabs{min-width:0;max-width:100%;}' +
+    /* three tabs cannot sit in a 292px row and stay tappable — wrap them */
+    '#ka-slot .role-tabs{flex-wrap:wrap!important;}' +
+    '#ka-slot .role-tab{flex:1 1 30%!important;min-width:0!important;min-height:44px;' +
+      'font-size:13px!important;}' +
+    /* long words in headings and quotes are the other way this page overflows */
+    '#ka-root .ka-head,#ka-root .ka-sub,#ka-root .ka-quote,#ka-slot h1,' +
+    '#ka-slot .subtitle{overflow-wrap:anywhere;}' +
+    '#ka-root .ka-quote{padding:14px 16px;}' +
+    /* 16px keeps iOS from zooming the page when a field takes focus */
+    '#ka-slot input[type=text],#ka-slot input[type=email],#ka-slot input[type=password],' +
+    '#ka-slot input[type=tel],#ka-slot input[type=number],#ka-slot select,#ka-slot textarea{' +
+      'font-size:16px!important;min-height:46px;}' +
+    '#ka-slot .pw-toggle{min-width:44px;min-height:44px;display:grid!important;place-items:center;}' +
+    '#ka-slot .social-logins{grid-template-columns:1fr!important;}' +
+    '#ka-slot .otp-inputs-wrapper{gap:6px!important;}' +
+    '#ka-slot .otp-digit{min-width:0!important;font-size:18px!important;padding:11px 0!important;}' +
+    '#ka-slot #otpChannelSelector{grid-template-columns:1fr!important;}' +
   '}' +
   '@media(prefers-reduced-motion:reduce){#ka-root *{animation:none!important}}';
 
