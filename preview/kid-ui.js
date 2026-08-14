@@ -318,10 +318,84 @@
   '#pal-close:hover{background:rgba(255,255,255,.18);color:#fff;}' +
   'html.pal-off #pal-mascot{display:none!important;}' +
 
+  /* Laptop / small-desktop: the rail keeps its place but drops to icons only.
+     .knew and the streak pill are `margin-left:auto` items, so in a 76px
+     centred link they were pushed straight out of the rail and cut off — 15
+     pages showed a sliced "NEW". They have no room here; the drawer below
+     shows them in full. */
   '@media(max-width:980px){html.kid-rail-on{--kid-rail:76px;}' +
     '#kid-rail .nav__link span.lbl,#kid-hello>div,#kid-xp,.kid-lab,#kid-rail .brand__word{display:none;}' +
-    '#kid-rail .nav__link{justify-content:center;}#pal-say{display:none;}}' +
+    '#kid-rail .nav__link{justify-content:center;}#pal-say{display:none;}' +
+    '.knew,#kid-streak{display:none!important;}}' +
+
+  /* ================= PHONE / TABLET: RAIL BECOMES A DRAWER =================
+     Below 900px (vivid.css's own breakpoint) a permanent rail is not
+     affordable: at 320px it took 76px — a quarter of the screen — off every
+     page, and the layout it left behind is what clipped the search field, the
+     subject tabs and the chapter rows.
+
+     So the rail goes off-canvas and the page gets the full width back. It
+     opens as a real drawer: full labels (there is room now), a scrim, and the
+     page behind it locked. The burger lives in the HUD, which is the only
+     chrome that stays on screen. */
+  '@media(max-width:900px){' +
+    'html.kid-rail-on{--kid-rail:0px;}' +
+    'html.kid-rail-on body{padding-left:0!important;padding-top:56px!important;}' +
+
+    /* off-canvas by default; slides in over the page rather than pushing it */
+    '#kid-rail{width:min(86vw,320px);max-width:320px;' +
+      'transform:translateX(-101%);transition:transform .28s cubic-bezier(.22,1,.36,1);' +
+      'padding-left:max(14px,env(safe-area-inset-left));' +
+      'padding-bottom:max(104px,calc(88px + env(safe-area-inset-bottom)))!important;' +
+      'will-change:transform;}' +
+    'html.kid-nav-open #kid-rail{transform:none;}' +
+
+    /* it is a full drawer here, so undo the icons-only collapse above */
+    '#kid-rail .nav__link span.lbl,#kid-hello>div,.kid-lab,#kid-rail .brand__word{display:revert;}' +
+    '#kid-rail .nav__link{justify-content:flex-start!important;}' +
+    '.knew,#kid-streak{display:revert!important;}' +
+    /* 44px minimum touch target, and never a hover-shift on a touch screen */
+    '#kid-rail .nav__link{min-height:48px;padding:12px 14px!important;}' +
+    '#kid-rail .nav__link:hover{transform:none;}' +
+    '#kid-hello{min-width:0;}' +
+    '#kid-hello b,#kid-hello span{overflow-wrap:anywhere;}' +
+
+    /* the scrim: closes on tap, and hides the decorative FABs behind it */
+    '#kid-scrim{position:fixed;inset:0;z-index:8950;border:0;padding:0;margin:0;' +
+      'background:rgba(0,0,0,.58);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);' +
+      'opacity:0;pointer-events:none;transition:opacity .28s ease;}' +
+    'html.kid-nav-open #kid-scrim{opacity:1;pointer-events:auto;}' +
+    'html.kid-nav-open #pal-mascot,html.kid-nav-open #efp-btn{display:none!important;}' +
+    /* the drawer must be above its own scrim */
+    '#kid-rail{z-index:9000;}' +
+
+    /* HUD: full width now, and it has to hold the burger */
+    '#kid-top{left:0;height:56px;padding:0 10px;padding-left:max(10px,env(safe-area-inset-left));' +
+      'padding-right:max(10px,env(safe-area-inset-right));gap:8px;}' +
+    '#kid-top .kt-ttl{font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}' +
+    '#kid-burger{flex-shrink:0;width:44px;height:44px;margin-left:-6px;border:0;padding:0;' +
+      'display:grid;place-items:center;border-radius:13px;cursor:pointer;' +
+      'background:' + G + ';border:1px solid ' + GB + ';color:#fff;}' +
+    '#kid-burger:active{transform:scale(.94);}' +
+    '#kid-burger i{position:relative;display:block;width:17px;height:2px;border-radius:2px;background:currentColor;' +
+      'box-shadow:0 -6px 0 currentColor,0 6px 0 currentColor;transition:box-shadow .2s ease,transform .2s ease;}' +
+    'html.kid-nav-open #kid-burger i{box-shadow:none;transform:rotate(45deg);}' +
+    'html.kid-nav-open #kid-burger i::after{content:"";position:absolute;width:17px;height:2px;' +
+      'border-radius:2px;background:currentColor;transform:rotate(-90deg);}' +
+
+    /* the mascot and the feature button both parked bottom-right, on top of
+       each other and on top of the page's own last card */
+    '#pal-mascot{right:12px;bottom:calc(88px + env(safe-area-inset-bottom));}' +
+    '#pal-orb{width:48px;height:48px;}' +
+  '}' +
+
+  /* Narrow phones: the HUD chips are the first thing to go — the same numbers
+     are in the drawer, and a half-cut streak pill reads as breakage. */
+  '@media(max-width:600px){#kid-top .hchip{display:none!important;}' +
+    '#kid-top .kt-ttl{font-size:14.5px;}}' +
+
   '@media(prefers-reduced-motion:reduce){#pal-orb,.knew,#kid-xp .tr i,#kid-rail::after{animation:none!important}' +
+    '#kid-rail{transition:none!important;}#kid-scrim{transition:none!important;}' +
     '.kid-rv{opacity:1;transform:none;}}';
 
   /* ---------------------------------------------------------
@@ -589,7 +663,110 @@
         : '');
     bar.querySelector('.kt-ttl').appendChild(document.createTextNode(title));
     document.body.appendChild(bar);
+    buildDrawer(bar);
     paintProgress();
+  }
+
+  /* ---------------------------------------------------------------
+     The rail's mobile form.
+
+     Under 900px the rail is off-canvas (see the stylesheet above), so
+     without this there is no way to reach navigation at all on a phone —
+     the skin hides nav.nav outright, which also takes React's own drawer
+     with it. The burger and scrim are built here so both the static pages
+     and the SPA get the same one.
+
+     Everything below is the behaviour a drawer is expected to have and is
+     wrong without: it closes on route change, on outside tap, and on
+     Escape; the page behind it does not scroll; and focus cannot wander
+     out of it while it is covering the page.
+     --------------------------------------------------------------- */
+  var scrollLock = '';
+
+  function navOpen() {
+    return document.documentElement.classList.contains('kid-nav-open');
+  }
+
+  function setNav(open) {
+    var html = document.documentElement;
+    if (open === navOpen()) return;
+    var burger = document.getElementById('kid-burger');
+    if (open) {
+      scrollLock = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      html.classList.add('kid-nav-open');
+      if (burger) burger.setAttribute('aria-expanded', 'true');
+      var first = document.querySelector('#kid-rail .nav__link');
+      if (first) first.focus({ preventScroll: true });
+    } else {
+      document.body.style.overflow = scrollLock;
+      html.classList.remove('kid-nav-open');
+      if (burger) {
+        burger.setAttribute('aria-expanded', 'false');
+        /* Returning focus to the control that opened it — otherwise focus is
+           left on an element that just slid off the screen. */
+        if (document.activeElement && document.getElementById('kid-rail') &&
+            document.getElementById('kid-rail').contains(document.activeElement)) {
+          burger.focus({ preventScroll: true });
+        }
+      }
+    }
+  }
+
+  function buildDrawer(bar) {
+    if (document.getElementById('kid-burger')) return;
+
+    var burger = document.createElement('button');
+    burger.id = 'kid-burger';
+    burger.type = 'button';
+    burger.setAttribute('aria-label', 'Menu');
+    burger.setAttribute('aria-controls', 'kid-rail');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.innerHTML = '<i></i>';
+    burger.addEventListener('click', function () { setNav(!navOpen()); });
+    bar.insertBefore(burger, bar.firstChild);
+
+    if (!document.getElementById('kid-scrim')) {
+      var scrim = document.createElement('div');
+      scrim.id = 'kid-scrim';
+      scrim.addEventListener('click', function () { setNav(false); });
+      document.body.appendChild(scrim);
+    }
+
+    /* A drawer that survives the navigation it just triggered would cover the
+       page the user asked for. Any link inside it ends the drawer's job. */
+    document.addEventListener('click', function (e) {
+      if (!navOpen()) return;
+      var rail = document.getElementById('kid-rail');
+      var a = e.target.closest && e.target.closest('a,button');
+      if (a && rail && rail.contains(a) && a.id !== 'kid-burger') setNav(false);
+    }, true);
+
+    document.addEventListener('keydown', function (e) {
+      if (!navOpen()) return;
+      if (e.key === 'Escape') { setNav(false); return; }
+      if (e.key !== 'Tab') return;
+      /* Focus trap: while the page behind is inert to the eye, Tab must not
+         walk into it. */
+      var rail = document.getElementById('kid-rail');
+      if (!rail) return;
+      var focusable = rail.querySelectorAll(
+        'a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])');
+      if (!focusable.length) return;
+      var first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
+    /* Client-side route changes do not reload, so nothing else would close it. */
+    window.addEventListener('popstate', function () { setNav(false); });
+
+    /* Growing past the breakpoint turns the drawer back into a fixed rail; the
+       scroll lock and scrim have to come off with it or the page stays frozen. */
+    var mq = window.matchMedia('(max-width:900px)');
+    var onChange = function () { if (!mq.matches) setNav(false); };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
   }
 
   /* Fills every gamification chip from ONE fetch, so the header and the rail
