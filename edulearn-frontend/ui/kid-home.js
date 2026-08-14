@@ -337,6 +337,16 @@
     '.kh-foot-in .c{min-width:min(170px,100%);}' +
   '}' +
 
+  /* ---------- touch ----------
+     900px, not 600px: a phone held sideways is 667px and a tablet 768px.
+     Footer links were a 32px row at both, and the header wordmark had no
+     minimum height. */
+  '@media(max-width:900px){' +
+    '.kh-foot-in a{padding:11px 0;min-height:44px;display:flex;align-items:center;}' +
+    '.kh-nav-in .kh-logo{min-height:44px;}' +
+    '.kh-nav-in .kh-btn{min-height:44px;}' +
+  '}' +
+
   /* Narrow phones: the wordmark and two CTAs cannot share 292px. The mark is
      the part that still identifies the site at a glance, so the word goes and
      the buttons keep their labels — the reverse leaves two buttons nobody can

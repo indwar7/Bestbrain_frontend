@@ -216,8 +216,12 @@
        floor for supporting text. The close button was 34px and the "Open"
        links a 4px-padded row, both under the 44px a finger needs. Scoped to
        the query, so the desktop panel keeps the density it was designed with. */
-    '@media(max-width:600px){',
-    '  #efp{width:min(100vw,420px);max-width:100vw}',
+    /* Legibility and touch targets key off 900px, not 600px: a phone held
+       sideways is 667px wide and a tablet is 768px, and neither of them grew
+       a mouse. Sizing these at 600px left the same 9px links and 34px close
+       button on both. Layout is the separate block below — that genuinely
+       depends on how much width there is. */
+    '@media(max-width:900px){',
     '  #efp-x{width:44px;height:44px}',
     '  .efp-open{font-size:12px;padding:11px 12px;min-height:44px;display:inline-flex;align-items:center}',
     '  .efp-it{padding:11px 8px;min-height:44px}',
@@ -228,6 +232,9 @@
     '  #efp-me .ttl{font-size:12px}',
     '  .efp-stat span{font-size:12px}',
     '  #efp-btn{bottom:max(14px,env(safe-area-inset-bottom))}',
+    '}',
+    '@media(max-width:600px){',
+    '  #efp{width:min(100vw,420px);max-width:100vw}',
     '}',
   ].join('');
 

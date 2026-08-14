@@ -350,27 +350,35 @@
     '#ka-slot .subtitle{overflow-wrap:anywhere;}' +
     '#ka-root .ka-quote{padding:14px 16px;}' +
     /* 16px keeps iOS from zooming the page when a field takes focus */
-    '#ka-slot input[type=text],#ka-slot input[type=email],#ka-slot input[type=password],' +
-    '#ka-slot input[type=tel],#ka-slot input[type=number],#ka-slot select,#ka-slot textarea{' +
-      'font-size:16px!important;min-height:46px;}' +
-    '#ka-slot .pw-toggle{min-width:44px;min-height:44px;display:grid!important;place-items:center;}' +
     '#ka-slot .social-logins{grid-template-columns:1fr!important;}' +
     /* The terms checkbox is a 17px box and the two links inside its label are
        17px tall — the three controls a signup cannot complete without were
        the three smallest things on the screen. */
+    /* "Forgot password?" is an 18px inline link and the only way back into a
+       locked-out account — it needs to be reachable with a thumb. */
+    '#ka-slot .otp-inputs-wrapper{gap:6px!important;}' +
+    '#ka-slot .otp-digit{min-width:0!important;font-size:18px!important;padding:11px 0!important;}' +
+    '#ka-slot #otpChannelSelector{grid-template-columns:1fr!important;}' +
+  '}' +
+  /* ---------- touch + legibility ----------
+     Keyed to 900px, not 600px. A phone held sideways is 667px wide and a
+     tablet is 768px; neither of them grew a mouse, and at 600px both were
+     still getting the 17px terms checkbox and the 18px "Forgot password?"
+     link. Field sizing lives here too: below 16px iOS Safari zooms the page
+     on focus regardless of which way the phone is turned. */
+  '@media(max-width:900px){' +
+    '#ka-slot input[type=text],#ka-slot input[type=email],#ka-slot input[type=password],' +
+    '#ka-slot input[type=tel],#ka-slot input[type=number],#ka-slot select,#ka-slot textarea{' +
+      'font-size:16px!important;min-height:46px;}' +
+    '#ka-slot .pw-toggle{min-width:44px;min-height:44px;display:grid!important;place-items:center;}' +
     '#ka-slot input[type=checkbox]{width:24px!important;height:24px!important;flex:0 0 auto;}' +
     '#ka-slot .checkbox-group{align-items:flex-start!important;gap:12px!important;}' +
     '#ka-slot .checkbox-group label{font-size:13.5px!important;line-height:1.5!important;}' +
     '#ka-slot label a,#ka-slot .checkbox-group a{display:inline-block;padding:6px 2px;}' +
-    /* "Forgot password?" is an 18px inline link and the only way back into a
-       locked-out account — it needs to be reachable with a thumb. */
     '#ka-slot .forgot-password{margin:0 0 12px!important;}' +
     '#ka-slot .forgot-password a,#ka-slot .signup-link a,#ka-slot .signin-link a{' +
       'display:inline-block;padding:12px 4px;min-height:44px;box-sizing:border-box;}' +
     '#ka-root .ka-logo{min-height:44px;align-items:center;}' +
-    '#ka-slot .otp-inputs-wrapper{gap:6px!important;}' +
-    '#ka-slot .otp-digit{min-width:0!important;font-size:18px!important;padding:11px 0!important;}' +
-    '#ka-slot #otpChannelSelector{grid-template-columns:1fr!important;}' +
   '}' +
   '@media(prefers-reduced-motion:reduce){#ka-root *{animation:none!important}}';
 

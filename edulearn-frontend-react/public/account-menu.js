@@ -51,12 +51,18 @@
        page the moment a field takes focus, and the user has to pinch back out
        to read the form they are filling in. The 10px section headings sit
        under the 12px floor for supporting text. */
-    '@media(max-width:600px){' +
-      '.acct-sec{padding:16px;}' +
+    /* Legibility and target size key off 900px: a phone held sideways is
+       667px and a tablet 768px, and neither grew a mouse. Spacing is the
+       600px block below, because that really is about available width. */
+    '@media(max-width:900px){' +
       '.acct-sec h3{font-size:12px;letter-spacing:.14em;}' +
       '.acct-field label{font-size:13px;}' +
       '.acct-field input,.acct-field select{font-size:16px;min-height:46px;}' +
-      '.acct-save,.acct-logout{margin-left:16px;margin-right:16px;width:calc(100% - 32px);min-height:46px;}' +
+      '.acct-save,.acct-logout{min-height:46px;}' +
+    '}' +
+    '@media(max-width:600px){' +
+      '.acct-sec{padding:16px;}' +
+      '.acct-save,.acct-logout{margin-left:16px;margin-right:16px;width:calc(100% - 32px);}' +
       '.acct-panel .am-hd{padding-top:max(18px,env(safe-area-inset-top));}' +
     '}';
   var st = document.createElement('style');
