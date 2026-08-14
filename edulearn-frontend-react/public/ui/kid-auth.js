@@ -79,19 +79,20 @@
   '.auth-shell{display:none!important;}' +
   'html.kidbg body{overflow-x:hidden;}' +
 
-  /* minmax(0,…) rather than a bare fr: `1fr` is `minmax(auto,1fr)`, and that
-     auto floor is the column's min-content width. .ka-card is 452px wide, so
-     the floor was 452px and the column simply refused to shrink — on a 320px
-     phone the page laid out at 492px and the right third was cut off by
-     body{overflow-x:hidden}. Letting the column reach 0 is what makes
-     .ka-card's own max-width:100% mean anything.
+  /* The two-column ratio is deliberately left as bare fr units.
+     `1fr` is `minmax(auto,1fr)`, and that auto floor lets the right column be
+     pushed wider than its share by .ka-card's 452px min-content — which is
+     exactly what the desktop layout has always done, and moving the divider
+     is a visible change to a screen that was signed off. The phone problem
+     this causes is fixed where it actually occurs: the <=1000px rule below
+     switches to a single minmax(0,1fr) track that CAN shrink.
 
      min-height uses dvh so the shell tracks the visible area as the mobile
      browser's toolbar shows and hides; 100vh is the taller, fixed number and
-     leaves the last row under the toolbar. 100vh stays as the fallback for
-     engines without dvh. */
+     leaves the last row under it. 100vh stays as the fallback for engines
+     without dvh, and the two are identical on a desktop. */
   '#ka-root{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:grid;' +
-    'grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);align-items:stretch;' +
+    'grid-template-columns:1.02fr .98fr;align-items:stretch;' +
     'font-family:inherit;color:#fff;}' +
 
   /* ---------- left: the story ---------- */
