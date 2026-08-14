@@ -1,5 +1,6 @@
 /* Lifted verbatim from edulearn-frontend/signup.html.
    Do not hand-edit: regenerate with `node scripts/extract-page-css.mjs`. */
+html{background:#050505!important;color-scheme:dark}html body{background:#050505}
 
     :root{
       --teal:#34D399;--peri:#818CF8;--amber:#FBBF24;--rose:#FB7185;

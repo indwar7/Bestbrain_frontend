@@ -1,5 +1,6 @@
 /* Lifted verbatim from edulearn-frontend/take-test.html.
    Do not hand-edit: regenerate with `node scripts/extract-page-css.mjs`. */
+html{background:#050505!important;color-scheme:dark}html body{background:#050505}
 
     :root{
       --ink:#1A1F36;--bg:#F7F9FC;--card:#FFFFFF;--muted:#64748B;--bg2:#F5F7FA;

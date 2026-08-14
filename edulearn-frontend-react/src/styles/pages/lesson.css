@@ -1,5 +1,6 @@
 /* Lifted verbatim from edulearn-frontend/lesson.html.
    Do not hand-edit: regenerate with `node scripts/extract-page-css.mjs`. */
+html{background:#050505!important;color-scheme:dark}html body{background:#050505}
 
 :root{
   --ink:#FFFFFF;

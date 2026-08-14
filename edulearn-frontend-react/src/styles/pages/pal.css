@@ -1,5 +1,6 @@
 /* Lifted verbatim from edulearn-frontend/pal.html.
    Do not hand-edit: regenerate with `node scripts/extract-page-css.mjs`. */
+html{background:#050505!important;color-scheme:dark}html body{background:#050505}
 
 :root{
   --ink:#FFFFFF; --card:#FFFFFF; --card2:#F5F7FA;

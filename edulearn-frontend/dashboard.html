@@ -950,6 +950,21 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 .sdot.ok i{background:var(--c8);} .sdot.help i{background:var(--c4);}
 .sdot.ok,.sdot.help{color:#000000;}
 
+/* ---- phone: chart labels ----
+   The SVG type here is 9-10px, set for a wide desktop chart. On a phone the
+   same chart is a third of the width, and those labels are the part a student
+   actually reads off it: the day names under the bars, the axis, the ring's
+   caption. All of them sat under the 12px floor for supporting text.
+
+   They live inside the SVG viewBox, so they scale with the chart rather than
+   the page — sizing them up costs no layout and cannot reflow anything
+   outside the chart. Desktop keeps the density it was drawn for. */
+@media (max-width:600px){
+  .barchart text{font-size:13px;letter-spacing:.06em;}
+  .areachart .axis{font-size:12.5px;letter-spacing:.06em;}
+  .ring-sub{font-size:12px;letter-spacing:.1em;}
+  .chart-tip{font-size:12px;}
+}
 </style>
   <link rel="stylesheet" href="../theme.css">
 <link rel="stylesheet" href="../vivid.css">
