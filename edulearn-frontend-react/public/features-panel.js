@@ -204,7 +204,31 @@
     'html.dark-mode #efp-nav{border-top:1px solid rgba(242,237,227,.1);background:#0B1220}',
     'html.dark-mode #efp-nav a{color:#DDD8CE;border:1px solid rgba(242,237,227,.16)}',
     'html.dark-mode #efp-nav a.cur{background:rgba(61,232,197,.16);border-color:rgba(61,232,197,.5);color:#3DE8C5}',
-    'html.dark-mode #efp-foot{color:#7C879B;background:#0B1220}'
+    'html.dark-mode #efp-foot{color:#7C879B;background:#0B1220}',
+    /* ---- phone ----
+       Last in the sheet on purpose. A media query adds no specificity, so
+       these lose to the identical single-class selectors above unless they
+       come after them in source order — placed higher up, every one of these
+       was silently dropped.
+
+       The type in here was set for a desktop side panel: 8px on the .pl chips
+       and 9px on the "Open" links, unreadable on a phone and under the 12px
+       floor for supporting text. The close button was 34px and the "Open"
+       links a 4px-padded row, both under the 44px a finger needs. Scoped to
+       the query, so the desktop panel keeps the density it was designed with. */
+    '@media(max-width:600px){',
+    '  #efp{width:min(100vw,420px);max-width:100vw}',
+    '  #efp-x{width:44px;height:44px}',
+    '  .efp-open{font-size:12px;padding:11px 12px;min-height:44px;display:inline-flex;align-items:center}',
+    '  .efp-it{padding:11px 8px;min-height:44px}',
+    '  .efp-it .pl{font-size:12px;padding:3px 7px}',
+    '  .efp-sh h3{font-size:16px}',
+    '  #efp-nav a{font-size:13px;padding:10px 14px}',
+    '  #efp-foot{font-size:12px;padding-bottom:max(14px,env(safe-area-inset-bottom))}',
+    '  #efp-me .ttl{font-size:12px}',
+    '  .efp-stat span{font-size:12px}',
+    '  #efp-btn{bottom:max(14px,env(safe-area-inset-bottom))}',
+    '}',
   ].join('');
 
   var totDone = 0, tot = 0;
