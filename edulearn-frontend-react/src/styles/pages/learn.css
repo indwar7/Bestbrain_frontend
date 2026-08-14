@@ -851,3 +851,20 @@ input{font-family:inherit;color:inherit}
   body{min-height:100dvh;}
 }
 
+
+/* ---- phone/tablet: active class tab contrast ----
+   Near-black text on the class accent fill measures 4.28:1 against the pixels
+   actually painted — just under the 4.5:1 needed for body-size text, and the
+   count line below it 4.26:1. Lightening the fill a fifth toward white clears
+   both without changing the colour the tab is recognised by.
+
+   Scoped to touch widths deliberately: the same pair is marginal on desktop
+   too, but the brief is explicit that the laptop view does not move. Flagged
+   rather than fixed there. */
+@media (max-width:900px){
+  .ctab.is-active{
+    background:color-mix(in srgb, var(--cc) 78%, #FFFFFF);
+    border-color:color-mix(in srgb, var(--cc) 78%, #FFFFFF);
+  }
+  .ctab.is-active .ctab__count{color:rgba(5,8,15,.86);}
+}
