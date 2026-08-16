@@ -1,5 +1,5 @@
 /* ============================================================
-   BESTBRAIN — AMBER OS · HOMEPAGE
+   BESTBRAIN — HOMEPAGE
    ------------------------------------------------------------
    Local preview only. index.html on disk is never touched: this
    builds the marketing page in memory and swaps it in, so the
@@ -94,15 +94,31 @@
   ];
 
   var CSS =
+  /* ---------- accent ----------
+     One place to change the landing page's accent. Everything below reads
+     these instead of repeating a hex 27 times, which is what made the old
+     amber impossible to retheme.
+
+     Violet replaces the amber. Contrast, against the values this page
+     actually paints on:
+       #0A0A0A ink on #A855F7 fill  -> 5.0:1  (CTA label, needs 4.5)
+       #C084FC text on the #050505 ground -> 7.7:1  (eyebrow, labels)
+     The primary button keeps dark ink rather than white: white on #A855F7
+     is only 3.9:1 and would fail at body size.
+
+     --kh-accent-rgb carries the same colour as bare channels so the many
+     rgba(...) glows can keep their own alpha. */
+  ':root{--kh-accent:#A855F7;--kh-accent-soft:#C084FC;--kh-accent-deep:#7E22CE;' +
+    '--kh-accent-rgb:168,85,247;--kh-accent-soft-rgb:192,132,252;}' +
   '#kh-root{position:relative;z-index:1;font-family:"Nunito",system-ui,sans-serif;color:rgba(255,255,255,.8);}' +
   '#kh-root *{box-sizing:border-box;}' +
   '#kh-root section{max-width:1180px;margin:0 auto;padding:clamp(64px,9vw,120px) clamp(20px,4vw,32px);}' +
   '#kh-root h1,#kh-root h2,#kh-root h3{color:#fff;letter-spacing:-.03em;line-height:1.08;margin:0;}' +
   '#kh-root p{margin:0;}' +
   '.kh-eyebrow{display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border-radius:99px;' +
-    'background:rgba(255,122,0,.12);border:1px solid rgba(255,122,0,.32);' +
-    'font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#FFB347;}' +
-  '.kh-eyebrow .d{width:7px;height:7px;border-radius:50%;background:#FF7A00;box-shadow:0 0 10px #FF7A00;' +
+    'background:rgba(var(--kh-accent-rgb),.12);border:1px solid rgba(var(--kh-accent-rgb),.32);' +
+    'font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--kh-accent-soft);}' +
+  '.kh-eyebrow .d{width:7px;height:7px;border-radius:50%;background:var(--kh-accent);box-shadow:0 0 10px var(--kh-accent);' +
     'animation:kh-blip 2s ease-in-out infinite;}' +
   '@keyframes kh-blip{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}' +
 
@@ -116,7 +132,7 @@
   '.kh-logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px;color:#fff;' +
     'letter-spacing:-.02em;text-decoration:none;}' +
   '.kh-logo .m{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:#0A0A0A;' +
-    'background:linear-gradient(135deg,#FF7A00,#FFB347);box-shadow:0 6px 18px rgba(255,122,0,.45);}' +
+    'background:linear-gradient(135deg,var(--kh-accent),var(--kh-accent-soft));box-shadow:0 6px 18px rgba(var(--kh-accent-rgb),.45);}' +
   '.kh-logo .m svg{width:19px;height:19px;}' +
   '.kh-nav-links{display:flex;gap:4px;margin-left:auto;}' +
   '.kh-nav-links a{padding:9px 15px;border-radius:99px;font-size:14px;font-weight:700;' +
@@ -135,12 +151,12 @@
   '.kh-btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:99px;' +
     'font-size:15px;font-weight:800;text-decoration:none;cursor:pointer;border:0;position:relative;overflow:hidden;' +
     'transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s ease,filter .3s ease;}' +
-  '.kh-btn.p{background:linear-gradient(120deg,#FF7A00,#FFA726);color:#0A0A0A;' +
-    'box-shadow:0 12px 34px rgba(255,122,0,.42),inset 0 1px 0 rgba(255,255,255,.4);}' +
+  '.kh-btn.p{background:linear-gradient(120deg,var(--kh-accent),var(--kh-accent-soft));color:#0A0A0A;' +
+    'box-shadow:0 12px 34px rgba(var(--kh-accent-rgb),.42),inset 0 1px 0 rgba(255,255,255,.4);}' +
   '.kh-btn.g{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.18);' +
     'backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}' +
   '.kh-btn:hover{transform:translateY(-3px);filter:brightness(1.05);}' +
-  '.kh-btn.p:hover{box-shadow:0 18px 46px rgba(255,122,0,.56);}' +
+  '.kh-btn.p:hover{box-shadow:0 18px 46px rgba(var(--kh-accent-rgb),.56);}' +
   '.kh-btn:active{transform:translateY(-1px) scale(.98);}' +
   '.kh-btn .ar{transition:transform .3s ease;}' +
   '.kh-btn:hover .ar{transform:translateX(4px);}' +
@@ -151,7 +167,7 @@
   /* Solid, not clipped. A gradient headline needs color:transparent, and the
      ink law owns -webkit-text-fill-color platform-wide — the two fight and the
      word loses, rendering near-black on a near-black page. */
-  '#kh-hero h1 .gr{color:#FFB347!important;-webkit-text-fill-color:#FFB347!important;' +
+  '#kh-hero h1 .gr{color:var(--kh-accent-soft)!important;-webkit-text-fill-color:var(--kh-accent-soft)!important;' +
     'background:none!important;}' +
   '#kh-hero .sub{margin:22px auto 0;max-width:60ch;font-size:clamp(16px,1.9vw,19px);line-height:1.6;' +
     'color:rgba(255,255,255,.7);}' +
@@ -159,7 +175,7 @@
   '#kh-hero .trust{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-top:38px;' +
     'font-size:13px;font-weight:700;color:rgba(255,255,255,.55);}' +
   '#kh-hero .trust span{display:inline-flex;align-items:center;gap:8px;}' +
-  '#kh-hero .trust i{width:6px;height:6px;border-radius:50%;background:#FF7A00;font-style:normal;}' +
+  '#kh-hero .trust i{width:6px;height:6px;border-radius:50%;background:var(--kh-accent);font-style:normal;}' +
 
   /* hero orbit.
      --orb is the ring's diameter, and every node's distance from the centre is
@@ -177,7 +193,7 @@
      make #kh-root a scroll container and change how the page scrolls. */
   '#kh-root{overflow-x:clip;}' +
   '.kh-orbit .ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,.09);}' +
-  '.kh-orbit .r2{inset:13%;border-color:rgba(255,122,0,.18);}' +
+  '.kh-orbit .r2{inset:13%;border-color:rgba(var(--kh-accent-rgb),.18);}' +
   '.kh-orbit .r3{inset:26%;border-color:rgba(255,255,255,.07);}' +
   '.kh-orbit .spin{position:absolute;inset:0;animation:kh-spin 34s linear infinite;}' +
   '.kh-orbit .spin.rev{animation-direction:reverse;animation-duration:46s;}' +
@@ -185,19 +201,19 @@
   '.kh-orbit .node{position:absolute;width:var(--node);height:var(--node);border-radius:18px;display:grid;place-items:center;' +
     'background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);' +
     'backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);' +
-    'box-shadow:0 12px 30px rgba(0,0,0,.5);color:#FFB347;}' +
+    'box-shadow:0 12px 30px rgba(0,0,0,.5);color:var(--kh-accent-soft);}' +
   '.kh-orbit .node svg{width:26px;height:26px;}' +
   '.kh-orbit .node i{display:block;animation:kh-unspin 34s linear infinite;}' +
   '.kh-orbit .spin.rev .node i{animation-duration:46s;animation-direction:reverse;}' +
   '@keyframes kh-unspin{to{transform:rotate(-360deg)}}' +
   '.kh-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:40%;height:40%;' +
     'border-radius:50%;display:grid;place-items:center;text-align:center;' +
-    'background:radial-gradient(circle at 34% 28%,rgba(255,208,138,.9),rgba(255,122,0,.85) 55%,rgba(150,60,0,.9));' +
-    'box-shadow:0 0 70px rgba(255,122,0,.55),inset 0 2px 0 rgba(255,255,255,.4);' +
+    'background:radial-gradient(circle at 34% 28%,rgba(255,208,138,.9),rgba(var(--kh-accent-rgb),.85) 55%,rgba(150,60,0,.9));' +
+    'box-shadow:0 0 70px rgba(var(--kh-accent-rgb),.55),inset 0 2px 0 rgba(255,255,255,.4);' +
     'animation:kh-breathe 5s ease-in-out infinite;}' +
   '@keyframes kh-breathe{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.05)}}' +
   '.kh-core b{display:block;font-size:clamp(20px,3vw,30px);font-weight:900;color:#1A0E00;letter-spacing:-.02em;}' +
-  '.kh-core span{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(26,14,0,.7);}' +
+  '.kh-core span{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(20,6,32,.72);}' +
 
   /* ---- section heads ---- */
   '.kh-head{text-align:center;max-width:44ch;margin:0 auto clamp(38px,5vw,60px);}' +
@@ -222,26 +238,26 @@
     'transition:transform .45s cubic-bezier(.22,1,.36,1),border-color .45s ease,' +
       'box-shadow .45s ease,background .45s ease;text-decoration:none;display:block;}' +
   '.kh-card::after{content:"";position:absolute;inset:-1px;border-radius:22px;pointer-events:none;opacity:0;' +
-    'background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(255,122,0,.18),transparent 60%);' +
+    'background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(var(--kh-accent-rgb),.18),transparent 60%);' +
     'transition:opacity .4s ease;}' +
   '.kh-card:hover{transform:translateY(-7px);background:rgba(255,255,255,.1);' +
-    'border-color:rgba(255,122,0,.45);' +
-    'box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 26px 60px rgba(0,0,0,.55),0 0 44px rgba(255,122,0,.2);}' +
+    'border-color:rgba(var(--kh-accent-rgb),.45);' +
+    'box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 26px 60px rgba(0,0,0,.55),0 0 44px rgba(var(--kh-accent-rgb),.2);}' +
   '.kh-card:hover::after{opacity:1;}' +
-  '.kh-ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;margin-bottom:16px;color:#FFB347;' +
-    'background:rgba(255,122,0,.14);box-shadow:inset 0 0 0 1px rgba(255,122,0,.3);' +
+  '.kh-ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;margin-bottom:16px;color:var(--kh-accent-soft);' +
+    'background:rgba(var(--kh-accent-rgb),.14);box-shadow:inset 0 0 0 1px rgba(var(--kh-accent-rgb),.3);' +
     'transition:transform .45s cubic-bezier(.34,1.56,.64,1),background .35s ease;}' +
   '.kh-ic svg{width:23px;height:23px;}' +
-  '.kh-card:hover .kh-ic{transform:scale(1.14) rotate(-8deg);background:rgba(255,122,0,.26);}' +
+  '.kh-card:hover .kh-ic{transform:scale(1.14) rotate(-8deg);background:rgba(var(--kh-accent-rgb),.26);}' +
   '.kh-card h3{font-size:17px;font-weight:800;margin-bottom:7px;letter-spacing:-.01em;}' +
   '.kh-card p{font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.62);}' +
   '.kh-tag{position:absolute;top:16px;right:16px;font-size:9.5px;font-weight:900;letter-spacing:.1em;' +
-    'padding:4px 9px;border-radius:99px;background:linear-gradient(100deg,#FF7A00,#FFB347);color:#0A0A0A;}' +
+    'padding:4px 9px;border-radius:99px;background:linear-gradient(100deg,var(--kh-accent),var(--kh-accent-soft));color:#0A0A0A;}' +
 
   /* ---- stats ---- */
   '.kh-stat b{display:block;font-size:clamp(34px,4.6vw,46px);font-weight:900;color:#fff;line-height:1;' +
     'font-variant-numeric:tabular-nums;letter-spacing:-.03em;}' +
-  '.kh-stat b em{font-style:normal;background:linear-gradient(115deg,#FF7A00,#FFB347);' +
+  '.kh-stat b em{font-style:normal;background:linear-gradient(115deg,var(--kh-accent),var(--kh-accent-soft));' +
     '-webkit-background-clip:text;background-clip:text;color:transparent;}' +
   '.kh-stat .l{display:block;margin-top:10px;font-size:14px;font-weight:800;color:#fff;}' +
   '.kh-stat .s{display:block;margin-top:4px;font-size:12.5px;color:rgba(255,255,255,.55);}' +
@@ -249,17 +265,17 @@
   /* ---- steps / timeline ---- */
   '.kh-step{position:relative;padding-left:60px;}' +
   '.kh-step .n{position:absolute;left:0;top:0;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;' +
-    'font-weight:900;font-size:15px;color:#0A0A0A;background:linear-gradient(135deg,#FF7A00,#FFB347);' +
-    'box-shadow:0 8px 22px rgba(255,122,0,.4);}' +
+    'font-weight:900;font-size:15px;color:#0A0A0A;background:linear-gradient(135deg,var(--kh-accent),var(--kh-accent-soft));' +
+    'box-shadow:0 8px 22px rgba(var(--kh-accent-rgb),.4);}' +
   '.kh-step h3{font-size:17px;font-weight:800;margin-bottom:7px;}' +
   '.kh-step p{font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.62);}' +
   '.kh-tl{position:relative;padding-left:34px;}' +
   '.kh-tl::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;border-radius:2px;' +
-    'background:linear-gradient(180deg,#FF7A00,rgba(255,122,0,.1));}' +
+    'background:linear-gradient(180deg,var(--kh-accent),rgba(var(--kh-accent-rgb),.1));}' +
   '.kh-tl-item{position:relative;padding:0 0 30px 4px;}' +
   '.kh-tl-item::before{content:"";position:absolute;left:-30px;top:5px;width:12px;height:12px;border-radius:50%;' +
-    'background:#FF7A00;box-shadow:0 0 0 4px rgba(255,122,0,.18),0 0 16px #FF7A00;}' +
-  '.kh-tl-item .w{font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#FFB347;}' +
+    'background:var(--kh-accent);box-shadow:0 0 0 4px rgba(var(--kh-accent-rgb),.18),0 0 16px var(--kh-accent);}' +
+  '.kh-tl-item .w{font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--kh-accent-soft);}' +
   '.kh-tl-item h3{font-size:17px;font-weight:800;margin:6px 0 6px;}' +
   '.kh-tl-item p{font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.62);}' +
 
@@ -268,21 +284,21 @@
   '.kh-who{display:flex;align-items:center;gap:11px;margin-top:20px;padding-top:18px;' +
     'border-top:1px solid rgba(255,255,255,.1);}' +
   '.kh-who .av{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:900;' +
-    'color:#0A0A0A;background:linear-gradient(135deg,#FF7A00,#FFB347);}' +
+    'color:#0A0A0A;background:linear-gradient(135deg,var(--kh-accent),var(--kh-accent-soft));}' +
   '.kh-who b{display:block;font-size:13.5px;color:#fff;}' +
   '.kh-who span{font-size:12px;color:rgba(255,255,255,.55);}' +
-  '.kh-stars{color:#FFB347;font-size:13px;letter-spacing:2px;margin-bottom:14px;}' +
+  '.kh-stars{color:var(--kh-accent-soft);font-size:13px;letter-spacing:2px;margin-bottom:14px;}' +
 
   /* ---- FAQ ---- */
   '.kh-faq{border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.05);' +
     'backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);margin-bottom:12px;overflow:hidden;' +
     'transition:border-color .35s ease,background .35s ease;}' +
-  '.kh-faq[open]{border-color:rgba(255,122,0,.42);background:rgba(255,122,0,.07);}' +
+  '.kh-faq[open]{border-color:rgba(var(--kh-accent-rgb),.42);background:rgba(var(--kh-accent-rgb),.07);}' +
   '.kh-faq summary{list-style:none;cursor:pointer;padding:20px 22px;font-size:15.5px;font-weight:800;color:#fff;' +
     'display:flex;align-items:center;gap:14px;}' +
   '.kh-faq summary::-webkit-details-marker{display:none;}' +
   '.kh-faq summary .pm{margin-left:auto;width:26px;height:26px;border-radius:8px;flex-shrink:0;' +
-    'display:grid;place-items:center;background:rgba(255,122,0,.16);color:#FFB347;font-weight:900;' +
+    'display:grid;place-items:center;background:rgba(var(--kh-accent-rgb),.16);color:var(--kh-accent-soft);font-weight:900;' +
     'transition:transform .35s cubic-bezier(.22,1,.36,1);}' +
   '.kh-faq[open] summary .pm{transform:rotate(45deg);}' +
   '.kh-faq .a{padding:0 22px 20px 22px;font-size:14px;line-height:1.65;color:rgba(255,255,255,.68);}' +
@@ -290,8 +306,8 @@
   /* ---- final CTA + footer ---- */
   '#kh-cta{text-align:center;position:relative;overflow:hidden;border-radius:32px;' +
     'padding:clamp(48px,7vw,84px) clamp(24px,5vw,60px);margin:0 clamp(20px,4vw,32px) 40px;' +
-    'background:linear-gradient(140deg,rgba(255,122,0,.2),rgba(255,255,255,.05));' +
-    'border:1px solid rgba(255,122,0,.3);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);' +
+    'background:linear-gradient(140deg,rgba(var(--kh-accent-rgb),.2),rgba(255,255,255,.05));' +
+    'border:1px solid rgba(var(--kh-accent-rgb),.3);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);' +
     'box-shadow:0 30px 80px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.16);}' +
   '#kh-cta h2{font-size:clamp(30px,4.6vw,50px);font-weight:900;max-width:18ch;margin:18px auto 0;}' +
   '#kh-cta p{margin:18px auto 0;max-width:52ch;font-size:16px;line-height:1.6;color:rgba(255,255,255,.7);}' +
@@ -304,7 +320,7 @@
     'color:rgba(255,255,255,.45);margin:0 0 14px;}' +
   '.kh-foot-in a{display:block;font-size:13.5px;font-weight:600;color:rgba(255,255,255,.68);' +
     'text-decoration:none;padding:5px 0;transition:color .25s ease,transform .25s ease;}' +
-  '.kh-foot-in a:hover{color:#FFB347;transform:translateX(3px);}' +
+  '.kh-foot-in a:hover{color:var(--kh-accent-soft);transform:translateX(3px);}' +
   '.kh-copy{max-width:1180px;margin:0 auto;padding:0 clamp(20px,4vw,32px) 40px;' +
     'font-size:12.5px;color:rgba(255,255,255,.4);}' +
 
@@ -322,6 +338,39 @@
     '.kh-orbit{--orb:min(560px,62vw);--node:46px;margin-top:32px;}' +
     '.kh-orbit .node{border-radius:14px;}' +
     '.kh-orbit .node svg{width:21px;height:21px;}' +
+
+    /* ---------- vertical rhythm ----------
+       clamp(64px,9vw,120px) bottoms out at its 64px floor on a phone, so
+       every one of the nine sections spends 128px on air. Nothing here is
+       dense enough on a 390px screen to need that much separation, and the
+       page was long enough to feel endless. */
+    '#kh-root section{padding:44px clamp(16px,4vw,32px);}' +
+    '.kh-head h2{font-size:clamp(26px,7vw,34px);}' +
+    '.kh-head p{font-size:15px;}' +
+    '.kh-grid{gap:14px;}' +
+    '.kh-card{padding:18px;border-radius:18px;}' +
+
+    /* .kh-g4 carries the eight stats AND the nineteen feature cards — both
+       are a short label over one or two lines, and both read better two-up
+       than as 27 full-width blocks the reader has to scroll past one at a
+       time. The reason and testimonial grids (g3, g2) stay single column:
+       those are full sentences and go unreadable at half width. */
+    '.kh-g4{grid-template-columns:repeat(2,minmax(0,1fr));}' +
+    '.kh-g3,.kh-g2{grid-template-columns:minmax(0,1fr);}' +
+    '.kh-stat b{font-size:clamp(26px,8vw,34px);}' +
+    '.kh-stat .l{font-size:13px;margin-top:8px;}' +
+    '.kh-stat .s{font-size:12px;}' +
+    '.kh-card h3{font-size:15px;}' +
+    '.kh-card p{font-size:13px;line-height:1.5;}' +
+
+    /* Hero: the two CTAs were centred at their natural widths, so they came
+       out different sizes stacked on top of each other. Full width makes them
+       one block and gives each a proper 48px target. */
+    '#kh-hero .cta{flex-direction:column;align-items:stretch;gap:10px;}' +
+    '#kh-hero .cta .kh-btn{justify-content:center;width:100%;min-height:48px;}' +
+    '#kh-hero .trust{gap:8px 16px;font-size:12.5px;}' +
+    '#kh-cta .cta{flex-direction:column;align-items:stretch;}' +
+    '#kh-cta .cta .kh-btn{justify-content:center;width:100%;min-height:48px;}' +
     /* The header keeps a logo and two CTAs. At 320px "Log in" wrapped onto
        two lines and "Start learning free" ran off the right edge, so the
        first thing on the page was a broken row. Tighten the row, shorten the
