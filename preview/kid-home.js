@@ -279,6 +279,36 @@
   '.kh-tl-item h3{font-size:17px;font-weight:800;margin:6px 0 6px;}' +
   '.kh-tl-item p{font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.62);}' +
 
+  /* ---- the journey runs ACROSS on a wide screen ----
+     Four short steps stacked in a column inside an 1180px section used about
+     a third of the width and left the rest of the row empty — the emptiness
+     was the layout, not the content. Read left-to-right the timeline also
+     says what it means: eight weeks as a span you travel, rather than a list.
+
+     The same elements do both jobs. The rail (.kh-tl::before) turns from a
+     vertical line into a horizontal one, and each dot moves from the left of
+     its item to above it, sitting on that line. Below 901px nothing here
+     applies and the column layout — which is the right shape on a phone —
+     is untouched.
+
+     The numbers line up: the grid's 36px top padding puts each item's content
+     at y=36, so a dot at top:-36px sits at y=0. It is 12px tall, so its
+     centre is y=6 — the same as the 2px rail at top:5px. */
+  '@media(min-width:901px){' +
+    '.kh-tl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 26px;' +
+      'padding-left:0;padding-top:36px;}' +
+    /* The rail starts and ends ON a dot rather than at the container edge —
+       running it to right:6px left it trailing past the last step into empty
+       space, which is the thing this layout is fixing. One column plus the
+       6px half-dot is exactly the inset that lands it on the last centre:
+       a column is (100% - 3 gaps) / 4. */
+    '.kh-tl::before{left:6px;right:calc((100% - 78px) / 4 - 6px);top:5px;bottom:auto;' +
+      'width:auto;height:2px;' +
+      'background:linear-gradient(90deg,var(--kh-accent),rgba(var(--kh-accent-rgb),.35));}' +
+    '.kh-tl-item{padding:0 10px 0 0;}' +
+    '.kh-tl-item::before{left:0;top:-36px;}' +
+  '}' +
+
   /* ---- testimonials ---- */
   '.kh-quote{font-size:15px;line-height:1.65;color:rgba(255,255,255,.82);}' +
   '.kh-who{display:flex;align-items:center;gap:11px;margin-top:20px;padding-top:18px;' +
