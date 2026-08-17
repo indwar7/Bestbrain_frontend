@@ -109,7 +109,9 @@
      --kh-accent-rgb carries the same colour as bare channels so the many
      rgba(...) glows can keep their own alpha. */
   ':root{--kh-accent:#A855F7;--kh-accent-soft:#C084FC;--kh-accent-deep:#7E22CE;' +
-    '--kh-accent-rgb:168,85,247;--kh-accent-soft-rgb:192,132,252;}' +
+    '--kh-accent-rgb:168,85,247;--kh-accent-soft-rgb:192,132,252;' +
+    /* the lit and shadowed ends of the PAL sphere's gradient */
+    '--kh-accent-hi-rgb:233,213,255;--kh-accent-deep-rgb:76,29,149;}' +
   '#kh-root{position:relative;z-index:1;font-family:"Nunito",system-ui,sans-serif;color:rgba(255,255,255,.8);}' +
   '#kh-root *{box-sizing:border-box;}' +
   '#kh-root section{max-width:1180px;margin:0 auto;padding:clamp(64px,9vw,120px) clamp(20px,4vw,32px);}' +
