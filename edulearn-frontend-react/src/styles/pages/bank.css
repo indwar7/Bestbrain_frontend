@@ -65,6 +65,12 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     .gate,.empty{padding:56px 20px;text-align:center;color:var(--muted);}
     .gate a{color:var(--teal);font-weight:600;}
 
+    /* Legibility keys off 900px, matching the floor the rest of the site
+       uses: a phone on its side is 667px and a tablet 768px, and neither is
+       read from further away than a phone held upright. */
+    @media (max-width:900px){
+      .diff{font-size:12px;}
+    }
     @media (max-width:600px){
       .wrap{padding:24px 16px 64px;}
       h1{font-size:26px;}
