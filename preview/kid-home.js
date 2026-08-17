@@ -349,10 +349,22 @@
   '#kh-cta h2{font-size:clamp(30px,4.6vw,50px);font-weight:900;max-width:18ch;margin:18px auto 0;}' +
   '#kh-cta p{margin:18px auto 0;max-width:52ch;font-size:16px;line-height:1.6;color:rgba(255,255,255,.7);}' +
   '#kh-cta .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:32px;}' +
-  '#kh-foot{border-top:1px solid rgba(255,255,255,.1);}' +
+  /* text-align is reset here, not inherited. #kh-foot is a <footer>, and the
+     lifted index.html stylesheet carries a bare `footer{…text-align:center}`
+     rule that reaches straight into this one — every column heading and link
+     came out centred under a left-aligned brand. An id beats an element
+     selector, so this settles it without touching the page stylesheet. */
+  '#kh-foot{border-top:1px solid rgba(255,255,255,.1);text-align:left;}' +
+  '.kh-copy{text-align:center;}' +
   '.kh-foot-in{max-width:1180px;margin:0 auto;padding:44px clamp(20px,4vw,32px);' +
-    'display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;}' +
-  '.kh-foot-in .c{min-width:170px;}' +
+    'display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;}' +
+  /* Adding the Classes column made six items compete for the row and pushed
+     Account onto a second line on its own, which read as a mistake. The
+     widths are picked to fit: 1180 minus 64 padding leaves 1116; six gaps of
+     24 take 144; five link columns at 150 take 750; the brand keeps the
+     remaining 222, above its 200 floor. */
+  '.kh-foot-in .c{min-width:150px;}' +
+  '.kh-fbrand{flex:1 1 200px;min-width:200px;}' +
   '.kh-foot-in h4{font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;' +
     'color:rgba(255,255,255,.45);margin:0 0 14px;}' +
   /* :not(.kh-logo) matters. This rule is one class more specific than
@@ -425,7 +437,7 @@
     '.kh-nav-in .kh-btn .ar{display:none;}' +
     /* a 1180px footer row of 170px columns collapses to one readable column */
     '.kh-foot-in{gap:20px;}' +
-    '.kh-foot-in .c{min-width:min(170px,100%);}' +
+    '.kh-foot-in .c{min-width:min(150px,100%);}' +
   '}' +
 
   /* ---------- touch ----------
@@ -450,8 +462,12 @@
      read next to a logo nobody needed. */
   '@media(max-width:420px){' +
     '.kh-nav-in{gap:8px;}' +
-    '.kh-logo{font-size:0;gap:0;flex-shrink:0;}' +
-    '.kh-logo .m{font-size:19px;}' +
+    /* Scoped to the nav. This hides the wordmark so the header's two CTAs
+       keep readable labels on a 320px screen — but .kh-logo also appears in
+       the footer, where there is a whole row to spare, and the unscoped rule
+       was blanking the brand name there too. */
+    '.kh-nav-in .kh-logo{font-size:0;gap:0;flex-shrink:0;}' +
+    '.kh-nav-in .kh-logo .m{font-size:19px;}' +
     '.kh-nav-in .kh-btn{padding:10px 13px;font-size:13px;}' +
   '}' +
 
@@ -636,11 +652,21 @@
 
       /* ---------- footer ---------- */
       '<footer id="kh-foot"><div class="kh-foot-in">' +
-        '<div class="c" style="flex:1;min-width:240px">' +
+        '<div class="c kh-fbrand">' +
           '<a class="kh-logo" href="index.html" style="margin-bottom:14px"><span class="m">' + ic('spark') + '</span>BestBrain</a>' +
           '<p style="font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.55);max-width:34ch">' +
             'AI-powered learning for Classes 6–9. Built in India, for Indian classrooms.</p>' +
         '</div>' +
+        /* Classes is the column a visitor who is not signed in actually
+           needs — the first thing they want to know is whether their class
+           is covered. learn.html reads ?class= (see its VIEW STATE section)
+           and useLegacyLinks carries the query string across when it turns
+           the .html href into a route, so these land on the right class
+           rather than the default one. The static learn.html footer has had
+           this column all along; the redesigned homepage dropped it. */
+        '<div class="c"><h4>Classes</h4>' +
+          '<a href="learn.html?class=6">Class 6</a><a href="learn.html?class=7">Class 7</a>' +
+          '<a href="learn.html?class=8">Class 8</a><a href="learn.html?class=9">Class 9</a></div>' +
         '<div class="c"><h4>Learn</h4><a href="learn.html">Chapters</a><a href="videos.html">Video lectures</a>' +
           '<a href="lesson.html">Lessons</a><a href="live.html">Live classes</a></div>' +
         '<div class="c"><h4>Practise</h4><a href="mocktest.html">Mock tests</a><a href="challenge.html">Arena</a>' +
