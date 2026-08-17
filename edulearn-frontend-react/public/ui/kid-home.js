@@ -208,7 +208,12 @@
   '@keyframes kh-unspin{to{transform:rotate(-360deg)}}' +
   '.kh-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:40%;height:40%;' +
     'border-radius:50%;display:grid;place-items:center;text-align:center;' +
-    'background:radial-gradient(circle at 34% 28%,rgba(255,208,138,.9),rgba(var(--kh-accent-rgb),.85) 55%,rgba(150,60,0,.9));' +
+    /* The sphere is a three-stop gradient: a lit highlight, the accent, and a
+       shadow. Only the middle stop was a token, so the highlight stayed warm
+       cream and the shadow stayed burnt orange — the one element on the page
+       still reading amber after the retheme, and the most prominent. */
+    'background:radial-gradient(circle at 34% 28%,rgba(var(--kh-accent-hi-rgb),.92),' +
+      'rgba(var(--kh-accent-rgb),.85) 55%,rgba(var(--kh-accent-deep-rgb),.92));' +
     'box-shadow:0 0 70px rgba(var(--kh-accent-rgb),.55),inset 0 2px 0 rgba(255,255,255,.4);' +
     'animation:kh-breathe 5s ease-in-out infinite;}' +
   '@keyframes kh-breathe{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.05)}}' +
@@ -348,7 +353,12 @@
   '.kh-foot-in .c{min-width:170px;}' +
   '.kh-foot-in h4{font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;' +
     'color:rgba(255,255,255,.45);margin:0 0 14px;}' +
-  '.kh-foot-in a{display:block;font-size:13.5px;font-weight:600;color:rgba(255,255,255,.68);' +
+  /* :not(.kh-logo) matters. This rule is one class more specific than
+     .kh-logo AND comes later, so without the exclusion it won its every
+     property: the wordmark lost display:flex to display:block, dropped from
+     20px to 13.5px, and faded from #fff to 68% white. The mark and the word
+     stopped sitting on one line and the brand read as a broken link. */
+  '.kh-foot-in a:not(.kh-logo){display:block;font-size:13.5px;font-weight:600;color:rgba(255,255,255,.68);' +
     'text-decoration:none;padding:5px 0;transition:color .25s ease,transform .25s ease;}' +
   '.kh-foot-in a:hover{color:var(--kh-accent-soft);transform:translateX(3px);}' +
   '.kh-copy{max-width:1180px;margin:0 auto;padding:0 clamp(20px,4vw,32px) 40px;' +

@@ -752,6 +752,20 @@
       if (r.width < vw * 0.4 || r.height < vh * 0.4) return;
       if ((r.width * r.height) < (vw * vh) * 0.28) return;
       var cs = getComputedStyle(n);
+      /* An overlay is not the page's slab.
+         This pass exists to punch a hole in the sheet a PAGE paints over the
+         sky. A drawer or a modal is the opposite: it sits on top, and it is
+         opaque precisely so its own content can be read. Stripping it left
+         the feature panel completely transparent — the homepage headline
+         showing through its text — and took the dim off its scrim, so the
+         page behind stayed at full brightness too.
+
+         Position plus stacking separates the two cleanly, measured on the
+         live pages: the real targets (.hero-inner, .stats, .showcase-inner)
+         are static or relative at z-index auto, while #efp sits at 99999 and
+         #efp-ov at 99998, both fixed. Nothing that needs seaming is a fixed
+         element parked above the whole interface. */
+      if (cs.position === 'fixed' && (parseInt(cs.zIndex, 10) || 0) >= 1000) return;
       var c = rgbaOf(cs.backgroundColor);
       var covers = (c && c.a >= .5) || cs.backgroundImage !== 'none';
       if (!covers) return;
