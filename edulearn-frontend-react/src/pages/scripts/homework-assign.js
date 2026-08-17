@@ -51,11 +51,22 @@ export default function init({ location, document, window, onCleanup }) {
     function fillChapters() {
       var sel = el('fChapter');
       sel.innerHTML = '<option value="">All chapters</option>';
-      var C = window.CURRICULUM;
+      /* The global is EduCurriculum, and CURRICULUM is a field on it —
+         reading window.CURRICULUM found undefined and fell through to the
+         "All chapters" fallback silently, which looked like an empty
+         syllabus rather than a wrong variable name. */
+      var C = window.EduCurriculum && window.EduCurriculum.CURRICULUM;
       if (!C) return;   // curriculum.js absent — "All chapters" still works
-      var cls = C[el('fClass').value];
+      /* CURRICULUM is keyed by the class NUMBER (6, 7, 8, 9), while this
+         select carries the label ("Class 6"). Indexing it with the label
+         found nothing and left the dropdown empty — which looked like a
+         syllabus with no chapters rather than a key mismatch. */
+      var cls = C[parseInt(String(el('fClass').value).replace(/\D/g, ''), 10)];
+      /* CURRICULUM[6].science IS the chapter array — a list of
+         [slug, title, minutes] tuples. There is no .chapters field on it;
+         reading one gave undefined and produced an empty dropdown. */
       var subj = cls && cls[subjectKeyOf(el('fSubject').value)];
-      var chapters = (subj && subj.chapters) || [];
+      var chapters = Array.isArray(subj) ? subj : [];
       chapters.forEach(function (ch) {
         var slug = Array.isArray(ch) ? ch[0] : ch.slug;
         var name = Array.isArray(ch) ? ch[1] : ch.name;
@@ -66,7 +77,18 @@ export default function init({ location, document, window, onCleanup }) {
     }
     el('fClass').addEventListener('change', fillChapters);
     el('fSubject').addEventListener('change', fillChapters);
-    fillChapters();
+
+    /* curriculum.js is deferred, and under the router this page's script can
+       run before it has executed — a single read then finds nothing, returns,
+       and the dropdown is stuck on "All chapters" for good. The symptom is an
+       empty syllabus, which reads as missing data rather than a race. Poll
+       briefly for the global, then give up quietly: "All chapters" is a
+       working fallback, just a worse one. */
+    (function waitForCurriculum(tries) {
+      if (window.EduCurriculum && window.EduCurriculum.CURRICULUM) { fillChapters(); return; }
+      if (tries <= 0) { fillChapters(); return; }
+      setTimeout(function () { waitForCurriculum(tries - 1); }, 120);
+    })(25);
 
     // ---- load questions for the chapter ----
     el('loadQs').addEventListener('click', function () {

@@ -43,6 +43,8 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
        this page exists to show, on every single wrong answer while drilling. */
     .opt.bank-right{border-color:var(--teal);background:rgba(16,185,129,.14);}
     .opt.bank-wrong{border-color:var(--rose);background:rgba(244,63,94,.12);}
+    .opt__v{margin-left:auto;font-weight:900;font-size:16px;flex:none;}
+
 
     .expl{margin-top:14px;padding:13px 15px;border-radius:12px;background:var(--bg2);font-size:14px;line-height:1.6;}
     .expl b{display:block;margin-bottom:4px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}

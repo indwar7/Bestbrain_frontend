@@ -72,6 +72,8 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     /* review states */
     .opt.bank-right{border-color:var(--teal);background:rgba(16,185,129,.14);}
     .opt.bank-wrong{border-color:var(--rose);background:rgba(244,63,94,.12);}
+    .opt__v{margin-left:auto;font-weight:900;font-size:16px;flex:none;}
+
 
     .navrow{display:flex;gap:12px;align-items:center;margin-top:20px;flex-wrap:wrap;}
     .prog{color:var(--muted);font-size:13px;margin-left:auto;}

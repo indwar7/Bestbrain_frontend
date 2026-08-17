@@ -41,6 +41,31 @@ export default function init({ location, document, window, onCleanup }) {
       attemptView.hidden = view !== 'attempt';
       resultView.hidden = view !== 'result';
     }
+
+    /* Paint a right/wrong verdict so it survives the skin.
+       kid-bg turns any near-white opaque surface into glass by writing
+       background-color and border-color INLINE with !important — no stylesheet
+       rule can outrank that, which is why .opt.bank-right rendered identical
+       to every other option. Setting the same properties inline afterwards
+       replaces those declarations, and the low-alpha accent this writes does
+       not meet the pass's own >=.82-alpha bar, so it is not glassed again.
+
+       The glyph is not decoration. Correctness must not depend on colour
+       alone — for colour-blind readers, and because this is exactly the sort
+       of styling a later skin pass can take away again. */
+    function markState(node, kind) {
+      var teal = 'rgba(16,185,129,.22)', rose = 'rgba(244,63,94,.20)';
+      var edge = kind === 'right' ? '#10B981' : '#F43F5E';
+      node.style.setProperty('background-color', kind === 'right' ? teal : rose, 'important');
+      node.style.setProperty('border-color', edge, 'important');
+      var glyph = document.createElement('span');
+      glyph.className = 'opt__v';
+      glyph.textContent = kind === 'right' ? '✓' : '✗';
+      glyph.style.setProperty('color', edge, 'important');
+      glyph.setAttribute('aria-label', kind === 'right' ? 'correct answer' : 'your answer, incorrect');
+      node.appendChild(glyph);
+    }
+
     function esc(s) {
       return String(s == null ? '' : s)
         .replace(/&/g, '&amp;').replace(/</g, '&lt;')
@@ -136,10 +161,14 @@ export default function init({ location, document, window, onCleanup }) {
       // the one the API enforces.
     }
 
-    el('prevBtn').addEventListener('click', function () { if (A.i > 0) { A.i--; paintQuestion(); } });
-    el('nextBtn').addEventListener('click', function () { if (A.i < A.questions.length - 1) { A.i++; paintQuestion(); } });
+    // A is null until a homework is opened, and these buttons exist in the DOM
+    // from the start — hidden with the attempt view, but still clickable by a
+    // script, and still focusable. Without the guard they throw on A.i.
+    el('prevBtn').addEventListener('click', function () { if (A && A.i > 0) { A.i--; paintQuestion(); } });
+    el('nextBtn').addEventListener('click', function () { if (A && A.i < A.questions.length - 1) { A.i++; paintQuestion(); } });
 
     el('submitBtn').addEventListener('click', function () {
+      if (!A) return;
       var answered = Object.keys(A.answers).length;
       if (answered < A.questions.length &&
           !confirm((A.questions.length - answered) + ' question(s) are unanswered. Submit anyway?')) return;
@@ -179,6 +208,17 @@ export default function init({ location, document, window, onCleanup }) {
           (r.explanation ? '<div class="expl"><b>Why</b>' + esc(r.explanation) + '</div>' : '') +
         '</div>';
       }).join('');
+
+      // after innerHTML, so the nodes exist to be marked
+      (res.review || []).forEach(function (r, n) {
+        var card = el('review').children[n];
+        if (!card) return;
+        var opts = card.querySelectorAll('.opt');
+        if (opts[r.correctIndex]) markState(opts[r.correctIndex], 'right');
+        if (!r.isCorrect && r.selectedIndex >= 0 && opts[r.selectedIndex]) {
+          markState(opts[r.selectedIndex], 'wrong');
+        }
+      });
 
       show('result');
       window.scrollTo({ top: 0, behavior: 'smooth' });
