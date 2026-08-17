@@ -632,36 +632,51 @@
   function wire() {
     var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    /* Revealing a card and counting its number are ONE operation.
+       They used to be two, and .in was added in four separate places while
+       countUp() was called from only one of them — the observer. Every other
+       path revealed the card and left its number showing the literal "0" the
+       markup ships with: with reduced motion on, all eight stats read 0+ /
+       0% / 0 days permanently. countUp even carries a reduced-motion branch
+       that fills in the final value instantly, which could never run because
+       its caller returned before reaching it.
+       Idempotent, so a card revealed by the safety net below still counts
+       when the observer catches up. */
+    function reveal(n) {
+      n.classList.add('in');
+      var num = n.querySelector && n.querySelector('b[data-to]');
+      if (num && !num.dataset.done) { num.dataset.done = '1'; countUp(num); }
+    }
+
     /* scroll reveal + count-up */
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         if (!e.isIntersecting) return;
-        e.target.classList.add('in');
-        var num = e.target.querySelector && e.target.querySelector('b[data-to]');
-        if (num && !num.dataset.done) { num.dataset.done = '1'; countUp(num); }
+        reveal(e.target);
         io.unobserve(e.target);
       });
     }, { threshold: .15, rootMargin: '0px 0px -6% 0px' });
 
     document.querySelectorAll('.kh-rv').forEach(function (n, i) {
-      if (reduce) { n.classList.add('in'); return; }
+      if (reduce) { reveal(n); return; }
 
       /* The hero is above the fold, and it was starting at opacity:0 — so the
          first thing a visitor saw was an empty page waiting for an observer.
          An entrance is only worth having where the reader has not arrived
          yet. Anything already on screen is shown at once. */
       var r = n.getBoundingClientRect();
-      if (r.top < window.innerHeight * 1.05) { n.classList.add('in'); return; }
+      if (r.top < window.innerHeight * 1.05) { reveal(n); return; }
 
       n.style.transitionDelay = ((i % 8) * 60) + 'ms';
       io.observe(n);
     });
 
-    /* and nothing may stay hidden because an observer never fired */
+    /* and nothing may stay hidden — or stuck at zero — because an observer
+       never fired */
     setTimeout(function () {
       document.querySelectorAll('.kh-rv:not(.in)').forEach(function (n) {
         var r = n.getBoundingClientRect();
-        if (r.top < window.innerHeight * 1.5) n.classList.add('in');
+        if (r.top < window.innerHeight * 1.5) reveal(n);
       });
     }, 400);
 
