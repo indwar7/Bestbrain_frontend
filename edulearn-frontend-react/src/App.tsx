@@ -24,6 +24,9 @@ import Live from './pages/Live';
 import Videos from './pages/Videos';
 import Upload from './pages/Upload';
 import Admin from './pages/Admin';
+import Bank from './pages/Bank';
+import Homework from './pages/Homework';
+import HomeworkAssign from './pages/HomeworkAssign';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 
@@ -100,6 +103,20 @@ export default function App() {
         <Route path="/videos" element={<Videos />} />
         <Route path="/upload" element={<Upload />} />
         <Route path="/admin" element={<Admin />} />
+
+        {/*
+          Question bank and homework. Both gate themselves in-page — the bank
+          and the student's homework list ask the API, which answers 403 to
+          anyone who is not a student, and homework-assign checks for a teacher
+          before it renders. That matches how upload/create-test/admin already
+          behave, and it is why they are not wrapped in ProtectedRoute: a
+          router-level guard here would bounce a signed-out visitor to the
+          landing page instead of showing them the "please log in" state the
+          page already has.
+        */}
+        <Route path="/bank" element={<Bank />} />
+        <Route path="/homework" element={<Homework />} />
+        <Route path="/homework-assign" element={<HomeworkAssign />} />
 
         {/* Public legal pages, linked from the landing footer. */}
         <Route path="/privacy" element={<Privacy />} />

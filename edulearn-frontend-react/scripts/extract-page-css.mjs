@@ -25,6 +25,7 @@ const OUT = join(HERE, '../src/styles/pages');
 const PAGES = [
   'index', 'dashboard', 'learn', 'lesson', 'videos', 'mocktest', 'take-test',
   'create-test', 'challenge', 'pal', 'tutor', 'live', 'login', 'signup', 'upload', 'admin',
+  'bank', 'homework', 'homework-assign',
 ];
 
 mkdirSync(OUT, { recursive: true });

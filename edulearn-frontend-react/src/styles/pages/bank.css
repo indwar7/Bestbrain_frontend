@@ -1,0 +1,74 @@
+/* Lifted verbatim from edulearn-frontend/bank.html.
+   Do not hand-edit: regenerate with `node scripts/extract-page-css.mjs`. */
+html{background:#050505!important;color-scheme:dark}html body{background:#050505}
+
+    :root{
+      --ink:#1A1F36;--bg:#F7F9FC;--card:#FFFFFF;--muted:#64748B;--bg2:#F5F7FA;
+      --line:rgba(15,23,42,.10);--teal:#10B981;--rose:#F43F5E;--amber:#F59E0B;
+      --aurora:linear-gradient(115deg,#10B981 0%,#6366F1 48%,#F59E0B 100%);
+      --ease:cubic-bezier(.22,1,.36,1);--shadow:0 18px 44px rgba(15,23,42,.10);
+    }
+    html.dark-mode{
+      --ink:#F5F7FA;--bg:#0F172A;--bg2:#1E293B;--card:#1A2847;
+      --muted:#94A3B8;--line:rgba(255,255,255,.12);
+      --shadow:0 18px 44px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box;}
+    [hidden]{display:none !important;}
+    body{margin:0;font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--ink);}
+    .wrap{max-width:760px;margin:0 auto;padding:36px 24px 80px;}
+    .top-link{display:inline-block;margin-bottom:18px;color:var(--muted);font-size:13px;text-decoration:none;}
+    h1{font-family:'Fraunces',serif;font-weight:480;font-size:32px;margin:0 0 6px;}
+    h1 em{font-style:italic;background:var(--aurora);-webkit-background-clip:text;background-clip:text;color:transparent;}
+    .sub{color:var(--muted);font-size:14px;margin:0 0 22px;}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:26px;margin-bottom:16px;}
+
+    .qnum{font-family:'Fragment Mono',monospace;font-size:12px;letter-spacing:.08em;
+          text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+          display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .diff{padding:3px 9px;border-radius:999px;font-size:11px;background:var(--bg2);}
+    .qtext{font-size:18px;font-weight:700;line-height:1.45;margin:0 0 18px;}
+    .opts{display:grid;gap:10px;}
+    .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+         padding:14px 16px;min-height:52px;border-radius:14px;border:1px solid var(--line);
+         background:var(--bg2);color:var(--ink);font-size:15px;font-family:inherit;cursor:pointer;
+         transition:border-color .18s,background .18s;}
+    .opt:hover:not(:disabled){border-color:var(--teal);}
+    .opt:disabled{cursor:default;}
+    .opt__k{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+            background:var(--card);font-family:'Fragment Mono',monospace;font-size:12px;}
+    /* bank-* rather than is-right/is-wrong on purpose. kid-quiz.js watches the
+       document for `.opt.is-wrong` and launches a full-screen explainer video
+       — right for a timed test, wrong here: it covers the inline explanation
+       this page exists to show, on every single wrong answer while drilling. */
+    .opt.bank-right{border-color:var(--teal);background:rgba(16,185,129,.14);}
+    .opt.bank-wrong{border-color:var(--rose);background:rgba(244,63,94,.12);}
+
+    .expl{margin-top:14px;padding:13px 15px;border-radius:12px;background:var(--bg2);font-size:14px;line-height:1.6;}
+    .expl b{display:block;margin-bottom:4px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
+    .verdict{font-weight:800;margin-bottom:6px;}
+    .verdict.ok{color:#047857;} .verdict.no{color:#BE123C;}
+    html.dark-mode .verdict.ok{color:#6EE7B7;} html.dark-mode .verdict.no{color:#FDA4AF;}
+    .coin{display:inline-block;margin-left:8px;padding:3px 9px;border-radius:999px;font-size:12px;
+          background:rgba(245,158,11,.16);color:#B45309;font-weight:700;}
+    html.dark-mode .coin{color:#FCD34D;}
+
+    .navrow{display:flex;gap:12px;align-items:center;margin-top:20px;flex-wrap:wrap;}
+    .btn{border:none;border-radius:12px;background:var(--aurora);color:#0B1224;font-weight:700;font-size:15px;
+         padding:13px 20px;cursor:pointer;min-height:44px;transition:transform .2s,box-shadow .2s;}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(16,185,129,.3);}
+    .btn-ghost{border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--ink);
+               font-weight:600;font-size:14px;padding:11px 18px;cursor:pointer;min-height:44px;}
+    .tally{margin-left:auto;color:var(--muted);font-size:13px;}
+    .gate,.empty{padding:56px 20px;text-align:center;color:var(--muted);}
+    .gate a{color:var(--teal);font-weight:600;}
+
+    @media (max-width:600px){
+      .wrap{padding:24px 16px 64px;}
+      h1{font-size:26px;}
+      .card{padding:18px;border-radius:16px;}
+      .qtext{font-size:17px;}
+      .navrow .btn,.navrow .btn-ghost{flex:1;}
+      .tally{margin-left:0;width:100%;}
+    }
+  

@@ -109,7 +109,9 @@ function bindingsBlock(handlers) {
 }
 
 const PAGES = ['dashboard', 'learn', 'lesson', 'videos', 'mocktest', 'take-test',
-  'create-test', 'challenge', 'pal', 'tutor', 'live', 'login', 'signup', 'upload', 'admin'];
+  'create-test', 'challenge', 'pal', 'tutor', 'live', 'login', 'signup', 'upload', 'admin',
+  // Question bank and homework — added with those features.
+  'bank', 'homework', 'homework-assign'];
 
 mkdirSync(OUT, { recursive: true });
 

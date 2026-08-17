@@ -219,6 +219,20 @@ var ICONS = {
          '<path d="M9 3.5 a3 3 0 0 1 6 0"/>' +
          '<path d="M8.5 13.5 l2.4 2.4 L16 11"/>' +
          '</svg>',
+  /* Question bank — a stack of cards, i.e. a pool to draw from. Deliberately
+     not another clipboard: the bank has to read as different from the test at
+     a glance, since they now sit next to each other on every row. */
+  bank: '<svg width="13" height="13" viewBox="0 0 24 24" ' + STROKE + '>' +
+         '<rect x="3.5" y="7.5" width="14" height="13" rx="2.5"/>' +
+         '<path d="M7 4.5 h11 a2.5 2.5 0 0 1 2.5 2.5 v11" opacity=".55"/>' +
+         '<path d="M7.5 12.5 h6M7.5 16 h4"/>' +
+         '</svg>',
+  /* Homework — a page with a turned corner and a tick. */
+  homework: '<svg width="13" height="13" viewBox="0 0 24 24" ' + STROKE + '>' +
+         '<path d="M6 2.5 h7.5 L19.5 8.5 V21.5 H6 z"/>' +
+         '<path d="M13.5 2.5 V8.5 H19.5" opacity=".55"/>' +
+         '<path d="M9 14.5 l2.2 2.2 L16 12.2"/>' +
+         '</svg>',
   /* misc */
   check: '<svg width="10" height="10" viewBox="0 0 24 24" ' + STROKE + '><path d="M4 12.5 l5.5 5.5 L20 7"/></svg>',
   arrow: '<svg width="17" height="17" viewBox="0 0 24 24" ' + STROKE + '><path d="M4 12 h16 M13 5 l7 7 -7 7"/></svg>',
@@ -618,6 +632,39 @@ var activeSubject = params.get('subject');
 if(!SUBJECTS.some(function(s){ return s.key === activeSubject; })) activeSubject = 'science';
 var query = '';
 
+/* Which chapters have homework still to hand in: slug -> "due" | "overdue".
+   Empty until the API answers, and an absent entry means no dot — showing one
+   before we know would be worse than showing none. */
+var HW_STATE = {};
+
+/* Fill HW_STATE for the class/subject on screen, then repaint the rows.
+   Failure is silent on purpose: homework is an addition to this page, and a
+   student whose network dropped should still get their chapter list rather
+   than an error where the syllabus used to be. */
+function loadHomeworkState(subjKey){
+  if (!window.EduAPI || !EduAPI.getAssignedHomework || !EduAPI.getUser || !EduAPI.getUser()) return;
+  var subjectName = SUBJECT_API_NAME[subjKey] || '';
+  if (!subjectName) return;
+  EduAPI.getAssignedHomework(subjectName).then(function(res){
+    var next = {};
+    (res && res.homework ? res.homework : []).forEach(function(h){
+      if (h.status !== 'assigned') return;   // already handed in
+      if (!h.chapterSlug) return;
+      next[h.chapterSlug] = h.overdue ? 'overdue' : 'due';
+    });
+    var changed = JSON.stringify(next) !== JSON.stringify(HW_STATE);
+    HW_STATE = next;
+    if (changed && typeof renderChapters === 'function') renderChapters(false);
+  }).catch(function(){ /* the chapter list matters more than the dot */ });
+}
+
+/* The Learn subject keys are short ("science"); the API stores the display
+   name ("Science"). One place to convert. */
+var SUBJECT_API_NAME = {
+  maths: 'Maths', science: 'Science', social: 'Social Science',
+  english: 'English', hindi: 'Hindi'
+};
+
 function syncURL(){
   try{
     window.history.replaceState(null, '', 'learn.html?class=' + activeClass + '&subject=' + activeSubject);
@@ -732,6 +779,7 @@ function renderRail(stagger){
       syncURL();
       renderRail(false);
       renderChapters(true);
+      loadHomeworkState(activeSubject);
     });
   });
 }
@@ -751,11 +799,27 @@ function chapterRowHTML(cls, subj, ch, number, delay, withTag){
   // Book & Practice were removed per product direction. These are real <a>s that
   // sit above the row's stretched hit-link, so they navigate independently.
   var testHref = 'mocktest.html?class=' + cls + '&subject=' + subj.key + '&ch=' + id;
+  // Bank and Homework are chapter-scoped like the rest, but they key off the
+  // chapter SLUG rather than the composite chapter id: the API stores
+  // chapterSlug, and building the composite here and taking it apart there
+  // would be two places to keep in step for no gain.
+  var bankHref = 'bank.html?class=' + cls + '&subject=' + subj.key + '&ch=' + ch[0];
+  var hwHref = 'homework.html?class=' + cls + '&subject=' + subj.key + '&ch=' + ch[0];
+  // A dot on the icon when this chapter has homework still to hand in. hwState
+  // is filled by loadHomeworkState(); before it answers the map is empty and
+  // no dot is drawn, which is the right default — an absent dot says "nothing
+  // due", and inventing one before we know would be worse than showing none.
+  var hwPending = HW_STATE[ch[0]];
+  var hwDot = hwPending
+    ? '<i class="mod__dot' + (hwPending === 'overdue' ? ' is-overdue' : '') + '"></i>'
+    : '';
   var mods =
     '<span class="mods">' +
       '<a class="mod" data-tip="Video" href="' + href + '&view=video" aria-label="Watch the video for this chapter">' + ICONS.video + '</a>' +
       '<a class="mod" data-tip="Notes" href="' + href + '&view=notes" aria-label="Read the notes for this chapter">' + ICONS.notes + '</a>' +
       '<a class="mod" data-tip="Test" href="' + testHref + '" aria-label="Take the test for this chapter">' + ICONS.test + '</a>' +
+      '<a class="mod" data-tip="Question bank" href="' + bankHref + '" aria-label="Practise questions for this chapter">' + ICONS.bank + '</a>' +
+      '<a class="mod' + (hwPending ? ' has-dot' : '') + '" data-tip="Homework" href="' + hwHref + '" aria-label="Homework for this chapter">' + ICONS.homework + hwDot + '</a>' +
     '</span>';
   var tag = withTag
     ? '<span class="chrow__subjtag" style="background:' + subj.accent + '">' + esc(subjName(subj)) + '</span>'
@@ -1001,6 +1065,9 @@ applyI18n();
 renderAll(true);
 syncURL();
 setupObserver();
+/* Pending-homework dots. Runs after the first paint on purpose: the chapter
+   list must not wait on a network call that only decorates it. */
+loadHomeworkState(activeSubject);
 
 // Hydrate real per-user progress from the backend when signed in. A brand-new
 // user has empty chapters server-side, so no fake progress is shown; returning

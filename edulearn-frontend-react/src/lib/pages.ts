@@ -23,6 +23,9 @@ export const ROUTE_BY_PAGE: Record<string, string> = {
   live: '/live',
   upload: '/upload',
   admin: '/admin',
+  bank: '/bank',
+  homework: '/homework',
+  'homework-assign': '/homework-assign',
 };
 
 /** Public pages: never guarded, even when logged out (PUBLIC in role-guard.js). */

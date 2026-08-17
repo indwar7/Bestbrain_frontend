@@ -578,6 +578,89 @@
     });
   }
 
+
+  // ---- Assessments (question bank) ----
+  // Chapter practice, not a test: nothing is started or submitted, so these
+  // are just "give me questions" and "was this one right". The class is
+  // decided by the server from the signed-in account, never sent from here.
+  async function getQuestionBank(subject, chapterSlug, count, difficulty) {
+    var qs = '?subject=' + encodeURIComponent(subject);
+    if (chapterSlug) qs += '&chapterSlug=' + encodeURIComponent(chapterSlug);
+    if (count) qs += '&count=' + encodeURIComponent(count);
+    if (difficulty) qs += '&difficulty=' + encodeURIComponent(difficulty);
+    return request('/api/assessments/bank' + qs);
+  }
+
+  // Returns { correct, correctIndex, explanation, coinsAwarded, balance }.
+  // Coins land on the first correct answer to a question and never again.
+  async function answerBankQuestion(questionId, chosenIndex) {
+    return request('/api/assessments/bank/answer', {
+      method: 'POST',
+      body: { questionId: questionId, chosenIndex: chosenIndex }
+    });
+  }
+
+  // { chapters: { "<slug>": count } } — lets Learn show a chapter's bank size
+  // and hide the module where there is nothing to practise yet.
+  async function getBankChapterCounts(subject) {
+    return request('/api/assessments/bank/chapters?subject=' + encodeURIComponent(subject));
+  }
+
+  // ---- Homework ----
+  // Student: their own class's published assignments, with status and dueAt.
+  async function getAssignedHomework(subject, chapterSlug) {
+    var qs = [];
+    if (subject) qs.push('subject=' + encodeURIComponent(subject));
+    if (chapterSlug) qs.push('chapterSlug=' + encodeURIComponent(chapterSlug));
+    return request('/api/homework/assigned' + (qs.length ? '?' + qs.join('&') : ''));
+  }
+
+  // Student: the questions, WITHOUT answers.
+  async function getHomework(id) {
+    return request('/api/homework/' + id);
+  }
+
+  // Student: grade and store. answers = [{ questionId, selectedIndex }].
+  // Returns { submission, review } where review carries the solutions — the
+  // only point at which answers travel to a student.
+  async function submitHomework(id, answers) {
+    return request('/api/homework/' + id + '/submit', {
+      method: 'POST',
+      body: { answers: answers }
+    });
+  }
+
+  // Teacher: assign, list, edit, delete, and read the roster.
+  // Teacher: browse the authored bank to pick questions for an assignment.
+  // chapterSlug matters here — assigning is a per-chapter job.
+  async function listQuestions(className, subject, chapterSlug, usage) {
+    var qs = [];
+    if (className) qs.push('className=' + encodeURIComponent(className));
+    if (subject) qs.push('subject=' + encodeURIComponent(subject));
+    if (chapterSlug) qs.push('chapterSlug=' + encodeURIComponent(chapterSlug));
+    if (usage) qs.push('usage=' + encodeURIComponent(usage));
+    return request('/api/assessments/questions' + (qs.length ? '?' + qs.join('&') : ''));
+  }
+
+  async function createHomework(payload) {
+    return request('/api/homework', { method: 'POST', body: payload });
+  }
+  async function listHomework(className, subject) {
+    var qs = [];
+    if (className) qs.push('className=' + encodeURIComponent(className));
+    if (subject) qs.push('subject=' + encodeURIComponent(subject));
+    return request('/api/homework' + (qs.length ? '?' + qs.join('&') : ''));
+  }
+  async function updateHomework(id, patch) {
+    return request('/api/homework/' + id, { method: 'PATCH', body: patch });
+  }
+  async function deleteHomework(id) {
+    return request('/api/homework/' + id, { method: 'DELETE' });
+  }
+  async function getHomeworkSubmissions(id) {
+    return request('/api/homework/' + id + '/submissions');
+  }
+
   // ---- Assessments (hourly challenge / Arena) ----
   // Real per-hour question (or { alreadyPlayed: true, points } if already played).
   async function getChallenge() {
@@ -644,6 +727,18 @@
     recordMockAttempt: recordMockAttempt,
     getMockHistory: getMockHistory,
     createQuestion: createQuestion,
+    listQuestions: listQuestions,
+    getQuestionBank: getQuestionBank,
+    answerBankQuestion: answerBankQuestion,
+    getBankChapterCounts: getBankChapterCounts,
+    getAssignedHomework: getAssignedHomework,
+    getHomework: getHomework,
+    submitHomework: submitHomework,
+    createHomework: createHomework,
+    listHomework: listHomework,
+    updateHomework: updateHomework,
+    deleteHomework: deleteHomework,
+    getHomeworkSubmissions: getHomeworkSubmissions,
     getChallenge: getChallenge,
     answerChallenge: answerChallenge,
     getChallengeLeaderboard: getChallengeLeaderboard,

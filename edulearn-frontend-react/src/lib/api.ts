@@ -499,6 +499,68 @@ export function createQuestion(fields: any) {
 }
 
 // Assessments - Arena / Challenge
+// Assessments - Question bank
+//
+// These live here as well as in the static edulearn-frontend/api.js because
+// the two clients are separate: the static pages load api.js, while the React
+// app publishes window.EduAPI from THIS module (see eduApiGlobal.ts). A method
+// added to only one of them exists on only one of the two sites — which is
+// exactly how the homework dot on Learn came out blank the first time.
+export function getQuestionBank(subject: string, chapterSlug?: string, count?: number, difficulty?: string) {
+  const qs = new URLSearchParams({ subject });
+  if (chapterSlug) qs.set('chapterSlug', chapterSlug);
+  if (count) qs.set('count', String(count));
+  if (difficulty) qs.set('difficulty', difficulty);
+  return request(`/api/assessments/bank?${qs.toString()}`);
+}
+export function answerBankQuestion(questionId: string, chosenIndex: number) {
+  return request('/api/assessments/bank/answer', { method: 'POST', body: { questionId, chosenIndex } });
+}
+export function getBankChapterCounts(subject: string) {
+  return request(`/api/assessments/bank/chapters?subject=${encodeURIComponent(subject)}`);
+}
+export function listQuestions(className?: string, subject?: string, chapterSlug?: string, usage?: string) {
+  const qs = new URLSearchParams();
+  if (className) qs.set('className', className);
+  if (subject) qs.set('subject', subject);
+  if (chapterSlug) qs.set('chapterSlug', chapterSlug);
+  if (usage) qs.set('usage', usage);
+  const q = qs.toString();
+  return request('/api/assessments/questions' + (q ? `?${q}` : ''));
+}
+
+// Homework
+export function getAssignedHomework(subject?: string, chapterSlug?: string) {
+  const qs = new URLSearchParams();
+  if (subject) qs.set('subject', subject);
+  if (chapterSlug) qs.set('chapterSlug', chapterSlug);
+  const q = qs.toString();
+  return request('/api/homework/assigned' + (q ? `?${q}` : ''));
+}
+export function getHomework(id: string) { return request(`/api/homework/${id}`); }
+export function submitHomework(id: string, answers: any[]) {
+  return request(`/api/homework/${id}/submit`, { method: 'POST', body: { answers } });
+}
+export function createHomework(payload: Record<string, any>) {
+  return request('/api/homework', { method: 'POST', body: payload });
+}
+export function listHomework(className?: string, subject?: string) {
+  const qs = new URLSearchParams();
+  if (className) qs.set('className', className);
+  if (subject) qs.set('subject', subject);
+  const q = qs.toString();
+  return request('/api/homework' + (q ? `?${q}` : ''));
+}
+export function updateHomework(id: string, patch: Record<string, any>) {
+  return request(`/api/homework/${id}`, { method: 'PATCH', body: patch });
+}
+export function deleteHomework(id: string) {
+  return request(`/api/homework/${id}`, { method: 'DELETE' });
+}
+export function getHomeworkSubmissions(id: string) {
+  return request(`/api/homework/${id}/submissions`);
+}
+
 export function getChallenge() { return request('/api/assessments/challenge'); }
 export function answerChallenge(questionId: string, chosenIndex: number, msTaken: number) {
   return request('/api/assessments/challenge/answer', {

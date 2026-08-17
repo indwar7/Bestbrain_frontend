@@ -489,6 +489,22 @@ input{font-family:inherit;color:inherit}
 .chrow__hit{position:absolute;inset:0;z-index:1;border-radius:22px;}
 .chrow__meta{display:flex;align-items:center;gap:14px}
 .mods{position:relative;z-index:2;display:flex;align-items:center;gap:7px}
+/* Pending-homework marker. Sits on the icon's corner rather than beside it so
+   adding it cannot reflow the row — the mods strip is already five items wide
+   on a phone. Amber for due, rose for overdue: the two states have to differ
+   without reading a tooltip. */
+.mod__dot{
+  position:absolute;top:5px;right:5px;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--c3,#F59E0B);
+  box-shadow:0 0 0 2px var(--card2);
+  pointer-events:none;
+}
+.mod__dot.is-overdue{background:var(--c4,#F43F5E)}
+@media (prefers-reduced-motion: no-preference){
+  .mod__dot.is-overdue{animation:hwpulse 2.4s ease-in-out infinite}
+}
+@keyframes hwpulse{0%,100%{opacity:1}50%{opacity:.45}}
 .mod{
   position:relative;
   display:flex;align-items:center;justify-content:center;

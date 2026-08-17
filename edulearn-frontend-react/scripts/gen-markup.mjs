@@ -35,6 +35,9 @@ const PAGES = {
   signup: 'SignupMarkup',
   upload: 'UploadMarkup',
   admin: 'AdminMarkup',
+  bank: 'BankMarkup',
+  homework: 'HomeworkMarkup',
+  'homework-assign': 'HomeworkAssignMarkup',
 };
 
 mkdirSync(OUT, { recursive: true });
