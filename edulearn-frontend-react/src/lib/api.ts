@@ -37,26 +37,31 @@ function resolveApiBase(): string {
 
     if (location.protocol === 'https:') {
       /*
-        Two production hosts need two different answers.
+        Every HTTPS deployment now goes through a same-origin /backend-api
+        path, and each host provides that path its own way:
 
-        Vercel rewrites /backend-api/* onto the backend (see
-        edulearn-frontend-react/vercel.json), so a deployment there stays
-        same-origin and needs no CORS grant.
+          *.vercel.app       rewrite in edulearn-frontend-react/vercel.json
+          bestbrainplus.com  mod_proxy rule in public/.htaccess
 
-        bestbrainplus.com is served by Hostinger, which has no such proxy —
-        /backend-api returned Hostinger's own 404 page for every call, which is
-        what broke login there. That host talks to the API subdomain directly,
-        which means the backend has to serve HTTPS (an https page may not call
-        http://65.2.183.7 — the browser blocks it as mixed content) and has to
-        list this origin in CLIENT_ORIGIN for CORS.
+        Same-origin is the point. The API is HTTP-only on another host, so a
+        direct call has to clear two separate bars: the browser blocks an
+        HTTPS page calling an HTTP API as mixed content, and the API grants
+        CORS to an explicit origin list that this domain is not on. Proxying
+        removes both — there is no cross-origin request left to block.
+
+        This replaces an earlier default of https://api.bestbrainplus.com for
+        non-Vercel hosts, which is why login was failing here: that hostname
+        was never created (NXDOMAIN), so every call died in the browser before
+        it reached a server. Pointing at it again would mean also creating the
+        DNS record, issuing a certificate for it, and adding this origin to
+        CLIENT_ORIGIN — three pieces of infrastructure to reach a backend the
+        proxy can already talk to.
 
         These are only the defaults for when VITE_API_ORIGIN is unset; that
         variable is handled above and wins. localStorage.edulearn_api still
         overrides at runtime, just below.
       */
-      base = location.hostname.endsWith('.vercel.app')
-        ? '/backend-api'
-        : 'https://api.bestbrainplus.com';
+      base = '/backend-api';
     }
   } catch { /* non-browser */ }
 

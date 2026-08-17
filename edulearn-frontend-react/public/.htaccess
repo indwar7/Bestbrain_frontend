@@ -14,10 +14,32 @@
   RewriteEngine On
   RewriteBase /
 
-  # API traffic must never be answered with the SPA shell. Leaving these paths
-  # untouched keeps them free for a proxy rule; without this the rule below
-  # would hand back index.html and the app would fail parsing HTML as JSON
-  # ("Unexpected token '<'") instead of reporting a clear network error.
+  # ---- the proxy rule those paths were being kept free for ----
+  #
+  # This site is HTTPS and the API is HTTP-only, on another host. A browser
+  # will not let an HTTPS page call an HTTP API (mixed content, no prompt, no
+  # override), and the API does not grant CORS to this origin. Proxying
+  # through this server answers both at once: the call becomes same-origin, so
+  # there is no CORS check and no mixed content — Apache terminates the TLS
+  # and speaks HTTP to the backend itself.
+  #
+  # The prefix is stripped exactly as Vercel's rewrite does, so both
+  # deployments hit identical backend paths:
+  #     /backend-api/api/auth/login  ->  http://65.2.183.7/api/auth/login
+  #
+  # Guarded by IfModule on purpose. A [P] rule with no mod_proxy loaded makes
+  # Apache answer 500 for every matching URL — a worse failure than the one
+  # this fixes. Without the module the block does not exist and these paths
+  # fall through to the passthrough below, exactly as they do today.
+  <IfModule mod_proxy.c>
+    RewriteRule ^backend-api/(.*)$ http://65.2.183.7/$1 [P,L]
+    RewriteRule ^socket\.io/(.*)$  http://65.2.183.7/socket.io/$1 [P,L]
+  </IfModule>
+
+  # Anything the proxy did not take must still never be answered with the SPA
+  # shell; without this the rule below would hand back index.html and the app
+  # would fail parsing HTML as JSON ("Unexpected token '<'") instead of
+  # reporting a clear network error.
   RewriteRule ^(backend-api|api|uploads|socket\.io)/ - [L]
 
   # Real files and directories (hashed assets, css, js, images) serve as-is.
