@@ -58,6 +58,8 @@
     wand: '<svg viewBox="0 0 48 48" ' + S + '><path d="M11 38 35 14M31 10l4 4"/><path d="M15 6c.6 3.5 2 4.9 5.5 5.5C17 12.1 15.6 13.5 15 17c-.6-3.5-2-4.9-5.5-5.5C13 10.9 14.4 9.5 15 6Z" fill="currentColor" stroke="none"/><path d="M38 27c.5 2.7 1.6 3.8 4.3 4.3-2.7.5-3.8 1.6-4.3 4.3-.5-2.7-1.6-3.8-4.3-4.3 2.7-.5 3.8-1.6 4.3-4.3Z" fill="currentColor" stroke="none"/></svg>',
     graph: '<svg viewBox="0 0 48 48" ' + S + '><path d="M8 40h32M14 40V27M23 40V15M32 40V22"/><path d="m11 21 11-9 8 6 10-11"/></svg>',
     mic: '<svg viewBox="0 0 48 48" ' + S + '><rect x="19" y="6" width="10" height="20" rx="5"/><path d="M11 22a13 13 0 0 0 26 0M24 35v7M18 42h12"/></svg>',
+    video: '<svg viewBox="0 0 48 48" ' + S + '><rect x="5" y="12" width="26" height="24" rx="5"/><path d="M31 20l12-7v22l-12-7Z"/></svg>',
+    eye: '<svg viewBox="0 0 48 48" ' + S + '><path d="M4 24c4-9 12-14 20-14s16 5 20 14c-4 9-12 14-20 14S8 33 4 24Z"/><circle cx="24" cy="24" r="6"/></svg>',
 
     /* ---- the science bench: what a Class 6 chapter actually looks like ---- */
     flask: '<svg viewBox="0 0 48 48" ' + S + '><path d="M19 5h10M21 5v13L9 38a4 4 0 0 0 3.5 6h23A4 4 0 0 0 39 38L27 18V5"/><path d="M15 30h18"/></svg>',

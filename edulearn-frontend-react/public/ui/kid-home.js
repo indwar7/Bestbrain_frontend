@@ -40,6 +40,8 @@
     { i: 'trophy', t: 'Arena',                d: 'Same question, whole school, live leaderboard.', h: 'challenge.html' },
     { i: 'chat',   t: 'PAL',                  d: 'Summaries, explanations and quizzes in English ya Hinglish.', h: 'pal.html' },
     { i: 'book',   t: 'Learn',                d: 'Your whole syllabus, chapter by chapter.', h: 'learn.html' },
+    { i: 'video',  t: 'Live Classes',         d: 'Book a class, get a calendar invite, walk into a real classroom online.', h: 'live.html' },
+    { i: 'eye',    t: 'Attention Monitoring', d: 'AI checks focus during live class and tells your parent and teacher — the video never leaves your device.', h: 'live.html' },
     { i: 'graph',  t: 'Performance Analytics',d: 'Strengths, gaps and trends — measured, not guessed.' },
     { i: 'spark',  t: 'AI Feedback',          d: 'Every answer explained, not just marked.' },
     { i: 'bolt',   t: 'Progress Tracking',    d: 'Chapter mastery that updates as you work.' },
@@ -62,6 +64,12 @@
     { i: 'shield', t: 'Safe for classrooms',    d: 'Age-appropriate by design, with teacher and parent visibility built in.' },
     { i: 'graph',  t: 'Proof, not vibes',       d: 'Mastery is measured per chapter so effort turns into evidence.' },
     { i: 'users',  t: 'Made for Bharat',        d: 'Works on low-end phones and patchy networks, offline-first where it counts.' }
+  ];
+
+  var ROLES = [
+    { i: 'target', t: 'Student',  d: 'Your own dashboard — streak, minutes studied and badges earned — plus PAL telling you exactly what to revise tonight.' },
+    { i: 'shield', t: 'Parent',   d: "See your child's progress and live-class attention score without watching every keystroke. No separate app to install." },
+    { i: 'cap',    t: 'Teacher',  d: 'Class roster, chapter-wise averages and live-class attendance, grounded in real submitted work — not guesses.' }
   ];
 
   var STEPS = [
@@ -148,6 +156,42 @@
      here, or on desktop it would fight the links for the same space. */
   '@media(max-width:820px){.kh-nav-links{display:none;}' +
     '.kh-nav-in .kh-logo{margin-right:auto;}}' +
+
+  /* ---- mobile drawer ----
+     Below 820px .kh-nav-links just vanishes with nothing replacing it, so a
+     phone visitor had no way to reach Roles/How it works/Journey/Stories/FAQ
+     — only the two header CTAs. This burger + drawer restores that, matching
+     the same scrim/inert/Escape pattern the router's Navbar.tsx uses.
+
+     Scrim and drawer are siblings of #kh-nav, not children of it — #kh-nav has
+     backdrop-filter, which creates a containing block for position:fixed
+     descendants and would size/clip a fixed drawer against the 70px bar
+     instead of the viewport (the exact bug Navbar.tsx's own drawer comment
+     documents). Keeping them outside #kh-nav is what makes position:fixed
+     resolve against the viewport here. */
+  '.kh-burger{display:none;width:44px;height:44px;border-radius:10px;flex-shrink:0;' +
+    'border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;' +
+    'align-items:center;justify-content:center;cursor:pointer;}' +
+  '.kh-burger:hover{background:rgba(255,255,255,.1);}' +
+  '@media(max-width:820px){.kh-burger{display:inline-flex;}}' +
+  '.kh-scrim{position:fixed;inset:0;z-index:70;background:rgba(3,3,6,.6);' +
+    '-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);opacity:0;pointer-events:none;' +
+    'transition:opacity .35s ease;}' +
+  '.kh-scrim.open{opacity:1;pointer-events:auto;}' +
+  '.kh-drawer{position:fixed;top:0;right:0;bottom:0;z-index:71;width:min(320px,84vw);' +
+    'background:#0A0A0A;border-left:1px solid rgba(255,255,255,.12);box-shadow:-24px 0 60px rgba(0,0,0,.5);' +
+    'transform:translateX(100%);transition:transform .4s cubic-bezier(.22,1,.36,1);' +
+    'padding:18px 18px calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;overflow-y:auto;}' +
+  '.kh-drawer.open{transform:translateX(0);}' +
+  '.kh-drawer-close{align-self:flex-end;width:44px;height:44px;border-radius:10px;flex-shrink:0;' +
+    'border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;' +
+    'display:flex;align-items:center;justify-content:center;cursor:pointer;margin-bottom:14px;}' +
+  '.kh-drawer-links{display:flex;flex-direction:column;gap:3px;}' +
+  '.kh-drawer-links a{padding:13px 12px;border-radius:10px;font-size:16px;font-weight:700;min-height:44px;' +
+    'display:flex;align-items:center;color:rgba(255,255,255,.82);text-decoration:none;transition:all .2s ease;}' +
+  '.kh-drawer-links a:hover,.kh-drawer-links a:active{background:rgba(255,255,255,.08);color:#fff;}' +
+  '.kh-drawer-links .kh-btn{margin-top:12px;justify-content:center;min-height:48px;}' +
+  '@media(min-width:821px){.kh-scrim,.kh-drawer{display:none;}}' +
 
   /* ---- buttons ---- */
   '.kh-btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:99px;' +
@@ -472,7 +516,8 @@
   '}' +
 
   '@media(prefers-reduced-motion:reduce){.kh-rv{opacity:1;transform:none;}' +
-    '.kh-orbit .spin,.kh-core,.kh-orbit .node i{animation:none!important;}}';
+    '.kh-orbit .spin,.kh-core,.kh-orbit .node i{animation:none!important;}' +
+    '.kh-drawer,.kh-scrim{transition:none!important;}}';
 
   function ic(name) { return I[name] || I.spark || ''; }
 
@@ -526,9 +571,15 @@
     root.innerHTML =
       /* ---------- nav ---------- */
       '<header id="kh-nav"><div class="kh-nav-in">' +
+        '<button type="button" class="kh-burger" id="kh-burger-btn" aria-label="Open menu" ' +
+          'aria-expanded="false" aria-controls="kh-drawer">' +
+          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+            'stroke-width="2.4" stroke-linecap="round" aria-hidden="true">' +
+            '<path d="M3.5 7h17M3.5 12h17M3.5 17h17"/></svg>' +
+        '</button>' +
         '<a class="kh-logo" href="index.html"><span class="m">' + ic('spark') + '</span>BestBrain</a>' +
         '<nav class="kh-nav-links">' +
-          '<a href="#features">Features</a><a href="#how">How it works</a>' +
+          '<a href="#features">Features</a><a href="#roles">For families</a><a href="#how">How it works</a>' +
           '<a href="#journey">Journey</a><a href="#voices">Stories</a><a href="#faq">FAQ</a>' +
         '</nav>' +
         /* Sizing lives in .kh-nav-in .kh-btn, not in a style attribute: an
@@ -538,6 +589,21 @@
         '<a class="kh-btn p" href="signup.html">Start free ' +
           '<span class="ar">→</span></a>' +
       '</div></header>' +
+
+      /* ---------- mobile drawer (siblings of #kh-nav, see the CSS comment) ---------- */
+      '<div class="kh-scrim" id="kh-scrim"></div>' +
+      '<div class="kh-drawer" id="kh-drawer" inert>' +
+        '<button type="button" class="kh-drawer-close" id="kh-drawer-close" aria-label="Close menu">' +
+          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+            'stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
+        '</button>' +
+        '<nav class="kh-drawer-links">' +
+          '<a href="#features">Features</a><a href="#roles">For families</a><a href="#how">How it works</a>' +
+          '<a href="#journey">Journey</a><a href="#voices">Stories</a><a href="#faq">FAQ</a>' +
+          '<a class="kh-btn g" href="login.html">Log in</a>' +
+          '<a class="kh-btn p" href="signup.html">Start free <span class="ar">→</span></a>' +
+        '</nav>' +
+      '</div>' +
 
       /* ---------- hero ---------- */
       '<section id="kh-hero">' +
@@ -576,7 +642,7 @@
       /* ---------- features ---------- */
       '<section id="features">' +
         '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>Everything inside</span>' +
-          '<h2>One platform. Nineteen ways to get better.</h2>' +
+          '<h2>One platform. Twenty-one ways to get better.</h2>' +
           '<p>Every surface is connected — what you learn feeds what you practise, and what you practise feeds what PAL recommends next.</p></div>' +
         '<div class="kh-grid kh-g4">' + cards(FEATURES) + '</div>' +
       '</section>' +
@@ -587,6 +653,14 @@
           '<h2>Built for how Indian students actually study.</h2>' +
           '<p>Not a western tutor with a translation layer bolted on.</p></div>' +
         '<div class="kh-grid kh-g3">' + cards(WHY) + '</div>' +
+      '</section>' +
+
+      /* ---------- roles ---------- */
+      '<section id="roles">' +
+        '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>One account, three dashboards</span>' +
+          '<h2>Built for the whole family.</h2>' +
+          '<p>Student, parent and teacher each get their own view of the same real data — nobody stares at a dashboard meant for someone else.</p></div>' +
+        '<div class="kh-grid kh-g3">' + cards(ROLES) + '</div>' +
       '</section>' +
 
       /* ---------- how ---------- */
@@ -672,7 +746,8 @@
         '<div class="c"><h4>Practise</h4><a href="mocktest.html">Mock tests</a><a href="challenge.html">Arena</a>' +
           '<a href="dashboard.html">Dashboard</a></div>' +
         '<div class="c"><h4>AI</h4><a href="tutor.html">AI Tutor</a><a href="pal.html">PAL chat</a></div>' +
-        '<div class="c"><h4>Account</h4><a href="login.html">Log in</a><a href="signup.html">Sign up</a></div>' +
+        '<div class="c"><h4>Account</h4><a href="login.html">Log in</a><a href="signup.html">Sign up</a>' +
+          '<a href="privacy.html">Privacy policy</a><a href="terms.html">Terms of service</a></div>' +
       '</div>' +
       '<div class="kh-copy">© 2026 BestBrain · Learn smart, score better.</div></footer>';
 
@@ -782,15 +857,49 @@
       last = y;
     }, { passive: true });
 
-    /* smooth in-page nav */
-    document.querySelectorAll('.kh-nav-links a[href^="#"]').forEach(function (a) {
+    /* smooth in-page nav.
+       Scoped to #kh-root, not document. The router's #root is only hidden
+       (display:none), never removed (see build()), and its dead LandingMarkup
+       tree still carries its own id="features" — a bare document.querySelector
+       resolved to THAT one first (it comes before #kh-root in body order), an
+       invisible display:none element with no layout, so scrollIntoView was a
+       silent no-op and the "Features" nav link did nothing.
+       Covers the drawer's copy of the links too — same targets, same fix. */
+    var khRoot = document.getElementById('kh-root');
+    document.querySelectorAll('.kh-nav-links a[href^="#"], .kh-drawer-links a[href^="#"]').forEach(function (a) {
       a.addEventListener('click', function (e) {
-        var t = document.querySelector(a.getAttribute('href'));
+        var t = khRoot.querySelector(a.getAttribute('href'));
         if (!t) return;
         e.preventDefault();
         t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
       });
     });
+
+    /* mobile drawer: burger opens it, scrim/X/Escape/any link closes it.
+       Mirrors Navbar.tsx's drawer contract (scrim, inert, Escape, body scroll
+       lock) since that is the pattern this site already committed to — see
+       its comments for why each piece is there. */
+    var burger = document.getElementById('kh-burger-btn');
+    var drawer = document.getElementById('kh-drawer');
+    var scrim = document.getElementById('kh-scrim');
+    var drawerClose = document.getElementById('kh-drawer-close');
+    if (burger && drawer && scrim && drawerClose) {
+      var setDrawer = function (open) {
+        drawer.classList.toggle('open', open);
+        scrim.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        if (open) drawer.removeAttribute('inert'); else drawer.setAttribute('inert', '');
+        document.body.style.overflow = open ? 'hidden' : '';
+      };
+      burger.addEventListener('click', function () { setDrawer(!drawer.classList.contains('open')); });
+      scrim.addEventListener('click', function () { setDrawer(false); });
+      drawerClose.addEventListener('click', function () { setDrawer(false); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setDrawer(false); });
+      drawer.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () { setDrawer(false); });
+      });
+    }
   }
 
   function unmount() {
