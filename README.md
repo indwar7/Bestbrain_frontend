@@ -1,10 +1,10 @@
-# EduLearn
+# BestBrainplus
 
 **Learn smarter, score better.** An iPrep-style K-12 learning platform for Bharat — CBSE / NCERT + 20 state boards, Classes 6–9, built mobile-first and offline-first, with adaptive AI at its core.
 
 ### Live demo
 
-**https://edulearn-platform-theta.vercel.app**
+
 
 > Tip: open the live URL (not the local file) so the camera-based attention monitoring works — webcam access needs HTTPS.
 
