@@ -854,7 +854,18 @@
         n.setAttribute('data-kid-ink', 'skip');
         continue;
       }
-      if (n.closest('.kb-sky,#kq-player')) { n.setAttribute('data-kid-ink', 'skip'); continue; }
+      /* #kh-root and #ka-root style every glyph inside them explicitly (see
+         the landing page and the auth screens) — same reasoning the "warm"
+         pass above already applies to this exact pair of roots. Without this
+         exclusion this pass still ran inside them, and since it writes color
+         via inline style + 'important' it doesn't lose a cascade fight so
+         much as unconditionally overwrite whatever the page's own stylesheet
+         set a moment later — a gradient-clipped accent word (background-clip:
+         text) reads to surfaceLum() as a bright surface the text sits ON
+         rather than the text's own fill, so it "corrected" both the hero's
+         accent word and the homepage stat suffixes to flat ink, silently
+         discarding their intended colour every time. */
+      if (n.closest('.kb-sky,#kh-root,#ka-root,#kq-player')) { n.setAttribute('data-kid-ink', 'skip'); continue; }
       if (!ownsText(n)) { n.setAttribute('data-kid-ink', 'notext'); continue; }
       var cs = getComputedStyle(n);
       var s = surfaceLum(n, cs);

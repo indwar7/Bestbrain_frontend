@@ -139,11 +139,21 @@
   '#kh-nav.hide{transform:translateY(-100%);}' +
   '.kh-nav-in{max-width:1180px;margin:0 auto;padding:0 clamp(20px,4vw,32px);height:70px;' +
     'display:flex;align-items:center;gap:24px;}' +
-  '.kh-logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px;color:#fff;' +
-    'letter-spacing:-.02em;text-decoration:none;}' +
-  '.kh-logo .m{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:#0A0A0A;' +
+  '.kh-logo{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;}' +
+  '.kh-logo .m{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:#0A0A0A;flex-shrink:0;' +
     'background:linear-gradient(135deg,var(--kh-accent),var(--kh-accent-soft));box-shadow:0 6px 18px rgba(var(--kh-accent-rgb),.45);}' +
   '.kh-logo .m svg{width:19px;height:19px;}' +
+  /* Header wordmark lockup: "BestBrain" over a small parent-company caption.
+     Text styling lives on .lt, not the bare .kh-logo anchor, because the
+     narrow-phone rules below need to hide the caption+wordmark as one unit
+     while leaving .m (the icon) visible — a bare font-size:0 on .kh-logo
+     wouldn't reach .lt's own explicit font-size (a child's explicit font-size
+     is never overridden by an ancestor's), so hiding has to target .lt
+     directly rather than relying on inherited zero. */
+  '.kh-logo .lt{display:flex;flex-direction:column;line-height:1.05;' +
+    'font-weight:900;font-size:20px;letter-spacing:-.02em;}' +
+  '.kh-logo .lt small{margin-top:3px;font-size:9px;font-weight:800;letter-spacing:.09em;' +
+    'text-transform:uppercase;color:rgba(255,255,255,.4);}' +
   '.kh-nav-links{display:flex;gap:4px;margin-left:auto;}' +
   '.kh-nav-links a{padding:9px 15px;border-radius:99px;font-size:14px;font-weight:700;' +
     'color:rgba(255,255,255,.7);text-decoration:none;transition:all .3s ease;}' +
@@ -308,8 +318,15 @@
   /* ---- stats ---- */
   '.kh-stat b{display:block;font-size:clamp(34px,4.6vw,46px);font-weight:900;color:#fff;line-height:1;' +
     'font-variant-numeric:tabular-nums;letter-spacing:-.03em;}' +
-  '.kh-stat b em{font-style:normal;background:linear-gradient(115deg,var(--kh-accent),var(--kh-accent-soft));' +
-    '-webkit-background-clip:text;background-clip:text;color:transparent;}' +
+  /* Solid, not clipped — same fix as #kh-hero h1 .gr and for the same reason.
+     kid-bg.js's ink pass measures whatever background-image sits behind a
+     glyph to decide readable ink, and a background-clip:text gradient reads
+     to it as a bright surface the text sits ON rather than the text's own
+     fill — so it "corrected" 24x7 / 7 days to near-black ink on a near-black
+     card, undoing the clip. A flat accent color has no background-image for
+     the pass to misread, and !important keeps it from re-winning anyway. */
+  '.kh-stat b em{font-style:normal;color:var(--kh-accent-soft)!important;' +
+    '-webkit-text-fill-color:var(--kh-accent-soft)!important;background:none!important;}' +
   '.kh-stat .l{display:block;margin-top:10px;font-size:14px;font-weight:800;color:#fff;}' +
   '.kh-stat .s{display:block;margin-top:4px;font-size:12.5px;color:rgba(255,255,255,.55);}' +
 
@@ -369,6 +386,51 @@
   '.kh-who b{display:block;font-size:13.5px;color:#fff;}' +
   '.kh-who span{font-size:12px;color:rgba(255,255,255,.55);}' +
   '.kh-stars{color:var(--kh-accent-soft);font-size:13px;letter-spacing:2px;margin-bottom:14px;}' +
+
+  /* ---- devices ----
+     Every colour here is a variable already defined above (--kh-accent /
+     --kh-accent-soft / the site's near-black #0A0A0A / the same
+     rgba(255,255,255,x) whites every other card uses) — no new hex values,
+     matching the constraint that this pass only adds, never re-themes. */
+  '.kh-dev-wrap{position:relative;max-width:820px;margin:0 auto;padding:8px 60px 40px 0;}' +
+  '.kh-dev-lap{width:min(620px,100%);}' +
+  '.kh-dev-screen{border:10px solid #0A0A0A;border-radius:20px;background:rgba(255,255,255,.04);' +
+    'box-shadow:0 30px 70px rgba(0,0,0,.5);overflow:hidden;}' +
+  '.kh-dev-bar{display:flex;gap:7px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08);}' +
+  '.kh-dev-bar i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.16);display:block;}' +
+  '.kh-dev-body{padding:22px 24px 26px;}' +
+  '.kh-dev-nav{display:flex;align-items:center;gap:8px;margin-bottom:18px;}' +
+  '.kh-dev-nav i{height:9px;border-radius:5px;background:rgba(255,255,255,.12);display:block;}' +
+  '.kh-dev-row{display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.08);' +
+    'border-radius:13px;padding:11px 13px;margin-bottom:9px;background:rgba(255,255,255,.02);}' +
+  '.kh-dev-row .n{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:none;' +
+    'font-size:12px;font-weight:800;color:#0A0A0A;background:linear-gradient(135deg,var(--kh-accent),var(--kh-accent-soft));}' +
+  '.kh-dev-row .lines{flex:1;}' +
+  '.kh-dev-row .line{height:8px;border-radius:4px;background:rgba(255,255,255,.14);margin-bottom:7px;}' +
+  '.kh-dev-row .bar{height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;}' +
+  '.kh-dev-row .bar i{display:block;height:100%;border-radius:3px;' +
+    'background:linear-gradient(90deg,var(--kh-accent),var(--kh-accent-soft));}' +
+  '.kh-dev-base{width:112%;margin:0 -6% -2px;height:14px;background:#0A0A0A;border-radius:0 0 10px 10px;}' +
+
+  '.kh-dev-phone{position:absolute;right:0;bottom:-14px;width:172px;border:9px solid #0A0A0A;' +
+    'border-radius:30px;background:rgba(255,255,255,.05);box-shadow:0 26px 54px rgba(0,0,0,.55);overflow:hidden;}' +
+  '.kh-dev-notch{width:52px;height:13px;background:#0A0A0A;border-radius:0 0 9px 9px;margin:0 auto;}' +
+  '.kh-dev-pbody{padding:14px 13px 16px;}' +
+  '.kh-dev-phead{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;}' +
+  '.kh-dev-phead i{height:8px;border-radius:4px;background:rgba(255,255,255,.14);display:block;}' +
+  '.kh-dev-ring{width:52px;height:52px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;' +
+    'background:conic-gradient(var(--kh-accent) 0 76%, rgba(255,255,255,.1) 76% 100%);}' +
+  '.kh-dev-ring i{width:38px;height:38px;border-radius:50%;background:#0A0A0A;display:grid;place-items:center;' +
+    'font-style:normal;font-weight:900;font-size:11px;color:var(--kh-accent-soft);}' +
+  '.kh-dev-opt{border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:8px 10px;' +
+    'display:flex;align-items:center;gap:8px;margin-bottom:7px;}' +
+  '.kh-dev-opt .dot{width:15px;height:15px;border-radius:5px;background:rgba(255,255,255,.1);flex:none;}' +
+  '.kh-dev-opt.on .dot{background:var(--kh-accent);}' +
+  '.kh-dev-opt .pill{height:7px;border-radius:4px;background:rgba(255,255,255,.14);flex:1;}' +
+
+  '@media(max-width:700px){.kh-dev-wrap{padding:8px 44px 90px 0;}.kh-dev-phone{width:132px;right:-6px;bottom:-40px;}}' +
+  '@media(max-width:460px){.kh-dev-wrap{padding:8px 0 130px;}' +
+    '.kh-dev-phone{right:50%;transform:translateX(50%);bottom:-70px;}}' +
 
   /* ---- FAQ ---- */
   '.kh-faq{border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.05);' +
@@ -474,7 +536,8 @@
        first thing on the page was a broken row. Tighten the row, shorten the
        primary label's padding, and let the logo give up space first. */
     '.kh-nav-in{height:60px;gap:10px;padding:0 14px;}' +
-    '.kh-logo{font-size:17px;min-width:0;}' +
+    '.kh-logo{min-width:0;}' +
+    '.kh-logo .lt{font-size:17px;}' +
     '.kh-logo .m{width:28px;height:28px;flex-shrink:0;}' +
     '.kh-nav-in .kh-btn{padding:10px 14px;font-size:13.5px;}' +
     '.kh-nav-in .kh-btn.p{padding:10px 15px;}' +
@@ -506,12 +569,14 @@
      read next to a logo nobody needed. */
   '@media(max-width:420px){' +
     '.kh-nav-in{gap:8px;}' +
-    /* Scoped to the nav. This hides the wordmark so the header's two CTAs
-       keep readable labels on a 320px screen — but .kh-logo also appears in
-       the footer, where there is a whole row to spare, and the unscoped rule
-       was blanking the brand name there too. */
-    '.kh-nav-in .kh-logo{font-size:0;gap:0;flex-shrink:0;}' +
-    '.kh-nav-in .kh-logo .m{font-size:19px;}' +
+    /* Scoped to the nav. This hides the wordmark+caption so the header's two
+       CTAs keep readable labels on a 320px screen — but .kh-logo also appears
+       in the footer, where there is a whole row to spare, and an unscoped
+       rule would blank the brand name there too. Hiding .lt directly, not a
+       font-size:0 cascade — see the base .kh-logo comment for why the old
+       cascade trick stopped reaching the wordmark once it moved into .lt. */
+    '.kh-nav-in .kh-logo{gap:0;flex-shrink:0;}' +
+    '.kh-nav-in .kh-logo .lt{display:none;}' +
     '.kh-nav-in .kh-btn{padding:10px 13px;font-size:13px;}' +
   '}' +
 
@@ -577,7 +642,8 @@
             'stroke-width="2.4" stroke-linecap="round" aria-hidden="true">' +
             '<path d="M3.5 7h17M3.5 12h17M3.5 17h17"/></svg>' +
         '</button>' +
-        '<a class="kh-logo" href="index.html"><span class="m">' + ic('spark') + '</span>BestBrain</a>' +
+        '<a class="kh-logo" href="index.html"><span class="m">' + ic('spark') + '</span>' +
+          '<span class="lt">BestBrain<small>NorthBridge</small></span></a>' +
         '<nav class="kh-nav-links">' +
           '<a href="#features">Features</a><a href="#roles">For families</a><a href="#how">How it works</a>' +
           '<a href="#journey">Journey</a><a href="#voices">Stories</a><a href="#faq">FAQ</a>' +
@@ -701,6 +767,47 @@
         '</div>' +
       '</section>' +
 
+      /* ---------- devices ---------- */
+      '<section id="devices">' +
+        '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>Every screen</span>' +
+          '<h2>Works properly on a laptop <em>and</em> a phone.</h2>' +
+          '<p>No separate app to install and no cramped mobile version bolted on afterward. Open BestBrain on the ' +
+          'school lab desktop or your own phone and get the full dashboard, the same PAL tutor, and the same ' +
+          'progress — laid out properly for the screen you’re actually on.</p></div>' +
+        '<div class="kh-dev-wrap kh-rv" aria-hidden="true">' +
+          '<div class="kh-dev-lap">' +
+            '<div class="kh-dev-screen">' +
+              '<div class="kh-dev-bar"><i></i><i></i><i></i></div>' +
+              '<div class="kh-dev-body">' +
+                '<div class="kh-dev-nav">' +
+                  '<i style="width:26px;background:linear-gradient(135deg,var(--kh-accent),var(--kh-accent-soft))"></i>' +
+                  '<i style="width:64px"></i><i style="width:40px"></i><i style="width:46px;margin-left:auto"></i>' +
+                '</div>' +
+                '<div class="kh-dev-row"><span class="n">01</span>' +
+                  '<span class="lines"><span class="line" style="width:62%"></span>' +
+                  '<span class="bar"><i style="width:78%"></i></span></span></div>' +
+                '<div class="kh-dev-row"><span class="n">02</span>' +
+                  '<span class="lines"><span class="line" style="width:74%"></span>' +
+                  '<span class="bar"><i style="width:45%"></i></span></span></div>' +
+                '<div class="kh-dev-row" style="margin-bottom:0"><span class="n">03</span>' +
+                  '<span class="lines"><span class="line" style="width:56%"></span>' +
+                  '<span class="bar"><i style="width:22%"></i></span></span></div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="kh-dev-base"></div>' +
+          '</div>' +
+          '<div class="kh-dev-phone">' +
+            '<div class="kh-dev-notch"></div>' +
+            '<div class="kh-dev-pbody">' +
+              '<div class="kh-dev-phead"><i style="width:44px"></i><i style="width:18px"></i></div>' +
+              '<div class="kh-dev-ring"><i>76%</i></div>' +
+              '<div class="kh-dev-opt on"><span class="dot"></span><span class="pill" style="max-width:70px"></span></div>' +
+              '<div class="kh-dev-opt"><span class="dot"></span><span class="pill" style="max-width:52px"></span></div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</section>' +
+
       /* ---------- faq ---------- */
       '<section id="faq">' +
         '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>FAQ</span>' +
@@ -727,9 +834,12 @@
       /* ---------- footer ---------- */
       '<footer id="kh-foot"><div class="kh-foot-in">' +
         '<div class="c kh-fbrand">' +
-          '<a class="kh-logo" href="index.html" style="margin-bottom:14px"><span class="m">' + ic('spark') + '</span>BestBrain</a>' +
+          '<a class="kh-logo" href="index.html" style="margin-bottom:14px"><span class="m">' + ic('spark') + '</span>' +
+            '<span class="lt">BestBrain</span></a>' +
           '<p style="font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.55);max-width:34ch">' +
-            'AI-powered learning for Classes 6–9. Built in India, for Indian classrooms.</p>' +
+            'AI-powered learning for Classes 6–9. Built in India, for Indian classrooms.<br>' +
+            'A <b style="color:var(--kh-accent-soft)!important;-webkit-text-fill-color:var(--kh-accent-soft)!important">' +
+              'NorthBridge Future Labs Pvt Ltd</b> company.</p>' +
         '</div>' +
         /* Classes is the column a visitor who is not signed in actually
            needs — the first thing they want to know is whether their class
@@ -749,7 +859,9 @@
         '<div class="c"><h4>Account</h4><a href="login.html">Log in</a><a href="signup.html">Sign up</a>' +
           '<a href="privacy.html">Privacy policy</a><a href="terms.html">Terms of service</a></div>' +
       '</div>' +
-      '<div class="kh-copy">© 2026 BestBrain · Learn smart, score better.</div></footer>';
+      '<div class="kh-copy">© 2026 BestBrain, a ' +
+        '<b style="color:var(--kh-accent-soft)!important;-webkit-text-fill-color:var(--kh-accent-soft)!important">' +
+          'NorthBridge Future Labs Pvt Ltd</b> company. All rights reserved.</div></footer>';
 
     /* Static pages own their DOM, so their content is removed outright. Under
        the router it is only HIDDEN: React still owns those nodes, and deleting

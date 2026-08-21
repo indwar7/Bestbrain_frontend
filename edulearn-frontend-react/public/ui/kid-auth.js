@@ -105,11 +105,15 @@
     'radial-gradient(640px 520px at 88% 92%,rgba(168,85,247,.14),transparent 64%);}' +
   '#ka-root .ka-brand > *{position:relative;z-index:2;}' +
 
-  '#ka-root .ka-logo{display:inline-flex;align-items:center;gap:11px;font-weight:900;font-size:21px;' +
-    'letter-spacing:-.02em;text-decoration:none;margin-bottom:auto;}' +
-  '#ka-root .ka-logo .m{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;' +
+  '#ka-root .ka-logo{display:inline-flex;align-items:center;gap:11px;' +
+    'text-decoration:none;margin-bottom:auto;}' +
+  '#ka-root .ka-logo .m{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;flex-shrink:0;' +
     'background:linear-gradient(135deg,#FF7A00,#FFB347);box-shadow:0 8px 22px rgba(255,122,0,.45);}' +
   '#ka-root .ka-logo .m svg{width:19px;height:19px;color:#0A0A0A;}' +
+  '#ka-root .ka-logo .lt{display:flex;flex-direction:column;line-height:1.05;' +
+    'font-weight:900;font-size:21px;letter-spacing:-.02em;}' +
+  '#ka-root .ka-logo .lt small{margin-top:3px;font-size:9.5px;font-weight:800;letter-spacing:.09em;' +
+    'text-transform:uppercase;color:rgba(255,255,255,.42);}' +
 
   '#ka-root .ka-body{padding:clamp(30px,4vw,52px) 0;}' +
   '#ka-root .ka-eyebrow{display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border-radius:99px;' +
@@ -410,7 +414,8 @@
         '<div><div class="n">' + p.n + '</div><div class="l">' + p.l + '</div></div>';
     }).join('');
 
-    return '<a class="ka-logo" href="index.html"><span class="m">' + IC.mark + '</span>BestBrain</a>' +
+    return '<a class="ka-logo" href="index.html"><span class="m">' + IC.mark + '</span>' +
+      '<span class="lt">BestBrain<small>NorthBridge</small></span></a>' +
       '<div class="ka-body">' +
         '<span class="ka-eyebrow"><span class="d"></span>' + COPY.eyebrow + '</span>' +
         '<h1 class="ka-head">' + COPY.head + '</h1>' +
