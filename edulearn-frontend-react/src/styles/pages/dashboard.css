@@ -279,6 +279,33 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .span5{grid-column:span 5;}
 .span4{grid-column:span 4;}
 
+/* ---------- BestBrain Plus card ---------- */
+.pluscard{
+  max-width:1180px;margin:0 auto 24px;padding:20px 24px;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+  box-shadow:var(--shadow-card);
+}
+.pluscard__head{display:flex;align-items:center;gap:14px;min-width:0;}
+.pluscard__badge{
+  width:40px;height:40px;border-radius:12px;flex:none;display:grid;place-items:center;
+  font-size:18px;color:var(--on-accent);background:var(--aurora);
+}
+.pluscard__copy h3{font-family:'Fraunces',serif;font-weight:600;font-size:17px;margin-bottom:2px;}
+.pluscard__copy p{font-size:13px;color:var(--muted);}
+.pluscard__action{display:flex;align-items:center;gap:10px;flex:none;}
+.pluscard__action form{display:flex;}
+/* Razorpay's hosted button renders inside the <form> the script above injects
+   into #plusAction — this only sizes the wrapper, never the button itself
+   (that markup is Razorpay's, not ours, and can change without notice). */
+.pluscard.is-active .pluscard__badge{background:linear-gradient(135deg,var(--teal),var(--peri));}
+.plus-active-chip{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:99px;
+  background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.35);
+  color:var(--teal);font-weight:700;font-size:13px;white-space:nowrap;
+}
+.plus-price{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream);white-space:nowrap;}
+
 /* ---------- PAL chip ---------- */
 .pal-chip{
   display:inline-flex;align-items:center;gap:8px;

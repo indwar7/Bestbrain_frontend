@@ -1334,6 +1334,10 @@ async function bootAuth(){
   // that one failing cannot blank the other.
   hydrateChapterProgress();
 
+  // BestBrain Plus upsell/status card. Same reasoning: not awaited, and
+  // wrapped so it can never blank or block anything else on the page.
+  loadSubscriptionCard(user);
+
   // Pull real data from the backend and inject role-specific numbers.
   try {
     var data = await EduAPI.getDashboard();
@@ -1420,6 +1424,70 @@ async function checkLiveNow(user){
   card.setAttribute('href', 'live.html');
   card.style.borderColor = 'rgba(255,90,95,.5)';
   card.style.boxShadow = '0 0 0 1px rgba(255,90,95,.4), 0 10px 30px -8px rgba(255,90,95,.3)';
+}
+
+// BestBrain Plus — shows either the Razorpay hosted button (not subscribed)
+// or an "active until" badge (subscribed). Stays hidden on any failure: this
+// is an upsell, not core dashboard function, and a broken card would be a
+// worse first impression than no card at all.
+async function loadSubscriptionCard(user){
+  var wrap = document.getElementById('plusCard');
+  var action = document.getElementById('plusAction');
+  if (!wrap || !action || !window.EduAPI || typeof EduAPI.getSubscriptionConfig !== 'function') return;
+
+  try {
+    var config = await EduAPI.getSubscriptionConfig();
+    var entitlement = await EduAPI.getSubscription();
+
+    if (entitlement && entitlement.active) {
+      var until = entitlement.paidThrough
+        ? new Date(entitlement.paidThrough).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+        : null;
+      var sub = document.getElementById('plusSub');
+      if (sub) sub.textContent = until ? 'Active until ' + until + '.' : 'Your membership is active.';
+      var chip = document.createElement('span');
+      chip.className = 'plus-active-chip';
+      chip.textContent = '✓ Member';
+      action.appendChild(chip);
+      wrap.classList.add('is-active');
+      wrap.style.display = 'flex';
+      return;
+    }
+
+    if (!config || !config.subscriptionButtonId) return; // nothing to sell without a button id
+    if (config.webhookConfigured === false) {
+      // The button would still take ₹900, but nothing on this server can ever
+      // record that payment against an account (see subscriptionController's
+      // razorpayWebhook, which itself refuses every event while this is
+      // false). Showing the button anyway would be taking money for nothing.
+      console.warn('[plus] RAZORPAY_WEBHOOK_SECRET is not set on the backend — hiding the subscribe button so it cannot take an unrecordable payment.');
+      return;
+    }
+
+    if (config.pricePaise) {
+      var price = document.createElement('span');
+      price.className = 'plus-price';
+      var rupees = Math.round(config.pricePaise / 100);
+      price.textContent = '₹' + rupees.toLocaleString('en-IN') + (config.currency && config.currency !== 'INR' ? ' ' + config.currency : '') + '/mo';
+      action.appendChild(price);
+    }
+
+    // Razorpay's hosted button: it renders itself into this <form> once its
+    // script loads. The button id comes from the backend, not hard-coded here,
+    // so changing plans is a config change on the server, not a redeploy.
+    var form = document.createElement('form');
+    var script = document.createElement('script');
+    script.src = 'https://cdn.razorpay.com/static/widget/subscription-button.js';
+    script.async = true;
+    script.setAttribute('data-subscription_button_id', config.subscriptionButtonId);
+    script.setAttribute('data-button_theme', 'rzp-dark-standard');
+    form.appendChild(script);
+    action.appendChild(form);
+
+    wrap.style.display = 'flex';
+  } catch (e) {
+    console.warn('[plus] subscription card failed to load:', e && e.message);
+  }
 }
 
 // Inject real backend numbers into the rendered views (best-effort, by role).

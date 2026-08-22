@@ -299,6 +299,18 @@ export async function saveProgress(fields: any) {
   return data?.progress || null;
 }
 
+// Subscription (BestBrain Plus)
+export function getSubscriptionConfig() {
+  return request<{ subscriptionButtonId: string; pricePaise: number; currency: string; webhookConfigured: boolean }>(
+    '/api/subscription/config'
+  );
+}
+export function getSubscription() {
+  return request<{ active: boolean; status: string; paidThrough: string | null; subscriptionId: string }>(
+    '/api/subscription/me'
+  );
+}
+
 // Profile
 export function me() { return request('/api/auth/me'); }
 export function getProfile() { return request('/api/users/me'); }

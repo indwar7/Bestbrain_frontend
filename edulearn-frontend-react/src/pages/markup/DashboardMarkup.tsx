@@ -152,6 +152,29 @@ export default function DashboardMarkup() {
           </div>
         </header>
         {/* ============================================================
+         BESTBRAIN PLUS — subscription upsell / active badge.
+         Hidden until loadSubscriptionCard() resolves (see script), so a slow
+         or failed /api/subscription/* call never shows a half-built card.
+         Entitlement itself is decided server-side from signed Razorpay
+         webhooks only — this card only ever reads it, never sets it.
+    ============================================================ */}
+        <div id="plusCard" className="pluscard" style={{ display: "none" }}>
+          <div className="pluscard__head">
+            <span className="pluscard__badge" aria-hidden="true">
+              ★
+            </span>
+            <div className="pluscard__copy">
+              <h3 id="plusTitle">
+                BestBrain Plus
+              </h3>
+              <p id="plusSub">
+                Unlock every class, every subject, unlimited PAL doubts.
+              </p>
+            </div>
+          </div>
+          <div id="plusAction" className="pluscard__action" />
+        </div>
+        {/* ============================================================
          LAYOUT: BOARDS + RIGHT RAIL
     ============================================================ */}
         <div className="layout">

@@ -262,6 +262,18 @@
     return (data && data.progress) || null;
   }
 
+  // Public — no auth required. { subscriptionButtonId, pricePaise, currency,
+  // webhookConfigured }. webhookConfigured lets the UI warn instead of taking
+  // a payment it can never actually apply to the account.
+  async function getSubscriptionConfig() {
+    return request('/api/subscription/config');
+  }
+
+  // The signed-in user's entitlement: { active, status, paidThrough, subscriptionId }.
+  async function getSubscription() {
+    return request('/api/subscription/me');
+  }
+
   async function me() {
     return request('/api/auth/me');
   }
@@ -705,6 +717,8 @@
     getDashboard: getDashboard,
     getProgress: getProgress,
     saveProgress: saveProgress,
+    getSubscriptionConfig: getSubscriptionConfig,
+    getSubscription: getSubscription,
     getUser: getUser,
     getToken: getToken,
     requireAuth: requireAuth,
