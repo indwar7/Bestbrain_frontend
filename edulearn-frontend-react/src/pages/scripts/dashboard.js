@@ -1338,6 +1338,12 @@ async function bootAuth(){
   // wrapped so it can never blank or block anything else on the page.
   loadSubscriptionCard(user);
 
+  // Coin balance + low-balance notice. Scoped to students only — coins
+  // exist on every role's user doc, but only student actions (PAL
+  // questions, video views) ever spend them, so showing this to a teacher
+  // or parent would just be a number that never moves.
+  if (user.role === 'student') loadCoinChip();
+
   // Pull real data from the backend and inject role-specific numbers.
   try {
     var data = await EduAPI.getDashboard();
@@ -1532,6 +1538,49 @@ async function loadSubscriptionCard(user){
   } catch (e) {
     console.warn('[plus] subscription card failed to load:', e && e.message);
   }
+}
+
+// Coin balance chip + low-balance banner. Below 100 coins, both switch to
+// the warning state — 100 is roughly one video's worth (25) with room to
+// spare, so it fires with enough runway left to actually act on it, not at
+// the moment the balance is already gone.
+var LOW_COIN_THRESHOLD = 100;
+
+async function loadCoinChip(){
+  var chip = document.getElementById('coinChip');
+  var balEl = document.getElementById('coinBalance');
+  var banner = document.getElementById('lowCoinBanner');
+  var bannerBal = document.getElementById('lowCoinBalance');
+  if (!chip || !balEl || !window.EduAPI || typeof EduAPI.getCoins !== 'function') return;
+
+  function render(balance){
+    balEl.textContent = balance.toLocaleString('en-IN');
+    var low = balance < LOW_COIN_THRESHOLD;
+    chip.classList.toggle('low', low);
+    chip.style.display = 'inline-flex';
+    if (banner) banner.style.display = low ? 'flex' : 'none';
+    if (bannerBal) bannerBal.textContent = balance.toLocaleString('en-IN');
+  }
+
+  try {
+    var data = await EduAPI.getCoins();
+    render((data && data.balance) || 0);
+  } catch (e) {
+    console.warn('[coins] balance failed to load:', e && e.message);
+    return;
+  }
+
+  // Coins are spent from OTHER pages (PAL, video) that this page has no
+  // direct signal from — poll gently so a student who leaves the dashboard
+  // open in a tab still sees a number that's actually current, and so the
+  // low-balance warning appears without needing a manual refresh.
+  var pollTimer = window.setInterval(async function(){
+    try {
+      var fresh = await EduAPI.getCoins();
+      render((fresh && fresh.balance) || 0);
+    } catch (e) { /* one failed poll should not stop the rest */ }
+  }, 30000);
+  onCleanup(function(){ window.clearInterval(pollTimer); });
 }
 
 // Inject real backend numbers into the rendered views (best-effort, by role).

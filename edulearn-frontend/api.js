@@ -274,6 +274,13 @@
     return request('/api/subscription/me');
   }
 
+  // { balance, recent } — recent is the last 25 ledger lines (delta, reason,
+  // balanceAfter, createdAt). PAL questions and video views deduct from this
+  // balance server-side; this is read-only, there is no client grant path.
+  async function getCoins() {
+    return request('/api/coins');
+  }
+
   async function me() {
     return request('/api/auth/me');
   }
@@ -719,6 +726,7 @@
     saveProgress: saveProgress,
     getSubscriptionConfig: getSubscriptionConfig,
     getSubscription: getSubscription,
+    getCoins: getCoins,
     getUser: getUser,
     getToken: getToken,
     requireAuth: requireAuth,

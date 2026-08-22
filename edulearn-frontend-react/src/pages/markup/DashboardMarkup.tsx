@@ -101,6 +101,34 @@ export default function DashboardMarkup() {
                   day streak
                 </span>
               </span>
+              {/* Hidden until loadCoinChip() resolves (see script) — same reasoning
+               as #plusCard: a slow/failed fetch must never show 0 and look like
+               an empty wallet. Low-balance styling is a CSS state (.low), set
+               from script once the real number is known. */}
+              <span className="coin-chip" id="coinChip" style={{ display: "none" }} title="BestBrain coins">
+                <svg
+                  className="coin-ic"
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M9 9.3c0-1 1.2-1.6 3-1.6s3 .7 3 1.7c0 2.1-6 1.2-6 3.3 0 1 1.2 1.7 3 1.7s3-.5 3-1.5" />
+                  <path d="M12 6.3v11.4" />
+                </svg>
+                {' '}
+                <b id="coinBalance">
+                  0
+                </b>
+                {' '}
+                <span>
+                  coins
+                </span>
+              </span>
               {/* REMOVED: the "Offline data — synced 2h ago" chip.
                It was static markup with no code behind it, so it claimed a sync
                that happened 2 hours ago on every single page load, forever —
@@ -151,6 +179,36 @@ export default function DashboardMarkup() {
             </div>
           </div>
         </header>
+        {/* ============================================================
+         LOW COIN BALANCE — shown only when balance < 100 (see script).
+         role="alert" so a screen reader announces it the moment it appears,
+         same reasoning as showLoadFailure()'s banner elsewhere on this page.
+    ============================================================ */}
+        <div id="lowCoinBanner" className="low-coin-banner" role="alert" style={{ display: "none" }}>
+          <svg
+            width="17"
+            height="17"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 9v4" />
+            <path d="M12 17h.01" />
+            <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
+          </svg>
+          {' '}
+          <span>
+            {"Coins running low — "}
+            <b id="lowCoinBalance">
+              0
+            </b>
+            {" left. Recharge again to enjoy learning at its best!"}
+          </span>
+        </div>
         {/* ============================================================
          BESTBRAIN PLUS — subscription upsell / active badge.
          Hidden until loadSubscriptionCard() resolves (see script), so a slow

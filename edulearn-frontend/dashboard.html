@@ -215,6 +215,27 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 @keyframes flick{0%,100%{transform:scale(1) rotate(0deg);}30%{transform:scale(1.08) rotate(-2deg);}60%{transform:scale(.96) rotate(2deg);}}
 .streak b{font-family:'Fragment Mono',monospace;font-size:13px;color:var(--amber);letter-spacing:.04em;}
 .streak span{font-family:'Fragment Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.coin-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;border:1px solid rgba(124,155,255,.3);border-radius:99px;
+  background:rgba(124,155,255,.07);
+}
+.coin-chip .coin-ic{color:var(--peri);flex:none;}
+.coin-chip b{font-family:'Fragment Mono',monospace;font-size:13px;color:var(--peri);letter-spacing:.04em;}
+.coin-chip span{font-family:'Fragment Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+/* Low-balance state — same rose used for the load-failure banner elsewhere
+   on this page, so "something needs your attention" reads consistently. */
+.coin-chip.low{border-color:rgba(255,122,162,.4);background:rgba(255,122,162,.1);}
+.coin-chip.low .coin-ic,.coin-chip.low b{color:var(--rose);}
+.low-coin-banner{
+  max-width:1180px;margin:0 auto 16px;padding:13px 20px;
+  display:flex;align-items:center;gap:11px;
+  border-radius:14px;font-size:13.5px;font-weight:600;color:var(--cream);
+  border:1px solid color-mix(in srgb, var(--rose) 45%, transparent);
+  background:color-mix(in srgb, var(--rose) 12%, transparent);
+}
+.low-coin-banner svg{color:var(--rose);flex:none;}
+.low-coin-banner b{font-family:'Fragment Mono',monospace;color:var(--rose);}
 .sync-chip{
   position:relative;display:inline-flex;align-items:center;gap:9px;
   padding:7px 14px;border:1px solid var(--line);border-radius:99px;
@@ -1098,6 +1119,19 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
           <b id="streakNum">12</b>
           <span data-i18n="strip.streak">day streak</span>
         </span>
+        <!-- Hidden until loadCoinChip() resolves (see script) — same reasoning
+             as #plusCard: a slow/failed fetch must never show 0 and look like
+             an empty wallet. Low-balance styling is a CSS state (.low), set
+             from script once the real number is known. -->
+        <span class="coin-chip" id="coinChip" style="display:none" title="BestBrain coins">
+          <svg class="coin-ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M9 9.3c0-1 1.2-1.6 3-1.6s3 .7 3 1.7c0 2.1-6 1.2-6 3.3 0 1 1.2 1.7 3 1.7s3-.5 3-1.5"/>
+            <path d="M12 6.3v11.4"/>
+          </svg>
+          <b id="coinBalance">0</b>
+          <span>coins</span>
+        </span>
         <!-- REMOVED: the "Offline data — synced 2h ago" chip.
              It was static markup with no code behind it, so it claimed a sync
              that happened 2 hours ago on every single page load, forever —
@@ -1128,6 +1162,19 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
       </div>
     </div>
   </header>
+
+  <!-- ============================================================
+       LOW COIN BALANCE — shown only when balance < 100 (see script).
+       role="alert" so a screen reader announces it the moment it appears,
+       same reasoning as showLoadFailure()'s banner elsewhere on this page.
+  ============================================================ -->
+  <div id="lowCoinBanner" class="low-coin-banner" role="alert" style="display:none">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 9v4"/><path d="M12 17h.01"/>
+      <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/>
+    </svg>
+    <span>Coins running low — <b id="lowCoinBalance">0</b> left. Recharge again to enjoy learning at its best!</span>
+  </div>
 
   <!-- ============================================================
        BESTBRAIN PLUS — subscription upsell / active badge.
@@ -2927,6 +2974,12 @@ async function bootAuth(){
   // wrapped so it can never blank or block anything else on the page.
   loadSubscriptionCard(user);
 
+  // Coin balance + low-balance notice. Scoped to students only — coins
+  // exist on every role's user doc, but only student actions (PAL
+  // questions, video views) ever spend them, so showing this to a teacher
+  // or parent would just be a number that never moves.
+  if (user.role === 'student') loadCoinChip();
+
   // Pull real data from the backend and inject role-specific numbers.
   try {
     var data = await EduAPI.getDashboard();
@@ -3121,6 +3174,49 @@ async function loadSubscriptionCard(user){
   } catch (e) {
     console.warn('[plus] subscription card failed to load:', e && e.message);
   }
+}
+
+// Coin balance chip + low-balance banner. Below 100 coins, both switch to
+// the warning state — 100 is roughly one video's worth (25) with room to
+// spare, so it fires with enough runway left to actually act on it, not at
+// the moment the balance is already gone.
+var LOW_COIN_THRESHOLD = 100;
+
+async function loadCoinChip(){
+  var chip = document.getElementById('coinChip');
+  var balEl = document.getElementById('coinBalance');
+  var banner = document.getElementById('lowCoinBanner');
+  var bannerBal = document.getElementById('lowCoinBalance');
+  if (!chip || !balEl || !window.EduAPI || typeof EduAPI.getCoins !== 'function') return;
+
+  function render(balance){
+    balEl.textContent = balance.toLocaleString('en-IN');
+    var low = balance < LOW_COIN_THRESHOLD;
+    chip.classList.toggle('low', low);
+    chip.style.display = 'inline-flex';
+    if (banner) banner.style.display = low ? 'flex' : 'none';
+    if (bannerBal) bannerBal.textContent = balance.toLocaleString('en-IN');
+  }
+
+  try {
+    var data = await EduAPI.getCoins();
+    render((data && data.balance) || 0);
+  } catch (e) {
+    console.warn('[coins] balance failed to load:', e && e.message);
+    return;
+  }
+
+  // Coins are spent from OTHER pages (PAL, video) that this page has no
+  // direct signal from — poll gently so a student who leaves the dashboard
+  // open in a tab still sees a number that's actually current, and so the
+  // low-balance warning appears without needing a manual refresh.
+  var pollTimer = window.setInterval(async function(){
+    try {
+      var fresh = await EduAPI.getCoins();
+      render((fresh && fresh.balance) || 0);
+    } catch (e) { /* one failed poll should not stop the rest */ }
+  }, 30000);
+  onCleanup(function(){ window.clearInterval(pollTimer); });
 }
 
 // Inject real backend numbers into the rendered views (best-effort, by role).

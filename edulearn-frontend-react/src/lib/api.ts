@@ -310,6 +310,11 @@ export function getSubscription() {
     '/api/subscription/me'
   );
 }
+export function getCoins() {
+  return request<{ balance: number; recent: Array<{ delta: number; reason: string; balanceAfter: number; createdAt: string }> }>(
+    '/api/coins'
+  );
+}
 
 // Profile
 export function me() { return request('/api/auth/me'); }
