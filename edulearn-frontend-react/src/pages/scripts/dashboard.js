@@ -1435,22 +1435,42 @@ async function loadSubscriptionCard(user){
   var action = document.getElementById('plusAction');
   if (!wrap || !action || !window.EduAPI || typeof EduAPI.getSubscriptionConfig !== 'function') return;
 
+  // Shared by the initial "already active" check and the post-payment poll
+  // below, so the two paths can't drift into showing different copy for the
+  // same state.
+  function renderActive(entitlement, justPaid){
+    action.innerHTML = '';
+    var until = entitlement.paidThrough
+      ? new Date(entitlement.paidThrough).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+      : null;
+    var sub = document.getElementById('plusSub');
+    if (sub) {
+      sub.textContent = justPaid
+        ? 'Payment successful — you’re a BestBrain Plus member' + (until ? ' until ' + until + '.' : '.')
+        : (until ? 'Active until ' + until + '.' : 'Your membership is active.');
+    }
+    var chip = document.createElement('span');
+    chip.className = 'plus-active-chip';
+    chip.textContent = justPaid ? '✓ Payment successful' : '✓ Member';
+    action.appendChild(chip);
+    wrap.classList.add('is-active');
+    wrap.style.display = 'flex';
+    if (justPaid) {
+      // A brief pulse so the transition actually gets noticed — this is the
+      // only "payment successful" moment BestBrain itself ever shows (see
+      // the comment on the poll below for why nothing earlier in the flow
+      // can show one).
+      wrap.classList.add('pluscard--celebrate');
+      window.setTimeout(function(){ wrap.classList.remove('pluscard--celebrate'); }, 1800);
+    }
+  }
+
   try {
     var config = await EduAPI.getSubscriptionConfig();
     var entitlement = await EduAPI.getSubscription();
 
     if (entitlement && entitlement.active) {
-      var until = entitlement.paidThrough
-        ? new Date(entitlement.paidThrough).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
-        : null;
-      var sub = document.getElementById('plusSub');
-      if (sub) sub.textContent = until ? 'Active until ' + until + '.' : 'Your membership is active.';
-      var chip = document.createElement('span');
-      chip.className = 'plus-active-chip';
-      chip.textContent = '✓ Member';
-      action.appendChild(chip);
-      wrap.classList.add('is-active');
-      wrap.style.display = 'flex';
+      renderActive(entitlement, false);
       return;
     }
 
@@ -1485,6 +1505,30 @@ async function loadSubscriptionCard(user){
     action.appendChild(form);
 
     wrap.style.display = 'flex';
+
+    // Payment happens inside Razorpay's OWN hosted checkout modal — it shows
+    // its own brief success confirmation, but the simple hosted-button embed
+    // has no callback into this page telling it what happened. Entitlement
+    // only ever changes once Razorpay's webhook reaches the backend (by
+    // design — see subscriptionService.ts), so the only trustworthy way to
+    // know a payment actually went through is to ask. Poll for a few minutes
+    // rather than leave the card stuck on "not subscribed" after someone
+    // just paid; give up quietly if it never arrives (e.g. webhook not
+    // configured yet) rather than erroring.
+    var pollAttempts = 0;
+    var maxPollAttempts = 40; // ~4 minutes at 6s intervals
+    var pollTimer = window.setInterval(async function(){
+      pollAttempts++;
+      if (pollAttempts > maxPollAttempts) { window.clearInterval(pollTimer); return; }
+      try {
+        var fresh = await EduAPI.getSubscription();
+        if (fresh && fresh.active) {
+          window.clearInterval(pollTimer);
+          renderActive(fresh, true);
+        }
+      } catch (e) { /* one failed check should not stop the rest */ }
+    }, 6000);
+    onCleanup(function(){ window.clearInterval(pollTimer); });
   } catch (e) {
     console.warn('[plus] subscription card failed to load:', e && e.message);
   }
