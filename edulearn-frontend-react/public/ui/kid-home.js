@@ -33,28 +33,34 @@
     { n: 7,    suf: ' days', l: 'Average streak', s: 'Habits, not cramming' }
   ];
 
+  // Every card either links straight to the real feature (h) or, if there's
+  // nowhere to send a click yet, expands in place to show one concrete
+  // example (ex) — see cards() below. Copy throughout is written for a
+  // Class 6 reader: short sentences, one real example per feature, second
+  // person, no jargon ("adaptive", "entitlement", "mastery" etc. rewritten
+  // into things that actually happen to a kid using the app).
   var FEATURES = [
-    { i: 'graph',  t: 'Dashboard',            d: 'Everything you did this week in one glance.', h: 'dashboard.html' },
-    { i: 'mic',    t: 'AI Tutor',             d: 'Ask a doubt out loud. PAL answers like a teacher on call.', h: 'tutor.html', tag: 'NEW' },
-    { i: 'target', t: 'Practice Tests',       d: 'Adaptive papers that climb when you do.', h: 'mocktest.html' },
-    { i: 'trophy', t: 'Arena',                d: 'Same question, whole school, live leaderboard.', h: 'challenge.html' },
-    { i: 'chat',   t: 'PAL',                  d: 'Summaries, explanations and quizzes in English ya Hinglish.', h: 'pal.html' },
-    { i: 'book',   t: 'Learn',                d: 'Your whole syllabus, chapter by chapter.', h: 'learn.html' },
-    { i: 'video',  t: 'Live Classes',         d: 'Book a class, get a calendar invite, walk into a real classroom online.', h: 'live.html' },
-    { i: 'eye',    t: 'Attention Monitoring', d: 'AI checks focus during live class and tells your parent and teacher — the video never leaves your device.', h: 'live.html' },
-    { i: 'graph',  t: 'Performance Analytics',d: 'Strengths, gaps and trends — measured, not guessed.' },
-    { i: 'spark',  t: 'AI Feedback',          d: 'Every answer explained, not just marked.' },
-    { i: 'bolt',   t: 'Progress Tracking',    d: 'Chapter mastery that updates as you work.' },
-    { i: 'users',  t: 'Leaderboard',          d: 'Class, school and city ranks, refreshed live.' },
-    { i: 'code',   t: 'Coding Challenges',    d: 'Logic and loops, built for beginners.' },
-    { i: 'shield', t: 'Mock Interviews',      d: 'Practise speaking answers with instant feedback.' },
-    { i: 'cap',    t: 'Question Bank',        d: 'A thousand questions, filtered to your chapter.' },
-    { i: 'brain',  t: 'Personalised Learning',d: 'The next lesson is chosen for you, daily.' },
-    { i: 'bolt',   t: 'Daily Streaks',        d: 'Small daily wins that compound into habit.' },
-    { i: 'trophy', t: 'Achievements',         d: 'Badges for depth, not just for showing up.' },
-    { i: 'shield', t: 'Certificates',         d: 'Verified proof of every module you finish.' },
-    { i: 'wave',   t: 'Recent Activity',      d: 'Pick up exactly where you left off.' },
-    { i: 'wand',   t: 'AI Recommendations',   d: 'What to revise tonight, decided by your data.' }
+    { i: 'graph',  t: 'Dashboard',            d: 'One page that shows everything you did this week — minutes studied, chapters finished, your streak.', h: 'dashboard.html' },
+    { i: 'mic',    t: 'AI Tutor',             d: 'Stuck on something? Just say it out loud. PAL explains it back like a teacher sitting right next to you.', h: 'tutor.html', tag: 'NEW' },
+    { i: 'target', t: 'Practice Tests',       d: 'Questions that get a little harder every time you get one right — like leveling up in a game.', h: 'mocktest.html' },
+    { i: 'trophy', t: 'Arena',                d: 'The same question goes out to your whole school at once. Answer fast, climb the live leaderboard.', h: 'challenge.html' },
+    { i: 'chat',   t: 'PAL',                  d: 'Type or talk to PAL in English or Hinglish — it explains chapters, makes quizzes, and never gets tired of "why?"', h: 'pal.html' },
+    { i: 'book',   t: 'Learn',                d: 'Your whole syllabus, one chapter at a time, ready whenever you want to open it.', h: 'learn.html' },
+    { i: 'video',  t: 'Live Classes',         d: 'Book a class and walk straight into a real online classroom with a real teacher.', h: 'live.html' },
+    { i: 'eye',    t: 'Attention Monitoring', d: "Gently checks if you're focused in live class so your parents and teacher know how it went — your video itself never leaves your device.", h: 'live.html' },
+    { i: 'graph',  t: 'Performance Analytics',d: 'Shows exactly what you’re strong at and what needs more practice — like "great at Fractions, needs Decimals".', ex: "You'll see a simple chart: strong in Fractions, needs a bit more practice in Decimals — so you know exactly what to open next." },
+    { i: 'spark',  t: 'AI Feedback',          d: 'Get 8 out of 10 on a quiz? PAL tells you exactly why the other 2 were wrong, not just the score.', ex: 'Score 8/10 and PAL walks you through the 2 you missed — so next time you actually know why, not just what.' },
+    { i: 'bolt',   t: 'Progress Tracking',    d: 'A bar that fills up as you finish a chapter, so you can see your own progress grow.', ex: "Finish 3 out of 5 topics in a chapter and watch your progress bar jump straight to 60%." },
+    { i: 'users',  t: 'Leaderboard',          d: 'See exactly where you rank — in your class, your school, even your whole city.', ex: "Top the weekly Maths quiz and see your name at #1 for your class — updated live, not once a month." },
+    { i: 'code',   t: 'Coding Challenges',    d: 'Learn to code with tiny, fun puzzles — perfect if you’ve never written a line of code before.', ex: 'Write your very first "if this happens, then do that" rule — and watch it actually run.' },
+    { i: 'shield', t: 'Mock Interviews',      d: 'Practise saying your answers out loud and get instant, friendly tips on how to say them better.', ex: 'Practise answering "Tell me about yourself" out loud, and get a tip on speaking clearer next time.' },
+    { i: 'cap',    t: 'Question Bank',        d: 'Thousands of practice questions, already sorted so you only see the ones from your chapter.', ex: "Confused by Photosynthesis? Pull up 50 practice questions on just that one topic — nothing else." },
+    { i: 'brain',  t: 'Personalised Learning',d: 'PAL quietly notices what you’re weak in and picks tomorrow’s lesson to fix exactly that.', ex: "Struggling with Grammar this week? Tomorrow's first lesson quietly starts there instead of somewhere random." },
+    { i: 'bolt',   t: 'Daily Streaks',        d: 'Study a little bit every day and watch your streak count go up — small wins that add up fast.', ex: 'Study 5 days in a row and unlock your first streak badge — day 6 gets even easier to show up for.' },
+    { i: 'trophy', t: 'Achievements',         d: 'Badges you earn for really understanding a topic — not just for logging in.', ex: "Really master every topic in Algebra and unlock the 'Algebra Ace' badge — not given, earned." },
+    { i: 'shield', t: 'Certificates',         d: 'Finish a full module and get a real certificate with your name on it.', ex: "Complete the 'Living Things' module and download a certificate with your own name on it." },
+    { i: 'wave',   t: 'Recent Activity',      d: 'One tap and you’re back exactly where you left off — no hunting for the right chapter.', ex: "Left off on Question 7 last night? One tap on the homepage and you're back on Question 7." },
+    { i: 'wand',   t: 'AI Recommendations',   d: 'Every evening, PAL tells you the one thing worth revising tonight — decided from how you actually did.', ex: 'PAL might say: "Revise Light & Shadows tonight — you missed 2 questions on it yesterday."' }
   ];
 
   var WHY = [
@@ -314,6 +320,20 @@
   '.kh-card p{font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.62);}' +
   '.kh-tag{position:absolute;top:16px;right:16px;font-size:9.5px;font-weight:900;letter-spacing:.1em;' +
     'padding:4px 9px;border-radius:99px;background:linear-gradient(100deg,var(--kh-accent),var(--kh-accent-soft));color:#0A0A0A;}' +
+
+  /* ---- expandable "tap to see an example" cards ---- */
+  '.kh-card--ex{cursor:pointer;}' +
+  '.kh-ex-hint{margin-top:10px!important;font-size:12px!important;font-weight:800;' +
+    'color:var(--kh-accent-soft)!important;display:flex;align-items:center;gap:5px;}' +
+  '.kh-ex-hint .ar{transition:transform .3s var(--ease);}' +
+  '.kh-card--ex.is-open .kh-ex-hint .ar{transform:rotate(90deg);}' +
+  '.kh-ex-body{max-height:0;overflow:hidden;opacity:0;margin-top:0!important;' +
+    'transition:max-height .4s var(--ease),opacity .3s ease,margin-top .4s var(--ease);' +
+    'font-size:13px!important;line-height:1.55;color:rgba(255,255,255,.8)!important;' +
+    'padding-top:0;border-top:0 solid rgba(var(--kh-accent-rgb),.2);}' +
+  '.kh-card--ex.is-open .kh-ex-body{max-height:180px;opacity:1;margin-top:10px!important;' +
+    'padding-top:10px;border-top-width:1px;}' +
+  '.kh-card--ex.is-open .kh-ex-hint{color:rgba(255,255,255,.4)!important;}' +
 
   /* ---- stats ---- */
   '.kh-stat b{display:block;font-size:clamp(34px,4.6vw,46px);font-weight:900;color:#fff;line-height:1;' +
@@ -589,10 +609,24 @@
   function cards(list, cls) {
     return list.map(function (f) {
       var tag = f.tag ? '<span class="kh-tag">' + f.tag + '</span>' : '';
-      var open = f.h ? '<a class="kh-card kh-rv" href="' + f.h + '">' : '<div class="kh-card kh-rv">';
+      // A card with a real page to send someone to (h) already "does
+      // something" on click — navigates. A card with no page yet (h absent)
+      // used to just sit there; if it also carries an ex(ample), tapping it
+      // now expands in place to show one concrete "here's what that looks
+      // like" line instead, which is the only kind of interactivity that
+      // doesn't fight the 8 cards that already navigate.
+      var expandable = !f.h && f.ex;
+      var open = f.h
+        ? '<a class="kh-card kh-rv" href="' + f.h + '">'
+        : '<div class="kh-card kh-rv' + (expandable ? ' kh-card--ex' : '') + '"' +
+          (expandable ? ' tabindex="0" role="button" aria-expanded="false"' : '') + '>';
       var close = f.h ? '</a>' : '</div>';
+      var example = expandable
+        ? '<p class="kh-ex-hint">Tap to see an example <span class="ar">›</span></p>' +
+          '<p class="kh-ex-body">' + f.ex + '</p>'
+        : '';
       return open + tag + '<span class="kh-ic">' + ic(f.i) + '</span>' +
-        '<h3>' + f.t + '</h3><p>' + f.d + '</p>' + close;
+        '<h3>' + f.t + '</h3><p>' + f.d + '</p>' + example + close;
     }).join('');
   }
 
@@ -948,6 +982,37 @@
         if (p < 1) requestAnimationFrame(step);
       }
       requestAnimationFrame(step);
+    }
+
+    /* Expandable feature cards ("tap to see an example") — one delegated
+       listener rather than one per card, same reasoning as the pointer-glow
+       listener just below. Toggles a class the CSS above animates; the hint
+       text and aria-expanded are kept in sync from here rather than in CSS
+       content, so a screen reader announces the real state. */
+    document.addEventListener('click', function (e) {
+      var card = e.target.closest ? e.target.closest('.kh-card--ex') : null;
+      if (!card) return;
+      toggleExampleCard(card);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var card = e.target.closest ? e.target.closest('.kh-card--ex') : null;
+      if (!card) return;
+      e.preventDefault();
+      toggleExampleCard(card);
+    });
+    function toggleExampleCard(card) {
+      var open = !card.classList.contains('is-open');
+      card.classList.toggle('is-open', open);
+      card.setAttribute('aria-expanded', open ? 'true' : 'false');
+      var hint = card.querySelector('.kh-ex-hint');
+      if (hint) {
+        var text = open ? 'Tap to close' : 'Tap to see an example';
+        // Rewrite just the text node, leaving the arrow <span> in place.
+        for (var i = 0; i < hint.childNodes.length; i++) {
+          if (hint.childNodes[i].nodeType === 3) { hint.childNodes[i].nodeValue = text + ' '; break; }
+        }
+      }
     }
 
     /* cursor-tracked glow on glass cards */
