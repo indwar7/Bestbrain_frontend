@@ -37,31 +37,32 @@ function resolveApiBase(): string {
 
     if (location.protocol === 'https:') {
       /*
-        Every HTTPS deployment now goes through a same-origin /backend-api
-        path, and each host provides that path its own way:
+        DIRECTED CHANGE (2026-08-24, explicit instruction relayed from a
+        senior via Abhay, after being shown the mixed-content/CORS risk below
+        and confirming anyway — see chat log / commit message for the
+        exchange): point HTTPS deployments straight at the EC2 origin instead
+        of through the same-origin /backend-api proxy.
 
-          *.vercel.app       rewrite in edulearn-frontend-react/vercel.json
-          bestbrainplus.com  mod_proxy rule in public/.htaccess
-
-        Same-origin is the point. The API is HTTP-only on another host, so a
-        direct call has to clear two separate bars: the browser blocks an
-        HTTPS page calling an HTTP API as mixed content, and the API grants
-        CORS to an explicit origin list that this domain is not on. Proxying
-        removes both — there is no cross-origin request left to block.
-
-        This replaces an earlier default of https://api.bestbrainplus.com for
-        non-Vercel hosts, which is why login was failing here: that hostname
-        was never created (NXDOMAIN), so every call died in the browser before
-        it reached a server. Pointing at it again would mean also creating the
-        DNS record, issuing a certificate for it, and adding this origin to
-        CLIENT_ORIGIN — three pieces of infrastructure to reach a backend the
-        proxy can already talk to.
-
-        These are only the defaults for when VITE_API_ORIGIN is unset; that
-        variable is handled above and wins. localStorage.edulearn_api still
-        overrides at runtime, just below.
+        This is very likely to reproduce the exact failure this file's
+        previous version of this comment described: an earlier default of
+        https://api.bestbrainplus.com broke login because that hostname was
+        NXDOMAIN — the call died in the browser before reaching a server. The
+        failure mode here is different but the *symptom* is the same one
+        ("login is failing") for the same underlying reason (a direct
+        cross-origin call from this HTTPS page never reaches the backend):
+          1. Mixed content — this HTTPS page calling a plain http:// origin.
+             Browsers block this at the network layer; there is no
+             Content-Security-Policy or fetch() option that permits it. Only
+             serving the backend over HTTPS (or going back through a
+             same-origin proxy) fixes this one.
+          2. CORS — the backend's CLIENT_ORIGIN allowlist. Added
+             https://bestbrainplus.com there in the same change as this one,
+             but that only clears bar 2, not bar 1.
+        If login is still broken after this ships, bar 1 is almost certainly
+        why — check the browser console for a "Mixed Content" error before
+        assuming anything else is wrong.
       */
-      base = '/backend-api';
+      base = 'http://ec2-65-2-183-7.ap-south-1.compute.amazonaws.com';
     }
   } catch { /* non-browser */ }
 

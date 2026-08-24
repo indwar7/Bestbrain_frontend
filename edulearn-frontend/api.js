@@ -14,11 +14,11 @@
   // Resolution order:
   //   1. an explicit localStorage['edulearn_api'] override (always wins)
   //   2. http://localhost:4000 when the PAGE ITSELF is served from localhost
-  //   3. /backend-api (same-origin Vercel proxy) when the page is on HTTPS —
-  //      an https:// page calling http://65.2.183.7 is MIXED CONTENT and the
-  //      browser silently blocks every request, so the deployed site must go
-  //      through the vercel.json rewrite that proxies /backend-api/* to EC2
-  //   4. the deployed EC2 origin (plain-http contexts, e.g. file://)
+  //   3. the deployed EC2 origin directly, even when the page is on HTTPS —
+  //      see the DIRECTED CHANGE comment below for why, and the real risk
+  //      (mixed content) this reintroduces
+  //   4. the deployed EC2 origin (plain-http contexts, e.g. file://) — same
+  //      value as 3, kept as a separate branch for the non-HTTPS case
   //
   // Step 2 exists because step 1 alone is a footgun: localStorage is scoped per
   // ORIGIN, so setting the override while on localhost:8080 does nothing on
@@ -54,10 +54,16 @@
     // backend's CORS allowlist contains that origin and no other localhost
     // port, so any other port is blocked by the browser.
     if (location.protocol === 'https:' && !isLocalHost(location.hostname)) {
-      // An https:// page calling http://65.2.183.7 is MIXED CONTENT and the
-      // browser blocks it silently, so the deployed site must go through the
-      // vercel.json rewrite that proxies /backend-api/* to EC2.
-      API_BASE = '/backend-api';
+      // DIRECTED CHANGE (2026-08-24, explicit instruction, relayed from a
+      // senior, after being shown this exact mixed-content risk and
+      // confirming anyway) — see the matching comment in
+      // edulearn-frontend-react/src/lib/api.ts for the full reasoning this
+      // used to hold: an https:// page calling http://65.2.183.7 directly is
+      // MIXED CONTENT, which browsers block outright — no code-level fix
+      // exists for that, only serving the backend over HTTPS does. If login
+      // breaks again after this, check the browser console for a
+      // "Mixed Content" error before assuming anything else.
+      API_BASE = 'http://ec2-65-2-183-7.ap-south-1.compute.amazonaws.com';
     }
   } catch (e) { /* no location (non-browser context) — keep the default */ }
 
