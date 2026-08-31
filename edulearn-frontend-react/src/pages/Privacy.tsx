@@ -6,13 +6,17 @@ import LegalLayout, { Section } from '../components/LegalLayout';
  */
 export default function Privacy() {
   return (
-    <LegalLayout title="Privacy Policy" updated="July 2026">
-      <p style={{ marginBottom: 24 }}>
-        This Privacy Policy explains how BestBrain Learning Pvt. Ltd. (“BestBrain”, “we”, “us”)
-        collects, uses, and protects information when you use our learning platform, website, and
-        mobile apps (the “Service”). By using the Service you agree to the practices described here.
-      </p>
-
+    <LegalLayout
+      title="Privacy Policy"
+      updated="July 2026"
+      lede={
+        <>
+          This Privacy Policy explains how BestBrain Learning Pvt. Ltd. (“BestBrain”, “we”, “us”)
+          collects, uses, and protects information when you use our learning platform, website, and
+          mobile apps (the “Service”). By using the Service you agree to the practices described here.
+        </>
+      }
+    >
       <Section heading="1. Information we collect">
         <ul>
           <li><strong>Account information</strong> you provide at sign-up — name, email, phone number, role (student, teacher, or parent), and class, section, or board where relevant.</li>

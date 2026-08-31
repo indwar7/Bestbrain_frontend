@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { guardRedirect } from './guard';
 import { ROUTE_BY_PAGE } from './pages';
 
 /**
@@ -15,6 +17,7 @@ import { ROUTE_BY_PAGE } from './pages';
  */
 export function useLegacyLinks(): void {
   const navigate = useNavigate();
+  const { loggedIn, role } = useAuth();
 
   useEffect(() => {
     function onClick(e: MouseEvent) {
@@ -39,6 +42,29 @@ export function useLegacyLinks(): void {
       const page = file.slice(0, -'.html'.length);
       const route = ROUTE_BY_PAGE[page];
       if (!route) return;
+
+      /*
+        Resolve the route guard here, on the click, rather than letting the
+        router walk into a gated page and bounce back out of it.
+
+        The bounce was visible. App derives the page chrome from the URL, so
+        the intermediate render committed the target page's fonts, its
+        theme.css state and its floating panels; and because <ProtectedRoute>
+        renders a redirect instead of a page, nothing mounted to refill the
+        #page-css slot that the outgoing page's cleanup had just emptied. The
+        browser painted that frame — a flash of unstyled page — before the
+        redirect landed.
+
+        Sending the click straight at its real destination means the outgoing
+        page unmounts and the destination mounts in the same commit, so there
+        is no in-between state to paint.
+      */
+      const redirect = guardRedirect(page, loggedIn, role);
+      if (redirect) {
+        e.preventDefault();
+        navigate(redirect);
+        return;
+      }
 
       // lesson.html?ch=c6-sci-food carried its target in the query string; the
       // SPA takes it as a path param instead. The REST of the query string
@@ -76,5 +102,5 @@ export function useLegacyLinks(): void {
       document.removeEventListener('click', onClick);
       window.removeEventListener('edulearn:navigate', onNavigate);
     };
-  }, [navigate]);
+  }, [navigate, loggedIn, role]);
 }

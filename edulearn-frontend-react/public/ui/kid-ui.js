@@ -19,7 +19,11 @@
   'use strict';
 
   var RAIL = 244;
-  var NO_RAIL = ['index', 'login', 'signup', 'demo-pal-slides'];
+  /* privacy and terms join this list for the same reason index/login/signup
+     are on it: they are documents, not product screens. The rail put a
+     signed-out reader's "MY SPACE / Level 1 / Start learning" dashboard
+     beside a policy. */
+  var NO_RAIL = ['index', 'login', 'signup', 'privacy', 'terms', 'demo-pal-slides'];
 
   function pageKey() {
     var last = (location.pathname.split('/').pop() || '').toLowerCase();
@@ -117,6 +121,11 @@
     'box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 18px 46px rgba(0,0,0,.5)!important;' +
     'transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s ease,' +
       'background .45s ease,border-color .45s ease!important;}' +
+  /* .auth-panel rides along in the card rule above for the glass fill, but it
+     is not a card — it is the full-height right-hand column of the auth pages.
+     Rounding it leaves a floating rounded rectangle whose corners are clipped
+     off at the viewport edge, so keep the glass and drop the radius. */
+  '.auth-panel{border-radius:0!important;box-shadow:none!important;}' +
   /* the light rake across the top of every card — glass, not flat fill */
   '.pcard::before,.vcard::before,.card::before,.feature-card::before,.feat-card::before,' +
   '.qcard::before,.optcard::before,.subjcard::before,.cont-card::before{' +

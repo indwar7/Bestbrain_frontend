@@ -26,7 +26,12 @@
 (function () {
   'use strict';
 
-  var SKIP = ['demo-pal-slides'];
+  /* privacy/terms: the aurora and the drifting formulas ran straight across
+     the paragraphs of a legal document. sync() drops the `kidbg` class for
+     anything listed here, and `html:not(.kidbg) .kb-sky{display:none}` below
+     takes the decoration with it — while start()'s __kidReveal still fires,
+     so the page is not left holding at opacity 0. */
+  var SKIP = ['demo-pal-slides', 'privacy', 'terms'];
 
   function pageKey() {
     var last = (location.pathname.split('/').pop() || '').toLowerCase();
@@ -39,49 +44,69 @@
      AI glyphs — currentColor, so one sprite serves any tint
      --------------------------------------------------------- */
   var S = 'fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
-  var ICON = {
-    spark: '<svg viewBox="0 0 48 48" fill="currentColor"><path d="M24 3c1.5 11.4 8.1 18 19.5 19.5C32.1 24 25.5 30.6 24 42c-1.5-11.4-8.1-18-19.5-19.5C15.9 21 22.5 14.4 24 3Z"/></svg>',
-    brain: '<svg viewBox="0 0 48 48" ' + S + '><path d="M24 9v30M24 11a6 6 0 0 0-11 3 6 6 0 0 0-3 10 6 6 0 0 0 4 9 6 6 0 0 0 10 3"/><path d="M24 11a6 6 0 0 1 11 3 6 6 0 0 1 3 10 6 6 0 0 1-4 9 6 6 0 0 1-10 3"/></svg>',
-    robot: '<svg viewBox="0 0 48 48" ' + S + '><rect x="9" y="15" width="30" height="24" rx="8"/><path d="M24 15V8M24 5a2.4 2.4 0 1 1 0 5 2.4 2.4 0 0 1 0-5Z"/><circle cx="19" cy="26" r="2.4" fill="currentColor" stroke="none"/><circle cx="29" cy="26" r="2.4" fill="currentColor" stroke="none"/><path d="M20 33h8M5 25v6M43 25v6"/></svg>',
-    chip: '<svg viewBox="0 0 48 48" ' + S + '><rect x="14" y="14" width="20" height="20" rx="5"/><rect x="21" y="21" width="6" height="6" rx="1.6"/><path d="M20 14V7M28 14V7M20 41v-7M28 41v-7M14 20H7M14 28H7M41 20h-7M41 28h-7"/></svg>',
-    wave: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M7 24v0M15 17v14M23 9v30M31 15v18M39 21v6"/></svg>',
-    rocket: '<svg viewBox="0 0 48 48" ' + S + '><path d="M24 5c6.6 5 9.5 11.5 9.5 19l-3.8 5.7H18.3L14.5 24c0-7.5 2.9-14 9.5-19Z"/><circle cx="24" cy="19" r="3.6"/><path d="M18 30l-5.6 4.7 1.9-8.4M30 30l5.6 4.7-1.9-8.4M21 36c1 3.8 3 5.7 3 5.7s2-1.9 3-5.7"/></svg>',
-    target: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="24" cy="24" r="18"/><circle cx="24" cy="24" r="10.5"/><circle cx="24" cy="24" r="3.2" fill="currentColor" stroke="none"/></svg>',
-    bolt: '<svg viewBox="0 0 48 48" fill="currentColor"><path d="M27 4 11 27h10l-2 17 18-24H26l1-16Z"/></svg>',
-    book: '<svg viewBox="0 0 48 48" ' + S + '><path d="M7 11c5-2.8 11-2.8 17 1v28c-6.6-3.8-12-3.8-17-1V11Z"/><path d="M41 11c-5-2.8-11-2.8-17 1v28c6.6-3.8 12-3.8 17-1V11Z"/></svg>',
-    code: '<svg viewBox="0 0 48 48" ' + S + '><path d="m17 16-10 8 10 8M31 16l10 8-10 8M27 10 21 38"/></svg>',
-    shield: '<svg viewBox="0 0 48 48" ' + S + '><path d="M24 5 40 11v12c0 10-7 17-16 20-9-3-16-10-16-20V11L24 5Z"/><path d="m17 24 5 5 9-10"/></svg>',
-    cap: '<svg viewBox="0 0 48 48" ' + S + '><path d="M24 9 44 18 24 27 4 18 24 9Z"/><path d="M12 22v11c0 3.5 5.4 6 12 6s12-2.5 12-6V22M41 20v11"/></svg>',
-    chat: '<svg viewBox="0 0 48 48" ' + S + '><path d="M9 9h30a4 4 0 0 1 4 4v17a4 4 0 0 1-4 4H21l-9 7v-7H9a4 4 0 0 1-4-4V13a4 4 0 0 1 4-4Z"/><path d="M24 16c.7 3.6 2.3 5.2 5.9 5.9-3.6.7-5.2 2.3-5.9 5.9-.7-3.6-2.3-5.2-5.9-5.9 3.6-.7 5.2-2.3 5.9-5.9Z" fill="currentColor" stroke="none" opacity=".8"/></svg>',
-    trophy: '<svg viewBox="0 0 48 48" ' + S + '><path d="M15 7h18v11a9 9 0 0 1-18 0V7Z"/><path d="M15 11H9v2.6a6.4 6.4 0 0 0 5.6 6.4M33 11h6v2.6a6.4 6.4 0 0 1-5.6 6.4M20 27v6h8v-6M16 41h16"/></svg>',
-    users: '<svg viewBox="0 0 48 48" ' + S + '><circle cx="19" cy="17" r="7"/><path d="M6 39c0-6.6 5.8-11 13-11s13 4.4 13 11"/><path d="M33 12a6.5 6.5 0 0 1 0 13M36 39c0-5-1.8-8.6-5-10.6"/></svg>',
-    wand: '<svg viewBox="0 0 48 48" ' + S + '><path d="M11 38 35 14M31 10l4 4"/><path d="M15 6c.6 3.5 2 4.9 5.5 5.5C17 12.1 15.6 13.5 15 17c-.6-3.5-2-4.9-5.5-5.5C13 10.9 14.4 9.5 15 6Z" fill="currentColor" stroke="none"/><path d="M38 27c.5 2.7 1.6 3.8 4.3 4.3-2.7.5-3.8 1.6-4.3 4.3-.5-2.7-1.6-3.8-4.3-4.3 2.7-.5 3.8-1.6 4.3-4.3Z" fill="currentColor" stroke="none"/></svg>',
-    graph: '<svg viewBox="0 0 48 48" ' + S + '><path d="M8 40h32M14 40V27M23 40V15M32 40V22"/><path d="m11 21 11-9 8 6 10-11"/></svg>',
-    mic: '<svg viewBox="0 0 48 48" ' + S + '><rect x="19" y="6" width="10" height="20" rx="5"/><path d="M11 22a13 13 0 0 0 26 0M24 35v7M18 42h12"/></svg>',
-    video: '<svg viewBox="0 0 48 48" ' + S + '><rect x="5" y="12" width="26" height="24" rx="5"/><path d="M31 20l12-7v22l-12-7Z"/></svg>',
-    eye: '<svg viewBox="0 0 48 48" ' + S + '><path d="M4 24c4-9 12-14 20-14s16 5 20 14c-4 9-12 14-20 14S8 33 4 24Z"/><circle cx="24" cy="24" r="6"/></svg>',
+  /* ------------------------------------------------------------------
+     Icons — Lucide v1.37.0 (ISC), used verbatim.
 
-    /* ---- the science bench: what a Class 6 chapter actually looks like ---- */
-    flask: '<svg viewBox="0 0 48 48" ' + S + '><path d="M19 5h10M21 5v13L9 38a4 4 0 0 0 3.5 6h23A4 4 0 0 0 39 38L27 18V5"/><path d="M15 30h18"/></svg>',
-    tube: '<svg viewBox="0 0 48 48" ' + S + '><path d="M17 4h14M20 4v32a4 4 0 0 0 8 0V4"/><path d="M20 26h8"/></svg>',
-    atom: '<svg viewBox="0 0 48 48" ' + S + '><circle cx="24" cy="24" r="4" fill="currentColor" stroke="none"/><ellipse cx="24" cy="24" rx="19" ry="8"/><ellipse cx="24" cy="24" rx="19" ry="8" transform="rotate(60 24 24)"/><ellipse cx="24" cy="24" rx="19" ry="8" transform="rotate(120 24 24)"/></svg>',
-    molecule: '<svg viewBox="0 0 48 48" ' + S + '><circle cx="24" cy="12" r="5"/><circle cx="11" cy="34" r="5"/><circle cx="37" cy="34" r="5"/><path d="m21 17-7 12M27 17l7 12M16 34h16"/></svg>',
-    dna: '<svg viewBox="0 0 48 48" ' + S + '><path d="M16 4c0 12 16 16 16 28 0 6-4 10-8 12M32 4c0 12-16 16-16 28 0 6 4 10 8 12"/><path d="M18 14h12M15 24h18M18 34h12"/></svg>',
-    magnet: '<svg viewBox="0 0 48 48" ' + S + '><path d="M12 8v18a12 12 0 0 0 24 0V8"/><path d="M12 20h10M26 20h10M12 8h10M26 8h10"/></svg>',
-    prism: '<svg viewBox="0 0 48 48" ' + S + '><path d="M24 7 42 39H6z"/><path d="M4 24h10M34 24h10M24 41v4"/></svg>',
-    telescope: '<svg viewBox="0 0 48 48" ' + S + '><path d="m6 27 26-14 6 11-26 14z"/><path d="M20 34v9M14 43h12M34 12l4-5"/></svg>',
-    microscope: '<svg viewBox="0 0 48 48" ' + S + '><path d="M18 8h8l3 14h-14z"/><path d="M22 22v10M12 42h24M16 42a12 12 0 0 1 18-10"/></svg>',
-    gear: '<svg viewBox="0 0 48 48" ' + S + '><circle cx="24" cy="24" r="7"/><path d="M24 3v7M24 38v7M45 24h-7M10 24H3M39 9l-5 5M14 34l-5 5M39 39l-5-5M14 14 9 9"/></svg>',
-    comet: '<svg viewBox="0 0 48 48" ' + S + '><circle cx="33" cy="15" r="8"/><path d="m24 24-16 16M20 15 8 20M33 32l5 12"/></svg>',
-    leaf: '<svg viewBox="0 0 48 48" ' + S + '><path d="M40 8C22 8 10 17 10 30a10 10 0 0 0 10 10c14 0 20-14 20-32Z"/><path d="M32 16 12 40"/></svg>',
-    bulb: '<svg viewBox="0 0 48 48" ' + S + '><path d="M24 5a14 14 0 0 1 8 25.5V36H16v-5.5A14 14 0 0 1 24 5Z"/><path d="M18 41h12M20 45h8"/></svg>',
-    globe: '<svg viewBox="0 0 48 48" ' + S + '><circle cx="24" cy="24" r="19"/><path d="M5 24h38M24 5c6 6 6 32 0 38M24 5c-6 6-6 32 0 38"/></svg>',
-    planet: '<svg viewBox="0 0 48 48" ' + S + '><circle cx="24" cy="22" r="13"/><ellipse cx="24" cy="26" rx="22" ry="6" transform="rotate(-18 24 26)"/></svg>',
-    ruler: '<svg viewBox="0 0 48 48" ' + S + '><rect x="4" y="16" width="40" height="16" rx="3"/><path d="M12 16v6M20 16v9M28 16v6M36 16v9"/></svg>',
-    pencil: '<svg viewBox="0 0 48 48" ' + S + '><path d="M34 6l8 8-24 24-11 3 3-11z"/><path d="m30 10 8 8"/></svg>',
-    apple: '<svg viewBox="0 0 48 48" ' + S + '><path d="M24 14c-9-6-18 0-18 11 0 10 7 19 12 19 3 0 4-2 6-2s3 2 6 2c5 0 12-9 12-19 0-11-9-17-18-11Z"/><path d="M24 14V6M24 8c4 0 7-2 8-5"/></svg>',
-    smiley: '<svg viewBox="0 0 48 48" ' + S + '><circle cx="24" cy="24" r="19"/><circle cx="18" cy="20" r="2" fill="currentColor" stroke="none"/><circle cx="30" cy="20" r="2" fill="currentColor" stroke="none"/><path d="M16 29a10 10 0 0 0 16 0"/></svg>',
-    kite: '<svg viewBox="0 0 48 48" ' + S + '><path d="M24 4 40 20 24 36 8 20z"/><path d="M24 4v32M8 20h32M24 36c0 6-4 6-4 10"/></svg>'
+     These were hand-drawn on a 48x48 grid at stroke-width 1.6, each one
+     its own idea of weight, corner radius and optical size; side by side
+     in the feature grid they read as a set of unrelated drawings. Lucide
+     is one family on a 24x24 grid, so the strokes line up and the icons
+     sit on the same optical size.
+
+     The KEYS are unchanged. kid-home's FEATURES/WHY/ROLES, its orbit
+     ring, kid-ui's NAV_ICON and kid-bg's own GLYPHS all address icons by
+     these names, so swapping the artwork underneath touches nothing else.
+     Regenerate with scratchpad/genicons.py against lucide-static.
+
+     S still supplies fill/stroke/linecap. Lucide ships stroke-width 2 on
+     a 24 grid; S says 1.6, which at this scale is the same optical weight
+     as the old 1.6 on a 48 grid was NOT — the old set drew at half the
+     relative weight. Keeping S means every icon on the site, old callers
+     included, still inherits one stroke setting from one place.
+     ------------------------------------------------------------------ */
+  var ICON = {
+    /* lucide "sparkle", not "sparkles": the plural carries a second star and a
+       dot, which at 20px in the logo tile — and as ic()'s fallback — is noise. */
+    spark: '<svg viewBox="0 0 24 24" ' + S + '><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/></svg>',
+    brain: '<svg viewBox="0 0 24 24" ' + S + '><path d="M12 18V5"/> <path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/> <path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/> <path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/> <path d="M18 18a4 4 0 0 0 2-7.464"/> <path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/> <path d="M6 18a4 4 0 0 1-2-7.464"/> <path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></svg>',
+    robot: '<svg viewBox="0 0 24 24" ' + S + '><path d="M12 8V4H8"/> <rect width="16" height="12" x="4" y="8" rx="2"/> <path d="M2 14h2"/> <path d="M20 14h2"/> <path d="M15 13v2"/> <path d="M9 13v2"/></svg>',
+    chip: '<svg viewBox="0 0 24 24" ' + S + '><path d="M12 20v2"/> <path d="M12 2v2"/> <path d="M17 20v2"/> <path d="M17 2v2"/> <path d="M2 12h2"/> <path d="M2 17h2"/> <path d="M2 7h2"/> <path d="M20 12h2"/> <path d="M20 17h2"/> <path d="M20 7h2"/> <path d="M7 20v2"/> <path d="M7 2v2"/> <rect x="4" y="4" width="16" height="16" rx="2"/> <rect x="8" y="8" width="8" height="8" rx="1"/></svg>',
+    wave: '<svg viewBox="0 0 24 24" ' + S + '><path d="M2 10v3"/> <path d="M6 6v11"/> <path d="M10 3v18"/> <path d="M14 8v7"/> <path d="M18 5v13"/> <path d="M22 10v3"/></svg>',
+    rocket: '<svg viewBox="0 0 24 24" ' + S + '><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/></svg>',
+    target: '<svg viewBox="0 0 24 24" ' + S + '><circle cx="12" cy="12" r="10"/> <circle cx="12" cy="12" r="6"/> <circle cx="12" cy="12" r="2"/></svg>',
+    bolt: '<svg viewBox="0 0 24 24" ' + S + '><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"/></svg>',
+    book: '<svg viewBox="0 0 24 24" ' + S + '><path d="M12 5v16"/> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"/></svg>',
+    code: '<svg viewBox="0 0 24 24" ' + S + '><path d="m18 16 4-4-4-4"/> <path d="m6 8-4 4 4 4"/> <path d="m14.5 4-5 16"/></svg>',
+    shield: '<svg viewBox="0 0 24 24" ' + S + '><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/> <path d="m9 12 2 2 4-4"/></svg>',
+    cap: '<svg viewBox="0 0 24 24" ' + S + '><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/> <path d="M22 10v6"/> <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>',
+    chat: '<svg viewBox="0 0 24 24" ' + S + '><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/></svg>',
+    trophy: '<svg viewBox="0 0 24 24" ' + S + '><path d="M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2"/> <path d="M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2"/> <path d="M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3"/> <path d="M4 22h16"/> <path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/> <path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3"/></svg>',
+    users: '<svg viewBox="0 0 24 24" ' + S + '><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/> <path d="M16 3.128a4 4 0 0 1 0 7.744"/> <path d="M22 21v-2a4 4 0 0 0-3-3.87"/> <circle cx="9" cy="7" r="4"/></svg>',
+    wand: '<svg viewBox="0 0 24 24" ' + S + '><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"/> <path d="m14 7 3 3"/> <path d="M5 6v4"/> <path d="M19 14v4"/> <path d="M10 2v2"/> <path d="M7 8H3"/> <path d="M21 16h-4"/> <path d="M11 3H9"/></svg>',
+    graph: '<svg viewBox="0 0 24 24" ' + S + '><path d="M3 3v16a2 2 0 0 0 2 2h16"/> <path d="M18 17V9"/> <path d="M13 17V5"/> <path d="M8 17v-3"/></svg>',
+    mic: '<svg viewBox="0 0 24 24" ' + S + '><path d="M12 19v3"/> <path d="M19 10v2a7 7 0 0 1-14 0v-2"/> <rect x="9" y="2" width="6" height="13" rx="3"/></svg>',
+    video: '<svg viewBox="0 0 24 24" ' + S + '><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/> <rect x="2" y="6" width="14" height="12" rx="2"/></svg>',
+    eye: '<svg viewBox="0 0 24 24" ' + S + '><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/> <circle cx="12" cy="12" r="3"/></svg>',
+    flask: '<svg viewBox="0 0 24 24" ' + S + '><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/> <path d="M6.453 15h11.094"/> <path d="M8.5 2h7"/></svg>',
+    tube: '<svg viewBox="0 0 24 24" ' + S + '><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"/> <path d="M8.5 2h7"/> <path d="M14.5 16h-5"/></svg>',
+    atom: '<svg viewBox="0 0 24 24" ' + S + '><circle cx="12" cy="12" r="1"/> <path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/> <path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/></svg>',
+    molecule: '<svg viewBox="0 0 24 24" ' + S + '><path d="m10.586 5.414-5.172 5.172"/> <path d="m18.586 13.414-5.172 5.172"/> <path d="M6 12h12"/> <circle cx="12" cy="20" r="2"/> <circle cx="12" cy="4" r="2"/> <circle cx="20" cy="12" r="2"/> <circle cx="4" cy="12" r="2"/></svg>',
+    dna: '<svg viewBox="0 0 24 24" ' + S + '><path d="m10 16 1.5 1.5"/> <path d="m14 8-1.5-1.5"/> <path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/> <path d="m16.5 10.5 1 1"/> <path d="m17 6-2.891-2.891"/> <path d="M2 15c6.667-6 13.333 0 20-6"/> <path d="m20 9 .891.891"/> <path d="M3.109 14.109 4 15"/> <path d="m6.5 12.5 1 1"/> <path d="m7 18 2.891 2.891"/> <path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/></svg>',
+    magnet: '<svg viewBox="0 0 24 24" ' + S + '><path d="m12 15 4 4"/> <path d="M2.352 10.648a1.205 1.205 0 0 0 0 1.704l2.296 2.296a1.205 1.205 0 0 0 1.704 0l6.029-6.029a1 1 0 1 1 3 3l-6.029 6.029a1.205 1.205 0 0 0 0 1.704l2.296 2.296a1.205 1.205 0 0 0 1.704 0l6.365-6.367A1 1 0 0 0 8.716 4.282z"/> <path d="m5 8 4 4"/></svg>',
+    prism: '<svg viewBox="0 0 24 24" ' + S + '><path d="M2.5 16.88a1 1 0 0 1-.32-1.43l9-13.02a1 1 0 0 1 1.64 0l9 13.01a1 1 0 0 1-.32 1.44l-8.51 4.86a2 2 0 0 1-1.98 0Z"/> <path d="M12 2v20"/></svg>',
+    telescope: '<svg viewBox="0 0 24 24" ' + S + '><path d="m10.065 12.493-6.18 1.318a.934.934 0 0 1-1.108-.702l-.537-2.15a1.07 1.07 0 0 1 .691-1.265l13.504-4.44"/> <path d="m13.56 11.747 4.332-.924"/> <path d="m16 21-3.105-6.21"/> <path d="M16.485 5.94a2 2 0 0 1 1.455-2.425l1.09-.272a1 1 0 0 1 1.212.727l1.515 6.06a1 1 0 0 1-.727 1.213l-1.09.272a2 2 0 0 1-2.425-1.455z"/> <path d="m6.158 8.633 1.114 4.456"/> <path d="m8 21 3.105-6.21"/> <circle cx="12" cy="13" r="2"/></svg>',
+    microscope: '<svg viewBox="0 0 24 24" ' + S + '><path d="M6 18h8"/> <path d="M3 22h18"/> <path d="M14 22a7 7 0 1 0 0-14h-1"/> <path d="M9 14h2"/> <path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/> <path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></svg>',
+    gear: '<svg viewBox="0 0 24 24" ' + S + '><path d="M11 10.27 7 3.34"/> <path d="m11 13.73-4 6.93"/> <path d="M12 22v-2"/> <path d="M12 2v2"/> <path d="M14 12h8"/> <path d="m17 20.66-1-1.73"/> <path d="m17 3.34-1 1.73"/> <path d="M2 12h2"/> <path d="m20.66 17-1.73-1"/> <path d="m20.66 7-1.73 1"/> <path d="m3.34 17 1.73-1"/> <path d="m3.34 7 1.73 1"/> <circle cx="12" cy="12" r="2"/> <circle cx="12" cy="12" r="8"/></svg>',
+    comet: '<svg viewBox="0 0 24 24" ' + S + '><path d="m13.5 6.5-3.148-3.148a1.205 1.205 0 0 0-1.704 0L6.352 5.648a1.205 1.205 0 0 0 0 1.704L9.5 10.5"/> <path d="M16.5 7.5 19 5"/> <path d="m17.5 10.5 3.148 3.148a1.205 1.205 0 0 1 0 1.704l-2.296 2.296a1.205 1.205 0 0 1-1.704 0L13.5 14.5"/> <path d="M9 21a6 6 0 0 0-6-6"/> <path d="M9.352 10.648a1.205 1.205 0 0 0 0 1.704l2.296 2.296a1.205 1.205 0 0 0 1.704 0l4.296-4.296a1.205 1.205 0 0 0 0-1.704l-2.296-2.296a1.205 1.205 0 0 0-1.704 0z"/></svg>',
+    leaf: '<svg viewBox="0 0 24 24" ' + S + '><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/> <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>',
+    bulb: '<svg viewBox="0 0 24 24" ' + S + '><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/> <path d="M9 18h6"/> <path d="M10 22h4"/></svg>',
+    globe: '<svg viewBox="0 0 24 24" ' + S + '><circle cx="12" cy="12" r="10"/> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/> <path d="M2 12h20"/></svg>',
+    planet: '<svg viewBox="0 0 24 24" ' + S + '><path d="M20.341 6.484A10 10 0 0 1 10.266 21.85"/> <path d="M3.659 17.516A10 10 0 0 1 13.74 2.152"/> <circle cx="12" cy="12" r="3"/> <circle cx="19" cy="5" r="2"/> <circle cx="5" cy="19" r="2"/></svg>',
+    ruler: '<svg viewBox="0 0 24 24" ' + S + '><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/> <path d="m14.5 12.5 2-2"/> <path d="m11.5 9.5 2-2"/> <path d="m8.5 6.5 2-2"/> <path d="m17.5 15.5 2-2"/></svg>',
+    pencil: '<svg viewBox="0 0 24 24" ' + S + '><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/> <path d="m15 5 4 4"/></svg>',
+    apple: '<svg viewBox="0 0 24 24" ' + S + '><path d="M12 6.528V3a1 1 0 0 1 1-1h0"/> <path d="M18.237 21A15 15 0 0 0 22 11a6 6 0 0 0-10-4.472A6 6 0 0 0 2 11a15.1 15.1 0 0 0 3.763 10 3 3 0 0 0 3.648.648 5.5 5.5 0 0 1 5.178 0A3 3 0 0 0 18.237 21"/></svg>',
+    smiley: '<svg viewBox="0 0 24 24" ' + S + '><path d="M15 10V9"/> <path d="M16.472 15a6 6 0 01-8.943 0"/> <path d="M9 10V9"/> <circle cx="12" cy="12" r="10"/></svg>',
+    kite: '<svg viewBox="0 0 24 24" ' + S + '><path d="M13.73 4a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/></svg>'
   };
 
   /* Chemistry and maths the way a Class 6 notebook has it — these ride in the
@@ -307,7 +332,10 @@
     '--u-shadow-lg:0 2px 4px rgba(0,0,0,.45),0 24px 56px rgba(0,0,0,.55)!important;}' +
   'html.kid-dark body{color:rgba(255,255,255,.8)!important;}' +
   'html.kid-dark h1,html.kid-dark h2,html.kid-dark h3,html.kid-dark h4,html.kid-dark .serif{color:#FFFFFF!important;}' +
-  'html.kid-dark h1{text-shadow:0 0 44px rgba(255,122,0,.35)!important;}' +
+  /* Scoped to .kidbg, like the .kb-sky rule above, so it lifts on the pages
+     that opt out of the skin. It is decoration — and still the retired amber,
+     which is why an orange halo was sitting behind "Privacy Policy". */
+  'html.kidbg.kid-dark h1{text-shadow:0 0 44px rgba(255,122,0,.35)!important;}' +
   /* vivid.css hard-codes #000 on these — same selectors, later, light values */
   'html.kid-dark .chip,html.kid-dark .tag,html.kid-dark .pill,html.kid-dark .fchip,' +
   'html.kid-dark .modchip,html.kid-dark .dchip,html.kid-dark .wchip,html.kid-dark .tagchip,' +
@@ -951,6 +979,13 @@
       /* Idle time, not the next tick: a burst of nodes during a scroll should
          not put four full passes in front of the frame the user is waiting on. */
       pending = setTimeout(function () {
+        /* allowed(), same as sync(). Only sync() used to ask, so on a SKIPped
+           page the four passes still ran from here the moment React mounted
+           anything — which is how /privacy ended up with every paragraph
+           carrying an inline `color:#FFF!important` and data-kid-ink, pinned
+           by a pass the page had opted out of. An inline !important outranks
+           any stylesheet, so the page could not restyle its own text. */
+        if (!allowed()) return;
         var run = function () { deBlue(); glassFields(); seamless(); inkFix(); };
         if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 600 });
         else run();
@@ -970,33 +1005,30 @@
   /* A route change, not routine content arriving — react on the same close
      schedule start() already uses (sync, next frame, 400ms) without calling
      start() itself, which would bolt on another MutationObserver and another
-     resize listener every single navigation and never remove the old ones. */
-  function onNav() {
-    /* The router is about to swap in another of the product's own screens.
-       Hold it back the same way the first load is held, or the pre-redesign
-       look shows again on every click. Kept short — two frames is enough for
-       React to render and for the pass below to restyle what it rendered. */
-    if (window.__kidHold) window.__kidHold(700);
+     resize listener every single navigation and never remove the old ones.
+
+     Called by React from the commit that changes the route (src/lib/useKidSkin),
+     which is the only moment the new page's DOM exists and nothing has been
+     painted yet. This used to hang off a patched history.pushState instead,
+     and the two are far apart: the router navigates inside a transition, so
+     the URL changes first and the page commits perhaps ninety milliseconds
+     later. All three passes here ran against the outgoing page, and the new
+     one was left wearing the raw cascade until the 400ms fallback below.
+
+     That was visible, because the cascade underneath is the pre-redesign look
+     — vivid.css paints .brand-panel a flat #FFFFFF !important and this file's
+     warming pass is what turns it back into a dark surface. Signup's left half
+     spent about 370ms as a white rectangle (with white text on it) after every
+     click from the homepage. */
+  function restyle() {
     sync();
-    requestAnimationFrame(function () {
-      sync();
-      requestAnimationFrame(function () {
-        sync();
-        if (window.__kidReveal) window.__kidReveal();
-      });
-    });
+    /* Layout that settles a frame later, then a backstop for anything the
+       page fetches on mount. Longer-lived arrivals are the observer's job. */
+    requestAnimationFrame(function () { sync(); });
     setTimeout(sync, 400);
   }
-  ['pushState', 'replaceState'].forEach(function (m) {
-    var orig = history[m];
-    if (typeof orig !== 'function') return;
-    history[m] = function () {
-      var r = orig.apply(this, arguments);
-      onNav();
-      return r;
-    };
-  });
-  window.addEventListener('popstate', onNav);
+
+  window.KidBg = { restyle: restyle };
 
   window.KidTheme = { ICON: ICON, TINT: TINT };
 })();

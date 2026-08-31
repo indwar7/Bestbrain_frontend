@@ -4,8 +4,12 @@ import AuroraDefs from './components/AuroraDefs';
 import ErrorBoundary from './components/ErrorBoundary';
 import FeatureFooter from './components/FeatureFooter';
 import ProtectedRoute from './components/ProtectedRoute';
+import { useAuth } from './context/AuthContext';
+import { guardRedirect } from './lib/guard';
 import { useLegacyLinks } from './lib/useLegacyLinks';
+import { useScrollReset } from './lib/useScrollReset';
 import { usePageChrome } from './lib/usePageChrome';
+import { useKidSkin } from './lib/useKidSkin';
 import { pageFromPath } from './lib/pages';
 
 import Landing from './pages/Landing';
@@ -36,7 +40,13 @@ import Terms from './pages/Terms';
  * vivid.css's `:not(:has(.auth-shell))` guard into styling a surface it
  * deliberately excludes.
  */
-const CHROMELESS = ['/login', '/signup'];
+/*
+  privacy and terms are here for a different reason than login/signup: not a
+  layout conflict, but that the product nav — with its streak chip, coin
+  balance and role menu — is noise on a page whose only job is to be read.
+  LegalLayout provides its own way back instead.
+*/
+const CHROMELESS = ['/login', '/signup', '/privacy', '/terms'];
 
 /**
  * Pages that render the shared <FeatureFooter/> — the main content pages whose
@@ -47,15 +57,39 @@ const FOOTER_PAGES = new Set(['learn', 'live', 'challenge', 'mocktest', 'videos'
 
 export default function App() {
   const { pathname } = useLocation();
-  const chromeless = CHROMELESS.includes(pathname);
-  const page = pageFromPath(pathname);
+  const { loggedIn, role } = useAuth();
+
+  /*
+    The chrome follows where the visitor is actually going, not where the URL
+    currently points.
+
+    Everything below — usePageChrome and <Navbar> — sits outside <Routes>, so
+    it used to render the gated page's chrome for the one commit before
+    <ProtectedRoute> redirected away from it: the wrong nav, a different
+    Google Fonts URL and, on the ways in that skip the click interceptor
+    (a typed URL, Back/Forward, a session ending), the account FAB and
+    features panel flashing in. Asking the same guard where this visitor ends
+    up keeps the chrome on the destination from the first frame.
+  */
+  const routedPage = pageFromPath(pathname);
+  const guardTo = guardRedirect(routedPage, loggedIn, role);
+  const page = guardTo ? pageFromPath(guardTo) : routedPage;
+  const chromeless = CHROMELESS.includes(guardTo ?? pathname);
 
   // The ported markup still links to "learn.html" etc., exactly as the static
   // pages did; this turns those into in-app navigations.
   useLegacyLinks();
 
+  // A client-side navigation keeps the outgoing page's scroll position, so
+  // the landing page's footer links opened their destination mid-document.
+  useScrollReset();
+
   // Only load the shared assets this route's original page loaded.
   usePageChrome(page);
+
+  // Last, so the skin measures the stylesheet the two hooks above just put in
+  // place — and before this commit paints.
+  useKidSkin(pathname);
 
   return (
     <>
@@ -99,10 +133,17 @@ export default function App() {
 
         {/* Unguarded, matching the originals — each self-gates where needed. */}
         <Route path="/take-test" element={<TakeTest />} />
-        <Route path="/create-test" element={<CreateTest />} />
-        <Route path="/videos" element={<Videos />} />
         <Route path="/upload" element={<Upload />} />
         <Route path="/admin" element={<Admin />} />
+
+        {/*
+          Still ungated for a signed-in visitor — ProtectedRoute only redirects
+          these when SIGNUP_WHEN_SIGNED_OUT applies, i.e. nobody is logged in.
+          Wrapped because useLegacyLinks only resolves the guard on a CLICK;
+          a typed URL, a bookmark or Back/Forward reaches the route directly.
+        */}
+        <Route path="/create-test" element={<ProtectedRoute page="create-test"><CreateTest /></ProtectedRoute>} />
+        <Route path="/videos" element={<ProtectedRoute page="videos"><Videos /></ProtectedRoute>} />
 
         {/*
           Question bank and homework. Both gate themselves in-page — the bank
@@ -114,8 +155,8 @@ export default function App() {
           landing page instead of showing them the "please log in" state the
           page already has.
         */}
-        <Route path="/bank" element={<Bank />} />
-        <Route path="/homework" element={<Homework />} />
+        <Route path="/bank" element={<ProtectedRoute page="bank"><Bank /></ProtectedRoute>} />
+        <Route path="/homework" element={<ProtectedRoute page="homework"><Homework /></ProtectedRoute>} />
         <Route path="/homework-assign" element={<HomeworkAssign />} />
 
         {/* Public legal pages, linked from the landing footer. */}

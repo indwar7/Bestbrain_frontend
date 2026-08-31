@@ -54,13 +54,60 @@
     { i: 'users',  t: 'Leaderboard',          d: 'See exactly where you rank — in your class, your school, even your whole city.', ex: "Top the weekly Maths quiz and see your name at #1 for your class — updated live, not once a month." },
     { i: 'code',   t: 'Coding Challenges',    d: 'Learn to code with tiny, fun puzzles — perfect if you’ve never written a line of code before.', ex: 'Write your very first "if this happens, then do that" rule — and watch it actually run.' },
     { i: 'shield', t: 'Mock Interviews',      d: 'Practise saying your answers out loud and get instant, friendly tips on how to say them better.', ex: 'Practise answering "Tell me about yourself" out loud, and get a tip on speaking clearer next time.' },
-    { i: 'cap',    t: 'Question Bank',        d: 'Thousands of practice questions, already sorted so you only see the ones from your chapter.', ex: "Confused by Photosynthesis? Pull up 50 practice questions on just that one topic — nothing else." },
+    { i: 'cap',    t: 'Question Bank',        d: 'Thousands of practice questions, sorted so you only see the ones from your chapter. No timer, no marks — answer, see why it was right, keep going.', h: 'bank.html' },
     { i: 'brain',  t: 'Personalised Learning',d: 'PAL quietly notices what you’re weak in and picks tomorrow’s lesson to fix exactly that.', ex: "Struggling with Grammar this week? Tomorrow's first lesson quietly starts there instead of somewhere random." },
     { i: 'bolt',   t: 'Daily Streaks',        d: 'Study a little bit every day and watch your streak count go up — small wins that add up fast.', ex: 'Study 5 days in a row and unlock your first streak badge — day 6 gets even easier to show up for.' },
     { i: 'trophy', t: 'Achievements',         d: 'Badges you earn for really understanding a topic — not just for logging in.', ex: "Really master every topic in Algebra and unlock the 'Algebra Ace' badge — not given, earned." },
     { i: 'shield', t: 'Certificates',         d: 'Finish a full module and get a real certificate with your name on it.', ex: "Complete the 'Living Things' module and download a certificate with your own name on it." },
     { i: 'wave',   t: 'Recent Activity',      d: 'One tap and you’re back exactly where you left off — no hunting for the right chapter.', ex: "Left off on Question 7 last night? One tap on the homepage and you're back on Question 7." },
-    { i: 'wand',   t: 'AI Recommendations',   d: 'Every evening, PAL tells you the one thing worth revising tonight — decided from how you actually did.', ex: 'PAL might say: "Revise Light & Shadows tonight — you missed 2 questions on it yesterday."' }
+    { i: 'wand',   t: 'AI Recommendations',   d: 'Every evening, PAL tells you the one thing worth revising tonight — decided from how you actually did.', ex: 'PAL might say: "Revise Light & Shadows tonight — you missed 2 questions on it yesterday."' },
+
+    /* ---- pages that shipped without a card here ----
+       Each of these is a real, wired surface — videos.html, homework.html,
+       create-test.html (with upload.html and homework-assign.html beside it),
+       the KidPDF panel and the dashboard's Plus card. Every one of them was
+       reachable only from inside Learn or the dashboard, so the person
+       deciding whether to sign up was the one person who never saw them. */
+    { i: 'video',  t: 'Video Lectures',       d: 'Recorded lessons for your class and subject — watch the chapter explained first, then go answer the questions.', h: 'videos.html' },
+    { i: 'pencil', t: 'Homework',             d: 'Work your teacher sets for your class, with a due date. Answer it here and it gets marked the second you hit submit.', h: 'homework.html' },
+    { i: 'ruler',  t: 'Teacher Studio',       d: 'Teachers build a timed, auto-marked test in minutes, set homework straight from the question bank, and upload their own videos and notes.', h: 'create-test.html' },
+    { i: 'bulb',   t: 'PDF Study Sheets',     d: 'Type any topic and PAL writes you a neat one-page study sheet — read it on screen or save it as a PDF for later.', ex: 'Type "Light and Shadows" and get a printable sheet: what it means, the diagram to remember, and a few questions to try.' },
+    { i: 'rocket', t: 'BestBrain Plus',       d: 'Free to start. Plus unlocks every class and subject and takes the cap off your PAL doubts — your coin balance sits right on your dashboard.', h: 'dashboard.html' }
+  ];
+
+  /* Sample lessons. These are the real animated lectures that sit inside
+     Learn, not a marketing reel — the same Class 6 Science chapter a student
+     opens after signing up.
+
+     public/sampleVideos/ holds the TRANSCODED set and nothing else. The
+     originals are 720p at 5.7-7.0 Mbps (402MB for 8.5 minutes), roughly four
+     times the bitrate animation at this size needs; re-encoded at CRF 26 they
+     measure SSIM 0.99 against the source and weigh 61MB all in.
+
+     The originals deliberately live OUTSIDE public/, in
+     edulearn-frontend-react/media-src/sampleVideos-originals/. Vite copies
+     everything under public/ into dist/ verbatim — with the originals still
+     in there a production build came out at 464MB, shipping 402MB nobody can
+     ever watch. Anything in public/ is something the browser can download.
+
+     Replacing one of these means transcoding it the same way first. See
+     public/sampleVideos/README.md for the exact ffmpeg command.
+
+     `d` is the duration label only; the real duration comes from the file. */
+  /* Copy note: kid-quiz.js rewrites the visible word "test" to "quiz" across
+     every page, which is right for the product's own noun and wrong for a
+     science one — "the starch test" rendered as "the starch quiz". Say
+     experiment here. */
+  var SAMPLES = [
+    { f: '2', cls: 'Class 6 · Science', d: '2:58',
+      t: 'Do plants really need sunlight?',
+      p: 'Three pots, three different spots. Watch what happens to the one kept in the dark — and find out what a plant is actually eating.' },
+    { f: '3', cls: 'Class 6 · Science', d: '2:45',
+      t: 'Boiling a leaf to find its food',
+      p: 'Animals take their food. Plants make it. Hot water, then alcohol, then iodine — the experiment that shows the starch hiding inside an ordinary leaf.' },
+    { f: '4', cls: 'Class 6 · Science', d: '2:48',
+      t: 'Meet chlorophyll, the food-maker',
+      p: 'The green stuff inside every leaf introduces itself — and shows you exactly what it needs from the sunlight and the water to cook a plant its dinner.' }
   ];
 
   var WHY = [
@@ -75,7 +122,7 @@
   var ROLES = [
     { i: 'target', t: 'Student',  d: 'Your own dashboard — streak, minutes studied and badges earned — plus PAL telling you exactly what to revise tonight.' },
     { i: 'shield', t: 'Parent',   d: "See your child's progress and live-class attention score without watching every keystroke. No separate app to install." },
-    { i: 'cap',    t: 'Teacher',  d: 'Class roster, chapter-wise averages and live-class attendance, grounded in real submitted work — not guesses.' }
+    { i: 'cap',    t: 'Teacher',  d: 'Class roster, chapter-wise averages and live-class attendance, grounded in real submitted work — not guesses. Build a timed test, set homework from the question bank, upload your own lecture videos and notes.' }
   ];
 
   var STEPS = [
@@ -104,7 +151,7 @@
     { q: 'Does it work on a slow connection?', a: 'The interface is built for low-end phones and patchy networks. Lessons and notes stay available offline once opened.' },
     { q: 'How is this different from a search engine?', a: 'Answers are grounded in your chapter and your progress. PAL knows what you have already covered and what you got wrong last week.' },
     { q: 'Can teachers and parents see progress?', a: 'Yes. Teachers get class-wide mastery and test analytics; parents see streaks and progress without seeing every keystroke.' },
-    { q: 'Is it free to start?', a: 'Creating an account and exploring Learn, PAL and practice questions is free. You can upgrade later for unlimited adaptive tests.' }
+    { q: 'Is it free to start?', a: 'Yes. Creating an account and exploring Learn, the question bank, PAL and practice questions is free. BestBrain Plus is an optional monthly upgrade that unlocks every class and subject and removes the cap on PAL doubts.' }
   ];
 
   var CSS =
@@ -125,7 +172,11 @@
   ':root{--kh-accent:#A855F7;--kh-accent-soft:#C084FC;--kh-accent-deep:#7E22CE;' +
     '--kh-accent-rgb:168,85,247;--kh-accent-soft-rgb:192,132,252;' +
     /* the lit and shadowed ends of the PAL sphere's gradient */
-    '--kh-accent-hi-rgb:233,213,255;--kh-accent-deep-rgb:76,29,149;}' +
+    '--kh-accent-hi-rgb:233,213,255;--kh-accent-deep-rgb:76,29,149;' +
+    /* One hairline for every neutral edge on the page. It used to be nine
+       different alphas between .07 and .18, which over a near-black ground
+       reads as some borders black and some grey. */
+    '--kh-line:rgba(255,255,255,.14);}' +
   '#kh-root{position:relative;z-index:1;font-family:"Nunito",system-ui,sans-serif;color:rgba(255,255,255,.8);}' +
   '#kh-root *{box-sizing:border-box;}' +
   '#kh-root section{max-width:1180px;margin:0 auto;padding:clamp(64px,9vw,120px) clamp(20px,4vw,32px);}' +
@@ -134,14 +185,18 @@
   '.kh-eyebrow{display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border-radius:99px;' +
     'background:rgba(var(--kh-accent-rgb),.12);border:1px solid rgba(var(--kh-accent-rgb),.32);' +
     'font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--kh-accent-soft);}' +
-  '.kh-eyebrow .d{width:7px;height:7px;border-radius:50%;background:var(--kh-accent);box-shadow:0 0 10px var(--kh-accent);' +
-    'animation:kh-blip 2s ease-in-out infinite;}' +
-  '@keyframes kh-blip{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}' +
+  /* Static. The dot used to run `kh-blip 2s infinite`, dropping to opacity .4
+     and scale .7 and back, forever — on nine capsules at once (one per section
+     head). Nothing on the page depends on it and nothing is loading, so it was
+     a blink with no meaning attached, and with several on screen at different
+     scroll offsets it read as the page flickering. */
+  '.kh-eyebrow .d{width:7px;height:7px;border-radius:50%;background:var(--kh-accent);' +
+    'box-shadow:0 0 10px var(--kh-accent);}' +
 
   /* ---- nav ---- */
   '#kh-nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(24px) saturate(1.5);' +
     '-webkit-backdrop-filter:blur(24px) saturate(1.5);background:rgba(5,5,5,.6);' +
-    'border-bottom:1px solid rgba(255,255,255,.1);transition:transform .4s cubic-bezier(.22,1,.36,1);}' +
+    'border-bottom:1px solid var(--kh-line) !important;transition:transform .4s cubic-bezier(.22,1,.36,1);}' +
   '#kh-nav.hide{transform:translateY(-100%);}' +
   '.kh-nav-in{max-width:1180px;margin:0 auto;padding:0 clamp(20px,4vw,32px);height:70px;' +
     'display:flex;align-items:center;gap:24px;}' +
@@ -160,6 +215,13 @@
     'font-weight:900;font-size:20px;letter-spacing:-.02em;}' +
   '.kh-logo .lt small{margin-top:3px;font-size:9px;font-weight:800;letter-spacing:.09em;' +
     'text-transform:uppercase;color:rgba(255,255,255,.4);}' +
+  /* The landing page's own stylesheet still styles the bare `nav` tag
+     (index.css: sticky, blurred, background, border-bottom) — that was the
+     pre-redesign navbar, and it lands on both <nav>s built below, painting a
+     hairline under the link group and a panel behind it. theme.css restates
+     the background with !important, so the reset has to as well. */
+  '#kh-root nav{position:static;top:auto;z-index:auto;backdrop-filter:none;' +
+    '-webkit-backdrop-filter:none;background:transparent !important;border:0;}' +
   '.kh-nav-links{display:flex;gap:4px;margin-left:auto;}' +
   '.kh-nav-links a{padding:9px 15px;border-radius:99px;font-size:14px;font-weight:700;' +
     'color:rgba(255,255,255,.7);text-decoration:none;transition:all .3s ease;}' +
@@ -186,21 +248,22 @@
      documents). Keeping them outside #kh-nav is what makes position:fixed
      resolve against the viewport here. */
   '.kh-burger{display:none;width:44px;height:44px;border-radius:10px;flex-shrink:0;' +
-    'border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;' +
+    'border:1px solid var(--kh-line) !important;background:rgba(255,255,255,.06);color:#fff;' +
     'align-items:center;justify-content:center;cursor:pointer;}' +
   '.kh-burger:hover{background:rgba(255,255,255,.1);}' +
+  '.kh-burger svg,.kh-drawer-close svg{width:20px;height:20px;display:block;}' +
   '@media(max-width:820px){.kh-burger{display:inline-flex;}}' +
   '.kh-scrim{position:fixed;inset:0;z-index:70;background:rgba(3,3,6,.6);' +
     '-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);opacity:0;pointer-events:none;' +
     'transition:opacity .35s ease;}' +
   '.kh-scrim.open{opacity:1;pointer-events:auto;}' +
   '.kh-drawer{position:fixed;top:0;right:0;bottom:0;z-index:71;width:min(320px,84vw);' +
-    'background:#0A0A0A;border-left:1px solid rgba(255,255,255,.12);box-shadow:-24px 0 60px rgba(0,0,0,.5);' +
+    'background:#0A0A0A;border-left:1px solid var(--kh-line);box-shadow:-24px 0 60px rgba(0,0,0,.5);' +
     'transform:translateX(100%);transition:transform .4s cubic-bezier(.22,1,.36,1);' +
     'padding:18px 18px calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;overflow-y:auto;}' +
   '.kh-drawer.open{transform:translateX(0);}' +
   '.kh-drawer-close{align-self:flex-end;width:44px;height:44px;border-radius:10px;flex-shrink:0;' +
-    'border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;' +
+    'border:1px solid var(--kh-line) !important;background:rgba(255,255,255,.06);color:#fff;' +
     'display:flex;align-items:center;justify-content:center;cursor:pointer;margin-bottom:14px;}' +
   '.kh-drawer-links{display:flex;flex-direction:column;gap:3px;}' +
   '.kh-drawer-links a{padding:13px 12px;border-radius:10px;font-size:16px;font-weight:700;min-height:44px;' +
@@ -215,12 +278,18 @@
     'transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s ease,filter .3s ease;}' +
   '.kh-btn.p{background:linear-gradient(120deg,var(--kh-accent),var(--kh-accent-soft));color:#0A0A0A;' +
     'box-shadow:0 12px 34px rgba(var(--kh-accent-rgb),.42),inset 0 1px 0 rgba(255,255,255,.4);}' +
-  '.kh-btn.g{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.18);' +
+  '.kh-btn.g{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--kh-line);' +
     'backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}' +
   '.kh-btn:hover{transform:translateY(-3px);filter:brightness(1.05);}' +
   '.kh-btn.p:hover{box-shadow:0 18px 46px rgba(var(--kh-accent-rgb),.56);}' +
   '.kh-btn:active{transform:translateY(-1px) scale(.98);}' +
-  '.kh-btn .ar{transition:transform .3s ease;}' +
+  /* .ar used to hold the character "→", so it needed no box. It now holds an
+     <svg> with no width/height attribute — an SVG without either lays out at
+     its default 300x150 — so the size lives here, once, for every .ar on the
+     page. */
+  '.ar{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}' +
+  '.ar svg{width:100%;height:100%;display:block;}' +
+  '.kh-btn .ar{width:17px;height:17px;transition:transform .3s ease;}' +
   '.kh-btn:hover .ar{transform:translateX(4px);}' +
 
   /* ---- hero ---- */
@@ -237,7 +306,11 @@
   '#kh-hero .trust{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-top:38px;' +
     'font-size:13px;font-weight:700;color:rgba(255,255,255,.55);}' +
   '#kh-hero .trust span{display:inline-flex;align-items:center;gap:8px;}' +
-  '#kh-hero .trust i{width:6px;height:6px;border-radius:50%;background:var(--kh-accent);font-style:normal;}' +
+  /* Was a 6px accent dot; three bullets in a row said nothing about the three
+     claims next to them. A tick does. */
+  '#kh-hero .trust i{display:inline-flex;width:15px;height:15px;flex-shrink:0;' +
+    'color:var(--kh-accent);font-style:normal;}' +
+  '#kh-hero .trust i svg{width:100%;height:100%;display:block;}' +
 
   /* hero orbit.
      --orb is the ring's diameter, and every node's distance from the centre is
@@ -261,7 +334,7 @@
   '.kh-orbit .spin.rev{animation-direction:reverse;animation-duration:46s;}' +
   '@keyframes kh-spin{to{transform:rotate(360deg)}}' +
   '.kh-orbit .node{position:absolute;width:var(--node);height:var(--node);border-radius:18px;display:grid;place-items:center;' +
-    'background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);' +
+    'background:rgba(255,255,255,.08);border:1px solid var(--kh-line);' +
     'backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);' +
     'box-shadow:0 12px 30px rgba(0,0,0,.5);color:var(--kh-accent-soft);}' +
   '.kh-orbit .node svg{width:26px;height:26px;}' +
@@ -299,7 +372,7 @@
   '.kh-g3{grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr));}' +
   '.kh-g2{grid-template-columns:repeat(auto-fit,minmax(min(360px,100%),1fr));}' +
   '.kh-card{position:relative;overflow:hidden;padding:24px;border-radius:22px;' +
-    'background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);' +
+    'background:rgba(255,255,255,.06);border:1px solid var(--kh-line);' +
     'backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);' +
     'box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 16px 40px rgba(0,0,0,.42);' +
     'transition:transform .45s cubic-bezier(.22,1,.36,1),border-color .45s ease,' +
@@ -321,11 +394,54 @@
   '.kh-tag{position:absolute;top:16px;right:16px;font-size:9.5px;font-weight:900;letter-spacing:.1em;' +
     'padding:4px 9px;border-radius:99px;background:linear-gradient(100deg,var(--kh-accent),var(--kh-accent-soft));color:#0A0A0A;}' +
 
+  /* ---- sample lesson videos ----
+     Poster-first and preload="none" by construction: the <video> element does
+     not exist until the visitor presses play, so a reader who scrolls past
+     this section downloads three ~80KB JPEGs and not one byte of the 61MB of
+     lectures behind them. That is the whole reason this is a <button> holding
+     an <img> rather than a <video poster>, which would still open a
+     connection and fetch metadata on some browsers.
+
+     Two-class selectors (.kh-card.kh-vid) throughout: .kh-card is restated
+     inside the max-width:600px block further down, so a single .kh-vid would
+     lose its padding:0 back to .kh-card{padding:18px} on phones purely on
+     source order. */
+  '.kh-card.kh-vid{padding:0;}' +
+  /* Once a video is playing the card must stop moving. The base .kh-card
+     lift is translateY(-7px) on hover, which under a cursor heading for the
+     scrubber slides the controls out from under it. */
+  '.kh-card.kh-vid.is-playing:hover{transform:none;}' +
+  '.kh-vid-stage{position:relative;display:block;width:100%;aspect-ratio:16/9;' +
+    'border:0;padding:0;margin:0;background:#0B0B0B;cursor:pointer;overflow:hidden;' +
+    'border-radius:22px 22px 0 0;}' +
+  '.kh-vid-stage img{width:100%;height:100%;object-fit:cover;display:block;' +
+    'transition:transform .6s cubic-bezier(.22,1,.36,1),filter .4s ease;}' +
+  '.kh-vid:hover .kh-vid-stage img{transform:scale(1.045);filter:brightness(1.07);}' +
+  '.kh-vid > video{width:100%;height:auto;aspect-ratio:16/9;display:block;background:#000;' +
+    'object-fit:cover;border-radius:22px 22px 0 0;}' +
+  /* Sits above the poster so the poster can scale under it without the button
+     scaling too. */
+  '.kh-vid-btn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);' +
+    'width:62px;height:62px;border-radius:50%;display:grid;place-items:center;' +
+    'color:#0A0A0A;background:var(--kh-accent);pointer-events:none;' +
+    'box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 8px rgba(var(--kh-accent-rgb),.16);' +
+    'transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease;}' +
+  '.kh-vid:hover .kh-vid-btn{transform:translate(-50%,-50%) scale(1.12);' +
+    'box-shadow:0 14px 40px rgba(0,0,0,.55),0 0 0 13px rgba(var(--kh-accent-rgb),.2);}' +
+  '.kh-vid-stage:focus-visible{outline:2px solid var(--kh-accent-soft);outline-offset:-4px;}' +
+  '.kh-vid-btn svg{width:22px;height:22px;margin-left:1px;display:block;}' +
+  '.kh-vid-time{position:absolute;right:11px;bottom:11px;font-size:11.5px;font-weight:800;' +
+    'letter-spacing:.03em;padding:4px 9px;border-radius:99px;color:#fff;pointer-events:none;' +
+    'background:rgba(0,0,0,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}' +
+  '.kh-vid-meta{padding:19px 21px 21px;}' +
+  '.kh-vid-meta .cls{display:block;font-size:10.5px;font-weight:900;letter-spacing:.13em;' +
+    'text-transform:uppercase;color:var(--kh-accent-soft);margin-bottom:9px;}' +
+
   /* ---- expandable "tap to see an example" cards ---- */
   '.kh-card--ex{cursor:pointer;}' +
   '.kh-ex-hint{margin-top:10px!important;font-size:12px!important;font-weight:800;' +
     'color:var(--kh-accent-soft)!important;display:flex;align-items:center;gap:5px;}' +
-  '.kh-ex-hint .ar{transition:transform .3s var(--ease);}' +
+  '.kh-ex-hint .ar{width:14px;height:14px;transition:transform .3s var(--ease);}' +
   '.kh-card--ex.is-open .kh-ex-hint .ar{transform:rotate(90deg);}' +
   '.kh-ex-body{max-height:0;overflow:hidden;opacity:0;margin-top:0!important;' +
     'transition:max-height .4s var(--ease),opacity .3s ease,margin-top .4s var(--ease);' +
@@ -400,40 +516,63 @@
   /* ---- testimonials ---- */
   '.kh-quote{font-size:15px;line-height:1.65;color:rgba(255,255,255,.82);}' +
   '.kh-who{display:flex;align-items:center;gap:11px;margin-top:20px;padding-top:18px;' +
-    'border-top:1px solid rgba(255,255,255,.1);}' +
+    'border-top:1px solid var(--kh-line);}' +
   '.kh-who .av{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:900;' +
     'color:#0A0A0A;background:linear-gradient(135deg,var(--kh-accent),var(--kh-accent-soft));}' +
   '.kh-who b{display:block;font-size:13.5px;color:#fff;}' +
   '.kh-who span{font-size:12px;color:rgba(255,255,255,.55);}' +
-  '.kh-stars{color:var(--kh-accent-soft);font-size:13px;letter-spacing:2px;margin-bottom:14px;}' +
+  '.kh-stars{display:flex;gap:3px;color:var(--kh-accent-soft);margin-bottom:14px;}' +
+  '.kh-stars svg{width:14px;height:14px;display:block;}' +
 
   /* ---- devices ----
      Every colour here is a variable already defined above (--kh-accent /
      --kh-accent-soft / the site's near-black #0A0A0A / the same
      rgba(255,255,255,x) whites every other card uses) — no new hex values,
      matching the constraint that this pass only adds, never re-themes. */
-  '.kh-dev-wrap{position:relative;max-width:820px;margin:0 auto;padding:8px 60px 40px 0;}' +
-  '.kh-dev-lap{width:min(620px,100%);}' +
-  '.kh-dev-screen{border:10px solid #0A0A0A;border-radius:20px;background:rgba(255,255,255,.04);' +
-    'box-shadow:0 30px 70px rgba(0,0,0,.5);overflow:hidden;}' +
-  '.kh-dev-bar{display:flex;gap:7px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08);}' +
+  /* The composition is symmetric about the wrap's centre BY CONSTRUCTION, so
+     `margin:0 auto` actually centres what the eye sees.
+
+     It did not used to be. The wrap was 820px wide with padding:8px 60px 40px 0
+     — 60px on the right, 0 on the left — and held a 620px laptop that
+     left-aligned inside it while the phone was pinned to the far right. The
+     result measured: laptop 310-930 (centre 620), phone 958-1130, a 28px gap
+     between them, and a section whose centre was 720. Two disconnected objects,
+     both off-centre, which is the "uneven" this section read as.
+
+     Now the wrap is exactly as wide as the laptop, the base overhangs it by 6%
+     a side (unchanged), and the phone's right edge is pinned to that same -6%.
+     So the ink runs from -6% to +106% — symmetric — and the phone lands ON the
+     laptop's bottom-right instead of floating beside it. */
+  '.kh-dev-wrap{position:relative;max-width:640px;margin:0 auto;padding:0 0 30px;}' +
+  '.kh-dev-lap{width:100%;}' +
+  '.kh-dev-screen{border:10px solid #0A0A0A;border-radius:20px;overflow:hidden;' +
+    'background:linear-gradient(rgba(255,255,255,.05),rgba(255,255,255,.05)),#0A0A0A;' +
+    'box-shadow:0 0 0 1px var(--kh-line),0 30px 70px rgba(0,0,0,.5);}' +
+  '.kh-dev-bar{display:flex;gap:7px;padding:12px 16px;border-bottom:1px solid var(--kh-line);}' +
   '.kh-dev-bar i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.16);display:block;}' +
   '.kh-dev-body{padding:22px 24px 26px;}' +
   '.kh-dev-nav{display:flex;align-items:center;gap:8px;margin-bottom:18px;}' +
   '.kh-dev-nav i{height:9px;border-radius:5px;background:rgba(255,255,255,.12);display:block;}' +
-  '.kh-dev-row{display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.08);' +
+  '.kh-dev-row{display:flex;align-items:center;gap:12px;border:1px solid var(--kh-line);' +
     'border-radius:13px;padding:11px 13px;margin-bottom:9px;background:rgba(255,255,255,.02);}' +
   '.kh-dev-row .n{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:none;' +
     'font-size:12px;font-weight:800;color:#0A0A0A;background:linear-gradient(135deg,var(--kh-accent),var(--kh-accent-soft));}' +
   '.kh-dev-row .lines{flex:1;}' +
-  '.kh-dev-row .line{height:8px;border-radius:4px;background:rgba(255,255,255,.14);margin-bottom:7px;}' +
-  '.kh-dev-row .bar{height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;}' +
+  '.kh-dev-row .line{display:block;height:8px;border-radius:4px;background:rgba(255,255,255,.14);margin-bottom:7px;}' +
+  '.kh-dev-row .bar{display:block;height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;}' +
   '.kh-dev-row .bar i{display:block;height:100%;border-radius:3px;' +
     'background:linear-gradient(90deg,var(--kh-accent),var(--kh-accent-soft));}' +
-  '.kh-dev-base{width:112%;margin:0 -6% -2px;height:14px;background:#0A0A0A;border-radius:0 0 10px 10px;}' +
+  '.kh-dev-base{width:112%;margin:0 -6% -2px;height:14px;background:#0A0A0A;' +
+    'border-radius:0 0 10px 10px;box-shadow:0 0 0 1px var(--kh-line),' +
+    'inset 0 1px 0 rgba(255,255,255,.09),0 18px 34px rgba(0,0,0,.5);}' +
 
-  '.kh-dev-phone{position:absolute;right:0;bottom:-14px;width:172px;border:9px solid #0A0A0A;' +
-    'border-radius:30px;background:rgba(255,255,255,.05);box-shadow:0 26px 54px rgba(0,0,0,.55);overflow:hidden;}' +
+  /* right:-6% is the base's own overhang, so the phone's right edge and the
+     laptop base's right edge are the same vertical line — the detail that
+     makes the pair read as one object. */
+  '.kh-dev-phone{position:absolute;right:-6%;bottom:0;width:172px;border:9px solid #0A0A0A;' +
+    'border-radius:30px;overflow:hidden;' +
+    'background:linear-gradient(rgba(255,255,255,.06),rgba(255,255,255,.06)),#0A0A0A;' +
+    'box-shadow:0 0 0 1px var(--kh-line),0 26px 54px rgba(0,0,0,.55);}' +
   '.kh-dev-notch{width:52px;height:13px;background:#0A0A0A;border-radius:0 0 9px 9px;margin:0 auto;}' +
   '.kh-dev-pbody{padding:14px 13px 16px;}' +
   '.kh-dev-phead{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;}' +
@@ -442,18 +581,25 @@
     'background:conic-gradient(var(--kh-accent) 0 76%, rgba(255,255,255,.1) 76% 100%);}' +
   '.kh-dev-ring i{width:38px;height:38px;border-radius:50%;background:#0A0A0A;display:grid;place-items:center;' +
     'font-style:normal;font-weight:900;font-size:11px;color:var(--kh-accent-soft);}' +
-  '.kh-dev-opt{border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:8px 10px;' +
+  '.kh-dev-opt{border:1px solid var(--kh-line);border-radius:10px;padding:8px 10px;' +
     'display:flex;align-items:center;gap:8px;margin-bottom:7px;}' +
   '.kh-dev-opt .dot{width:15px;height:15px;border-radius:5px;background:rgba(255,255,255,.1);flex:none;}' +
   '.kh-dev-opt.on .dot{background:var(--kh-accent);}' +
-  '.kh-dev-opt .pill{height:7px;border-radius:4px;background:rgba(255,255,255,.14);flex:1;}' +
+  '.kh-dev-opt .pill{height:7px;border-radius:4px;background:rgba(255,255,255,.14);flex:1;border:0 !important;}' +
 
-  '@media(max-width:700px){.kh-dev-wrap{padding:8px 44px 90px 0;}.kh-dev-phone{width:132px;right:-6px;bottom:-40px;}}' +
-  '@media(max-width:460px){.kh-dev-wrap{padding:8px 0 130px;}' +
-    '.kh-dev-phone{right:50%;transform:translateX(50%);bottom:-70px;}}' +
+  '@media(max-width:700px){.kh-dev-phone{width:142px;}.kh-dev-body{padding:18px 18px 20px;}}' +
+  '@media(max-width:460px){.kh-dev-wrap{padding:0 0 22px;}' +
+    '.kh-dev-phone{width:112px;}' +
+    '.kh-dev-screen{border-width:7px;border-radius:15px;}' +
+    '.kh-dev-body{padding:14px 13px 15px;}' +
+    '.kh-dev-row{padding:8px 9px;border-radius:10px;gap:9px;}' +
+    '.kh-dev-row .n{width:22px;height:22px;border-radius:7px;font-size:10px;}' +
+    '.kh-dev-pbody{padding:9px 8px 10px;}' +
+    '.kh-dev-ring{width:40px;height:40px;margin-bottom:8px;}' +
+    '.kh-dev-ring i{width:29px;height:29px;font-size:9px;}}' +
 
   /* ---- FAQ ---- */
-  '.kh-faq{border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.05);' +
+  '.kh-faq{border:1px solid var(--kh-line);border-radius:18px;background:rgba(255,255,255,.05);' +
     'backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);margin-bottom:12px;overflow:hidden;' +
     'transition:border-color .35s ease,background .35s ease;}' +
   '.kh-faq[open]{border-color:rgba(var(--kh-accent-rgb),.42);background:rgba(var(--kh-accent-rgb),.07);}' +
@@ -461,8 +607,11 @@
     'display:flex;align-items:center;gap:14px;}' +
   '.kh-faq summary::-webkit-details-marker{display:none;}' +
   '.kh-faq summary .pm{margin-left:auto;width:26px;height:26px;border-radius:8px;flex-shrink:0;' +
-    'display:grid;place-items:center;background:rgba(var(--kh-accent-rgb),.16);color:var(--kh-accent-soft);font-weight:900;' +
+    'display:grid;place-items:center;background:rgba(var(--kh-accent-rgb),.16);color:var(--kh-accent-soft);' +
     'transition:transform .35s cubic-bezier(.22,1,.36,1);}' +
+  /* rotate(45deg) turns the plus into a close cross — the same trick the "+"
+     character was doing, now on a glyph whose arms are actually equal. */
+  '.kh-faq summary .pm svg{width:15px;height:15px;display:block;}' +
   '.kh-faq[open] summary .pm{transform:rotate(45deg);}' +
   '.kh-faq .a{padding:0 22px 20px 22px;font-size:14px;line-height:1.65;color:rgba(255,255,255,.68);}' +
 
@@ -480,7 +629,7 @@
      rule that reaches straight into this one — every column heading and link
      came out centred under a left-aligned brand. An id beats an element
      selector, so this settles it without touching the page stylesheet. */
-  '#kh-foot{border-top:1px solid rgba(255,255,255,.1);text-align:left;}' +
+  '#kh-foot{border-top:1px solid var(--kh-line) !important;text-align:left;}' +
   '.kh-copy{text-align:center;}' +
   '.kh-foot-in{max-width:1180px;margin:0 auto;padding:44px clamp(20px,4vw,32px);' +
     'display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;}' +
@@ -529,6 +678,9 @@
     '.kh-head p{font-size:15px;}' +
     '.kh-grid{gap:14px;}' +
     '.kh-card{padding:18px;border-radius:18px;}' +
+    '.kh-vid-stage,.kh-vid > video{border-radius:18px 18px 0 0;}' +
+    '.kh-vid-meta{padding:16px 17px 18px;}' +
+    '.kh-vid-btn{width:54px;height:54px;}' +
 
     /* .kh-g4 carries the eight stats AND the nineteen feature cards — both
        are a short label over one or two lines, and both read better two-up
@@ -606,6 +758,39 @@
 
   function ic(name) { return I[name] || I.spark || ''; }
 
+  /* Lucide v1.37.0 (ISC), the same family as KidTheme.ICON — but these are the
+     interface glyphs rather than the subject ones, so they live here instead
+     of in kid-bg's map: an arrow is not a topic a card can be about.
+
+     Each replaced a text character or a hand-drawn path:
+       ar  "→"  the four CTA arrows      ch  "›"  the expand chevron
+       menu/close  hand-drawn strokes    play  a hand-drawn triangle
+       star  "★"  the testimonial rating plus  "+"  the FAQ toggle
+       tick  a 6px CSS dot on the hero's trust row
+
+     The text arrows were the worst of them: "→" renders from whichever font
+     the browser resolves it in, not the page's, so it changed weight between
+     platforms and sat off the label's baseline. */
+  function lu(paths, w) {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) +
+      '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
+  }
+  var LU = {
+    ar:    lu('<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>', 2.2),
+    ch:    lu('<path d="m9 18 6-6-6-6"/>', 2.2),
+    menu:  lu('<path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/>', 2.2),
+    close: lu('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>', 2.2),
+    plus:  lu('<path d="M5 12h14"/><path d="M12 5v14"/>', 2.2),
+    tick:  lu('<path d="M20 6 9 17l-5-5"/>', 2.6),
+    play:  '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+             '<path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg>',
+    star:  '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+             '<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 ' +
+             '.294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 ' +
+             '2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 ' +
+             '9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>'
+  };
+
   function cards(list, cls) {
     return list.map(function (f) {
       var tag = f.tag ? '<span class="kh-tag">' + f.tag + '</span>' : '';
@@ -614,7 +799,9 @@
       // used to just sit there; if it also carries an ex(ample), tapping it
       // now expands in place to show one concrete "here's what that looks
       // like" line instead, which is the only kind of interactivity that
-      // doesn't fight the 8 cards that already navigate.
+      // doesn't fight the cards that already navigate. Which cards those are
+      // is decided by FEATURES alone — don't restate the count here, it has
+      // gone stale twice already.
       var expandable = !f.h && f.ex;
       var open = f.h
         ? '<a class="kh-card kh-rv" href="' + f.h + '">'
@@ -622,7 +809,7 @@
           (expandable ? ' tabindex="0" role="button" aria-expanded="false"' : '') + '>';
       var close = f.h ? '</a>' : '</div>';
       var example = expandable
-        ? '<p class="kh-ex-hint">Tap to see an example <span class="ar">›</span></p>' +
+        ? '<p class="kh-ex-hint">Tap to see an example <span class="ar">' + LU.ch + '</span></p>' +
           '<p class="kh-ex-body">' + f.ex + '</p>'
         : '';
       return open + tag + '<span class="kh-ic">' + ic(f.i) + '</span>' +
@@ -632,10 +819,16 @@
 
   function build() {
     if (document.getElementById('kh-root')) return;
-    var style = document.createElement('style');
-    style.id = 'kh-css';
-    style.textContent = CSS;
-    document.head.appendChild(style);
+    /* One sheet, reused. build() runs again on every return to the home route,
+       and appending a fresh copy each time left a stack of identical <style
+       id="kh-css"> elements in <head> — duplicate ids, and the whole sheet
+       re-parsed on every visit. */
+    if (!document.getElementById('kh-css')) {
+      var style = document.createElement('style');
+      style.id = 'kh-css';
+      style.textContent = CSS;
+      document.head.appendChild(style);
+    }
 
     var root = document.createElement('div');
     root.id = 'kh-root';
@@ -672,9 +865,7 @@
       '<header id="kh-nav"><div class="kh-nav-in">' +
         '<button type="button" class="kh-burger" id="kh-burger-btn" aria-label="Open menu" ' +
           'aria-expanded="false" aria-controls="kh-drawer">' +
-          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
-            'stroke-width="2.4" stroke-linecap="round" aria-hidden="true">' +
-            '<path d="M3.5 7h17M3.5 12h17M3.5 17h17"/></svg>' +
+          LU.menu +
         '</button>' +
         '<a class="kh-logo" href="index.html"><span class="m">' + ic('spark') + '</span>' +
           '<span class="lt">BestBrain<small>NorthBridge</small></span></a>' +
@@ -687,21 +878,20 @@
            rules could not shrink these and the header ran off the screen. */
         '<a class="kh-btn g" href="login.html">Log in</a>' +
         '<a class="kh-btn p" href="signup.html">Start free ' +
-          '<span class="ar">→</span></a>' +
+          '<span class="ar">' + LU.ar + '</span></a>' +
       '</div></header>' +
 
       /* ---------- mobile drawer (siblings of #kh-nav, see the CSS comment) ---------- */
       '<div class="kh-scrim" id="kh-scrim"></div>' +
       '<div class="kh-drawer" id="kh-drawer" inert>' +
         '<button type="button" class="kh-drawer-close" id="kh-drawer-close" aria-label="Close menu">' +
-          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
-            'stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
+          LU.close +
         '</button>' +
         '<nav class="kh-drawer-links">' +
           '<a href="#features">Features</a><a href="#roles">For families</a><a href="#how">How it works</a>' +
           '<a href="#journey">Journey</a><a href="#voices">Stories</a><a href="#faq">FAQ</a>' +
           '<a class="kh-btn g" href="login.html">Log in</a>' +
-          '<a class="kh-btn p" href="signup.html">Start free <span class="ar">→</span></a>' +
+          '<a class="kh-btn p" href="signup.html">Start free <span class="ar">' + LU.ar + '</span></a>' +
         '</nav>' +
       '</div>' +
 
@@ -712,13 +902,13 @@
         '<p class="sub kh-rv">BestBrain is an AI tutor that knows your syllabus. Ask in English, Hindi or ' +
           'Hinglish — get an explanation, a practice set and proof you improved.</p>' +
         '<div class="cta kh-rv">' +
-          '<a class="kh-btn p" href="signup.html">Start learning free <span class="ar">→</span></a>' +
+          '<a class="kh-btn p" href="signup.html">Start learning free <span class="ar">' + LU.ar + '</span></a>' +
           '<a class="kh-btn g" href="tutor.html">Try the AI Tutor 🎙️</a>' +
         '</div>' +
         '<div class="trust kh-rv">' +
-          '<span><i></i>No credit card needed</span>' +
-          '<span><i></i>Classes 6–9 · CBSE</span>' +
-          '<span><i></i>Works offline-first</span>' +
+          '<span><i>' + LU.tick + '</i>No credit card needed</span>' +
+          '<span><i>' + LU.tick + '</i>Classes 6–9 · CBSE</span>' +
+          '<span><i>' + LU.tick + '</i>Works offline-first</span>' +
         '</div>' +
         '<div class="kh-orbit kh-rv">' +
           '<div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div>' + orbit +
@@ -742,9 +932,34 @@
       /* ---------- features ---------- */
       '<section id="features">' +
         '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>Everything inside</span>' +
-          '<h2>One platform. Twenty-one ways to get better.</h2>' +
+          '<h2>One platform. Twenty-six ways to get better.</h2>' +
           '<p>Every surface is connected — what you learn feeds what you practise, and what you practise feeds what PAL recommends next.</p></div>' +
         '<div class="kh-grid kh-g4">' + cards(FEATURES) + '</div>' +
+      '</section>' +
+
+      /* ---------- sample lessons ---------- */
+      '<section id="samples">' +
+        '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>See it for yourself</span>' +
+          '<h2>Watch a real lesson, before you sign up.</h2>' +
+          '<p>Three minutes each, straight out of the Class 6 Science chapter on plants — the same animated lectures waiting inside Learn.</p></div>' +
+        '<div class="kh-grid kh-g3">' +
+          SAMPLES.map(function (v) {
+            return '<div class="kh-card kh-vid kh-rv">' +
+              '<button type="button" class="kh-vid-stage" data-src="/sampleVideos/' + v.f + '.mp4" ' +
+                'aria-label="Play the lesson: ' + v.t + '">' +
+                /* width/height are the real pixel dimensions so the browser
+                   reserves the box before the JPEG lands — aspect-ratio alone
+                   still shifts layout on a cold cache in older Safari. */
+                '<img src="/sampleVideos/' + v.f + '.jpg" alt="" loading="lazy" ' +
+                  'decoding="async" width="1280" height="720">' +
+                '<span class="kh-vid-btn">' + LU.play + '</span>' +
+                '<span class="kh-vid-time">' + v.d + '</span>' +
+              '</button>' +
+              '<div class="kh-vid-meta"><span class="cls">' + v.cls + '</span>' +
+                '<h3>' + v.t + '</h3><p>' + v.p + '</p></div>' +
+            '</div>';
+          }).join('') +
+        '</div>' +
       '</section>' +
 
       /* ---------- why ---------- */
@@ -793,7 +1008,7 @@
           '<h2>Students, teachers and parents.</h2></div>' +
         '<div class="kh-grid kh-g3">' +
           VOICES.map(function (v) {
-            return '<div class="kh-card kh-rv"><div class="kh-stars">★★★★★</div>' +
+            return '<div class="kh-card kh-rv"><div class="kh-stars">' + LU.star.repeat(5) + '</div>' +
               '<p class="kh-quote">“' + v.q + '”</p>' +
               '<div class="kh-who"><span class="av">' + v.n.charAt(0) + '</span>' +
               '<span><b>' + v.n + '</b><span>' + v.r + '</span></span></div></div>';
@@ -805,9 +1020,7 @@
       '<section id="devices">' +
         '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>Every screen</span>' +
           '<h2>Works properly on a laptop <em>and</em> a phone.</h2>' +
-          '<p>No separate app to install and no cramped mobile version bolted on afterward. Open BestBrain on the ' +
-          'school lab desktop or your own phone and get the full dashboard, the same PAL tutor, and the same ' +
-          'progress — laid out properly for the screen you’re actually on.</p></div>' +
+          '<p>No app to install. Same dashboard, same PAL, same progress — on a school computer or your own phone.</p></div>' +
         '<div class="kh-dev-wrap kh-rv" aria-hidden="true">' +
           '<div class="kh-dev-lap">' +
             '<div class="kh-dev-screen">' +
@@ -848,7 +1061,7 @@
           '<h2>Questions, answered.</h2></div>' +
         '<div style="max-width:820px;margin:0 auto">' +
           FAQ.map(function (f) {
-            return '<details class="kh-faq kh-rv"><summary>' + f.q + '<span class="pm">+</span></summary>' +
+            return '<details class="kh-faq kh-rv"><summary>' + f.q + '<span class="pm">' + LU.plus + '</span></summary>' +
               '<div class="a">' + f.a + '</div></details>';
           }).join('') +
         '</div>' +
@@ -860,7 +1073,7 @@
         '<h2>Ask your first doubt in the next two minutes.</h2>' +
         '<p>Create a free account, pick your class, and tap the mic. PAL takes it from there.</p>' +
         '<div class="cta">' +
-          '<a class="kh-btn p" href="signup.html">Create free account <span class="ar">→</span></a>' +
+          '<a class="kh-btn p" href="signup.html">Create free account <span class="ar">' + LU.ar + '</span></a>' +
           '<a class="kh-btn g" href="dashboard.html">Explore the dashboard</a>' +
         '</div>' +
       '</div>' +
@@ -888,6 +1101,7 @@
         '<div class="c"><h4>Learn</h4><a href="learn.html">Chapters</a><a href="videos.html">Video lectures</a>' +
           '<a href="lesson.html">Lessons</a><a href="live.html">Live classes</a></div>' +
         '<div class="c"><h4>Practise</h4><a href="mocktest.html">Mock tests</a><a href="challenge.html">Arena</a>' +
+          '<a href="bank.html">Question bank</a><a href="homework.html">Homework</a>' +
           '<a href="dashboard.html">Dashboard</a></div>' +
         '<div class="c"><h4>AI</h4><a href="tutor.html">AI Tutor</a><a href="pal.html">PAL chat</a></div>' +
         '<div class="c"><h4>Account</h4><a href="login.html">Log in</a><a href="signup.html">Sign up</a>' +
@@ -969,6 +1183,51 @@
       });
     }, 400);
 
+    /* The standing backstop, and the one that actually matters.
+
+       An IntersectionObserver only reports what is on screen at an
+       observation point. Scroll smoothly and every card passes through the
+       viewport, so every card fires. JUMP, and the ones jumped over never
+       intersect at all — and because .kh-rv is opacity:1 with
+       transform:translateY(16px), an element that never gets .in is not
+       hidden, it is permanently sitting 16px below where it belongs.
+
+       Jumping is not an edge case here: the six nav links and the six drawer
+       links all scrollIntoView, so clicking "FAQ" skips the whole page. After
+       that, scrolling back up showed 37 of 81 elements — every stat card and
+       most of the feature grid — offset by 16px against their neighbours,
+       for the rest of the session.
+
+       So: on scroll, reveal anything the reader has reached. Idempotent with
+       the observer (reveal() already is), rAF-throttled so a scroll burst
+       costs one pass per frame, passive so it never blocks scrolling, and it
+       unhooks itself once the last element is in. */
+    var sweeping = false;
+    function sweep() {
+      sweeping = false;
+      var left = document.querySelectorAll('.kh-rv:not(.in)');
+      for (var i = 0; i < left.length; i++) {
+        /* .9 rather than 1: matches where the observer's own threshold/
+           rootMargin pair fires, so during ordinary scrolling this changes
+           nothing about when a card animates in. */
+        if (left[i].getBoundingClientRect().top < window.innerHeight * 0.9) {
+          reveal(left[i]);
+          io.unobserve(left[i]);
+        }
+      }
+      if (!document.querySelector('.kh-rv:not(.in)')) {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      }
+    }
+    function onScroll() {
+      if (sweeping) return;
+      sweeping = true;
+      requestAnimationFrame(sweep);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+
     function countUp(el) {
       var to = parseInt(el.dataset.to, 10);
       var suf = el.querySelector('em') ? el.querySelector('em').outerHTML : '';
@@ -983,6 +1242,73 @@
       }
       requestAnimationFrame(step);
     }
+
+    wireDocument();
+
+    /* smooth in-page nav.
+       Scoped to #kh-root, not document. The router's #root is only hidden
+       (display:none), never removed (see build()), and its dead LandingMarkup
+       tree still carries its own id="features" — a bare document.querySelector
+       resolved to THAT one first (it comes before #kh-root in body order), an
+       invisible display:none element with no layout, so scrollIntoView was a
+       silent no-op and the "Features" nav link did nothing.
+       Covers the drawer's copy of the links too — same targets, same fix. */
+    var khRoot = document.getElementById('kh-root');
+    document.querySelectorAll('.kh-nav-links a[href^="#"], .kh-drawer-links a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var t = khRoot.querySelector(a.getAttribute('href'));
+        if (!t) return;
+        e.preventDefault();
+        t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      });
+    });
+
+    /* mobile drawer: burger opens it, scrim/X/Escape/any link closes it.
+       Mirrors Navbar.tsx's drawer contract (scrim, inert, Escape, body scroll
+       lock) since that is the pattern this site already committed to — see
+       its comments for why each piece is there. */
+    var burger = document.getElementById('kh-burger-btn');
+    var drawer = document.getElementById('kh-drawer');
+    var scrim = document.getElementById('kh-scrim');
+    var drawerClose = document.getElementById('kh-drawer-close');
+    if (burger && drawer && scrim && drawerClose) {
+      burger.addEventListener('click', function () { setDrawer(!drawer.classList.contains('open')); });
+      scrim.addEventListener('click', function () { setDrawer(false); });
+      drawerClose.addEventListener('click', function () { setDrawer(false); });
+      drawer.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () { setDrawer(false); });
+      });
+    }
+  }
+
+  /* Reads the drawer's parts on every call rather than closing over them: the
+     Escape handler in wireDocument() is bound once, and #kh-drawer is a
+     different element after the next visit to the home route. */
+  function setDrawer(open) {
+    var drawer = document.getElementById('kh-drawer');
+    var scrim = document.getElementById('kh-scrim');
+    var burger = document.getElementById('kh-burger-btn');
+    if (!drawer || !scrim || !burger) return;
+    drawer.classList.toggle('open', open);
+    scrim.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (open) drawer.removeAttribute('inert'); else drawer.setAttribute('inert', '');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  /* Listeners that live on document/window, bound exactly once.
+
+     #kh-root is rebuilt every time the visitor comes back to the home route,
+     and wire() runs again with it. These four are delegated, so one copy
+     already covers whatever the current build put on the page — binding them
+     per build would stack a fresh pointermove handler on every visit while the
+     old ones went on firing against a tree that no longer exists. Each looks
+     its nodes up when it runs, for the same reason. */
+  var docWired = false;
+  function wireDocument() {
+    if (docWired) return;
+    docWired = true;
 
     /* Expandable feature cards ("tap to see an example") — one delegated
        listener rather than one per card, same reasoning as the pointer-glow
@@ -1015,8 +1341,54 @@
       }
     }
 
+    /* Sample lesson videos: swap the poster button for a real <video> on the
+       first click, and never before. Delegated like the cards above, so it
+       survives build() running again on a return to the home route.
+
+       The <video> replaces the <button> outright rather than sitting hidden
+       beside it — a hidden <video src> is still a <video src>, and Chrome
+       fetches its metadata (and on some versions buffers ahead) whether or
+       not anyone can see it. Nothing here is created until the click. */
+    document.addEventListener('click', function (e) {
+      var stage = e.target.closest ? e.target.closest('.kh-vid-stage') : null;
+      if (!stage) return;
+      var src = stage.getAttribute('data-src');
+      if (!src) return;
+
+      /* One at a time. Three lectures playing over each other is not a
+         demo, and on a metered connection it is three downloads. */
+      document.querySelectorAll('#samples video').forEach(function (other) {
+        other.pause();
+      });
+
+      var card = stage.closest('.kh-card');
+      var video = document.createElement('video');
+      video.src = src;
+      video.controls = true;
+      video.autoplay = true;
+      video.playsInline = true;
+      video.preload = 'auto';
+      /* The poster carries over so the first frame is already painted while
+         the file opens, instead of a black box. */
+      video.poster = stage.querySelector('img') ? stage.querySelector('img').src : '';
+      video.setAttribute('controlsList', 'nodownload');
+      stage.replaceWith(video);
+      if (card) card.classList.add('is-playing');
+      /* Autoplay with sound is refused by every browser unless the gesture is
+         attributed to the play itself; this call is inside the click handler,
+         so it is. If a browser refuses anyway the controls are already there
+         and the poster frame is showing — the card degrades to "press play". */
+      var played = video.play();
+      if (played && played.catch) played.catch(function () { /* user presses play */ });
+    });
+
+    /* Escape closes the mobile drawer. */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setDrawer(false);
+    });
+
     /* cursor-tracked glow on glass cards */
-    if (!reduce) {
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
       document.addEventListener('pointermove', function (e) {
         var c = e.target.closest ? e.target.closest('.kh-card') : null;
         if (!c) return;
@@ -1027,56 +1399,14 @@
     }
 
     /* navbar hide on scroll down, show on scroll up */
-    var nav = document.getElementById('kh-nav'), last = 0;
+    var last = 0;
     window.addEventListener('scroll', function () {
+      var nav = document.getElementById('kh-nav');
+      if (!nav) return;
       var y = window.scrollY;
       nav.classList.toggle('hide', y > 220 && y > last);
       last = y;
     }, { passive: true });
-
-    /* smooth in-page nav.
-       Scoped to #kh-root, not document. The router's #root is only hidden
-       (display:none), never removed (see build()), and its dead LandingMarkup
-       tree still carries its own id="features" — a bare document.querySelector
-       resolved to THAT one first (it comes before #kh-root in body order), an
-       invisible display:none element with no layout, so scrollIntoView was a
-       silent no-op and the "Features" nav link did nothing.
-       Covers the drawer's copy of the links too — same targets, same fix. */
-    var khRoot = document.getElementById('kh-root');
-    document.querySelectorAll('.kh-nav-links a[href^="#"], .kh-drawer-links a[href^="#"]').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        var t = khRoot.querySelector(a.getAttribute('href'));
-        if (!t) return;
-        e.preventDefault();
-        t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-      });
-    });
-
-    /* mobile drawer: burger opens it, scrim/X/Escape/any link closes it.
-       Mirrors Navbar.tsx's drawer contract (scrim, inert, Escape, body scroll
-       lock) since that is the pattern this site already committed to — see
-       its comments for why each piece is there. */
-    var burger = document.getElementById('kh-burger-btn');
-    var drawer = document.getElementById('kh-drawer');
-    var scrim = document.getElementById('kh-scrim');
-    var drawerClose = document.getElementById('kh-drawer-close');
-    if (burger && drawer && scrim && drawerClose) {
-      var setDrawer = function (open) {
-        drawer.classList.toggle('open', open);
-        scrim.classList.toggle('open', open);
-        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-        burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        if (open) drawer.removeAttribute('inert'); else drawer.setAttribute('inert', '');
-        document.body.style.overflow = open ? 'hidden' : '';
-      };
-      burger.addEventListener('click', function () { setDrawer(!drawer.classList.contains('open')); });
-      scrim.addEventListener('click', function () { setDrawer(false); });
-      drawerClose.addEventListener('click', function () { setDrawer(false); });
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setDrawer(false); });
-      drawer.querySelectorAll('a').forEach(function (a) {
-        a.addEventListener('click', function () { setDrawer(false); });
-      });
-    }
   }
 
   function unmount() {
@@ -1095,18 +1425,32 @@
     }
   }
 
+  /* Under the router React says when the home screen exists; this file no
+     longer watches the URL.
+
+     It used to. history.pushState was patched and popstate listened to, each
+     scheduling sync() 60ms later — and the URL changing is not the screen
+     changing. React Router navigates inside a transition, so the route commits
+     a good while after the address bar updates, and both ends of that gap were
+     visible. Leaving home, the hero was still on screen when the page being
+     opened swapped #page-css underneath it, so the homepage painted a frame
+     wearing the next page's stylesheet. Coming back with the Back button,
+     React committed its own landing markup into #root — the pre-redesign page
+     this file exists to replace — and it stayed up until the timer got round
+     to hiding it.
+
+     Landing's layout effect calls mount/unmount instead (src/lib/useKidHome),
+     which puts the swap inside the commit that changes the route: the browser
+     only ever paints the finished state.
+
+     __kidHomeWanted covers the first load. This is a deferred script, so on a
+     cold load of "/" that effect has already run by the time we get here. */
+  window.KidHome = { mount: build, unmount: unmount };
+
   function start() {
-    sync();
-    if (!SPA) return;
-    ['pushState', 'replaceState'].forEach(function (m) {
-      var orig = history[m];
-      history[m] = function () {
-        var r = orig.apply(this, arguments);
-        setTimeout(sync, 60);
-        return r;
-      };
-    });
-    window.addEventListener('popstate', function () { setTimeout(sync, 60); });
+    /* Static pages have no router and no #root — one page, one decision. */
+    if (!SPA) { sync(); return; }
+    if (window.__kidHomeWanted) build();
   }
 
   if (document.readyState === 'loading') {
