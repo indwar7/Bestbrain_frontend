@@ -10,23 +10,6 @@
 
 ---
 
-## What's inside
-
-A working web prototype. Every page is self-contained HTML/CSS/JS with a shared dark/light theme and bilingual (English / हिंदी) UI. State persists per-browser via `localStorage`.
-
-| Page | What it does |
-|---|---|
-| [`index.html`](edulearn-frontend/index.html) | Animated, character-driven landing page (web + mobile showcase) |
-| [`learn.html`](edulearn-frontend/learn.html) | Course browser — Classes 6–9 × 5 subjects, ~190 NCERT chapters, search, progress |
-| [`live.html`](edulearn-frontend/live.html) | Live classes — booking + calendar invite, in-app classroom, **AI camera attention monitoring** |
-| [`pal.html`](edulearn-frontend/pal.html) | PAL — a GPT-style AI assistant with Student / Parent / Teacher modes |
-| [`challenge.html`](edulearn-frontend/challenge.html) | Arena — one timed question every hour, speed scoring, streaks, leaderboard |
-| [`mocktest.html`](edulearn-frontend/mocktest.html) | Progressive (adaptive) mock tests — difficulty rises and falls with the student |
-| [`dashboard.html`](edulearn-frontend/dashboard.html) | Role dashboards — Student, Parent, Teacher |
-| [`lesson.html`](edulearn-frontend/lesson.html) | Lesson player (AI animated video lectures — in progress) |
-| [`login.html`](edulearn-frontend/login.html) · [`signup.html`](edulearn-frontend/signup.html) | Auth screens |
-
-A floating **Features** button on every page opens a full feature tour, with a link to jump straight to each module.
 
 ## Highlight features
 
