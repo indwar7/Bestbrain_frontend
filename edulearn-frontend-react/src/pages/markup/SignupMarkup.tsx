@@ -5,7 +5,7 @@ export default function SignupMarkup() {
     <>
       <div className="auth-shell">
         <aside className="brand-panel">
-          <div className="brand-logo">
+          <a className="brand-logo" href="index.html" aria-label="BestBrain home">
             <svg className="logo-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M12 1.5 L14.6 9.4 L22.5 12 L14.6 14.6 L12 22.5 L9.4 14.6 L1.5 12 L9.4 9.4 Z"
@@ -16,7 +16,7 @@ export default function SignupMarkup() {
             <span className="logo-text">
               BestBrain
             </span>
-          </div>
+          </a>
           <div className="brand-mid">
             <span className="brand-eyebrow">
               Start free · No card needed
@@ -120,7 +120,7 @@ export default function SignupMarkup() {
         </aside>
         <main className="auth-panel">
           <div className="container">
-            <div className="logo">
+            <a className="logo" href="index.html" aria-label="BestBrain home">
               <svg className="logo-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M12 1.5 L14.6 9.4 L22.5 12 L14.6 14.6 L12 22.5 L9.4 14.6 L1.5 12 L9.4 9.4 Z"
@@ -141,7 +141,7 @@ export default function SignupMarkup() {
               <span className="logo-text">
                 BestBrain
               </span>
-            </div>
+            </a>
             <div id="signupFormView">
               <h1>
                 Create your account

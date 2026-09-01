@@ -6,13 +6,17 @@ import LegalLayout, { Section } from '../components/LegalLayout';
  */
 export default function Terms() {
   return (
-    <LegalLayout title="Terms of Service" updated="July 2026">
-      <p style={{ marginBottom: 24 }}>
-        These Terms govern your use of the BestBrain platform, website, and mobile apps (the
-        “Service”), operated by BestBrain Learning Pvt. Ltd. (“BestBrain”, “we”, “us”). By creating an
-        account or using the Service, you agree to these Terms.
-      </p>
-
+    <LegalLayout
+      title="Terms of Service"
+      updated="July 2026"
+      lede={
+        <>
+          These Terms govern your use of the BestBrain platform, website, and mobile apps (the
+          “Service”), operated by BestBrain Learning Pvt. Ltd. (“BestBrain”, “we”, “us”). By creating
+          an account or using the Service, you agree to these Terms.
+        </>
+      }
+    >
       <Section heading="1. Eligibility">
         <p>The Service is intended for students, teachers, and parents. If you are a minor, you may use the Service only with the involvement and consent of a parent, guardian, or school.</p>
       </Section>

@@ -7,16 +7,21 @@ import { useAuth } from '../context/AuthContext';
  * logged out). Ported from the static site's site footer but self-contained:
  * its own `sf-` classes and hard-coded colours, so it does not depend on any
  * page's CSS variables and cannot be restyled by another page's stylesheet.
- * The feature links point at /login since the visitor isn't signed in yet.
+ *
+ * The feature links point at /signup, matching what a click on any other
+ * gated feature link now does (see lib/guard.ts): the visitor isn't signed in
+ * yet, and clicking a feature is an expression of interest in it, not a claim
+ * to already have an account. The Classes and Company columns stay on /login
+ * — they are not features.
  */
 const PRODUCT = [
-  ['Learn', '/login'],
-  ['Lessons', '/login'],
-  ['Live', '/login'],
-  ['Arena', '/login'],
-  ['Tests', '/login'],
-  ['PAL Adaptive AI', '/login'],
-  ['Dashboard', '/login'],
+  ['Learn', '/signup'],
+  ['Lessons', '/signup'],
+  ['Live', '/signup'],
+  ['Arena', '/signup'],
+  ['Tests', '/signup'],
+  ['PAL Adaptive AI', '/signup'],
+  ['Dashboard', '/signup'],
 ];
 const CLASSES = ['Class 6', 'Class 7', 'Class 8', 'Class 9'];
 const COMPANY = ['About', 'For schools', 'Careers', 'Contact'];

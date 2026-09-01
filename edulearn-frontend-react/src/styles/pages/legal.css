@@ -1,0 +1,177 @@
+/* ============================================================
+   LEGAL PAGES — Privacy Policy, Terms of Service
+   ------------------------------------------------------------
+   These two are the only pages on the site whose job is reading.
+   They used to render inside the full product shell: the 273px
+   student rail ("MY SPACE", Level 1, Start learning), the streak
+   and coin chips, the PAL mascot, and kid-bg's aurora with the
+   floating formulas drifting straight across the paragraphs. A
+   policy is not a place to put a signed-out visitor's dashboard.
+
+   App.tsx now treats /privacy and /terms as chromeless, and the
+   three skin scripts skip them (kid-ui NO_RAIL, kid-bg SKIP,
+   kid-pdf PUBLIC), so what is left is a document on a flat page.
+
+   INK: boot.js injects, at runtime and after every stylesheet
+   here, a blanket
+       html.kid-dark p, html.kid-dark h1 … { color:#FFF!important }
+   so ordinary colour declarations are simply overwritten. That is
+   why the muted tones below are !important and carry the
+   html.kid-dark prefix — they need to outrank an !important rule
+   with (0,1,1) specificity, and they also set
+   -webkit-text-fill-color, which is the half that actually paints
+   in WebKit once boot has set it.
+   ============================================================ */
+
+.legal-page {
+  /* 68ch is the reading measure; the rest is breathing room. */
+  max-width: 68ch;
+  margin: 0 auto;
+  padding: 40px 24px 88px;
+  font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+  font-size: 16.5px;
+  line-height: 1.78;
+  position: relative;
+}
+
+/* --- the warm ground -------------------------------------------------
+   Skipping kid-bg left these two pages on boot.js's flat #050505, which
+   is the one colour the rest of the site never actually shows: every
+   other page reads warm, because kid-bg floats four blurred blobs over
+   that black. Sampling the landing page puts its background around
+   rgb(59,41,30), with the lit areas near rgb(75,46,11).
+
+   This is those same four blobs — the same hues at the same corners as
+   .kb-b1 through .kb-b4 in kid-bg.js — painted once as static gradients
+   instead of animated elements. A page you read for four minutes should
+   not have anything drifting behind the text, and the alphas are pulled
+   down from the marketing page's .42/.30/.26 so the ground stays well
+   behind the words: white on this measures ~14:1.
+
+   position:fixed so it stays put while the document scrolls, and z-index
+   -1 to sit behind the text but above html's background — the same
+   technique .kb-sky uses, on the same body, so the stacking works. */
+.legal-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(1250px 820px at 4% -14%, rgba(255, 122, 0, .26), transparent 68%),
+    radial-gradient(1000px 700px at 99% -2%, rgba(255, 167, 38, .17), transparent 70%),
+    radial-gradient(1150px 780px at 58% 110%, rgba(255, 140, 66, .16), transparent 70%),
+    radial-gradient(820px 600px at 104% 86%, rgba(168, 85, 247, .12), transparent 72%),
+    #15100B;
+}
+
+/* boot.js pins BOTH html and body to #050505!important, and body's
+   background paints ABOVE a z-index:-1 layer — an in-flow block's
+   background comes after negative-z descendants in the paint order — so
+   an opaque body hides the gradients completely. kid-bg has the same
+   problem with .kb-sky and solves it the same way: colour on html, body
+   transparent. `:has()` contributes its argument's specificity, making
+   these (0,2,1) against boot's (0,1,1). */
+html.kid-dark:has(.legal-page) {
+  background-color: #15100B !important;
+}
+html.kid-dark:has(.legal-page) body {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* --- the way back, standing in for the nav this page no longer has --- */
+.legal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 34px;
+  padding: 8px 15px 8px 12px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color .25s ease, background .25s ease;
+}
+.legal-back:hover { background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .28); }
+.legal-back .ar { font-size: 15px; line-height: 1; }
+
+.legal-page h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(30px, 5vw, 43px);
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.12;
+  margin: 0 0 12px;
+}
+
+.legal-meta { font-size: 13.5px; line-height: 1.6; margin-bottom: 30px; }
+html.kid-dark .legal-meta,
+html.kid-dark .legal-meta * {
+  color: rgba(255, 255, 255, .5) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, .5) !important;
+}
+
+/* The rule under the header, and the one above the footer. */
+.legal-page h1 + .legal-meta { padding-bottom: 26px; border-bottom: 1px solid rgba(255, 255, 255, .12); }
+
+.legal-lede { font-size: 17.5px; margin-bottom: 34px; }
+
+.legal-body h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  margin: 0 0 10px;
+}
+.legal-body section { margin-bottom: 30px; }
+.legal-body p { margin: 0 0 12px; }
+.legal-body p:last-child { margin-bottom: 0; }
+
+/* vivid.css asserts `body, p, li, span, div, a, h1-h6 { font-weight:700
+   !important }` site-wide — fine for a dashboard label, punishing across nine
+   sections of policy. These selectors carry a class, so they outrank it. */
+.legal-page .legal-lede,
+.legal-page .legal-body p,
+.legal-page .legal-body li,
+.legal-page .legal-meta { font-weight: 400 !important; }
+
+.legal-body ul { margin: 0; padding-left: 20px; list-style: disc; }
+.legal-body li { margin-bottom: 9px; }
+.legal-body li:last-child { margin-bottom: 0; }
+.legal-body li::marker { color: rgba(255, 255, 255, .38); }
+
+/* <strong> is the term being defined, so it should read as a label rather
+   than as louder body text. */
+html.kid-dark .legal-body strong {
+  color: #E9D5FF !important;
+  -webkit-text-fill-color: #E9D5FF !important;
+  font-weight: 800;
+}
+
+.legal-foot {
+  margin-top: 44px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, .12);
+  font-size: 13px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.legal-foot a { text-decoration: none; font-weight: 700; }
+html.kid-dark .legal-foot a {
+  color: #C084FC !important;
+  -webkit-text-fill-color: #C084FC !important;
+}
+html.kid-dark .legal-foot a:hover { text-decoration: underline; }
+html.kid-dark .legal-foot span {
+  color: rgba(255, 255, 255, .42) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, .42) !important;
+}
+
+@media (max-width: 560px) {
+  .legal-page { padding: 28px 18px 64px; font-size: 16px; }
+  .legal-page h1 { font-size: 28px; }
+  .legal-lede { font-size: 16.5px; }
+}

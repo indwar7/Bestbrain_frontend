@@ -6,7 +6,7 @@ export default function LoginMarkup() {
       <div className="auth-shell">
         {/* LEFT: brand / relevance panel */}
         <aside className="brand-panel">
-          <div className="brand-logo">
+          <a className="brand-logo" href="index.html" aria-label="BestBrain home">
             <svg className="logo-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M12 1.5 L14.6 9.4 L22.5 12 L14.6 14.6 L12 22.5 L9.4 14.6 L1.5 12 L9.4 9.4 Z"
@@ -17,7 +17,7 @@ export default function LoginMarkup() {
             <span className="logo-text">
               BestBrain
             </span>
-          </div>
+          </a>
           <div className="brand-mid">
             <span className="brand-eyebrow">
               CBSE · NCERT · 20+ State Boards
@@ -127,7 +127,7 @@ export default function LoginMarkup() {
         {/* RIGHT: glassmorphism auth card */}
         <main className="auth-panel">
           <div className="container">
-            <div className="logo reveal d1">
+            <a className="logo reveal d1" href="index.html" aria-label="BestBrain home">
               <svg className="logo-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M12 1.5 L14.6 9.4 L22.5 12 L14.6 14.6 L12 22.5 L9.4 14.6 L1.5 12 L9.4 9.4 Z"
@@ -148,7 +148,7 @@ export default function LoginMarkup() {
               <span className="logo-text">
                 BestBrain
               </span>
-            </div>
+            </a>
             <div id="loginFormView">
               <h1 className="reveal d2">
                 Welcome back

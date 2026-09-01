@@ -64,7 +64,8 @@
       mask-image:radial-gradient(ellipse 90% 80% at 30% 40%,#000 20%,transparent 80%);
       -webkit-mask-image:radial-gradient(ellipse 90% 80% at 30% 40%,#000 20%,transparent 80%);
     }
-    .brand-logo{display:flex;align-items:center;gap:12px}
+    .brand-logo{display:flex;align-items:center;gap:12px;align-self:flex-start;text-decoration:none;transition:opacity .18s ease}
+    .brand-logo:hover{opacity:.85}
     .brand-logo .logo-mark{width:40px;height:40px;filter:drop-shadow(0 4px 16px rgba(61,232,197,.4))}
     .brand-logo .logo-text{font-family:'Fraunces',serif;font-size:25px;font-weight:600;letter-spacing:-.01em;background:var(--aurora);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 
@@ -110,7 +111,7 @@
     .d1{animation-delay:.06s}.d2{animation-delay:.13s}.d3{animation-delay:.2s}.d4{animation-delay:.27s}.d5{animation-delay:.34s}.d6{animation-delay:.41s}
 
     /* card logo shown only on small screens (brand panel hidden) */
-    .logo{display:none;align-items:center;gap:11px;margin-bottom:22px;justify-content:center}
+    .logo{display:none;align-items:center;gap:11px;margin-bottom:22px;justify-content:center;text-decoration:none}
     .logo .logo-mark{width:36px;height:36px;filter:drop-shadow(0 4px 14px rgba(61,232,197,.35))}
     .logo .logo-text{font-family:'Fraunces',serif;font-size:22px;font-weight:600;background:var(--aurora);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 
@@ -211,10 +212,10 @@
   <div class="auth-shell">
     <!-- LEFT: brand / relevance panel -->
     <aside class="brand-panel">
-      <div class="brand-logo">
+      <a class="brand-logo" href="index.html" aria-label="BestBrain home">
         <svg class="logo-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 1.5 L14.6 9.4 L22.5 12 L14.6 14.6 L12 22.5 L9.4 14.6 L1.5 12 L9.4 9.4 Z" fill="url(#auroraGrad)"/></svg>
         <span class="logo-text">BestBrain</span>
-      </div>
+      </a>
       <div class="brand-mid">
         <span class="brand-eyebrow">CBSE · NCERT · 20+ State Boards</span>
         <h2 class="brand-head">Learn <em>smarter</em>,<br>score <em>better</em>.</h2>
@@ -238,7 +239,7 @@
     <main class="auth-panel">
 
   <div class="container">
-    <div class="logo reveal d1">
+    <a class="logo reveal d1" href="index.html" aria-label="BestBrain home">
       <svg class="logo-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 1.5 L14.6 9.4 L22.5 12 L14.6 14.6 L12 22.5 L9.4 14.6 L1.5 12 L9.4 9.4 Z" fill="url(#auroraGrad)"/>
       </svg>
@@ -252,7 +253,7 @@
         </defs>
       </svg>
       <span class="logo-text">BestBrain</span>
-    </div>
+    </a>
 
     <div id="loginFormView">
       <h1 class="reveal d2">Welcome back</h1>

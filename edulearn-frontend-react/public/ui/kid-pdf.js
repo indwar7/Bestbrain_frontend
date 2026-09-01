@@ -25,7 +25,7 @@
   function pageKey() {
     return (location.pathname.split('/').pop() || '').toLowerCase().replace(/\.html$/, '') || 'index';
   }
-  var PUBLIC = ['index', 'login', 'signup'];
+  var PUBLIC = ['index', 'login', 'signup', 'privacy', 'terms'];
 
   /* The app resolves its own API host — a deployed build talks to a different
      origin than the one it is served from. Reading that first is the only way
