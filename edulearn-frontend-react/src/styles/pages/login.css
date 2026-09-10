@@ -114,7 +114,9 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
       transition:border-color .25s var(--ease),background .25s var(--ease),box-shadow .25s var(--ease);
     }
     input:focus{outline:none;border-color:rgba(61,232,197,.75);background:var(--field-focus);box-shadow:0 0 0 4px rgba(61,232,197,.14)}
-    input::placeholder{color:#5D6580}
+    /* 4.97:1 on the composited field. The old #5D6580 sat at 3.16 — under
+       the 4.5 floor, so the hint text was hard to read before typing. */
+    input::placeholder{color:#7B85A3}
     .pw-field{position:relative}
     .pw-field input{padding-right:46px}
     .pw-toggle{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:none;background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:9px;transition:color .2s ease,background .2s ease}
@@ -173,6 +175,32 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
       .container{padding:32px 22px;border-radius:20px}
       h1{font-size:28px}
       .social-logins{grid-template-columns:1fr}
+
+      /* iOS Safari zooms the whole page when a focused input's font-size is
+         under 16px — there is no way to opt out of that except to meet the
+         threshold. At 15px every tap on email/password jerked the layout to a
+         zoomed state the user then had to pinch back out of. 16px on the
+         controls themselves (not a page-wide bump) is the fix. */
+      input,select,textarea,.otp-digit{font-size:16px}
+
+      /* Thumb targets. 34px is comfortably tappable with a mouse and not with
+         a thumb; both Apple's and Google's guidance put the floor at 44px. */
+      .pw-toggle{width:44px;height:44px;right:4px}
+      .role-tab{padding:13px 8px}
+
+      /* Small phones: the icon's 44px gutter plus 22px card padding either
+         side leaves too little room for the value itself. */
+      input{padding-left:42px}
+    }
+
+    /* 100vh on mobile is the viewport with the address bar ignored, so a
+       100vh panel runs roughly a bar's height taller than what is actually
+       visible — enough to push the submit button below the fold on load.
+       dvh tracks the real, shrinking viewport. Guarded so browsers without
+       dvh keep the 100vh rule above. */
+    @supports (height:100dvh){
+      body,.auth-shell{min-height:100dvh}
+      @media (max-width:940px){ .auth-panel{min-height:100dvh} }
     }
 
     /* ===== LIGHT MODE (settings-controlled) ===== */
@@ -183,7 +211,17 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     html.light-mode h1{color:#0F1425}
     html.light-mode .subtitle,html.light-mode label,html.light-mode .signup-link,html.light-mode .divider{color:#5C6478}
     html.light-mode input{background:#F4F7FB;border-color:rgba(15,23,42,.1);color:#0F1425}
-    html.light-mode input::placeholder{color:#9AA3B8}
+    /* The light-mode block overrode input, select and role-tabs but never
+       .pw-toggle or .field-icon, so both kept the DARK --muted (#93A0BD)
+       and measured 2.44:1 on the light field — the eye icon was all but
+       gone. These two rules are the missing half of that override. */
+    html.light-mode .pw-toggle{color:#5C6478}
+    html.light-mode .pw-toggle:hover{color:#0F1425;background:rgba(15,23,42,.06)}
+    html.light-mode .field-icon{color:#667085}
+    html.light-mode .field-wrap:focus-within .field-icon{color:#1E9E86}
+    /* 4.63:1 on #F4F7FB. #9AA3B8 measured 2.35 — effectively invisible on
+       the light field. */
+    html.light-mode input::placeholder{color:#667085}
     html.light-mode .social-btn{background:#F4F7FB;border-color:rgba(15,23,42,.1);color:#0F1425}
     html.light-mode .role-tabs{background:#E7ECF4;border-color:rgba(15,23,42,.06)}
     html.light-mode .otp-digit{background:#F4F7FB;border-color:rgba(15,23,42,.1);color:#0F1425}
