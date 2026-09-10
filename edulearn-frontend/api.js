@@ -31,7 +31,7 @@
   // fetch rejects — indistinguishable from "offline" at this layer.)
   //
   // Anything served from a real domain is unaffected and still hits EC2.
-  var API_DEFAULT = 'http://65.2.183.7';
+  var API_DEFAULT = 'https://api.bestbrainplus.com';
   var API_LOCAL = 'http://localhost:4000';
   var API_BASE = API_DEFAULT;
 
@@ -54,16 +54,15 @@
     // backend's CORS allowlist contains that origin and no other localhost
     // port, so any other port is blocked by the browser.
     if (location.protocol === 'https:' && !isLocalHost(location.hostname)) {
-      // DIRECTED CHANGE (2026-08-24, explicit instruction, relayed from a
-      // senior, after being shown this exact mixed-content risk and
-      // confirming anyway) — see the matching comment in
-      // edulearn-frontend-react/src/lib/api.ts for the full reasoning this
-      // used to hold: an https:// page calling http://65.2.183.7 directly is
-      // MIXED CONTENT, which browsers block outright — no code-level fix
-      // exists for that, only serving the backend over HTTPS does. If login
-      // breaks again after this, check the browser console for a
-      // "Mixed Content" error before assuming anything else.
-      API_BASE = 'http://ec2-65-2-183-7.ap-south-1.compute.amazonaws.com';
+      // The backend has its own HTTPS origin, so an https page can call it
+      // directly — no mixed content, no proxy hop. This replaces the
+      // 2026-08-24 directed change that pointed here at
+      // http://ec2-65-2-183-7..., which browsers blocked outright as mixed
+      // content and which is no longer serving anyway. CORS on
+      // api.bestbrainplus.com already allows https://bestbrainplus.com
+      // (verified against a live preflight). Keep this in step with the
+      // matching branch in edulearn-frontend-react/src/lib/api.ts.
+      API_BASE = 'https://api.bestbrainplus.com';
     }
   } catch (e) { /* no location (non-browser context) — keep the default */ }
 

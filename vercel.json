@@ -10,11 +10,11 @@
   "rewrites": [
     {
       "source": "/backend-api/:path*",
-      "destination": "http://ec2-65-2-183-7.ap-south-1.compute.amazonaws.com/:path*"
+      "destination": "https://api.bestbrainplus.com/:path*"
     },
     {
       "source": "/socket.io/:path*",
-      "destination": "http://ec2-65-2-183-7.ap-south-1.compute.amazonaws.com/socket.io/:path*"
+      "destination": "https://api.bestbrainplus.com/socket.io/:path*"
     }
   ]
 }

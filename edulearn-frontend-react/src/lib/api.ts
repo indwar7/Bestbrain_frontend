@@ -1,4 +1,4 @@
-const API_DEFAULT = 'http://65.2.183.7';
+const API_DEFAULT = 'https://api.bestbrainplus.com';
 const TOKEN_KEY = 'edulearn_token';
 const USER_KEY = 'edulearn_user';
 
@@ -37,32 +37,24 @@ function resolveApiBase(): string {
 
     if (location.protocol === 'https:') {
       /*
-        DIRECTED CHANGE (2026-08-24, explicit instruction relayed from a
-        senior via Abhay, after being shown the mixed-content/CORS risk below
-        and confirming anyway — see chat log / commit message for the
-        exchange): point HTTPS deployments straight at the EC2 origin instead
-        of through the same-origin /backend-api proxy.
+        HTTPS deployments call the backend's own HTTPS origin directly.
 
-        This is very likely to reproduce the exact failure this file's
-        previous version of this comment described: an earlier default of
-        https://api.bestbrainplus.com broke login because that hostname was
-        NXDOMAIN — the call died in the browser before reaching a server. The
-        failure mode here is different but the *symptom* is the same one
-        ("login is failing") for the same underlying reason (a direct
-        cross-origin call from this HTTPS page never reaches the backend):
-          1. Mixed content — this HTTPS page calling a plain http:// origin.
-             Browsers block this at the network layer; there is no
-             Content-Security-Policy or fetch() option that permits it. Only
-             serving the backend over HTTPS (or going back through a
-             same-origin proxy) fixes this one.
-          2. CORS — the backend's CLIENT_ORIGIN allowlist. Added
-             https://bestbrainplus.com there in the same change as this one,
-             but that only clears bar 2, not bar 1.
-        If login is still broken after this ships, bar 1 is almost certainly
-        why — check the browser console for a "Mixed Content" error before
-        assuming anything else is wrong.
+        This replaces the 2026-08-24 directed change that pointed here at
+        http://ec2-65-2-183-7... — a plain-http origin. That was mixed content
+        (an HTTPS page calling an HTTP API), which browsers block at the
+        network layer with no code-level override, so every call died in the
+        browser. It also pointed at a box that is no longer serving.
+
+        api.bestbrainplus.com resolves the whole problem properly: it is a
+        real HTTPS origin with its own certificate, so there is no mixed
+        content left to block, and its CORS allowlist already returns
+        Access-Control-Allow-Origin: https://bestbrainplus.com — verified
+        against a live preflight, not assumed.
+
+        VITE_API_ORIGIN still wins over this (handled above) and
+        localStorage.edulearn_api still overrides at runtime, just below.
       */
-      base = 'http://ec2-65-2-183-7.ap-south-1.compute.amazonaws.com';
+      base = 'https://api.bestbrainplus.com';
     }
   } catch { /* non-browser */ }
 

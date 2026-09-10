@@ -30,7 +30,7 @@
 // own output is always clean, regardless of the host's php.ini.
 ini_set('display_errors', '0');
 
-$origin = 'http://ec2-65-2-183-7.ap-south-1.compute.amazonaws.com';
+$origin = 'https://api.bestbrainplus.com';
 
 $path = isset($_GET['path']) ? $_GET['path'] : '';
 $query = $_SERVER['QUERY_STRING'] ?? '';

@@ -12,7 +12,7 @@ import react from '@vitejs/plugin-react';
 // The static site talks straight to the deployed API. Proxying keeps the SPA
 // same-origin in dev, so it never has to satisfy the production CORS allowlist
 // (which deliberately does not include arbitrary localhost ports).
-const API_TARGET = process.env.VITE_API_TARGET || 'http://65.2.183.7';
+const API_TARGET = process.env.VITE_API_TARGET || 'https://api.bestbrainplus.com';
 
 export default defineConfig({
   plugins: [react()],
