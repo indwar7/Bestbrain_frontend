@@ -226,3 +226,17 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     html.light-mode .role-tabs{background:#E7ECF4;border-color:rgba(15,23,42,.06)}
     html.light-mode .otp-digit{background:#F4F7FB;border-color:rgba(15,23,42,.1);color:#0F1425}
   
+
+/* Motion is decorative here, so it yields to the OS setting. Someone who has
+   asked their system to reduce motion (vestibular sensitivity, migraine, or
+   simple preference) gets the same page with the movement removed rather than
+   a different one — transitions collapse to instant instead of disappearing,
+   so nothing that depended on a transitionend still fires. */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
