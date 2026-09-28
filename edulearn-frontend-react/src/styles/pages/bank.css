@@ -34,6 +34,8 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
          background:var(--bg2);color:var(--ink);font-size:15px;font-family:inherit;cursor:pointer;
          transition:border-color .18s,background .18s;}
     .opt:hover:not(:disabled){border-color:var(--teal);}
+    /* The app's dark skin darkens the card but not --ink; keep answers legible. */
+    html.kid-dark .opt{color:#F5F7FA;}
     .opt:disabled{cursor:default;}
     .opt__k{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
             background:var(--card);font-family:'Fragment Mono',monospace;font-size:12px;}

@@ -101,7 +101,7 @@ var I18N = {
     'p.streak':'day streak', 'p.week':'this week', 'p.total':'all-time',
     'p.screen':'Learning time this week', 'p.alerts':'Alerts',
     'p.reassureH':'Built to never block learning',
-    'p.reassureP':'All learning works offline, videos, practice and tests run without internet, and usage syncs automatically when you are back online.',
+    'p.reassureP':'Progress is saved as your child learns, and anything done offline syncs automatically when they are back online.',
     'rail.rhythm':'Learning rhythm', 'rail.langs':'11 languages',
     'rail.langsSub':'The whole dashboard, in your language.',
     'foot.tag':'Made for Bharat. Works fully offline.'
@@ -165,9 +165,14 @@ function renderGreeting(){
   var who = g.names[currentRole];
   try {
     var u = window.EduAPI && EduAPI.getUser();
-    if (u && u.name) who = u.name.split(' ')[0];
+    if (u && u.name) {
+      // First name, unless it is a title: "Mr. Verma", never "Mr.".
+      var parts = u.name.trim().split(/\s+/);
+      who = /^(mr|mrs|ms|miss|dr|prof|sir|smt|shri)\.?$/i.test(parts[0]) && parts[1]
+        ? parts[0] + ' ' + parts[1] : parts[0];
+    }
   } catch (e) {}
-  $('#greetLine').innerHTML = g[slot] + ', ' + who + '.';
+  $('#greetLine').innerHTML = g[slot] + ', ' + escapeHtml(who) + (/[.!?]$/.test(who) ? '' : '.');
 }
 
 /* ------------------------------------------------------------
@@ -1102,6 +1107,10 @@ function setRole(role, instant){
   role = viewableRole(role);
   var prev = viewableRole(currentRole);
   currentRole = role;
+  // Streak and "studied today" describe the learner, not a parent or teacher.
+  $$('.greet-sub .streak, #todayChip').forEach(function(el){
+    el.style.display = role === 'student' ? '' : 'none';
+  });
   $$('.role-switch button').forEach(function(b){
     var on = b.getAttribute('data-role') === role;
     b.classList.toggle('on', on);
@@ -1618,8 +1627,14 @@ function applyDashboardData(user, data){
     var teaches = (data.profile && data.profile.teaches) || [];
     if (teaches[0]){
       var th = document.getElementById('tClassHead');
-      if (th) th.innerHTML = 'Class <em>' + escapeHtml(teaches[0].className + '-' + teaches[0].section) +
-        '</em> · ' + escapeHtml(teaches[0].subject) + ' · ' + data.studentCount + ' students';
+      // className is already "Class 7"; list every subject taught to that class.
+      var cls = String(teaches[0].className || '').replace(/^class\s*/i, '');
+      var subjects = teaches.filter(function(t){
+        return t.className === teaches[0].className && t.section === teaches[0].section;
+      }).map(function(t){ return t.subject; }).filter(function(s, i, a){ return s && a.indexOf(s) === i; });
+      var n = data.studentCount || 0;
+      if (th) th.innerHTML = 'Class <em>' + escapeHtml(cls + '-' + teaches[0].section) +
+        '</em> · ' + escapeHtml(subjects.join(', ')) + ' · ' + n + (n === 1 ? ' student' : ' students');
     }
     if (Array.isArray(data.roster)){
       ROSTER = data.roster.map(function(s){

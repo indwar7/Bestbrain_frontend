@@ -281,6 +281,8 @@ function beginTest(def, key, attemptId){
     key: key, def: def,
     attemptId: attemptId || null,   // set when the paper came from the server
     level: 'm',
+    // A paper can only be as long as the questions the bank actually has.
+    len: Math.min(TEST_LEN, def.bank.length) || TEST_LEN,
     used: {},
     n: 0,
     journey: [],   /* {d, ok, q, picked, correctIdx, time} */
@@ -316,12 +318,15 @@ function pickQuestion(){
 
 function paintLadder(){
   ['e','m','h'].forEach(function(l){
-    document.getElementById('rung-' + l).classList.toggle('is-on', T.level === l);
+    // Light the level actually being asked; when a level runs dry the paper
+    // falls back to a neighbour, and the ladder has to say so.
+    var shown = T.current ? T.current.d : T.level;
+    document.getElementById('rung-' + l).classList.toggle('is-on', shown === l);
   });
 }
 function paintPath(){
   var html = '';
-  for(var i = 0; i < TEST_LEN; i++){
+  for(var i = 0; i < T.len; i++){
     var st = T.journey[i];
     html += '<i style="' + (st ? 'background:' + DCOLOR[st.d] + ';border-color:transparent' + (st.ok ? '' : ';opacity:.45') : '') + '"></i>';
   }
@@ -333,7 +338,7 @@ function nextQuestion(){
      "Next" click would skip it while T.n and T.maxPossible had already counted
      it, quietly deflating the student's mastery score. */
   if(T.current && !T.answered) return;
-  if(T.n >= TEST_LEN){ finishTest(); return; }
+  if(T.n >= T.len){ finishTest(); return; }
   var q = pickQuestion();
   if(!q){ finishTest(); return; }
   T.current = q;
@@ -341,7 +346,7 @@ function nextQuestion(){
   T.tStart = Date.now();
   T.maxPossible += WEIGHT[q.d];
 
-  document.getElementById('tCount').textContent = T.n + ' / ' + TEST_LEN;
+  document.getElementById('tCount').textContent = T.n + ' / ' + T.len;
   document.getElementById('dChip').textContent = DNAME[q.d];
   document.getElementById('dChip').style.background = DCOLOR[q.d];
   document.getElementById('qText').innerHTML = q.q;
@@ -488,7 +493,7 @@ function reveal(pickedIdx, timedOut){
   /* swap Submit for Next, the student advances when they are done reading */
   document.getElementById('submitBtn').hidden = true;
   var nextBtn = document.getElementById('nextBtn');
-  nextBtn.textContent = T.n >= TEST_LEN ? 'See my results' : 'Next question';
+  nextBtn.textContent = T.n >= T.len ? 'See my results' : 'Next question';
   nextBtn.hidden = false;
   nextBtn.focus(); // move focus with the control that replaced Submit
   document.getElementById('qHint').textContent = 'Read the solution, then continue.';
@@ -562,7 +567,7 @@ function finishTest(){
 
   document.getElementById('resStats').innerHTML =
     /* report over questions actually attempted, not the nominal length */
-    '<div class="stat"><b>' + rightCount + ' / ' + (T.journey.length || TEST_LEN) + '</b><span>correct</span></div>' +
+    '<div class="stat"><b>' + rightCount + ' / ' + (T.journey.length || T.len) + '</b><span>correct</span></div>' +
     '<div class="stat"><b>' + hardest + '</b><span>highest level reached</span></div>' +
     '<div class="stat"><b>' + avgTime + 's</b><span>avg time per question</span></div>' +
     '<div class="stat"><b>' + T.points + ' / ' + T.maxPossible + '</b><span>weighted points</span></div>';

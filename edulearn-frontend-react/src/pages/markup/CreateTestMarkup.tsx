@@ -56,7 +56,7 @@ export default function CreateTestMarkup() {
                   Number of questions
                 </label>
                 {' '}
-                <input type="number" id="numQuestions" min="1" max="30" defaultValue="7" required={true} />
+                <input type="number" id="numQuestions" min="1" max="30" defaultValue="1" required={true} />
               </div>
             </div>
           </div>

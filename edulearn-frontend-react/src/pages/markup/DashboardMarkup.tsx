@@ -206,7 +206,7 @@ export default function DashboardMarkup() {
             <b id="lowCoinBalance">
               0
             </b>
-            {" left. Recharge again to enjoy learning at its best!"}
+            {" left. Recharge to keep learning without a break."}
           </span>
         </div>
         {/* ============================================================
@@ -1203,7 +1203,7 @@ export default function DashboardMarkup() {
                     Built to never block learning
                   </h4>
                   <p data-i18n="p.reassureP">
-                    All learning works offline, videos, practice and tests run without internet, and usage syncs automatically when you are back online.
+                    Progress is saved as your child learns, and anything done offline syncs automatically when they are back online.
                   </p>
                   <div className="divide" />
                   <div className="note">
@@ -1241,7 +1241,6 @@ export default function DashboardMarkup() {
        transform), which would make it a containing block for fixed descendants
        and offset the tooltip, and .card{overflow:hidden} would clip it. */}
       <div className="chart-tip" id="hmTip" style={{ position: "fixed" }}>
-        23 MIN · MON 12 MAY
       </div>
       {/* ============================================================
        FOOTER (slim)
@@ -1279,10 +1278,6 @@ export default function DashboardMarkup() {
                 Learn
               </a>
               {' '}
-              <a href="lesson.html">
-                Lessons
-              </a>
-              {' '}
               <a href="pal.html">
                 PAL Adaptive AI
               </a>
@@ -1315,20 +1310,12 @@ export default function DashboardMarkup() {
               <h5>
                 Company
               </h5>
-              <a href="index.html">
-                About
+              <a href="privacy.html">
+                Privacy
               </a>
               {' '}
-              <a href="index.html">
-                For schools
-              </a>
-              {' '}
-              <a href="index.html">
-                Careers
-              </a>
-              {' '}
-              <a href="index.html">
-                Contact
+              <a href="terms.html">
+                Terms
               </a>
             </div>
             <div>

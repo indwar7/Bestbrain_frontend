@@ -36,6 +36,19 @@ export function useLegacyLinks(): void {
       try { url = new URL(rawHref, window.location.href); } catch { return; }
       if (url.origin !== window.location.origin) return;
 
+      // An in-page anchor ("#rosterAnchor", or "dashboard.html#x" while on the
+      // dashboard): scroll to it. Routing it did nothing but change the URL.
+      const samePage = url.pathname === window.location.pathname
+        || (ROUTE_BY_PAGE[(url.pathname.split('/').pop() || '').replace(/\.html$/, '')] === window.location.pathname);
+      if (samePage && url.hash) {
+        const el = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+      }
+
       const file = url.pathname.split('/').pop() || '';
       if (!file.endsWith('.html')) {
         /*

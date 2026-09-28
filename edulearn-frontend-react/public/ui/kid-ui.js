@@ -96,7 +96,9 @@
     , so the number comes from /api/coins instead of a formula. XP and level
      are still derived; they are a view of the same activity, not a currency. */
   function deriveStats(p) {
-    var streak = (p && p.streak) || 0;
+    /* dayStreak is the real consecutive-day count the dashboard shows; the
+       stored `streak` is an old client-side counter, kept only as a fallback. */
+    var streak = (p && (p.dayStreak != null ? p.dayStreak : p.streak)) || 0;
     var minutes = (p && p.minutes) || 0;
     var badges = (p && p.badges && p.badges.length) || 0;
     var xp = Math.round(minutes * 4 + streak * 30 + badges * 150);
@@ -478,9 +480,19 @@
     return SPA ? el.cloneNode(true) : el;
   }
 
+  /* Pages with no rail entry of their own light up the section they belong
+     to (same map as Navbar.tsx's CURRENT_NAV), so the rail and the top bar
+     title always say where the student is. */
+  var NAV_PARENT = {
+    lesson: 'learn', videos: 'learn', 'take-test': 'mocktest', 'create-test': 'mocktest',
+    upload: 'dashboard', admin: 'dashboard', bank: 'dashboard', homework: 'dashboard',
+    'homework-assign': 'dashboard'
+  };
+
   function markCurrent(links) {
     if (!SPA || !links) return;
     var here = pageKey();
+    if (!links.querySelector('a[href="/' + here + '"],a[href="' + here + '.html"]')) here = NAV_PARENT[here] || here;
     Array.prototype.forEach.call(links.querySelectorAll('a'), function (a) {
       var href = (a.getAttribute('href') || '')
         .replace(/^\//, '').replace(/\.html$/, '').split('?')[0] || 'index';
@@ -562,7 +574,10 @@
     if (brand) rail.appendChild(brand);                    // MOVE (static) / copy (SPA)
 
     var u = readUser() || {};
-    var name = (u.name || 'Student').split(' ')[0];
+    /* First name, but not a title: "Mr. Verma" is "Mr. Verma", not "Mr." */
+    var parts = (u.name || 'Student').trim().split(/\s+/);
+    var name = /^(mr|mrs|ms|miss|dr|prof|sir|smt|shri)\.?$/i.test(parts[0]) && parts[1]
+      ? parts[0] + ' ' + parts[1] : parts[0];
     var isStudent = role() === 'student';
     /* The backend's own field is className: "Class 6", already the whole
        label, not a bare number. Prefixing "Class " onto it a second time is
@@ -606,7 +621,7 @@
 
       /* tutor.html shipped after some pages' navs were written, every
          student gets the entry regardless of which nav they landed on */
-      if (!links.querySelector('a[href*="tutor"]')) {
+      if (role() === 'student' && !links.querySelector('a[href*="tutor"]')) {
         var t = document.createElement('a');
         t.className = 'nav__link';
         t.href = 'tutor.html';
@@ -625,7 +640,16 @@
          the rail, because a feature a student cannot find is a feature that
          does not exist, and the tutor page was the one place they had no
          reason to look for it. */
-      if (!links.querySelector('.kid-pdf-link')) {
+      /* Homework assignment had no way in: it was not on any teacher screen. */
+      if (role() === 'teacher' && !links.querySelector('a[href*="homework-assign"]')) {
+        var hw = document.createElement('a');
+        hw.className = 'nav__link';
+        hw.href = 'homework-assign.html';
+        hw.innerHTML = '<i class="ki" style="color:#FFB347">' +
+          ((window.KidTheme && window.KidTheme.ICON.book) || '') + '</i>Homework';
+        links.appendChild(hw);
+      }
+      if (role() === 'student' && !links.querySelector('.kid-pdf-link')) {
         var pdf = document.createElement('a');
         pdf.className = 'nav__link kid-pdf-link';
         pdf.href = '#';
@@ -828,6 +852,8 @@
        mascot's speech bubble lands squarely on the copy it is meant to sell.
        It belongs to the app, once you are inside it. */
     if (NO_RAIL.indexOf(pageKey()) !== -1) return;
+    /* Its tips are for the learner (coins, streaks, the AI tutor). */
+    if (role() !== 'student') return;
     if (document.getElementById('pal-mascot')) return;
 
     /* Once dismissed, it stays dismissed for the session, a control with
@@ -859,7 +885,20 @@
     document.body.appendChild(wrap);
 
     var i = -1, hide;
+    /* Built once, but the SPA moves on without a reload: step out of the way
+       on the public pages and after a logout, come back for the student. */
+    function fits() {
+      var ok = NO_RAIL.indexOf(pageKey()) === -1 && !!readUser() && role() === 'student';
+      wrap.style.display = ok ? '' : 'none';
+      if (!ok) say.classList.remove('on');
+      return ok;
+    }
+    var refit = function () { setTimeout(fits, 80); };
+    window.addEventListener('popstate', refit);
+    window.addEventListener('edulearn:pageleave', refit);
+    window.addEventListener('edulearn:session', refit);
     function speak() {
+      if (!fits()) return;
       i = (i + 1) % TIPS.length;
       /* clear the previous tip but keep the close button, it is not part
          of what gets replaced */
@@ -1030,6 +1069,10 @@
       buildRail();          // no-op until nav.nav exists, the observer retries
       buildTop();
     }
+
+    /* After an in-app login the first build ran on /login, where the mascot
+       stays away; this is its next chance. Idempotent. */
+    buildMascot();
 
     /* buildRail's own adopt() gives up after 1.4s. account-menu.js waits on the
        stored session, so on a slow load the fab can arrive after that and would

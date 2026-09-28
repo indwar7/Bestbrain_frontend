@@ -263,6 +263,10 @@ export async function relinkChild(childRollNumber: string, childName: string, ch
 
 export function logout() {
   request('/api/auth/logout', { method: 'POST' }).catch(() => {});
+  // Leave for the sign-in screen BEFORE the session goes. Clearing it first
+  // let the current page's route guard fire and send a signed-out visitor to
+  // "Create your account", which reads as if the account is gone.
+  window.dispatchEvent(new CustomEvent('edulearn:navigate', { detail: { to: '/login', replace: true } }));
   clearSession();
 }
 

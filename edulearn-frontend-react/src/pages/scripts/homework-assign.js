@@ -75,6 +75,34 @@ export default function init({ location, document, window, onCleanup }) {
         sel.appendChild(o);
       });
     }
+    /* Start on the class and subject this teacher actually teaches, not
+       whatever option happens to be first. */
+    (function preselect() {
+      var t = (user.teaches || [])[0];
+      if (!t) return;
+      var pick = function (id, want) {
+        var sel = el(id); if (!sel || !want) return;
+        var norm = function (v) { return String(v).toLowerCase().replace(/\s+/g, ''); };
+        Array.prototype.some.call(sel.options, function (o) {
+          if (norm(o.value) === norm(want) || norm(o.textContent) === norm(want)) { sel.value = o.value; return true; }
+          return false;
+        });
+      };
+      pick('fClass', t.className);
+      pick('fSubject', t.subject);
+    })();
+
+    /* Chapter title for a stored slug ("light-shadows" -> its real name). */
+    function chapterTitle(className, subject, slug) {
+      var C = window.EduCurriculum && window.EduCurriculum.CURRICULUM;
+      var cls = C && C[parseInt(String(className).replace(/\D/g, ''), 10)];
+      var list = cls && cls[subjectKeyOf(subject)];
+      var hit = Array.isArray(list) && list.filter(function (ch) {
+        return (Array.isArray(ch) ? ch[0] : ch.slug) === slug;
+      })[0];
+      return hit ? (Array.isArray(hit) ? hit[1] : hit.name) : slug;
+    }
+
     el('fClass').addEventListener('change', fillChapters);
     el('fSubject').addEventListener('change', fillChapters);
 
@@ -102,7 +130,7 @@ export default function init({ location, document, window, onCleanup }) {
           el('detailCard').hidden = qs.length === 0;
           if (!qs.length) {
             el('qlist').innerHTML = '<p class="muted">No questions in the bank for that chapter yet. ' +
-              'Add some in <a href="create-test.html">Create a test</a>, or run the Class 6 Science seed.</p>';
+              'Add some in <a href="create-test.html">Create a test</a>.</p>';
             updateCount();
             return;
           }
@@ -185,9 +213,9 @@ export default function init({ location, document, window, onCleanup }) {
             '<div class="hwrow__b">' +
               '<div class="hwrow__t">' + esc(h.title) + '</div>' +
               '<div class="hwrow__m">' + esc(h.className) + ' · ' + esc(h.subject) +
-                (h.chapterSlug ? ' · ' + esc(h.chapterSlug) : '') +
+                (h.chapterSlug ? ' · ' + esc(chapterTitle(h.className, h.subject, h.chapterSlug)) : '') +
                 ' · ' + h.questionCount + ' Qs · due ' +
-                new Date(h.dueAt).toLocaleDateString() +
+                new Date(h.dueAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) +
                 ' · ' + h.submissionCount + ' submitted</div>' +
             '</div>' +
             '<span class="tag ' + (h.isPublished ? 'on' : 'off') + '">' +

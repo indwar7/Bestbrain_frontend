@@ -1093,7 +1093,7 @@ export default function LiveMarkup() {
                 </div>
               </div>
               <div className="stage__note" id="stageNote">
-                Prototype classroom, tutor tile simulated. Your tile uses your real camera for attention monitoring.
+                Your camera is used only for attention monitoring. The video stays on your device.
               </div>
               <div className="controls">
                 <button className="ctl" id="micBtn" type="button">

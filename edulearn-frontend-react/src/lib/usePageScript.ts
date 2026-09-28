@@ -32,6 +32,9 @@ export function usePageScript(script: PageScript, searchOverride?: string): void
       document.querySelectorAll('video, audio').forEach((m) => {
         if (!(m as HTMLMediaElement).paused) (m as HTMLMediaElement).pause();
       });
+      try { window.speechSynthesis?.cancel(); } catch { /* unsupported */ }
+      // Overlays the shared UI scripts put on <body> close themselves on this.
+      window.dispatchEvent(new Event('edulearn:pageleave'));
       env.dispose();
     };
   }, [script, navigate, searchOverride]);

@@ -103,9 +103,10 @@ export default function init({ location, document, window, onCleanup }) {
         '<textarea class="q-text" placeholder="Type the question..." required></textarea>' +
         optsHtml;
       host.appendChild(div);
+      syncCount();
       div.querySelector('.remove').addEventListener('click', function(){
         // Always keep at least one question card.
-        if (host.children.length > 1) div.remove();
+        if (host.children.length > 1) { div.remove(); syncCount(); }
       });
       Array.prototype.forEach.call(div.querySelectorAll('.opt-remove'), function(btn){
         btn.addEventListener('click', function(){
@@ -114,6 +115,19 @@ export default function init({ location, document, window, onCleanup }) {
       });
       div.querySelector('.opt-add').addEventListener('click', function(){ addOption(div); });
     }
+
+    /* "Number of questions" and the cards on screen are the same fact; keep
+       them in step both ways instead of rejecting the form when they differ. */
+    function syncCount(){
+      var n = document.getElementById('numQuestions');
+      if (n) n.value = String(host.children.length);
+    }
+    document.getElementById('numQuestions').addEventListener('change', function(){
+      var want = Math.max(1, Math.min(30, parseInt(this.value, 10) || 1));
+      while (host.children.length < want) addQuestion();
+      while (host.children.length > want) host.lastElementChild.remove();
+      syncCount();
+    });
 
     document.getElementById('addQBtn').addEventListener('click', addQuestion);
     addQuestion(); // start with one question row
@@ -204,7 +218,7 @@ export default function init({ location, document, window, onCleanup }) {
           time: String(seconds),
           title: title
         });
-        var link = location.href.split('#')[0].split('?')[0].replace(/create-test\.html$/, 'take-test.html') + '?' + params.toString();
+        var link = location.href.split('#')[0].split('?')[0].replace(/create-test(\.html)?$/, function(_m, ext){ return 'take-test' + (ext || ''); }) + '?' + params.toString();
 
         document.getElementById('testLink').textContent = link;
         document.getElementById('openLinkBtn').setAttribute('href', link);
@@ -231,8 +245,18 @@ export default function init({ location, document, window, onCleanup }) {
       });
     });
 
+    // Start over in place; a reload threw away the whole app for a form reset.
     document.getElementById('createAnotherBtn').addEventListener('click', function(){
-      location.reload();
+      document.getElementById('form').reset();
+      host.innerHTML = '';
+      qCounter = 0;
+      addQuestion();
+      var again = document.getElementById('submitBtn');
+      again.disabled = false;
+      again.textContent = 'Create test';
+      document.getElementById('resultCard').style.display = 'none';
+      document.getElementById('form').style.display = '';
+      window.scrollTo(0, 0);
     });
   
 }

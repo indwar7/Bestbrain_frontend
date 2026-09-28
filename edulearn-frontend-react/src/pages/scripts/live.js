@@ -976,14 +976,26 @@ function wireStartForm(){
 function joinRealClass(sessionId, known){
   var s = known || realSessions.filter(function(x){ return x._id === sessionId; })[0];
   if (!s) return;
-  var teacher = (s.teacherId && s.teacherId.name) ? s.teacherId.name : 'Tutor';
+  var isHost = !!(liveUser && liveUser.role === 'teacher');
+  var teacher = (s.teacherId && s.teacherId.name) ? s.teacherId.name
+    : (isHost && liveUser.name) ? liveUser.name : 'Teacher';
 
   document.getElementById('browseView').style.display = 'none';
   document.getElementById('reportView').style.display = 'none';
   document.getElementById('classView').style.display = 'block';
   document.getElementById('clsTopic').textContent = s.title;
-  document.getElementById('tutorName').textContent = teacher + ' · Tutor';
+  document.getElementById('tutorName').textContent = teacher + ' · Teacher';
   document.getElementById('tutorCircle').textContent = initials(teacher);
+  // A real class never shows the demo formula board.
+  var realBoard = document.getElementById('boardStage');
+  if (realBoard) realBoard.style.display = 'none';
+  // The teacher runs the class: no attention camera, no raise-hand.
+  var hand = document.getElementById('handBtn');
+  if (hand) hand.style.display = isHost ? 'none' : '';
+  var note = document.getElementById('stageNote');
+  if (note) note.textContent = isHost
+    ? 'You are live. Students who join with the class code appear here.'
+    : 'Your camera is used only for attention monitoring. The video stays on your device.';
   window.scrollTo(0, 0);
 
   // Real LiveKit connection against the backend session id.
@@ -1003,7 +1015,7 @@ function joinRealClass(sessionId, known){
     onScreenSec:0, offScreenSec:0, lookAwayCount:0, camTimer:null, camStream:null
   };
   var consent = document.getElementById('camConsent');
-  consent.classList.remove('is-hidden');
+  consent.classList.toggle('is-hidden', CLS.isHost);
   document.getElementById('selfTile').classList.remove('has-cam','cam-on','cam-away');
   // Real classes have no scripted chat, start with an empty, live chat log.
   document.getElementById('chatLog').innerHTML = '';

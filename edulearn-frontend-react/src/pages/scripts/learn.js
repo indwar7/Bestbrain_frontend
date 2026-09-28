@@ -149,6 +149,9 @@ function t(key){
 
 function applyI18n(){
   document.querySelectorAll('[data-i18n]').forEach(function(el){
+    // The sidebar rail carries its own icons inside these links; rewriting
+    // its innerHTML wiped them out.
+    if (el.closest('#kid-rail, #kid-top')) return;
     el.innerHTML = t(el.getAttribute('data-i18n'));
   });
   document.querySelectorAll('[data-i18n-ph]').forEach(function(el){

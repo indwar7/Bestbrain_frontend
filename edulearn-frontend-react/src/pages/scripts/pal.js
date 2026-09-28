@@ -584,6 +584,8 @@ function askBackend(c, text, sessionId, canRetry){
     // can't keep, and they'd sit there retrying a dead endpoint.
     var text2 = (err && err.code === 'pal_not_configured')
       ? 'PAL’s AI service is not set up on the server right now, so I can’t answer yet. This needs an admin to fix, please report it.'
+      : (err && (err.code === 'insufficient_coins' || err.status === 402))
+      ? 'You’re out of coins for PAL questions. Earn more by finishing lessons and quizzes, or recharge, then ask me again.'
       : 'Sorry, I could not reach PAL just now (' + (err && err.message ? err.message : 'connection issue') + '). Please try again in a moment.';
     var m = { who:'pal', text: text2, quiz: null, quizDone: null, chips: null };
     streamIn(m, function(){
@@ -700,6 +702,9 @@ if(AUTH_ROLE){
       b.setAttribute('title', 'Your account role is ' + AUTH_ROLE + '. Log in as a different role to switch.');
     }
   });
+  // A signed-in user has exactly one role; a switcher they cannot use is noise.
+  var switcher = document.getElementById('roleSwitcher');
+  if(switcher) switcher.style.display = 'none';
 }
 setRole(store.role, true);
 renderChatList();

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, startTransition, type ReactNode } from 'react';
 import { getUser, getToken, login as apiLogin, signup as apiSignup, logout as apiLogout, SESSION_EVENT, type User } from '../lib/api';
 
 interface AuthContextValue {
@@ -77,8 +77,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
    * on it. The same event covers account-menu.js's logout.
    */
   useEffect(() => {
-    window.addEventListener(SESSION_EVENT, refreshUser);
-    return () => window.removeEventListener(SESSION_EVENT, refreshUser);
+    /*
+      A sign-out is applied as a transition, like the router's own navigation
+      to /login that precedes it, so the two land in one render. Applied
+      urgently, it rendered the page being left with no session a beat before
+      the route changed, and that page's guard redirected to /signup.
+    */
+    const onSession = () => {
+      if (getUser()) refreshUser();
+      else startTransition(refreshUser);
+    };
+    window.addEventListener(SESSION_EVENT, onSession);
+    return () => window.removeEventListener(SESSION_EVENT, onSession);
   }, [refreshUser]);
 
   return (

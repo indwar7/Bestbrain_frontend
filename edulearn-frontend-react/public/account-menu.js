@@ -6,6 +6,18 @@
    ============================================================ */
 (function () {
   if (!window.EduAPI) return; // api.js missing → skip silently
+
+  /* Under the SPA this file runs once, usually before anyone has logged in,
+     so it rebuilds whenever the session changes instead of giving up. */
+  function unmount() {
+    ['.acct-fab', '.acct-overlay', '.acct-panel', '#acct-style'].forEach(function (sel) {
+      Array.prototype.forEach.call(document.querySelectorAll(sel), function (el) { el.remove(); });
+    });
+  }
+  window.addEventListener('edulearn:session', function () { unmount(); mount(); });
+  mount();
+
+  function mount() {
   var user = EduAPI.getUser();
   if (!user) return; // not logged in → no account menu
 
@@ -66,6 +78,7 @@
       '.acct-panel .am-hd{padding-top:max(18px,env(safe-area-inset-top));}' +
     '}';
   var st = document.createElement('style');
+  st.id = 'acct-style';
   st.textContent = css;
   document.head.appendChild(st);
 
@@ -235,4 +248,5 @@
       btn.disabled = false; btn.textContent = origText;
     }
   });
+  }
 })();

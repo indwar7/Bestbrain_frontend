@@ -549,10 +549,21 @@
     addReplayButton();
     /* let the red option register first, the explainer is a follow-up to
        seeing the mistake, not a replacement for it */
-    setTimeout(function () {
+    clearTimeout(pendingPlay);
+    pendingPlay = setTimeout(function () {
       if (readQuestion()) play(buildScenes(q));
     }, 700);
   }
+
+  /* The explainer lives on <body>, outside any page, so it has to be told
+     when the page it belongs to goes away, or it (and its voice) follows the
+     student to the next screen and sits on top of it. */
+  var pendingPlay = 0;
+  window.addEventListener('edulearn:pageleave', function () {
+    clearTimeout(pendingPlay);
+    lastKey = '';
+    close();
+  });
 
   /* a way back into the explainer without answering wrong again */
   function addReplayButton() {

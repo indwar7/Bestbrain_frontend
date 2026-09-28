@@ -209,7 +209,7 @@ export default function LessonMarkup() {
             This lesson
           </h1>
           <p className="stage__sub" id="placeholderSub">
-            No video lecture has been uploaded for this chapter yet. Read the notes for now, the video lands here as soon as a teacher uploads it.
+            No video lecture has been uploaded for this chapter yet. It will appear here as soon as your teacher uploads it.
           </p>
           <div className="stage__mods" aria-hidden="true">
             <span className="modchip">
