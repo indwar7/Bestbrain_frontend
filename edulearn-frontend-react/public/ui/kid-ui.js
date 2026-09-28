@@ -450,13 +450,6 @@
       '<path d="M21 35c2.4 3 11.2 3 14 0" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>' +
     '</svg>';
 
-  var TIPS = [
-    'नमस्ते! मैं PAL हूँ 👋 जब भी अटको, मुझे टैप करो।',
-    'नया AI ट्यूटर आज़माया? माइक दबाओ और बोलो, मैं सुन रहा हूँ 🎙️',
-    'रोज़ 15 मिनट पढ़ो, स्ट्रीक बनेगी, बैज मिलेगा 🔥',
-    'भिन्न का ट्रिक: एक चपाती के 4 टुकड़े सोचो 🍕',
-    'एक चैप्टर ख़त्म? क्विज़ खेलो, 50 स्टार कॉइन पक्के ⭐'
-  ];
 
   /* React serves everything from one document. Two things follow:
 
@@ -554,7 +547,6 @@
 
     buildRail();
     buildTop();
-    buildMascot();
     wireMotion();
     ctaPass();
     /* kid-home swaps the homepage body in after us, relabel what it built */
@@ -847,74 +839,6 @@
     });
   }
 
-  function buildMascot() {
-    /* The public pages are a first impression, and on a sign-up screen the
-       mascot's speech bubble lands squarely on the copy it is meant to sell.
-       It belongs to the app, once you are inside it. */
-    if (NO_RAIL.indexOf(pageKey()) !== -1) return;
-    /* Its tips are for the learner (coins, streaks, the AI tutor). */
-    if (role() !== 'student') return;
-    if (document.getElementById('pal-mascot')) return;
-
-    /* Once dismissed, it stays dismissed for the session, a control with
-       no way to say "stop" is not a control. */
-    try { if (sessionStorage.getItem('pal_dismissed') === '1') return; } catch (e) {}
-
-    var wrap = document.createElement('div');
-    wrap.id = 'pal-mascot';
-    var say = document.createElement('div');
-    say.id = 'pal-say';
-    var orb = document.createElement('button');
-    orb.id = 'pal-orb';
-    orb.type = 'button';
-    orb.setAttribute('aria-label', 'PAL says hello');
-    orb.innerHTML = FACE;
-    var close = document.createElement('button');
-    close.id = 'pal-close';
-    close.type = 'button';
-    close.setAttribute('aria-label', 'Dismiss PAL');
-    close.textContent = '×';
-    close.addEventListener('click', function (e) {
-      e.stopPropagation();
-      wrap.remove();
-      try { sessionStorage.setItem('pal_dismissed', '1'); } catch (err) {}
-    });
-    say.appendChild(close);
-    wrap.appendChild(orb);
-    wrap.appendChild(say);
-    document.body.appendChild(wrap);
-
-    var i = -1, hide;
-    /* Built once, but the SPA moves on without a reload: step out of the way
-       on the public pages and after a logout, come back for the student. */
-    function fits() {
-      var ok = NO_RAIL.indexOf(pageKey()) === -1 && !!readUser() && role() === 'student';
-      wrap.style.display = ok ? '' : 'none';
-      if (!ok) say.classList.remove('on');
-      return ok;
-    }
-    var refit = function () { setTimeout(fits, 80); };
-    window.addEventListener('popstate', refit);
-    window.addEventListener('edulearn:pageleave', refit);
-    window.addEventListener('edulearn:session', refit);
-    function speak() {
-      if (!fits()) return;
-      i = (i + 1) % TIPS.length;
-      /* clear the previous tip but keep the close button, it is not part
-         of what gets replaced */
-      while (say.firstChild && say.firstChild !== close) say.removeChild(say.firstChild);
-      var tip = document.createElement('b');
-      tip.textContent = 'PAL';
-      say.insertBefore(tip, close);
-      say.insertBefore(document.createTextNode(TIPS[i]), close);
-      say.classList.add('on');
-      clearTimeout(hide);
-      hide = setTimeout(function () { say.classList.remove('on'); }, 6500);
-    }
-    orb.addEventListener('click', speak);
-    setTimeout(speak, 1600);
-    setInterval(speak, 17000);
-  }
 
   /* ---------------------------------------------------------
      MOTION, reveal on scroll, ripple on press, count-up
@@ -1069,10 +993,6 @@
       buildRail();          // no-op until nav.nav exists, the observer retries
       buildTop();
     }
-
-    /* After an in-app login the first build ran on /login, where the mascot
-       stays away; this is its next chance. Idempotent. */
-    buildMascot();
 
     /* buildRail's own adopt() gives up after 1.4s. account-menu.js waits on the
        stored session, so on a slow load the fab can arrive after that and would
