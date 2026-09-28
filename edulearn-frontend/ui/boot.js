@@ -99,32 +99,76 @@
      Every response is watched here rather than in each caller: one place to
      get right, and it covers the page scripts as well as the app's own client.
      ------------------------------------------------------------------ */
+  /* But a 401 is also what every request gets once the short-lived access
+     token expires, which happens routinely while the 7-day refresh cookie is
+     still good. Signing out on that first 401 logged people out every few
+     minutes. So: renew the access token first and replay the request, and
+     only end the session when the renewal itself is refused. */
   var native = window.fetch;
   if (typeof native === 'function' && !window.__kidAuthGuard) {
     window.__kidAuthGuard = true;
     var signingOut = false;
+    var renewing = null;
+
+    var signOut = function () {
+      if (signingOut) return;
+      signingOut = true;
+      try {
+        localStorage.removeItem('edulearn_token');
+        localStorage.removeItem('edulearn_user');
+      } catch (e) {}
+      var here = (location.pathname.split('/').pop() || '').toLowerCase();
+      if (here.indexOf('login') === -1 && here.indexOf('signup') === -1) {
+        /* let the caller see its own 401 first, then leave */
+        setTimeout(function () {
+          location.href = here.indexOf('.html') !== -1 ? 'login.html' : '/login';
+        }, 60);
+      }
+    };
+
+    /* One renewal at a time: a page that fires five calls at once must not
+       spend the rotating refresh cookie five times. */
+    var renew = function (apiRoot) {
+      if (!renewing) {
+        renewing = native(apiRoot + '/api/auth/refresh', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include'
+        })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) {
+            var t = d && d.accessToken;
+            if (t) { try { localStorage.setItem('edulearn_token', t); } catch (e) {} }
+            return t || null;
+          })
+          .catch(function () { return null; })
+          .then(function (t) { renewing = null; return t; });
+      }
+      return renewing;
+    };
 
     window.fetch = function (input, init) {
+      var isReq = typeof Request !== 'undefined' && input instanceof Request;
+      var replay = isReq ? input.clone() : input;
       return native.apply(this, arguments).then(function (res) {
         try {
-          var url = typeof input === 'string' ? input : (input && input.url) || '';
+          var url = typeof input === 'string' ? input : (input && input.url) || String(input || '');
           /* only the app's own API, a 401 from anywhere else is not our session */
-          if (res.status === 401 && /\/api\//.test(url) && !/\/auth\/(login|signup|refresh)/.test(url)) {
-            if (!signingOut) {
-              signingOut = true;
-              try {
-                localStorage.removeItem('edulearn_token');
-                localStorage.removeItem('edulearn_user');
-              } catch (e) {}
-              var here = (location.pathname.split('/').pop() || '').toLowerCase();
-              if (here.indexOf('login') === -1 && here.indexOf('signup') === -1) {
-                /* let the caller see its own 401 first, then leave */
-                setTimeout(function () {
-                  location.href = here.indexOf('.html') !== -1 ? 'login.html' : '/login';
-                }, 60);
-              }
-            }
-          }
+          if (res.status !== 401 || !/\/api\//.test(url) || /\/auth\/(login|signup|refresh|logout)/.test(url)) return res;
+          if (signingOut) return res;
+
+          return renew(url.replace(/\/api\/.*$/, '')).then(function (token) {
+            if (!token) { signOut(); return res; }
+            var headers = new Headers((init && init.headers) || (isReq ? replay.headers : undefined));
+            headers.set('Authorization', 'Bearer ' + token);
+            var opts = {};
+            if (init) for (var k in init) opts[k] = init[k];
+            opts.headers = headers;
+            return native(replay, opts).then(function (again) {
+              if (again.status === 401) signOut();
+              return again;
+            });
+          });
         } catch (e) { /* never let the guard break a response */ }
         return res;
       });
