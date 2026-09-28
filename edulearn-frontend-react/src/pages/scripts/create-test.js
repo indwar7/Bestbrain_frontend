@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/create-test.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/create-test.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -18,7 +18,7 @@ export default function init({ location, document, window, onCleanup }) {
     }
 
     /* QA T-09: every question was forced to exactly 5 options, all marked
-       `required` — a teacher could not submit a standard 4-option MCQ, let
+       `required`, a teacher could not submit a standard 4-option MCQ, let
        alone a true/false question, even though the backend already accepts
        2–6 (Question.ts) and the student-facing quiz renders however many a
        question actually has. Four is the default now (the common case), and
@@ -33,7 +33,7 @@ export default function init({ location, document, window, onCleanup }) {
     }
 
     // Keeps each row's radio value / letter / placeholder in step with its
-    // actual position after an option is added or removed — the submit
+    // actual position after an option is added or removed, the submit
     // handler reads correctIndex straight off the checked radio's value, so
     // a stale value there would grade the wrong option as correct.
     function renumberOptions(card){
@@ -118,7 +118,7 @@ export default function init({ location, document, window, onCleanup }) {
     document.getElementById('addQBtn').addEventListener('click', addQuestion);
     addQuestion(); // start with one question row
 
-    // Populate Class & subject from the teacher's own assignments — reuses
+    // Populate Class & subject from the teacher's own assignments, reuses
     // the exact className/subject strings already on their account, so the
     // created questions match a real student's own className exactly (no
     // "Class 7" vs "7" mismatch risk).
@@ -157,7 +157,7 @@ export default function init({ location, document, window, onCleanup }) {
 
       var qcards = Array.prototype.slice.call(host.querySelectorAll('.qcard'));
       if (qcards.length !== numQuestions){
-        msg('You said ' + numQuestions + ' question(s) but wrote ' + qcards.length + ' — add or remove rows to match, or update the number above.', false);
+        msg('You said ' + numQuestions + ' question(s) but wrote ' + qcards.length + ', add or remove rows to match, or update the number above.', false);
         return;
       }
 
@@ -179,7 +179,7 @@ export default function init({ location, document, window, onCleanup }) {
       submitBtn.textContent = 'Creating…';
       msg('Creating ' + questions.length + ' question(s)…', true);
 
-      // A fresh, unique slug per test — so this test's questions form their
+      // A fresh, unique slug per test, so this test's questions form their
       // own isolated pool and a student's attempt only ever draws from
       // exactly this set, never mixed with other tests on the same chapter.
       var chapterSlug = slugify(title) + '-' + Date.now().toString(36);
@@ -211,7 +211,7 @@ export default function init({ location, document, window, onCleanup }) {
         document.getElementById('form').style.display = 'none';
         document.getElementById('resultCard').style.display = 'block';
       } catch (err) {
-        msg(err.message || 'Could not create the test — please try again.', false);
+        msg(err.message || 'Could not create the test, please try again.', false);
         submitBtn.disabled = false;
         submitBtn.textContent = 'Create test';
       }

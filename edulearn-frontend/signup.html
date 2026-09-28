@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <!-- Redesign: dark canvas before any stylesheet parses, so switching pages
-     never flashes white. boot.js is not deferred on purpose — the theme
+     never flashes white. boot.js is not deferred on purpose, the theme
      classes have to be set before the page CSS lands. -->
 <meta name="color-scheme" content="dark">
 <style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
 <script src="ui/boot.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Sign Up — BestBrain · Start Your Learning Journey</title>
+  <title>Sign Up | BestBrain · Start Your Learning Journey</title>
   <script>
     (function(){try{var t=localStorage.getItem('edulearn_token');var u=localStorage.getItem('edulearn_user');if(t&&u&&JSON.parse(u)){location.replace('dashboard.html');return;}}catch(e){}})();
   </script>
@@ -131,7 +131,7 @@
     /* icon fields get extra left padding for the icon */
     .field-wrap input{padding-left:44px}
     input:focus{outline:none;border-color:rgba(61,232,197,.75);background:var(--field-focus);box-shadow:0 0 0 4px rgba(61,232,197,.14)}
-    /* 4.97:1 on the composited field. The old #5D6580 sat at 3.16 — under
+    /* 4.97:1 on the composited field. The old #5D6580 sat at 3.16, under
        the 4.5 floor, so the hint text was hard to read before typing. */
     input::placeholder{color:#7B85A3}
     .pw-field{position:relative}
@@ -167,7 +167,7 @@
     .role-tabs{display:flex;gap:4px;background:rgba(255,255,255,.05);padding:5px;border-radius:14px;margin-bottom:22px;border:1px solid var(--line)}
     .role-tab{flex:1;border:none;background:transparent;padding:11px 8px;border-radius:10px;font-family:'Nunito',sans-serif;font-size:13px;letter-spacing:.02em;font-weight:700;color:#475569;cursor:pointer;transition:all .24s cubic-bezier(.22,1,.36,1)}
     .role-tab:hover:not(.on){color:#1E293B}
-    /* Active tab: solid indigo fill + white text — high contrast, so the
+    /* Active tab: solid indigo fill + white text, high contrast, so the
        selected role is unmistakable (the old light teal-on-teal was too faint). */
     .role-tab.on{background:#3F5BE0 !important;color:#FFFFFF !important;-webkit-text-fill-color:#FFFFFF !important;box-shadow:0 4px 14px rgba(63,91,224,.34)}
 
@@ -192,7 +192,7 @@
       .social-logins{grid-template-columns:1fr}
 
       /* Signup's paired fields stay two-up to 320px, where each column is
-         ~130px — too narrow for a full name or a board name. One per row. */
+         ~130px, too narrow for a full name or a board name. One per row. */
       .form-row{grid-template-columns:1fr}
       select{padding:14px 40px 14px 16px}
 
@@ -202,7 +202,7 @@
          back out of. Meet the threshold on the controls only. */
       input,select,textarea,.otp-digit{font-size:16px}
 
-      /* 34px is a mouse target, not a thumb one — both Apple and Google put
+      /* 34px is a mouse target, not a thumb one, both Apple and Google put
          the floor at 44px. */
       .pw-toggle{width:44px;height:44px;right:4px}
       .role-tab{padding:13px 8px}
@@ -210,7 +210,7 @@
     }
 
     /* 100vh on mobile measures the viewport with the address bar ignored, so
-       a 100vh panel is about a bar taller than what is visible — enough to
+       a 100vh panel is about a bar taller than what is visible, enough to
        push the submit button below the fold on load. dvh tracks the real
        viewport. Guarded so browsers without dvh keep the 100vh rule above. */
     @supports (height:100dvh){
@@ -228,13 +228,13 @@
     html.light-mode input{background:#F4F7FB;border-color:rgba(15,23,42,.1);color:#0F1425}
     /* The light-mode block overrode input, select and role-tabs but never
        .pw-toggle or .field-icon, so both kept the DARK --muted (#93A0BD)
-       and measured 2.44:1 on the light field — the eye icon was all but
+       and measured 2.44:1 on the light field, the eye icon was all but
        gone. These two rules are the missing half of that override. */
     html.light-mode .pw-toggle{color:#5C6478}
     html.light-mode .pw-toggle:hover{color:#0F1425;background:rgba(15,23,42,.06)}
     html.light-mode .field-icon{color:#667085}
     html.light-mode .field-wrap:focus-within .field-icon{color:#1E9E86}
-    /* 4.63:1 on #F4F7FB. #9AA3B8 measured 2.35 — effectively invisible on
+    /* 4.63:1 on #F4F7FB. #9AA3B8 measured 2.35, effectively invisible on
        the light field. */
     html.light-mode input::placeholder{color:#667085}
     html.light-mode .social-btn{background:#F4F7FB;border-color:rgba(15,23,42,.1);color:#0F1425}
@@ -265,7 +265,7 @@
     .checkbox-group a{color:var(--peri);text-decoration:none;font-weight:600}
     .checkbox-group a:hover{color:var(--teal)}
     .signin-link{text-align:center;font-size:14px;color:var(--muted)}
-    /* Distinct highlight so "Sign in" stands out from the muted line — !important
+    /* Distinct highlight so "Sign in" stands out from the muted line - !important
        beats vivid.css's global `a{color:#000}`, which was flattening it to black. */
     .signin-link a{color:#3F5BE0 !important;-webkit-text-fill-color:#3F5BE0 !important;font-weight:800;text-decoration:underline;text-underline-offset:2px}
     .signin-link a:hover{opacity:.82}
@@ -582,7 +582,7 @@
       });
     })();
 
-    // Role tab switching — shows the matching field group.
+    // Role tab switching, shows the matching field group.
     document.querySelectorAll('.role-tab').forEach(function (tab) {
       tab.addEventListener('click', function () {
         document.querySelectorAll('.role-tab').forEach(function (t) {
@@ -639,7 +639,7 @@
       if (btn) btn.textContent = 'Creating account…';
       try {
         await EduAPI.signup(selectedRole, buildBody());
-        // No email/phone verification — signup logs the user straight in.
+        // No email/phone verification, signup logs the user straight in.
         window.location.href = 'dashboard.html';
       } catch (err) {
         showError(err.message);
@@ -747,7 +747,7 @@
 
       document.getElementById('signupFormView').style.display = 'none';
       document.getElementById('otpFormView').style.display = '';
-      // Hide channel selector — both are mandatory in sequence
+      // Hide channel selector, both are mandatory in sequence
       document.getElementById('otpChannelSelector').style.display = 'none';
 
       determineNextStep();
@@ -769,7 +769,7 @@
           'Step 2 of 2: Enter the 6-digit code sent to your phone ' + (otpState.phone || '');
         triggerSendOtp('phone');
       } else {
-        // Both verified — go to dashboard
+        // Both verified, go to dashboard
         window.location.href = 'dashboard.html';
       }
     }

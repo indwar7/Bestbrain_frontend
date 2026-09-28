@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- Redesign: dark canvas before any stylesheet parses, so switching pages
-     never flashes white. boot.js is not deferred on purpose — the theme
+     never flashes white. boot.js is not deferred on purpose, the theme
      classes have to be set before the page CSS lands. -->
 <meta name="color-scheme" content="dark">
 <style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
@@ -10,7 +10,7 @@
   <meta charset="UTF-8">
   <script>/* light-only product: strip any stale dark preference before paint */try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.remove('dark-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Question Bank — BestBrain</title>
+  <title>Question Bank | BestBrain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,480&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono&display=swap" rel="stylesheet">
   <style>
@@ -51,7 +51,7 @@
             background:var(--card);font-family:'Fragment Mono',monospace;font-size:12px;}
     /* bank-* rather than is-right/is-wrong on purpose. kid-quiz.js watches the
        document for `.opt.is-wrong` and launches a full-screen explainer video
-       — right for a timed test, wrong here: it covers the inline explanation
+      , right for a timed test, wrong here: it covers the inline explanation
        this page exists to show, on every single wrong answer while drilling. */
     .opt.bank-right{border-color:var(--teal);background:rgba(16,185,129,.14);}
     .opt.bank-wrong{border-color:var(--rose);background:rgba(244,63,94,.12);}
@@ -120,7 +120,7 @@
 <div class="wrap">
   <a class="top-link" href="learn.html">&larr; Back to Learn</a>
   <h1>Question <em>Bank</em></h1>
-  <p class="sub" id="sub">Practise this chapter. No timer, no marks — answer, see why, keep going.</p>
+  <p class="sub" id="sub">Practise this chapter. No timer, no marks, answer, see why, keep going.</p>
 
   <div id="gate" class="gate" hidden>
     Please <a href="login.html">log in</a> as a student to practise.
@@ -145,12 +145,12 @@
   <script src="api.js"></script>
   <script>
   /* ============================================================
-     QUESTION BANK — untimed chapter practice
+     QUESTION BANK, untimed chapter practice
      ------------------------------------------------------------
      Deliberately not a test. There is no timer, no running score sent
      anywhere, and no submission: the student answers, the server says whether
      that was right and why, and they move on. Getting one wrong is not a
-     penalty, so the answer is revealed either way — the point is to learn the
+     penalty, so the answer is revealed either way, the point is to learn the
      thing now rather than at the end of a paper.
 
      Nothing here knows a correctIndex until the server replies to that one
@@ -171,14 +171,14 @@
 
     /* Paint a right/wrong verdict so it survives the skin.
        kid-bg turns any near-white opaque surface into glass by writing
-       background-color and border-color INLINE with !important — no stylesheet
+       background-color and border-color INLINE with !important, no stylesheet
        rule can outrank that, which is why .opt.bank-right rendered identical
        to every other option. Setting the same properties inline afterwards
        replaces those declarations, and the low-alpha accent this writes does
        not meet the pass's own >=.82-alpha bar, so it is not glassed again.
 
        The glyph is not decoration. Correctness must not depend on colour
-       alone — for colour-blind readers, and because this is exactly the sort
+       alone, for colour-blind readers, and because this is exactly the sort
        of styling a later skin pass can take away again. */
     function markState(node, kind) {
       var teal = 'rgba(16,185,129,.22)', rose = 'rgba(244,63,94,.20)';
@@ -213,7 +213,7 @@
         if (!Q.length) { el('empty').hidden = false; return; }
         if (chapterSlug) {
           el('sub').textContent = 'Practising ' + chapterSlug.replace(/-/g, ' ') +
-            '. No timer, no marks — answer, see why, keep going.';
+            '. No timer, no marks, answer, see why, keep going.';
         }
         i = 0;
         el('quiz').hidden = false;
@@ -283,7 +283,7 @@
     el('nextBtn').addEventListener('click', function () {
       if (i < Q.length - 1) { i += 1; paint(); }
     });
-    // A fresh sample rather than the same ten again — the API samples, so
+    // A fresh sample rather than the same ten again, the API samples, so
     // asking again deals a different set.
     el('moreBtn').addEventListener('click', function () { load(); });
 

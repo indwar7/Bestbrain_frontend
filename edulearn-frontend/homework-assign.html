@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- Redesign: dark canvas before any stylesheet parses, so switching pages
-     never flashes white. boot.js is not deferred on purpose — the theme
+     never flashes white. boot.js is not deferred on purpose, the theme
      classes have to be set before the page CSS lands. -->
 <meta name="color-scheme" content="dark">
 <style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
@@ -10,7 +10,7 @@
   <meta charset="UTF-8">
   <script>/* light-only product: strip any stale dark preference before paint */try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.remove('dark-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Assign Homework — BestBrain</title>
+  <title>Assign Homework | BestBrain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,480&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono&display=swap" rel="stylesheet">
   <style>
@@ -150,7 +150,7 @@
     <div class="card" id="detailCard" hidden>
       <h2>3 · Title and due date</h2>
       <label for="fTitle">Title *</label>
-      <input id="fTitle" type="text" placeholder="e.g. Light and shadows — chapter check">
+      <input id="fTitle" type="text" placeholder="e.g. Light and shadows, chapter check">
       <label for="fInstructions">Instructions</label>
       <textarea id="fInstructions" placeholder="Anything the student should know before starting."></textarea>
       <div class="row">
@@ -161,8 +161,8 @@
         <div>
           <label for="fPublished">Visible to students</label>
           <select id="fPublished">
-            <option value="yes">Yes — assign now</option>
-            <option value="no">No — save as draft</option>
+            <option value="yes">Yes, assign now</option>
+            <option value="no">No, save as draft</option>
           </select>
         </div>
       </div>
@@ -181,7 +181,7 @@
   <script src="curriculum.js"></script>
   <script>
   /* ============================================================
-     ASSIGN HOMEWORK — teacher
+     ASSIGN HOMEWORK, teacher
      ------------------------------------------------------------
      A separate page rather than a mode inside create-test.html, because the
      two do opposite things: create-test AUTHORS new questions, this one picks
@@ -189,7 +189,7 @@
      form where half the fields are inert depending on a toggle.
 
      The chapter list comes from the shared curriculum.js, which is the same
-     source Learn reads — so the slugs a teacher assigns against are exactly
+     source Learn reads, so the slugs a teacher assigns against are exactly
      the slugs the student's chapter row links to. Typing them by hand here
      would be a second list to keep in step.
      ============================================================ */
@@ -220,18 +220,18 @@
     function fillChapters() {
       var sel = el('fChapter');
       sel.innerHTML = '<option value="">All chapters</option>';
-      /* The global is EduCurriculum, and CURRICULUM is a field on it —
+      /* The global is EduCurriculum, and CURRICULUM is a field on it ,
          reading window.CURRICULUM found undefined and fell through to the
          "All chapters" fallback silently, which looked like an empty
          syllabus rather than a wrong variable name. */
       var C = window.EduCurriculum && window.EduCurriculum.CURRICULUM;
-      if (!C) return;   // curriculum.js absent — "All chapters" still works
+      if (!C) return;   // curriculum.js absent - "All chapters" still works
       /* CURRICULUM is keyed by the class NUMBER (6, 7, 8, 9), while this
          select carries the label ("Class 6"). Indexing it with the label
-         found nothing and left the dropdown empty — which looked like a
+         found nothing and left the dropdown empty, which looked like a
          syllabus with no chapters rather than a key mismatch. */
       var cls = C[parseInt(String(el('fClass').value).replace(/\D/g, ''), 10)];
-      /* CURRICULUM[6].science IS the chapter array — a list of
+      /* CURRICULUM[6].science IS the chapter array, a list of
          [slug, title, minutes] tuples. There is no .chapters field on it;
          reading one gave undefined and produced an empty dropdown. */
       var subj = cls && cls[subjectKeyOf(el('fSubject').value)];
@@ -248,7 +248,7 @@
     el('fSubject').addEventListener('change', fillChapters);
 
     /* curriculum.js is deferred, and under the router this page's script can
-       run before it has executed — a single read then finds nothing, returns,
+       run before it has executed, a single read then finds nothing, returns,
        and the dropdown is stuck on "All chapters" for good. The symptom is an
        empty syllabus, which reads as missing data rather than a race. Poll
        briefly for the global, then give up quietly: "All chapters" is a
@@ -376,7 +376,7 @@
               box.innerHTML = (r.submissions || []).length
                 ? '<div class="muted" style="padding:0 0 12px">' +
                     r.submissions.map(function (s) {
-                      return esc(s.studentName || s.rollNumber || 'Student') + ' — ' + s.score + '/' + s.total +
+                      return esc(s.studentName || s.rollNumber || 'Student') + ' - ' + s.score + '/' + s.total +
                         (s.status === 'late' ? ' (late)' : '');
                     }).join('<br>') + '</div>'
                 : '<p class="muted" style="padding:0 0 12px">Nobody has handed this in yet.</p>';

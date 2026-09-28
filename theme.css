@@ -36,7 +36,7 @@ html {
   transition: background-color var(--dm-transition), color var(--dm-transition);
 }
 
-/* Theme toggle button styles (defaults — pages may override) */
+/* Theme toggle button styles (defaults, pages may override) */
 .theme-toggle, [data-theme-toggle] {
   width: 44px;
   height: 44px;
@@ -83,7 +83,7 @@ nav, .navbar, header {
   color: var(--dm-text-primary) !important;
 }
 
-/* Input fields (defaults — pages may override) */
+/* Input fields (defaults, pages may override) */
 input, textarea, select {
   background: rgba(0, 0, 0, 0.03);
   border-color: var(--dm-border-color);

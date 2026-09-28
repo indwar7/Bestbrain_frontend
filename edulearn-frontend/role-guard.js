@@ -1,5 +1,5 @@
 /* ============================================================
-   BestBrain — centralized role guard & nav access control
+   BestBrain, centralized role guard & nav access control
    ------------------------------------------------------------
    ONE source of truth for "who can open what". Load this FIRST,
    in <head> (before the page body renders), on every page that
@@ -12,19 +12,19 @@
      3. Hides nav links the current role may not use, and rewrites
         the brand/logo link to the dashboard when logged in.
 
-   Reads localStorage directly — NO dependency on api.js / EduAPI,
+   Reads localStorage directly - NO dependency on api.js / EduAPI,
    so it is safe to run before those scripts load. api.js's
    requireAuth() and account-menu.js remain for their own concerns
    (API calls, settings panel); this file owns nav + access policy.
 
-   To change access rules, edit ACCESS below — nowhere else.
+   To change access rules, edit ACCESS below, nowhere else.
    ============================================================ */
 (function () {
   'use strict';
 
   var TOKEN_KEY = 'edulearn_token';
   var USER_KEY = 'edulearn_user';
-  var LANDING = 'index.html'; // public landing — where logged-out visitors go
+  var LANDING = 'index.html'; // public landing, where logged-out visitors go
   var HOME = 'dashboard.html'; // every logged-in role's landing page
 
   // ---- session (read straight from localStorage, defensively) ----
@@ -45,17 +45,17 @@
     return 'student';
   }
 
-  // ---- ACCESS MATRIX — the single source of truth ----
+  // ---- ACCESS MATRIX, the single source of truth ----
   // For each role: the set of pages it may open. A page NOT listed is
   // denied (hard redirect on direct access + its nav link hidden).
   // 'admin' is handled specially below (may open everything).
   //
   // Derived from the app's role intent:
   //   * Learn (chapters), Arena (challenge), and Tests (mocktest) are STUDENT
-  //     surfaces — teachers and parents must NOT see or open them. Teachers
+  //     surfaces, teachers and parents must NOT see or open them. Teachers
   //     author tests via create-test.html, not the student mocktest page.
   //   * PAL serves students, teachers (worksheets), and parents (progress).
-  //   * tutor (the live voice doubt session) is a STUDENT surface — it exists
+  //   * tutor (the live voice doubt session) is a STUDENT surface, it exists
   //     to answer a student's own doubts aloud.
   //   * create-test / upload are teacher tools (each also self-gates in-page).
   //   * Live, Videos, Dashboard are shared by all roles.
@@ -114,7 +114,7 @@
 
   // ---------- 2 & 3. NAV COSMETICS (run once the nav DOM exists) ----------
   function applyNav() {
-    // Hide the "Start free" CTA whenever logged in — it links to login.html
+    // Hide the "Start free" CTA whenever logged in, it links to login.html
     // and would bounce an authenticated user back to the login screen.
     if (loggedIn) {
       document.querySelectorAll('a.btn-primary[href="login.html"]').forEach(function (el) {

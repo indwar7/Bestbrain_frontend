@@ -1,5 +1,5 @@
 /* ============================================================
-   BestBrain — SHARED CURRICULUM
+   BestBrain - SHARED CURRICULUM
    ------------------------------------------------------------
    Extracted verbatim from learn.html so the dashboard can use the
    SAME chapter data instead of its own 5-entry demo stub.
@@ -101,7 +101,7 @@ var CURRICULUM = {
       ['perimeter-area','Perimeter and Area',22]
     ],
     // Ordered so the chapters that already carry full content (videos + notes)
-    // surface first — electricity, metals, physical/chemical changes and
+    // surface first, electricity, metals, physical/chemical changes and
     // adolescence, followed by chapters 7 (heat) and 8 (time & motion). The
     // remaining chapters keep their original relative order below. Chapter
     // identity is by slug, so reordering here doesn't disturb saved progress.
@@ -149,7 +149,7 @@ var CURRICULUM = {
       ['mithaiwala','मिठाईवाला',16],
       ['rakt-sharir','रक्त और हमारा शरीर',17],
       ['papa-kho-gaye','पापा खो गए',15],
-      ['shaam-ek-kisan','शाम — एक किसान',12],
+      ['shaam-ek-kisan','शाम, एक किसान',12],
       ['chidiya-ki-bachchi','चिड़िया की बच्ची',14]
     ]
   },
@@ -173,7 +173,7 @@ var CURRICULUM = {
       ['metals-nonmetals','Materials: Metals and Non-Metals',23],
       ['coal-petroleum','Coal and Petroleum',20],
       ['combustion-flame','Combustion and Flame',21],
-      ['cell-structure','Cell — Structure and Functions',26],
+      ['cell-structure','Cell - Structure and Functions',26],
       ['force-pressure','Force and Pressure',25],
       ['friction','Friction',22],
       ['sound','Sound',24]
@@ -198,7 +198,7 @@ var CURRICULUM = {
       ['jodys-fawn','This is Jody’s Fawn',14],
       ['visit-to-cambridge','A Visit to Cambridge',16],
       ['monsoon-diary','A Short Monsoon Diary',13],
-      ['great-stone-face','The Great Stone Face — I',15]
+      ['great-stone-face','The Great Stone Face - I',15]
     ],
     hindi: [
       ['dhwani','ध्वनि',11],
@@ -242,7 +242,7 @@ var CURRICULUM = {
       ['russian-revolution','Socialism in Europe and the Russian Revolution',28],
       ['nazism-hitler','Nazism and the Rise of Hitler',27],
       ['forest-society','Forest Society and Colonialism',22],
-      ['india-size-location','India — Size and Location',19],
+      ['india-size-location','India - Size and Location',19],
       ['physical-features','Physical Features of India',23],
       ['what-is-democracy','What is Democracy? Why Democracy?',21],
       ['electoral-politics','Electoral Politics',20],

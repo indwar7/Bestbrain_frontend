@@ -3,7 +3,7 @@
  * converted markup.
  *
  * This is what makes every route render the real UI. Behaviour is then ported
- * into these files one page at a time — a page listed here with no logic yet
+ * into these files one page at a time, a page listed here with no logic yet
  * shows its static content correctly, while regions the original built
  * imperatively stay empty until their logic lands.
  *
@@ -54,7 +54,7 @@ for (const [comp, [cssName, markup]] of Object.entries(PAGES)) {
     `import script from './scripts/${cssName}.js';\n` +
     `\n` +
     `/**\n` +
-    ` * ${comp} — ${cssName}.html's real stylesheet, markup and script.\n` +
+    ` * ${comp} - ${cssName}.html's real stylesheet, markup and script.\n` +
     ` *\n` +
     ` * All three are lifted from the original page rather than reimplemented,\n` +
     ` * so the behaviour is the code that was already working, running against\n` +

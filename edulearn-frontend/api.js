@@ -1,34 +1,34 @@
 /* ============================================================
-   BestBrain — shared frontend API helper
+   BestBrain, shared frontend API helper
    Connects the static pages to the BestBrain backend.
    ============================================================ */
 (function (global) {
-  // Backend base URL — points directly at the backend EC2 origin.
+  // Backend base URL, points directly at the backend EC2 origin.
   // For local dev, override it: localStorage.setItem('edulearn_api','http://localhost:4000')
   //
   // The override is READ here. It used to be documented (and preserved across
   // logout by clearSession) but never actually applied, so every local dev
   // session silently talked to production while videos/upload/admin/live-video
-  // — which read the key themselves — talked to localhost. Same key, two
+  //, which read the key themselves, talked to localhost. Same key, two
   // different backends in one tab.
   // Resolution order:
   //   1. an explicit localStorage['edulearn_api'] override (always wins)
   //   2. http://localhost:4000 when the PAGE ITSELF is served from localhost
-  //   3. the deployed EC2 origin directly, even when the page is on HTTPS —
+  //   3. the deployed EC2 origin directly, even when the page is on HTTPS ,
   //      see the DIRECTED CHANGE comment below for why, and the real risk
   //      (mixed content) this reintroduces
-  //   4. the deployed EC2 origin (plain-http contexts, e.g. file://) — same
+  //   4. the deployed EC2 origin (plain-http contexts, e.g. file://), same
   //      value as 3, kept as a separate branch for the non-HTTPS case
   //
   // Step 2 exists because step 1 alone is a footgun: localStorage is scoped per
   // ORIGIN, so setting the override while on localhost:8080 does nothing on
-  // localhost:8081, and nothing on 127.0.0.1 either — same machine, three
+  // localhost:8081, and nothing on 127.0.0.1 either, same machine, three
   // separate stores. The symptom is a confusing "Cannot reach the server. Is
   // the backend running on http://65.2.183.7?", which names the PROD host and
   // reads like the server is down when really the browser was never pointed at
   // the local one. (Production also returns no Access-Control-Allow-* headers
   // on a preflight from a localhost origin, so the browser blocks the call and
-  // fetch rejects — indistinguishable from "offline" at this layer.)
+  // fetch rejects, indistinguishable from "offline" at this layer.)
   //
   // Anything served from a real domain is unaffected and still hits EC2.
   var API_DEFAULT = 'https://api.bestbrainplus.com';
@@ -43,19 +43,19 @@
     // NOTE: a localhost page used to be auto-pointed at API_LOCAL here. That is
     // deliberately GONE. The real content (49 uploaded videos, the live
     // curriculum) lives on the deployed backend, while a fresh local database
-    // is empty — so auto-switching meant opening the app locally silently
+    // is empty, so auto-switching meant opening the app locally silently
     // showed "no videos" and looked like data loss. Defaulting to the deployed
     // backend means a local page shows real content with no setup.
     //
     // To work against a LOCAL backend, opt in explicitly:
     //   localStorage.setItem('edulearn_api', 'http://localhost:4000')
     //
-    // Serve the local frontend from http://localhost:8000 — the deployed
+    // Serve the local frontend from http://localhost:8000, the deployed
     // backend's CORS allowlist contains that origin and no other localhost
     // port, so any other port is blocked by the browser.
     if (location.protocol === 'https:' && !isLocalHost(location.hostname)) {
       // The backend has its own HTTPS origin, so an https page can call it
-      // directly — no mixed content, no proxy hop. This replaces the
+      // directly, no mixed content, no proxy hop. This replaces the
       // 2026-08-24 directed change that pointed here at
       // http://ec2-65-2-183-7..., which browsers blocked outright as mixed
       // content and which is no longer serving anyway. CORS on
@@ -64,13 +64,13 @@
       // matching branch in edulearn-frontend-react/src/lib/api.ts.
       API_BASE = 'https://api.bestbrainplus.com';
     }
-  } catch (e) { /* no location (non-browser context) — keep the default */ }
+  } catch (e) { /* no location (non-browser context), keep the default */ }
 
   try {
     var apiOverride = localStorage.getItem('edulearn_api');
     if (apiOverride) {
       apiOverride = apiOverride.replace(/\/+$/, '');
-      // A plain-http override on an https page is mixed content — the browser
+      // A plain-http override on an https page is mixed content, the browser
       // blocks every request before it leaves, so honouring it can only break
       // the site (classic case: a stale 'http://65.2.183.7' saved in
       // localStorage long ago, silently poisoning the deployed site forever,
@@ -80,7 +80,7 @@
         location.protocol === 'https:' && apiOverride.indexOf('http://') === 0;
       if (!httpOnHttps) API_BASE = apiOverride;
     }
-  } catch (e) { /* storage unavailable — keep whatever was resolved above */ }
+  } catch (e) { /* storage unavailable, keep whatever was resolved above */ }
 
   var TOKEN_KEY = 'edulearn_token';
   var USER_KEY = 'edulearn_user';
@@ -90,7 +90,7 @@
   }
   function setSession(token, user) {
     // A previous session on this device may not have been cleanly logged out
-    // (tab closed, direct navigation, etc.) — its per-user data would still be
+    // (tab closed, direct navigation, etc.), its per-user data would still be
     // sitting in localStorage. Wipe it before establishing the new session so
     // it never leaks into this login/signup, even for the same returning user.
     clearUserDataKeys();
@@ -152,7 +152,7 @@
         .then(function (res) { return res.ok ? res.json() : null; })
         .then(function (data) {
           var token = data && data.accessToken;
-          // NOT setSession — that wipes per-user localStorage; same user, new token.
+          // NOT setSession, that wipes per-user localStorage; same user, new token.
           if (token) localStorage.setItem(TOKEN_KEY, token);
           return token || null;
         })
@@ -162,7 +162,7 @@
     return refreshPromise;
   }
 
-  // A 401 from these means "bad credentials", not "stale access token" —
+  // A 401 from these means "bad credentials", not "stale access token" ,
   // refreshing and replaying would just 401 again (or loop on refresh itself).
   function isAuthPath(path) {
     return path.indexOf('/api/auth/') === 0;
@@ -240,8 +240,8 @@
   }
 
   // Re-verify and replace a parent's child link (fixes a mismatched link
-  // without requiring a brand-new signup). This isn't a new login, so — unlike
-  // setSession — it must NOT wipe this parent's own per-user data.
+  // without requiring a brand-new signup). This isn't a new login, so, unlike
+  // setSession, it must NOT wipe this parent's own per-user data.
   async function relinkChild(childRollNumber, childName, childClass) {
     var data = await request('/api/auth/relink-child', {
       method: 'POST',
@@ -267,7 +267,7 @@
     return (data && data.progress) || null;
   }
 
-  // Public — no auth required. { subscriptionButtonId, pricePaise, currency,
+  // Public, no auth required. { subscriptionButtonId, pricePaise, currency,
   // webhookConfigured }. webhookConfigured lets the UI warn instead of taking
   // a payment it can never actually apply to the account.
   async function getSubscriptionConfig() {
@@ -279,7 +279,7 @@
     return request('/api/subscription/me');
   }
 
-  // { balance, recent } — recent is the last 25 ledger lines (delta, reason,
+  // { balance, recent }, recent is the last 25 ledger lines (delta, reason,
   // balanceAfter, createdAt). PAL questions and video views deduct from this
   // balance server-side; this is read-only, there is no client grant path.
   async function getCoins() {
@@ -407,7 +407,7 @@
   // ---- Live-class attention/monitoring reports ----
   // Persist a report server-side so it survives a device change and reaches the
   // linked parent. Returns the saved report, or null if the endpoint isn't
-  // available yet (older backend) — callers fall back to local storage.
+  // available yet (older backend), callers fall back to local storage.
   async function submitLiveReport(report) {
     try {
       var data = await request('/api/live/reports', { method: 'POST', body: report });
@@ -593,7 +593,7 @@
   }
 
   // Teacher/admin only: author one question into the bank (used by the test
-  // builder — one call per question, all tagged with the same chapterSlug so
+  // builder, one call per question, all tagged with the same chapterSlug so
   // a test's questions form their own isolated pool).
   async function createQuestion(fields) {
     return request('/api/assessments/questions', {
@@ -624,7 +624,7 @@
     });
   }
 
-  // { chapters: { "<slug>": count } } — lets Learn show a chapter's bank size
+  // { chapters: { "<slug>": count } }, lets Learn show a chapter's bank size
   // and hide the module where there is nothing to practise yet.
   async function getBankChapterCounts(subject) {
     return request('/api/assessments/bank/chapters?subject=' + encodeURIComponent(subject));
@@ -645,7 +645,7 @@
   }
 
   // Student: grade and store. answers = [{ questionId, selectedIndex }].
-  // Returns { submission, review } where review carries the solutions — the
+  // Returns { submission, review } where review carries the solutions, the
   // only point at which answers travel to a student.
   async function submitHomework(id, answers) {
     return request('/api/homework/' + id + '/submit', {
@@ -656,7 +656,7 @@
 
   // Teacher: assign, list, edit, delete, and read the roster.
   // Teacher: browse the authored bank to pick questions for an assignment.
-  // chapterSlug matters here — assigning is a per-chapter job.
+  // chapterSlug matters here, assigning is a per-chapter job.
   async function listQuestions(className, subject, chapterSlug, usage) {
     var qs = [];
     if (className) qs.push('className=' + encodeURIComponent(className));
@@ -711,7 +711,7 @@
       return null;
     }
     if (requiredRole && user.role !== requiredRole) {
-      // Logged in but wrong dashboard — send them to their own.
+      // Logged in but wrong dashboard, send them to their own.
       window.location.href = 'dashboard.html';
       return null;
     }

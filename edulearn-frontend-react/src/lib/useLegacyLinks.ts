@@ -8,7 +8,7 @@ import { ROUTE_BY_PAGE } from './pages';
  * Route legacy "<page>.html" links through the SPA router.
  *
  * The ported markup is a faithful copy of the static pages, so it is still
- * full of href="learn.html" — and features-panel.js builds its links the same
+ * full of href="learn.html", and features-panel.js builds its links the same
  * way at runtime. Rewriting every one of them would mean diverging from the
  * original markup in thousands of places (and re-diverging on every
  * regeneration), so instead a single delegated listener translates them on
@@ -52,7 +52,7 @@ export function useLegacyLinks(): void {
         theme.css state and its floating panels; and because <ProtectedRoute>
         renders a redirect instead of a page, nothing mounted to refill the
         #page-css slot that the outgoing page's cleanup had just emptied. The
-        browser painted that frame — a flash of unstyled page — before the
+        browser painted that frame, a flash of unstyled page, before the
         redirect landed.
 
         Sending the click straight at its real destination means the outgoing
@@ -68,7 +68,7 @@ export function useLegacyLinks(): void {
 
       // lesson.html?ch=c6-sci-food carried its target in the query string; the
       // SPA takes it as a path param instead. The REST of the query string
-      // (class, subject, t, view) must be preserved — lesson.js gates its
+      // (class, subject, t, view) must be preserved, lesson.js gates its
       // video/notes lookup on class & subject, so dropping them left every
       // chapter stuck on "Coming soon".
       let to = route;

@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/homework-assign.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/homework-assign.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -12,7 +12,7 @@ export default function init({ location, document, window, onCleanup }) {
 
 
   /* ============================================================
-     ASSIGN HOMEWORK — teacher
+     ASSIGN HOMEWORK, teacher
      ------------------------------------------------------------
      A separate page rather than a mode inside create-test.html, because the
      two do opposite things: create-test AUTHORS new questions, this one picks
@@ -20,7 +20,7 @@ export default function init({ location, document, window, onCleanup }) {
      form where half the fields are inert depending on a toggle.
 
      The chapter list comes from the shared curriculum.js, which is the same
-     source Learn reads — so the slugs a teacher assigns against are exactly
+     source Learn reads, so the slugs a teacher assigns against are exactly
      the slugs the student's chapter row links to. Typing them by hand here
      would be a second list to keep in step.
      ============================================================ */
@@ -51,18 +51,18 @@ export default function init({ location, document, window, onCleanup }) {
     function fillChapters() {
       var sel = el('fChapter');
       sel.innerHTML = '<option value="">All chapters</option>';
-      /* The global is EduCurriculum, and CURRICULUM is a field on it —
+      /* The global is EduCurriculum, and CURRICULUM is a field on it ,
          reading window.CURRICULUM found undefined and fell through to the
          "All chapters" fallback silently, which looked like an empty
          syllabus rather than a wrong variable name. */
       var C = window.EduCurriculum && window.EduCurriculum.CURRICULUM;
-      if (!C) return;   // curriculum.js absent — "All chapters" still works
+      if (!C) return;   // curriculum.js absent - "All chapters" still works
       /* CURRICULUM is keyed by the class NUMBER (6, 7, 8, 9), while this
          select carries the label ("Class 6"). Indexing it with the label
-         found nothing and left the dropdown empty — which looked like a
+         found nothing and left the dropdown empty, which looked like a
          syllabus with no chapters rather than a key mismatch. */
       var cls = C[parseInt(String(el('fClass').value).replace(/\D/g, ''), 10)];
-      /* CURRICULUM[6].science IS the chapter array — a list of
+      /* CURRICULUM[6].science IS the chapter array, a list of
          [slug, title, minutes] tuples. There is no .chapters field on it;
          reading one gave undefined and produced an empty dropdown. */
       var subj = cls && cls[subjectKeyOf(el('fSubject').value)];
@@ -79,7 +79,7 @@ export default function init({ location, document, window, onCleanup }) {
     el('fSubject').addEventListener('change', fillChapters);
 
     /* curriculum.js is deferred, and under the router this page's script can
-       run before it has executed — a single read then finds nothing, returns,
+       run before it has executed, a single read then finds nothing, returns,
        and the dropdown is stuck on "All chapters" for good. The symptom is an
        empty syllabus, which reads as missing data rather than a race. Poll
        briefly for the global, then give up quietly: "All chapters" is a
@@ -207,7 +207,7 @@ export default function init({ location, document, window, onCleanup }) {
               box.innerHTML = (r.submissions || []).length
                 ? '<div class="muted" style="padding:0 0 12px">' +
                     r.submissions.map(function (s) {
-                      return esc(s.studentName || s.rollNumber || 'Student') + ' — ' + s.score + '/' + s.total +
+                      return esc(s.studentName || s.rollNumber || 'Student') + ' - ' + s.score + '/' + s.total +
                         (s.status === 'late' ? ' (late)' : '');
                     }).join('<br>') + '</div>'
                 : '<p class="muted" style="padding:0 0 12px">Nobody has handed this in yet.</p>';

@@ -16,11 +16,11 @@ installEduApiGlobal();
 
 // Deliberately not wrapped in <StrictMode>. Its double-invoked effects would
 // run each page's lifted script twice per mount, and that legacy code is not
-// idempotent — it appends nodes and binds handlers imperatively, so a second
+// idempotent, it appends nodes and binds handlers imperatively, so a second
 // pass duplicates UI rather than being a no-op.
 /**
  * Top-level guard: wraps the ENTIRE app (nav + hooks + routes) so a render
- * error anywhere — including on a browser Back navigation — shows a recoverable
+ * error anywhere, including on a browser Back navigation, shows a recoverable
  * card instead of a blank white screen. Keyed by pathname so it clears on the
  * next navigation. App also boundaries its own <Routes>; this additionally
  * covers App-level code (the nav, useLegacyLinks/usePageChrome) that renders

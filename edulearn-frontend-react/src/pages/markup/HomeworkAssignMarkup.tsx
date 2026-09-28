@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/homework-assign.html — do not hand-edit.
+/* Generated from edulearn-frontend/homework-assign.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 export default function HomeworkAssignMarkup() {
   return (
@@ -108,7 +108,7 @@ export default function HomeworkAssignMarkup() {
               Title *
             </label>
             {' '}
-            <input id="fTitle" type="text" placeholder="e.g. Light and shadows — chapter check" />
+            <input id="fTitle" type="text" placeholder="e.g. Light and shadows, chapter check" />
             {' '}
             <label htmlFor="fInstructions">
               Instructions
@@ -130,10 +130,10 @@ export default function HomeworkAssignMarkup() {
                 {' '}
                 <select id="fPublished">
                   <option value="yes">
-                    Yes — assign now
+                    Yes, assign now
                   </option>
                   <option value="no">
-                    No — save as draft
+                    No, save as draft
                   </option>
                 </select>
               </div>

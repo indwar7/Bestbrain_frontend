@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/bank.html — do not hand-edit.
+/* Generated from edulearn-frontend/bank.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 export default function BankMarkup() {
   return (
@@ -14,7 +14,7 @@ export default function BankMarkup() {
           </em>
         </h1>
         <p className="sub" id="sub">
-          Practise this chapter. No timer, no marks — answer, see why, keep going.
+          Practise this chapter. No timer, no marks, answer, see why, keep going.
         </p>
         <div id="gate" className="gate" hidden={true}>
           {" Please "}

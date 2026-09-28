@@ -1,5 +1,5 @@
 /* ============================================================
-   BESTBRAIN — AUTH, REBUILT
+   BESTBRAIN - AUTH, REBUILT
    ------------------------------------------------------------
    Local preview only. login.html / signup.html on disk are never
    modified.
@@ -7,7 +7,7 @@
    This is a ground-up replacement of the auth screens: a new
    split-screen shell is constructed, and the page's existing form
    views are MOVED (not copied) into it. Moving keeps every node
-   identity intact — ids, listeners, the OTP flow, role tabs and
+   identity intact, ids, listeners, the OTP flow, role tabs and
    the submit handler all keep working, so the only thing that
    changes is the design around them.
    ============================================================ */
@@ -35,7 +35,7 @@
   };
 
   /* ---------------------------------------------------------
-     COPY — different story on each screen
+     COPY, different story on each screen
      --------------------------------------------------------- */
   var COPY = isLogin ? {
     eyebrow: 'Welcome back',
@@ -54,7 +54,7 @@
     eyebrow: 'Start free',
     head: 'Learning that<br><em>answers back</em>.',
     sub: 'Create an account and get a tutor that knows your class, your board ' +
-         'and your weak chapters — from the very first question.',
+         'and your weak chapters, from the very first question.',
     feats: [
       { i: 'mic', t: 'Doubts answered in seconds', d: 'Voice or type, day or night' },
       { i: 'book', t: 'Mapped to NCERT', d: 'Classes 6 to 9, CBSE aligned' },
@@ -81,7 +81,7 @@
 
   /* The two-column ratio is deliberately left as bare fr units.
      `1fr` is `minmax(auto,1fr)`, and that auto floor lets the right column be
-     pushed wider than its share by .ka-card's 452px min-content — which is
+     pushed wider than its share by .ka-card's 452px min-content, which is
      exactly what the desktop layout has always done, and moving the divider
      is a visible change to a screen that was signed off. The phone problem
      this causes is fixed where it actually occurs: the <=1000px rule below
@@ -172,7 +172,7 @@
     'backdrop-filter:blur(30px) saturate(1.25);-webkit-backdrop-filter:blur(30px) saturate(1.25);' +
     'box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.09);' +
     /* Visible first, animated second. This card held the sign-in form at
-       opacity:0 and trusted an entrance animation to bring it back — so any
+       opacity:0 and trusted an entrance animation to bring it back, so any
        load where that animation did not run left the form present, laid out,
        and permanently invisible, with nothing in the console to say so. A
        transform alone cannot hide anything. */
@@ -217,7 +217,7 @@
   '#ka-slot input::placeholder,#ka-slot textarea::placeholder{' +
     'color:rgba(255,255,255,.5)!important;-webkit-text-fill-color:rgba(255,255,255,.5)!important;}' +
   '#ka-slot select option{background:#141210!important;color:#fff!important;}' +
-  /* the page draws a leading glyph inside the wrap — give it a lane of its
+  /* the page draws a leading glyph inside the wrap, give it a lane of its
      own instead of letting it sit on top of the placeholder */
   '#ka-slot .field-wrap{position:relative!important;}' +
   '#ka-slot .field-wrap > svg,#ka-slot .field-wrap > i,#ka-slot .field-wrap > .fi{' +
@@ -238,7 +238,7 @@
   /* primary + secondary actions */
   /* Yellow, not amber. This is the one control on the screen that has to be
      found without looking for it, and yellow on near-black is the sharpest
-     pairing the palette has — black text on it reads at about 15:1. */
+     pairing the palette has, black text on it reads at about 15:1. */
   '#ka-slot .btn,#ka-slot .btn-primary,#ka-slot button[type=submit]{' +
     'width:100%!important;padding:14px 20px!important;border-radius:14px!important;border:0!important;' +
     'font-size:15px!important;font-weight:900!important;cursor:pointer;' +
@@ -278,7 +278,7 @@
     'gap:10px!important;padding:0 22px!important;white-space:nowrap!important;' +
     'text-overflow:ellipsis;overflow:hidden;}' +
   /* The waiting state must not resize anything. Whatever the page puts inside
-     the button while it works — a spinner div, an svg, a pseudo-element — is
+     the button while it works, a spinner div, an svg, a pseudo-element, is
      clamped to a fixed 16px and told not to grow, because a loader that
      inherits the button's height renders as a circle the size of the button
      and the whole card appears to lurch. */
@@ -346,7 +346,7 @@
       'max(20px,env(safe-area-inset-bottom));}' +
     '#ka-root .ka-brand{padding:20px clamp(14px,4.5vw,20px) 22px;}' +
     '#ka-slot,#ka-slot form,#ka-slot .role-tabs{min-width:0;max-width:100%;}' +
-    /* three tabs cannot sit in a 292px row and stay tappable — wrap them */
+    /* three tabs cannot sit in a 292px row and stay tappable, wrap them */
     '#ka-slot .role-tabs{flex-wrap:wrap!important;}' +
     '#ka-slot .role-tab{flex:1 1 30%!important;min-width:0!important;min-height:44px;' +
       'font-size:13px!important;}' +
@@ -357,10 +357,10 @@
     /* 16px keeps iOS from zooming the page when a field takes focus */
     '#ka-slot .social-logins{grid-template-columns:1fr!important;}' +
     /* The terms checkbox is a 17px box and the two links inside its label are
-       17px tall — the three controls a signup cannot complete without were
+       17px tall, the three controls a signup cannot complete without were
        the three smallest things on the screen. */
     /* "Forgot password?" is an 18px inline link and the only way back into a
-       locked-out account — it needs to be reachable with a thumb. */
+       locked-out account, it needs to be reachable with a thumb. */
     '#ka-slot .otp-inputs-wrapper{gap:6px!important;}' +
     '#ka-slot .otp-digit{min-width:0!important;font-size:18px!important;padding:11px 0!important;}' +
     '#ka-slot #otpChannelSelector{grid-template-columns:1fr!important;}' +
@@ -438,7 +438,7 @@
       var v = document.getElementById(id);
       if (v) views.push(v);
     });
-    if (!views.length) return;   // markup changed — leave the page untouched
+    if (!views.length) return;   // markup changed, leave the page untouched
 
     var root = document.createElement('div');
     root.id = 'ka-root';
@@ -468,7 +468,7 @@
 
   /* The page signals "working" by rewriting the button's text. Watch for that
      and mark the button, so the spinner belongs to the state rather than to a
-     handler we would have to intercept — the form's own submit logic is never
+     handler we would have to intercept, the form's own submit logic is never
      touched. */
   function watchBusy() {
     var slot = document.getElementById('ka-slot');
@@ -482,10 +482,10 @@
   }
 
   /* ---------------------------------------------------------
-     QA S-11 / S-12 — two controls that did nothing, silently.
+     QA S-11 / S-12, two controls that did nothing, silently.
 
      Google/Apple already called handleSocial(), which fired a blocking
-     native alert() — startling on a screen this calm, and easy to read as
+     native alert(), startling on a screen this calm, and easy to read as
      the page having crashed. It still opens the small notice below, because
      that sign-in genuinely is not connected.
 
@@ -553,13 +553,13 @@
 
   function wireNotices() {
     /* Replace the page's own alert()-based handler rather than adding a
-       second click listener beside it — two handlers firing on one click
+       second click listener beside it, two handlers firing on one click
        would show the alert AND the notice. */
     if (typeof window.handleSocial === 'function' && !window.handleSocial.__kaWrapped) {
       window.handleSocial = function (provider) {
         notice('Coming soon',
           (provider ? provider.charAt(0).toUpperCase() + provider.slice(1) : 'Social') +
-          ' sign-in isn’t connected yet — please use your email and password for now.');
+          ' sign-in isn’t connected yet, please use your email and password for now.');
       };
       window.handleSocial.__kaWrapped = true;
     }
@@ -583,8 +583,8 @@
      confirm an address cannot be used here.
 
      The first step's answer is deliberately the same whether or not the
-     address is registered — the screen must not become a way to find out
-     which emails have accounts — so the copy says "if that email is
+     address is registered, the screen must not become a way to find out
+     which emails have accounts, so the copy says "if that email is
      registered" rather than claiming a message was sent.
      --------------------------------------------------------- */
   function apiBase() {
@@ -623,7 +623,7 @@
       el.className = 'say' + (kind ? ' ' + kind : '');
     }
 
-    /* prefill from the sign-in form — they have almost certainly just typed it */
+    /* prefill from the sign-in form, they have almost certainly just typed it */
     var typed = '';
     try { typed = (document.getElementById('email') || {}).value || ''; } catch (e) {}
 
@@ -685,7 +685,7 @@
       var pw = box.querySelector('#ka-rp-pw');
       var msg = box.querySelector('#ka-rp-say');
       /* Only ever present when no mail provider is configured and the server
-         is not in production — it keeps the flow usable on a dev box. */
+         is not in production, it keeps the flow usable on a dev box. */
       if (devCode) { code.value = devCode; say(msg, 'Dev mode: code filled in for you.', 'good'); }
       code.focus();
       box.querySelector('#ka-rp-back').addEventListener('click', stepEmail);

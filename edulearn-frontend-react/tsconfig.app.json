@@ -9,7 +9,7 @@
     "skipLibCheck": true,
 
     // The lifted page scripts (src/pages/scripts/*.js) are untouched legacy
-    // source. They are imported, but deliberately not type-checked — checkJs
+    // source. They are imported, but deliberately not type-checked, checkJs
     // stays off so 7,700 lines of working code are not rewritten to satisfy
     // strict mode.
     "allowJs": true,

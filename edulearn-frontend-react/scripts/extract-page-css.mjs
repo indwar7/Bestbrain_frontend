@@ -1,7 +1,7 @@
 /**
  * Lift every static page's <style> block into a standalone CSS file.
  *
- * The CSS is copied VERBATIM — no rewriting, no scoping. Pixel parity comes
+ * The CSS is copied VERBATIM, no rewriting, no scoping. Pixel parity comes
  * from reusing the real stylesheet, not from re-deriving it.
  *
  * These files are imported with Vite's `?inline` and swapped into the

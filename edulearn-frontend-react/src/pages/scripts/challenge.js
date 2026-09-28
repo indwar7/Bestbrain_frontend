@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/challenge.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/challenge.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -29,7 +29,7 @@ var BANK = [
   { q:'Akbar belonged to which dynasty?', opts:['Maurya','Gupta','Mughal','Chola'], a:2, subj:'Social' },
   { q:'A polynomial with exactly two terms is called a…', opts:['monomial','binomial','trinomial','quadratic'], a:1, subj:'Maths' },
   { q:'Litmus turns red in…', opts:['acid','base','salt','water'], a:0, subj:'Science' },
-  { q:'The Tropic of Cancer passes through…', opts:['Kerala','Sri Lanka','Madhya Pradesh','Punjab — only'], a:2, subj:'Social' },
+  { q:'The Tropic of Cancer passes through…', opts:['Kerala','Sri Lanka','Madhya Pradesh','Punjab, only'], a:2, subj:'Social' },
   { q:'15% of 200 is…', opts:['15','20','30','35'], a:2, subj:'Maths' },
   { q:'The unit of electric current is the…', opts:['volt','ohm','ampere','coulomb'], a:2, subj:'Science' },
   { q:'The Indian Constitution came into force on…', opts:['15 Aug 1947','26 Jan 1950','26 Nov 1949','2 Oct 1948'], a:1, subj:'Social' },
@@ -68,7 +68,7 @@ function esc(s){
 }
 function pad(n){ return (n<10?'0':'')+n; }
 
-/* deterministic question per hour — same for every student */
+/* deterministic question per hour, same for every student */
 function hourKey(d){
   return '' + d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + pad(d.getHours());
 }
@@ -145,7 +145,7 @@ function startPlayReal(question){
     cancelAnimationFrame(playTimer);
     var msTaken = Date.now() - startedAt;
 
-    // pickedIdx === null means time ran out with no answer — still submit so
+    // pickedIdx === null means time ran out with no answer, still submit so
     // the one-attempt-per-hour lock is real, matching the local demo's "missed" case.
     EduAPI.answerChallenge(question.id, pickedIdx === null ? -1 : pickedIdx, msTaken)
       .then(function(res){
@@ -201,7 +201,7 @@ function renderDoneReal(res, missed){
     detail = (res.explanation ? esc(res.explanation) + ' ' : '') + 'A new drop lands at the top of the hour.';
   }
   playCard.innerHTML =
-    '<div class="mono">' + hourLabel(new Date()) + ' drop — played</div>' +
+    '<div class="mono">' + hourLabel(new Date()) + ' drop, played</div>' +
     '<div style="margin-top:16px" class="res__points">+' + (res.points || 0) + '</div>' +
     '<div class="res__verdict">' + verdict + '</div>' +
     '<div class="res__detail">' + detail + '</div>' +
@@ -215,15 +215,15 @@ function renderDoneReal(res, missed){
 }
 
 // Refetches the real per-account stats from the backend leaderboard's "you"
-// field — the only per-user stat the backend currently exposes. Streak/best-
+// field, the only per-user stat the backend currently exposes. Streak/best-
 // streak/accuracy/hours-played aren't tracked server-side yet, so those rail
 // stats stay honestly blank in real mode rather than showing a fabricated number.
 function refreshRealStats(){
   EduAPI.getChallengeLeaderboard().then(function(res){
     setText('statPoints', res.you ? res.you.points : 0);
-    setText('statStreak', '—');
-    setText('statBest', '—');
-    setText('statAcc', res.you ? (res.you.correct ? '100%' : '0%') : '—');
+    setText('statStreak', '-');
+    setText('statBest', '-');
+    setText('statAcc', res.you ? (res.you.correct ? '100%' : '0%') : '-');
     setText('statPlayed', res.you ? '1' : '0');
   }).catch(function(){});
 }
@@ -240,7 +240,7 @@ function renderLBReal(){
             '<span class="lb__rank">' + pad(i + 1) + '</span><span>' + esc(r[0]) + '</span>' +
             '<span class="lb__pts">' + r[1] + ' pts</span></div>';
         }).join('')
-      : '<p class="empty-hint" style="padding:6px 2px">No one has played this hour yet — be the first.</p>';
+      : '<p class="empty-hint" style="padding:6px 2px">No one has played this hour yet, be the first.</p>';
     document.getElementById('lbList').innerHTML = html;
   }).catch(function(){
     document.getElementById('lbList').innerHTML =
@@ -373,10 +373,10 @@ function renderDone(){
     detail = 'The window closed. Next hour, reveal only when you&rsquo;re ready to sprint.';
   } else {
     verdict = '<span style="color:var(--rose)">Not this time</span>';
-    detail = 'Streak resets — but a new drop lands at the top of the hour.';
+    detail = 'Streak resets, but a new drop lands at the top of the hour.';
   }
   playCard.innerHTML =
-    '<div class="mono">' + hourLabel(new Date()) + ' drop — played</div>' +
+    '<div class="mono">' + hourLabel(new Date()) + ' drop, played</div>' +
     '<div style="margin-top:16px" class="res__points">+' + (last ? last.points : 0) + '</div>' +
     '<div class="res__verdict">' + verdict + '</div>' +
     '<div class="res__detail">' + detail + '</div>' +
@@ -414,12 +414,12 @@ function renderStats(){
   var played = store.history.filter(function(r){ return !r.missed; }).length;
   var right = store.history.filter(function(r){ return r.correct; }).length;
   document.getElementById('statAcc').textContent =
-    store.history.length ? Math.round(right / store.history.length * 100) + '%' : '—';
+    store.history.length ? Math.round(right / store.history.length * 100) + '%' : '-';
 }
 
 // Logged-out preview only: a single real row ("You") plus an honest note that
 // this is a preview, not a real cross-student ranking (that requires being
-// logged in — see renderLBReal above for the real backend leaderboard).
+// logged in, see renderLBReal above for the real backend leaderboard).
 function renderLBDemo(){
   document.getElementById('lbList').innerHTML =
     '<div class="lb__row is-you"><span class="lb__rank">01</span><span>You</span>' +
@@ -446,7 +446,7 @@ function renderHist(){
 
 /* boot */
 // REAL_MODE was computed above from a synchronous localStorage check, before
-// api.js (loaded after this script tag) exists — re-check once EduAPI is
+// api.js (loaded after this script tag) exists, re-check once EduAPI is
 // actually available, then never show the local demo engine to a logged-in
 // student, only the real backend-driven challenge.
 window.__eduBootChallenge = function(){

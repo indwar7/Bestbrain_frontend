@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- Redesign: dark canvas before any stylesheet parses, so switching pages
-     never flashes white. boot.js is not deferred on purpose — the theme
+     never flashes white. boot.js is not deferred on purpose, the theme
      classes have to be set before the page CSS lands. -->
 <meta name="color-scheme" content="dark">
 <style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
@@ -12,8 +12,8 @@
      paints) so a disallowed user is redirected without seeing page content. -->
 <script src="role-guard.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>PAL AI — BestBrain</title>
-<meta name="description" content="PAL is BestBrain's AI tutor. Students ask doubts, parents ask about progress, teachers generate worksheets — all in one chat.">
+<title>PAL AI | BestBrain</title>
+<meta name="description" content="PAL is BestBrain's AI tutor. Students ask doubts, parents ask about progress, teachers generate worksheets, all in one chat.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
@@ -239,7 +239,7 @@ html.dark-mode .bubble a{color:var(--teal)}
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
       New chat
     </button>
-    <!-- Live voice call with PAL. Student-only (see role-guard ACCESS) —
+    <!-- Live voice call with PAL. Student-only (see role-guard ACCESS) ,
          unhidden below once EduGuard confirms this role may open it. -->
     <a class="btn-doubt" id="doubtBtn" href="tutor.html" hidden>
       <span class="live-dot"></span>
@@ -248,7 +248,7 @@ html.dark-mode .bubble a{color:var(--teal)}
     </a>
     <span class="mono side__label">Recent chats</span>
     <div class="chatlist" id="chatList"></div>
-    <div class="side__foot">PAL answers from the BestBrain syllabus and your activity on this device. Prototype — answers are generated locally.</div>
+    <div class="side__foot">PAL answers from the BestBrain syllabus and your activity on this device. Prototype, answers are generated locally.</div>
   </aside>
 
   <!-- ============ CHAT PANE ============ -->
@@ -269,7 +269,7 @@ html.dark-mode .bubble a{color:var(--teal)}
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
           </button>
         </div>
-        <div class="composer__note">PAL can make mistakes — verify with your textbook before exams.</div>
+        <div class="composer__note">PAL can make mistakes, verify with your textbook before exams.</div>
       </div>
     </div>
   </section>
@@ -280,7 +280,7 @@ html.dark-mode .bubble a{color:var(--teal)}
 'use strict';
 
 /* ============================================================
-   DATA — compact curriculum index + mini knowledge base
+   DATA, compact curriculum index + mini knowledge base
    ============================================================ */
 var SUBJECTS = {
   maths:   { en:'Mathematics' },
@@ -301,61 +301,61 @@ addC(7,'maths',['Integers','Fractions and Decimals','Data Handling','Simple Equa
 addC(7,'science',['Nutrition in Plants','Nutrition in Animals','Heat','Acids, Bases and Salts','Physical and Chemical Changes','Respiration in Organisms','Transportation in Animals and Plants','Electric Current and its Effects','Light','Motion and Time']);
 addC(7,'social',['Tracing Changes Through a Thousand Years','New Kings and Kingdoms','The Delhi Sultans','The Mughal Empire','Rulers and Buildings','Environment','Inside Our Earth','On Equality','Markets Around Us']);
 addC(8,'maths',['Rational Numbers','Linear Equations in One Variable','Understanding Quadrilaterals','Data Handling','Squares and Square Roots','Cubes and Cube Roots','Comparing Quantities','Algebraic Expressions and Identities','Mensuration','Factorisation']);
-addC(8,'science',['Crop Production and Management','Microorganisms: Friend and Foe','Synthetic Fibres and Plastics','Materials: Metals and Non-Metals','Coal and Petroleum','Combustion and Flame','Cell — Structure and Functions','Force and Pressure','Friction','Sound']);
+addC(8,'science',['Crop Production and Management','Microorganisms: Friend and Foe','Synthetic Fibres and Plastics','Materials: Metals and Non-Metals','Coal and Petroleum','Combustion and Flame','Cell - Structure and Functions','Force and Pressure','Friction','Sound']);
 addC(8,'social',['How, When and Where','From Trade to Territory','Ruling the Countryside','Tribals, Dikus and the Vision of a Golden Age','When People Rebel: 1857 and After','Resources','Land, Soil, Water, Natural Vegetation','The Indian Constitution','Judiciary']);
 addC(9,'maths',['Number Systems','Polynomials','Coordinate Geometry','Linear Equations in Two Variables','Introduction to Euclid’s Geometry','Lines and Angles','Triangles','Quadrilaterals','Heron’s Formula','Statistics']);
 addC(9,'science',['Matter in Our Surroundings','Is Matter Around Us Pure?','Atoms and Molecules','Structure of the Atom','The Fundamental Unit of Life','Tissues','Motion','Force and Laws of Motion','Gravitation','Sound']);
-addC(9,'social',['The French Revolution','Socialism in Europe and the Russian Revolution','Nazism and the Rise of Hitler','Forest Society and Colonialism','India — Size and Location','Physical Features of India','What is Democracy? Why Democracy?','Electoral Politics','The Story of Village Palampur']);
+addC(9,'social',['The French Revolution','Socialism in Europe and the Russian Revolution','Nazism and the Rise of Hitler','Forest Society and Colonialism','India - Size and Location','Physical Features of India','What is Democracy? Why Democracy?','Electoral Politics','The Story of Village Palampur']);
 
 /* hand-written study notes for popular chapters */
 var KB = {
   'polynomials': {
-    notes:['A **polynomial** is an expression with whole-number powers of x — like x³ + 2x − 7.','**Degree** = highest power. Degree 1: linear, 2: quadratic, 3: cubic.','A **zero** of p(x) is the value where p(x) = 0. A degree-n polynomial has at most n zeroes.','**Remainder theorem:** dividing p(x) by (x − a) leaves remainder p(a).','**Factor theorem:** (x − a) is a factor exactly when p(a) = 0.'],
+    notes:['A **polynomial** is an expression with whole-number powers of x, like x³ + 2x − 7.','**Degree** = highest power. Degree 1: linear, 2: quadratic, 3: cubic.','A **zero** of p(x) is the value where p(x) = 0. A degree-n polynomial has at most n zeroes.','**Remainder theorem:** dividing p(x) by (x − a) leaves remainder p(a).','**Factor theorem:** (x − a) is a factor exactly when p(a) = 0.'],
     qa:'Students most often mix up the two theorems. Remember: the factor theorem is just the remainder theorem when the remainder is **zero**.'
   },
   'number systems': {
     notes:['**Rational** numbers can be written p/q (q ≠ 0); their decimals terminate or repeat.','**Irrational** numbers (√2, π) have decimals that never terminate or repeat.','Every point on the number line is a **real** number.','To rationalise 1/(√a − b), multiply by (√a + b)/(√a + b).','Laws of exponents work for rational powers too: a^m × a^n = a^(m+n).'],
-    qa:'Quick test: 0.272727... repeats — rational. 0.101101110... never repeats a block — irrational.'
+    qa:'Quick test: 0.272727... repeats, rational. 0.101101110... never repeats a block, irrational.'
   },
   'motion': {
     notes:['**Distance** is total path (scalar); **displacement** is shortest path (vector).','**Speed** = distance/time. **Velocity** = displacement/time.','**Acceleration** a = (v − u)/t.','Equations of motion: v = u + at, s = ut + ½at², v² = u² + 2as.','On a v–t graph, slope = acceleration and **area under the graph = displacement**.'],
-    qa:'If a body returns to its start point, displacement is zero but distance is not — the classic trick question.'
+    qa:'If a body returns to its start point, displacement is zero but distance is not, the classic trick question.'
   },
   'force and laws of motion': {
-    notes:['**First law:** objects resist change in motion (inertia).','**Second law:** F = ma — force is rate of change of momentum.','**Third law:** action and reaction are equal, opposite, and act on **different bodies**.','**Momentum** p = mv; total momentum is conserved in collisions.','Mass measures inertia — more mass, harder to change motion.'],
-    qa:'Action-reaction pairs never cancel because they act on different objects — that is why the gun recoils while the bullet flies.'
+    notes:['**First law:** objects resist change in motion (inertia).','**Second law:** F = ma, force is rate of change of momentum.','**Third law:** action and reaction are equal, opposite, and act on **different bodies**.','**Momentum** p = mv; total momentum is conserved in collisions.','Mass measures inertia, more mass, harder to change motion.'],
+    qa:'Action-reaction pairs never cancel because they act on different objects, that is why the gun recoils while the bullet flies.'
   },
   'heat': {
-    notes:['Heat flows from **hotter to colder** objects until temperatures equalise.','Lab thermometer: −10°C to 110°C; clinical: 35°C to 42°C.','**Conduction** (solids), **convection** (liquids/gases), **radiation** (no medium needed).','Dark surfaces absorb and emit more radiation than shiny ones.','Wool keeps us warm by trapping air — a poor conductor.'],
+    notes:['Heat flows from **hotter to colder** objects until temperatures equalise.','Lab thermometer: −10°C to 110°C; clinical: 35°C to 42°C.','**Conduction** (solids), **convection** (liquids/gases), **radiation** (no medium needed).','Dark surfaces absorb and emit more radiation than shiny ones.','Wool keeps us warm by trapping air, a poor conductor.'],
     qa:'Sea breeze is convection: land heats faster by day, hot air rises, cool sea air flows in. At night it reverses.'
   },
   'the french revolution': {
-    notes:['Began in **1789**; France had three **estates**, and only the third paid taxes.','Causes: empty treasury, rising bread prices, Enlightenment ideas (Rousseau, Voltaire).','**14 July 1789** — storming of the Bastille became the symbol.','1791 constitution limited the king; 1792 France became a **republic**.','Legacy: **liberty, equality, fraternity** spread worldwide — including to colonial India.'],
+    notes:['Began in **1789**; France had three **estates**, and only the third paid taxes.','Causes: empty treasury, rising bread prices, Enlightenment ideas (Rousseau, Voltaire).','**14 July 1789**, storming of the Bastille became the symbol.','1791 constitution limited the king; 1792 France became a **republic**.','Legacy: **liberty, equality, fraternity** spread worldwide, including to colonial India.'],
     qa:'Why it matters: the ideas of equality and citizenship from 1789 shaped constitutions everywhere, including India’s.'
   },
   'nutrition in plants': {
-    notes:['Plants are **autotrophs** — they make food by **photosynthesis** in leaves.','Needs: sunlight, chlorophyll, CO₂, water. Products: glucose and O₂.','**Stomata** are tiny pores for gas exchange.','**Cuscuta** is a parasite; pitcher plant is insectivorous.','Fungi are saprotrophs — they feed on dead matter.'],
-    qa:'Equation to remember: CO₂ + H₂O —(sunlight, chlorophyll)→ glucose + O₂.'
+    notes:['Plants are **autotrophs**, they make food by **photosynthesis** in leaves.','Needs: sunlight, chlorophyll, CO₂, water. Products: glucose and O₂.','**Stomata** are tiny pores for gas exchange.','**Cuscuta** is a parasite; pitcher plant is insectivorous.','Fungi are saprotrophs, they feed on dead matter.'],
+    qa:'Equation to remember: CO₂ + H₂O -(sunlight, chlorophyll)→ glucose + O₂.'
   },
   'fractions': {
     notes:['A fraction is a part of a whole: numerator/denominator.','**Like** fractions share a denominator; compare unlike ones using the LCM.','Multiply: tops × tops, bottoms × bottoms. Divide: multiply by the **reciprocal**.','To add or subtract, convert to like fractions first.','Mixed ↔ improper: 2¾ = 11/4.'],
-    qa:'Half of one-third is 1/6 — and one-third of a half is also 1/6. Order doesn’t matter in multiplication.'
+    qa:'Half of one-third is 1/6, and one-third of a half is also 1/6. Order doesn’t matter in multiplication.'
   },
   'gravitation': {
     notes:['Every mass attracts every other: F = G m₁m₂ / d².','g on Earth ≈ 9.8 m/s²; all objects fall equally fast without air resistance.','**Mass** is constant; **weight** = mg changes with location.','Moon’s g ≈ 1/6th of Earth’s.','Buoyancy and Archimedes’ principle are part of this chapter too.'],
-    qa:'A feather and a stone fall together in vacuum — on the Moon they land at the same time.'
+    qa:'A feather and a stone fall together in vacuum, on the Moon they land at the same time.'
   },
   'acids, bases and salts': {
     notes:['Acids taste sour and turn blue litmus **red**; bases turn red litmus **blue**.','Natural indicators: litmus, turmeric, china rose.','Acid + base → salt + water (**neutralisation**), releasing heat.','Antacids neutralise excess stomach acid.','Acidic soil is treated with quick lime (a base).'],
-    qa:'Turmeric stays yellow in acid but turns red in base — that is why soap on a haldi stain looks reddish.'
+    qa:'Turmeric stays yellow in acid but turns red in base, that is why soap on a haldi stain looks reddish.'
   },
   'electric current and its effects': {
     notes:['Current needs a closed **circuit**: cell → wire → device → back.','Learn the circuit symbols: cell, battery, switch, bulb.','**Heating effect** powers heaters; fuses melt to protect circuits.','**Magnetic effect:** a current-carrying coil behaves like a magnet.','Electromagnets drive bells, cranes and motors.'],
-    qa:'A fuse is a thin wire that melts first when current is too high — it sacrifices itself to save the circuit.'
+    qa:'A fuse is a thin wire that melts first when current is too high, it sacrifices itself to save the circuit.'
   },
   'what is democracy? why democracy?': {
     notes:['**Democracy** = rule by the people through free and fair elections.','One person, one vote, one value.','Final decision-making power rests with elected representatives.','Needs more than elections: rule of law, rights, independent institutions.','It resolves differences peacefully and lets citizens correct mistakes.'],
-    qa:'Elections alone don’t make a democracy — they must be free, fair, and able to change who rules.'
+    qa:'Elections alone don’t make a democracy, they must be free, fair, and able to change who rules.'
   }
 };
 
@@ -386,7 +386,7 @@ var ROSTER = [
   { n:'Aarav P.',  avg:82, weak:'Heron’s Formula' },
   { n:'Diya S.',   avg:74, weak:'Gravitation' },
   { n:'Ishaan K.', avg:68, weak:'Polynomials' },
-  { n:'Meera R.',  avg:88, weak:'—' },
+  { n:'Meera R.',  avg:88, weak:'-' },
   { n:'Kabir J.',  avg:51, weak:'Number Systems' },
   { n:'Ananya T.', avg:63, weak:'Force and Laws of Motion' },
   { n:'Riya G.',   avg:77, weak:'Motion' }
@@ -397,7 +397,7 @@ var ROSTER = [
    ============================================================ */
 // Determine the authenticated user's role (or fallback to guest/demo).
 // PAL is reachable both logged-in (from the dashboard) and logged-out (from
-// the landing page, as a try-before-signup demo) — so this can't hard-require
+// the landing page, as a try-before-signup demo), so this can't hard-require
 // auth. But it must not trust a stale 'edulearn_user' with no matching token
 // (e.g. left over from an interrupted session): that would misattribute chat
 // history to an identity that isn't actually logged in. (api.js loads later
@@ -417,7 +417,7 @@ var AUTH_ROLE = (_authUser && _authUser.role) || null;
 var LS_KEY = 'edulearn_pal_chats_' + ((_authUser && _authUser.id) || 'guest');
 try { localStorage.removeItem('edulearn_pal_chats'); } catch(e) {}
 // The backend session id lives on each chat thread (`c.backendSessionId`), not
-// in a page-level variable — see askBackend().
+// in a page-level variable, see askBackend().
 
 function loadStore(){
   try{
@@ -488,7 +488,7 @@ function learnLink(c){
 }
 
 /* ============================================================
-   ENGINE — role-aware responses
+   ENGINE, role-aware responses
    ============================================================ */
 var lastChapter = null;
 
@@ -501,17 +501,17 @@ function studentReply(text){
   var wantNotes = /\b(notes?|summar|revis|key points?|explain|samjha|kya hai|what is|batao|easy words)\b/.test(t);
 
   if(/^(hi|hello|hey|namaste|hii+|yo)\b/.test(t) && t.length < 18){
-    return { text:'Namaste! I’m **PAL**, your study buddy.\nAsk me any chapter — like **"summarise Polynomials"**, **"explain Heat"** or **"quiz me on Motion"**.' };
+    return { text:'Namaste! I’m **PAL**, your study buddy.\nAsk me any chapter, like **"summarise Polynomials"**, **"explain Heat"** or **"quiz me on Motion"**.' };
   }
   if(/thank/.test(t)){
-    return { text:'Anytime. One chapter a day beats ten before the exam — pick tomorrow’s now?' };
+    return { text:'Anytime. One chapter a day beats ten before the exam, pick tomorrow’s now?' };
   }
   if(/\b(what should i study|kya padhu|study plan|today)\b/.test(t)){
     var state = readLS('edulearn_state');
-    var line = 'Here’s a smart plan for today:\n- **20 min** — continue your most recent chapter\n- **10 min** — one practice set on your weakest topic\n- **2 min** — this hour’s Arena drop for streak points';
+    var line = 'Here’s a smart plan for today:\n- **20 min**, continue your most recent chapter\n- **10 min**, one practice set on your weakest topic\n- **2 min**, this hour’s Arena drop for streak points';
     if(state && state.chapters){
       var open = Object.keys(state.chapters).filter(function(k){ return !state.chapters[k].mastered; });
-      if(open.length) line += '\n\nYou have **' + open.length + ' chapters in progress** — finishing beats starting.';
+      if(open.length) line += '\n\nYou have **' + open.length + ' chapters in progress**, finishing beats starting.';
     }
     return { text: line, chips:['Quiz me on Polynomials','Summarise Motion','Explain the French Revolution'] };
   }
@@ -522,7 +522,7 @@ function studentReply(text){
     var pool = QUIZ[subj] || QUIZ.maths;
     var q = pool[Math.floor(Math.random() * pool.length)];
     return {
-      text:'Quick one' + (ch ? ' from **' + ch.name + '** territory' : '') + ' — 30 seconds, no peeking:',
+      text:'Quick one' + (ch ? ' from **' + ch.name + '** territory' : '') + ' - 30 seconds, no peeking:',
       quiz: q,
       chips: ch ? ['Notes on ' + ch.name, 'Another quiz'] : ['Another quiz','Summarise Number Systems']
     };
@@ -531,22 +531,22 @@ function studentReply(text){
   if(ch){
     var key = norm(ch.name);
     var kb = KB[key] || KB[key.replace(/^the /,'')];
-    var head = '**' + ch.name + '** — Class ' + ch.cls + ' ' + SUBJECTS[ch.subj].en;
+    var head = '**' + ch.name + '** - Class ' + ch.cls + ' ' + SUBJECTS[ch.subj].en;
     if(kb){
       var body = head + '\n' + kb.notes.map(function(n){ return '- ' + n; }).join('\n') +
         '\n\n' + kb.qa + '\n\n[Open the full lesson in Learn](' + learnLink(ch) + ')';
       return { text: body, chips:['Quiz me on ' + ch.name, 'Explain the hardest part', 'What should I study today?'] };
     }
     var generic = head +
-      '\nHere’s how I’d attack this chapter:\n- **Watch** the animated lecture first — 1.25× speed is fine\n- **Write** every bold term and formula in your own words\n- **Practice** 10 questions; star the ones you guess on\n- **Re-test** yourself after a day, not the same evening' +
+      '\nHere’s how I’d attack this chapter:\n- **Watch** the animated lecture first - 1.25× speed is fine\n- **Write** every bold term and formula in your own words\n- **Practice** 10 questions; star the ones you guess on\n- **Re-test** yourself after a day, not the same evening' +
       '\n\n[Open it in Learn](' + learnLink(ch) + ') and ask me for a quiz when ready.';
     return { text: generic, chips:['Quiz me on ' + ch.name, 'What should I study today?'] };
   }
 
   if(wantNotes){
-    return { text:'Tell me the chapter and I’ll do the rest — for example **"notes on Gravitation"** or **"summarise The Mughal Empire"**. I cover Classes 6–9, all five subjects.' };
+    return { text:'Tell me the chapter and I’ll do the rest, for example **"notes on Gravitation"** or **"summarise The Mughal Empire"**. I cover Classes 6–9, all five subjects.' };
   }
-  return { text:'I’m built for your syllabus — try naming a chapter:\n- **"Summarise Polynomials"**\n- **"Explain Heat in easy words"**\n- **"Quiz me on the French Revolution"**\n\nOr ask **"what should I study today?"** and I’ll plan it.' };
+  return { text:'I’m built for your syllabus, try naming a chapter:\n- **"Summarise Polynomials"**\n- **"Explain Heat in easy words"**\n- **"Quiz me on the French Revolution"**\n\nOr ask **"what should I study today?"** and I’ll plan it.' };
 }
 
 function parentReply(text){
@@ -558,29 +558,29 @@ function parentReply(text){
 
   if(/\b(attention|attentive|focus|live class|report)\b/.test(t)){
     var reps = (live && live.reports) || [];
-    if(!reps.length) return { text:'No live-class reports yet. After every live session, PAL sends you an **attentiveness report** — how long they stayed focused, when they drifted, and what they asked. It will appear here automatically.', chips:['How is overall progress?'] };
+    if(!reps.length) return { text:'No live-class reports yet. After every live session, PAL sends you an **attentiveness report**, how long they stayed focused, when they drifted, and what they asked. It will appear here automatically.', chips:['How is overall progress?'] };
     var r = reps[reps.length - 1];
     var camLine = (typeof r.onScreenPct === 'number')
       ? '\n- **Camera attention: eyes on screen ' + r.onScreenPct + '% of the class**, looked away ' + (r.lookAwayCount || 0) + ' times'
       : '\n- Looked away **' + (r.awayCount || 0) + ' times** (tracked by tab focus)';
-    return { text:'Latest live class — **' + r.topic + '**:\n- Attention score: **' + r.score + '/100**' + camLine + '\n- Asked **' + (r.chats || 0) + ' doubts** in chat, attended ' + r.duration +
-      '\n\n' + (r.score >= 80 ? 'Excellent focus — worth a shabashi today.' : r.score >= 50 ? 'Decent focus with some drift — a quieter study corner could help.' : 'Focus dropped a lot — try shorter sessions, phone in another room.') +
-      (r.camUsed ? '\n\nThis report used live **camera monitoring** — the video never left the device, only the score was saved.' : ''),
+    return { text:'Latest live class - **' + r.topic + '**:\n- Attention score: **' + r.score + '/100**' + camLine + '\n- Asked **' + (r.chats || 0) + ' doubts** in chat, attended ' + r.duration +
+      '\n\n' + (r.score >= 80 ? 'Excellent focus, worth a shabashi today.' : r.score >= 50 ? 'Decent focus with some drift, a quieter study corner could help.' : 'Focus dropped a lot, try shorter sessions, phone in another room.') +
+      (r.camUsed ? '\n\nThis report used live **camera monitoring**, the video never left the device, only the score was saved.' : ''),
       chips:['How is overall progress?','Any weak subjects?'] };
   }
   if(/\b(weak|problem|struggl|kamzor|improve)\b/.test(t)){
     if(mock && mock.attempts && mock.attempts.length){
       var last = mock.attempts[mock.attempts.length - 1];
-      return { text:'In the latest adaptive mock (**' + last.test + '**), mastery was **' + last.mastery + '%** — level: **' + last.level + '**.\n\n' +
-        (last.mastery > 75 ? 'No red flags. Nudge them toward the harder practice sets.' : last.mastery >= 40 ? 'The base is fine; difficult questions are where marks leak. One practice session a day for a week should move this.' : 'The test stepped back to basics — that’s PAL doing its job. Daily 20-minute bridging practice will rebuild the foundation quietly. No scolding needed — the app never labels them.'),
+      return { text:'In the latest adaptive mock (**' + last.test + '**), mastery was **' + last.mastery + '%**, level: **' + last.level + '**.\n\n' +
+        (last.mastery > 75 ? 'No red flags. Nudge them toward the harder practice sets.' : last.mastery >= 40 ? 'The base is fine; difficult questions are where marks leak. One practice session a day for a week should move this.' : 'The test stepped back to basics, that’s PAL doing its job. Daily 20-minute bridging practice will rebuild the foundation quietly. No scolding needed, the app never labels them.'),
         chips:['Show attentiveness report','How much time this week?'] };
     }
-    return { text:'No mock-test attempts yet. Ask them to take one adaptive test in **Tests** — I’ll then tell you exactly which topics need help, in plain words.', chips:['How is overall progress?'] };
+    return { text:'No mock-test attempts yet. Ask them to take one adaptive test in **Tests** - I’ll then tell you exactly which topics need help, in plain words.', chips:['How is overall progress?'] };
   }
   if(/\b(time|kitna|screen|hours|week)\b/.test(t)){
     var mins = (state && state.minutes) || [];
     var total = mins.reduce(function(a,b){ return a + b; }, 0);
-    return { text:'This week: about **' + Math.floor(total/60) + ' hours ' + (total % 60) + ' minutes** of learning across ' + mins.length + ' days.\n\nDaily rhythm matters more than totals — 30 focused minutes daily beats a 4-hour Sunday.', chips:['Any weak subjects?','How is overall progress?'] };
+    return { text:'This week: about **' + Math.floor(total/60) + ' hours ' + (total % 60) + ' minutes** of learning across ' + mins.length + ' days.\n\nDaily rhythm matters more than totals - 30 focused minutes daily beats a 4-hour Sunday.', chips:['Any weak subjects?','How is overall progress?'] };
   }
   var done = 0, doing = 0;
   if(state && state.chapters){
@@ -605,7 +605,7 @@ function teacherReply(text){
   if(/\b(worksheet|paper|assignment|generate|banao|question)\b/.test(t)){
     var subj = ch ? (QUIZ[ch.subj] ? ch.subj : 'maths') : 'maths';
     var pool = (QUIZ[subj] || QUIZ.maths).slice(0, 3);
-    var ws = '**Worksheet' + (ch ? ' — ' + ch.name : '') + '** (10 marks, 15 minutes)\n' +
+    var ws = '**Worksheet' + (ch ? ' - ' + ch.name : '') + '** (10 marks, 15 minutes)\n' +
       pool.map(function(q, i){ return '- Q' + (i+1) + '. ' + q.q + '  (a) ' + q.o[0] + '  (b) ' + q.o[1] + '  (c) ' + q.o[2] + '  (d) ' + q.o[3]; }).join('\n') +
       '\n- Q4. Define the key term of the lesson in one line.\n- Q5. Application: one real-life example in three sentences.' +
       '\n\n**Answer key:** ' + pool.map(function(q, i){ return 'Q' + (i+1) + ' (' + 'abcd'[q.a] + ')'; }).join(' · ') +
@@ -615,8 +615,8 @@ function teacherReply(text){
   if(/\b(weak|struggl|behind|remedial)\b/.test(t)){
     var weak = ROSTER.filter(function(r){ return r.avg < 70; });
     return { text:'**' + weak.length + ' of ' + ROSTER.length + ' students** are below 70% this month (demo roster):\n' +
-      weak.map(function(r){ return '- **' + r.n + '** — ' + r.avg + '%, weakest in ' + r.weak; }).join('\n') +
-      '\n\nSuggested move: assign PAL bridging practice on their weak chapters — it steps back to earlier grades privately, so nobody feels singled out.',
+      weak.map(function(r){ return '- **' + r.n + '** - ' + r.avg + '%, weakest in ' + r.weak; }).join('\n') +
+      '\n\nSuggested move: assign PAL bridging practice on their weak chapters, it steps back to earlier grades privately, so nobody feels singled out.',
       chips:['Generate worksheet on Polynomials','Class average?'] };
   }
   if(/\b(average|class|performance|overall|analytics)\b/.test(t)){
@@ -625,7 +625,7 @@ function teacherReply(text){
     return { text:'Class snapshot (demo roster):\n- Average mastery: **' + avg + '%**\n- Top performer: **' + top.n + '** at ' + top.avg + '%\n- Most common weak topics: **Polynomials, Number Systems**\n\nI can generate a worksheet, list struggling students, or draft a remedial plan.',
       chips:['Who is struggling?','Generate worksheet on Number Systems'] };
   }
-  return { text:'Teacher mode at your service. I can:\n- **Generate worksheets** — "worksheet on Motion" (answer key included)\n- **Spot struggling students** — "who is weak this month?"\n- **Class analytics** — "class average?"\n- **Remedial plans** using PAL’s quiet grade-bridging',
+  return { text:'Teacher mode at your service. I can:\n- **Generate worksheets** - "worksheet on Motion" (answer key included)\n- **Spot struggling students** - "who is weak this month?"\n- **Class analytics** - "class average?"\n- **Remedial plans** using PAL’s quiet grade-bridging',
     chips:['Class average?','Who is struggling?','Generate worksheet on Polynomials'] };
 }
 
@@ -678,17 +678,17 @@ function renderChatList(){
 }
 
 var ROLE_META = {
-  student: { badge:'Student mode', color:'var(--teal)', ph:'Ask a doubt — "explain Polynomials in easy words"',
+  student: { badge:'Student mode', color:'var(--teal)', ph:'Ask a doubt - "explain Polynomials in easy words"',
     welcome:'Stuck on a chapter? <em>Ask me.</em>',
-    sub:'Summaries, easy explanations and quick quizzes for Classes 6–9 — in English ya Hinglish.',
+    sub:'Summaries, easy explanations and quick quizzes for Classes 6–9, in English ya Hinglish.',
     starters:[['Summarise','Summarise Polynomials for me'],['Explain','Explain the French Revolution in easy words'],['Quiz','Quiz me on Motion'],['Plan','What should I study today?']] },
-  parent: { badge:'Parent mode', color:'var(--amber)', ph:'Ask about your child — "how is she doing in Maths?"',
+  parent: { badge:'Parent mode', color:'var(--amber)', ph:'Ask about your child - "how is she doing in Maths?"',
     welcome:'Know exactly how your <em>child is doing.</em>',
-    sub:'Progress, weak subjects, study time and live-class attentiveness — explained in plain words, not charts.',
+    sub:'Progress, weak subjects, study time and live-class attentiveness, explained in plain words, not charts.',
     starters:[['Progress','How is my child doing overall?'],['Focus','Show me the attentiveness report'],['Weak areas','Any weak subjects I should know about?'],['Time','How much did they study this week?']] },
-  teacher: { badge:'Teacher mode', color:'var(--peri)', ph:'Ask for your class — "generate a worksheet on Motion"',
+  teacher: { badge:'Teacher mode', color:'var(--peri)', ph:'Ask for your class - "generate a worksheet on Motion"',
     welcome:'Your class, <em>one question away.</em>',
-    sub:'Worksheets with answer keys, struggling-student lists and remedial plans — generated in seconds.',
+    sub:'Worksheets with answer keys, struggling-student lists and remedial plans, generated in seconds.',
     starters:[['Worksheet','Generate a worksheet on Polynomials'],['Students','Who is struggling this month?'],['Analytics','What is the class average?'],['Remedial','Draft a remedial plan for Number Systems']] }
 };
 
@@ -747,7 +747,7 @@ function quizHTML(q, done){
     return '<button class="qz__opt' + cls + '" data-i="' + i + '" type="button"' + (done ? ' disabled' : '') + '>' +
       '<span class="l">' + 'ABCD'[i] + '</span><span>' + esc(o) + '</span></button>';
   }).join('');
-  var verdict = done ? (done.picked === q.a ? '<span style="color:var(--teal)">Correct — sharp.</span>' : '<span style="color:var(--rose)">Not quite — the answer is ' + 'ABCD'[q.a] + '.</span>') : '';
+  var verdict = done ? (done.picked === q.a ? '<span style="color:var(--teal)">Correct, sharp.</span>' : '<span style="color:var(--rose)">Not quite, the answer is ' + 'ABCD'[q.a] + '.</span>') : '';
   return '<div class="qz"><div class="qz__q">' + esc(q.q) + '</div><div class="qz__opts">' + opts + '</div><div class="qz__verdict">' + verdict + '</div></div>';
 }
 function chipsHTML(chips){
@@ -814,7 +814,7 @@ function streamIn(m, after){
 // One backend round-trip for `chat`. `canRetry` guards a single recovery
 // attempt: a sessionId can go stale (deleted on another device, or a server
 // whose sessions were wiped), and the server 404s it. Because the id is stored
-// on the thread, that 404 would repeat for EVERY later question — the thread
+// on the thread, that 404 would repeat for EVERY later question, the thread
 // would be permanently unable to get an answer. So on a 404 we drop the dead id
 // and ask again as a fresh session instead of surfacing a dead end.
 function askBackend(c, text, sessionId, canRetry){
@@ -843,16 +843,16 @@ function askBackend(c, text, sessionId, canRetry){
       return;
     }
     // A logged-in user gets an honest error, never the local demo engine's
-    // fabricated data (teacherReply's ROSTER is fake — presenting it as a
+    // fabricated data (teacherReply's ROSTER is fake, presenting it as a
     // real answer about a real teacher's real class would be actively
     // misleading, not just an unpolished fallback).
     var row = document.getElementById('typingRow');
     if(row) row.remove();
     // A server-side config failure (dead AI credentials) will not fix itself, so
-    // don't tell the user to try again in a moment — that's a promise the server
+    // don't tell the user to try again in a moment, that's a promise the server
     // can't keep, and they'd sit there retrying a dead endpoint.
     var text2 = (err && err.code === 'pal_not_configured')
-      ? 'PAL’s AI service is not set up on the server right now, so I can’t answer yet. This needs an admin to fix — please report it.'
+      ? 'PAL’s AI service is not set up on the server right now, so I can’t answer yet. This needs an admin to fix, please report it.'
       : 'Sorry, I could not reach PAL just now (' + (err && err.message ? err.message : 'connection issue') + '). Please try again in a moment.';
     var m = { who:'pal', text: text2, quiz: null, quizDone: null, chips: null };
     streamIn(m, function(){
@@ -885,13 +885,13 @@ function sendMessage(text){
   // Try real backend PAL AI first; fall back to local engine.
   var token = (typeof EduAPI !== 'undefined') && EduAPI.getToken && EduAPI.getToken();
   if (token) {
-    // Only THIS thread's backend session — never a global "last session id".
+    // Only THIS thread's backend session, never a global "last session id".
     // A new chat must start a new server session, otherwise every thread in the
     // sidebar appends to whichever session was used last and PAL answers the
     // new question with the old thread's context.
     askBackend(c, text, c.backendSessionId, true);
   } else {
-    // No auth token — use offline local engine
+    // No auth token, use offline local engine
     setTimeout(function(){
       var r = reply(text);
       var row = document.getElementById('typingRow');
@@ -911,7 +911,7 @@ function sendMessage(text){
    WIRING
    ============================================================ */
 // Reveal the live doubt session launcher only for roles the guard would let
-// through (students) — otherwise the link would just bounce off role-guard.
+// through (students), otherwise the link would just bounce off role-guard.
 // In the SPA this script runs without role-guard.js, so when EduGuard is
 // absent fall back to reading the stored session role directly.
 (function(){
@@ -985,7 +985,7 @@ window._palRenderThread = renderThread;
 <script src="api.js"></script>
 <script src="account-menu.js"></script>
 <script>
-// Chat history lives only in this browser's localStorage — logging out wipes
+// Chat history lives only in this browser's localStorage, logging out wipes
 // it (by design, so the next person on a shared device can't read it) and
 // nothing restores it on the next login, so a same-user logout→login cycle
 // looked like PAL had "erased" the conversation even though the backend still
@@ -1014,7 +1014,7 @@ window._palRenderThread = renderThread;
       window._palRenderChatList();
       window._palRenderThread();
     });
-  }).catch(function () {}); // best-effort — never block the page on this
+  }).catch(function () {}); // best-effort, never block the page on this
 })();
 </script>
 <script src="../theme.js"></script>

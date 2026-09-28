@@ -1,7 +1,7 @@
 # SPA routing for Apache / LiteSpeed hosting (Hostinger serves bestbrainplus.com).
 #
-# Only /index.html exists on disk. Every route under it — /login, /dashboard,
-# /learn, /pal … — is resolved in the browser by React Router. Clicking through
+# Only /index.html exists on disk. Every route under it - /login, /dashboard,
+# /learn, /pal …, is resolved in the browser by React Router. Clicking through
 # from / therefore works, but a hard load or a refresh of one of those URLs is a
 # real request to this server, which has no such file and answers 404. That is
 # why /login 404s on a phone (opened directly or reloaded) while it looks fine
@@ -20,7 +20,7 @@
   # will not let an HTTPS page call an HTTP API (mixed content, no prompt, no
   # override), and the API does not grant CORS to this origin. Proxying
   # through this server answers both at once: the call becomes same-origin, so
-  # there is no CORS check and no mixed content — Apache terminates the TLS
+  # there is no CORS check and no mixed content - Apache terminates the TLS
   # and speaks HTTP to the backend itself.
   #
   # The prefix is stripped exactly as Vercel's rewrite does, so both
@@ -28,7 +28,7 @@
   #     /backend-api/api/auth/login  ->  https://api.bestbrainplus.com/api/auth/login
   #
   # Guarded by IfModule on purpose. A [P] rule with no mod_proxy loaded makes
-  # Apache answer 500 for every matching URL — a worse failure than the one
+  # Apache answer 500 for every matching URL, a worse failure than the one
   # this fixes. Without the module the block does not exist and these paths
   # fall through to the passthrough below, exactly as they do today.
   <IfModule mod_proxy.c>
@@ -57,17 +57,17 @@
 # names are unique per build and can be cached forever.
 #
 # Everything else served from the web root keeps a STABLE name across every
-# deploy — index.html, and the lifted platform files copied from public/:
+# deploy, index.html, and the lifted platform files copied from public/:
 # vivid.css, theme.css, curriculum.js, theme.js, account-menu.js,
 # features-panel.js. Caching those by extension would pin returning visitors to
-# the previous deploy's copy — vivid.css alone carries the entire mobile layer,
+# the previous deploy's copy, vivid.css alone carries the entire mobile layer,
 # so a year-long immutable cache on it would mean the fix never arrives for
 # anyone who had already loaded the site. They must revalidate instead.
 <IfModule mod_headers.c>
   SetEnvIf Request_URI "^/assets/" HASHED_ASSET=1
 
   Header set Cache-Control "public, max-age=31536000, immutable" env=HASHED_ASSET
-  # "no-cache" means revalidate before reuse, not "never store" — the server
+  # "no-cache" means revalidate before reuse, not "never store", the server
   # answers 304 when unchanged, so this stays cheap.
   Header set Cache-Control "no-cache" env=!HASHED_ASSET
 </IfModule>

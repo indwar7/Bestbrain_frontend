@@ -5,7 +5,7 @@ import css from '../styles/pages/dashboard.css?inline';
 import script from './scripts/dashboard.js';
 
 /**
- * Dashboard — dashboard.html's real stylesheet, markup and script.
+ * Dashboard, dashboard.html's real stylesheet, markup and script.
  *
  * All three are lifted from the original page rather than reimplemented,
  * so the behaviour is the code that was already working, running against

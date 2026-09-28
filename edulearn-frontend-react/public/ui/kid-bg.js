@@ -1,5 +1,5 @@
 /* ============================================================
-   BESTBRAIN — AMBER OS · BACKGROUND + DESIGN TOKENS
+   BESTBRAIN - AMBER OS · BACKGROUND + DESIGN TOKENS
    ------------------------------------------------------------
    Local preview only. Nothing is written to the repo.
 
@@ -13,13 +13,13 @@
    the compositor at 60fps.
 
    Typography is WHITE by spec (#FFF / .8 / .6) with orange used
-   for accents only — orange text on near-black fails contrast at
+   for accents only, orange text on near-black fails contrast at
    body sizes, so it never carries copy.
 
    Two mechanisms keep the canvas seamless under a light-only app:
-     1. token flip — vivid.css's !important rules read var(--u-*),
+     1. token flip, vivid.css's !important rules read var(--u-*),
         so re-pointing the variables turns the whole platform dark
-     2. slab strip — pages wrap content in an opaque white box;
+     2. slab strip, pages wrap content in an opaque white box;
         it is made transparent (not restyled) so the background
         flows unbroken behind every screen
    ============================================================ */
@@ -29,7 +29,7 @@
   /* privacy/terms: the aurora and the drifting formulas ran straight across
      the paragraphs of a legal document. sync() drops the `kidbg` class for
      anything listed here, and `html:not(.kidbg) .kb-sky{display:none}` below
-     takes the decoration with it — while start()'s __kidReveal still fires,
+     takes the decoration with it, while start()'s __kidReveal still fires,
      so the page is not left holding at opacity 0. */
   var SKIP = ['demo-pal-slides', 'privacy', 'terms'];
 
@@ -41,11 +41,11 @@
   function allowed() { return SKIP.indexOf(pageKey()) === -1; }
 
   /* ---------------------------------------------------------
-     AI glyphs — currentColor, so one sprite serves any tint
+     AI glyphs, currentColor, so one sprite serves any tint
      --------------------------------------------------------- */
   var S = 'fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
   /* ------------------------------------------------------------------
-     Icons — Lucide v1.37.0 (ISC), used verbatim.
+     Icons - Lucide v1.37.0 (ISC), used verbatim.
 
      These were hand-drawn on a 48x48 grid at stroke-width 1.6, each one
      its own idea of weight, corner radius and optical size; side by side
@@ -60,13 +60,13 @@
 
      S still supplies fill/stroke/linecap. Lucide ships stroke-width 2 on
      a 24 grid; S says 1.6, which at this scale is the same optical weight
-     as the old 1.6 on a 48 grid was NOT — the old set drew at half the
+     as the old 1.6 on a 48 grid was NOT, the old set drew at half the
      relative weight. Keeping S means every icon on the site, old callers
      included, still inherits one stroke setting from one place.
      ------------------------------------------------------------------ */
   var ICON = {
     /* lucide "sparkle", not "sparkles": the plural carries a second star and a
-       dot, which at 20px in the logo tile — and as ic()'s fallback — is noise. */
+       dot, which at 20px in the logo tile, and as ic()'s fallback, is noise. */
     spark: '<svg viewBox="0 0 24 24" ' + S + '><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/></svg>',
     brain: '<svg viewBox="0 0 24 24" ' + S + '><path d="M12 18V5"/> <path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/> <path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/> <path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/> <path d="M18 18a4 4 0 0 0 2-7.464"/> <path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/> <path d="M6 18a4 4 0 0 1-2-7.464"/> <path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></svg>',
     robot: '<svg viewBox="0 0 24 24" ' + S + '><path d="M12 8V4H8"/> <rect width="16" height="12" x="4" y="8" rx="2"/> <path d="M2 14h2"/> <path d="M20 14h2"/> <path d="M15 13v2"/> <path d="M9 13v2"/></svg>',
@@ -109,7 +109,7 @@
     kite: '<svg viewBox="0 0 24 24" ' + S + '><path d="M13.73 4a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/></svg>'
   };
 
-  /* Chemistry and maths the way a Class 6 notebook has it — these ride in the
+  /* Chemistry and maths the way a Class 6 notebook has it, these ride in the
      background as TEXT, not icons, because a formula that is drawn stops
      being a formula. */
   var FORMULAS = [
@@ -144,7 +144,7 @@
     { t: 'Ca',       x: 2,  y: 66, s: 27, o: .19, d: 14, t0: 1.3 }
   ];
 
-  /* A deterministic star field — no Math.random, so the sky is identical on
+  /* A deterministic star field, no Math.random, so the sky is identical on
      every page and switching tabs does not reshuffle it. */
   var STARS = (function () {
     var out = [], seed = 7;
@@ -163,7 +163,7 @@
   })();
 
   /* A full playground palette, not just the brand orange. The sky is what
-     makes the product read as "for kids" — one hue makes it read as a texture.
+     makes the product read as "for kids", one hue makes it read as a texture.
      Navy and indigo are deliberately absent: every colour here sits outside
      the de-blue arc, so nothing in the sky can drift back toward the old blue
      product even as the passes run. */
@@ -184,7 +184,7 @@
      `mid` = sits over the content column; hidden on phones. */
   /* The field was authored faint so it could never fight the copy. Measured
      against the reference it just disappeared, and an invisible background is
-     no background at all — so every glyph is lifted by a single factor rather
+     no background at all, so every glyph is lifted by a single factor rather
      than re-tuning forty numbers by hand. */
   var BOOST = 2.6;
 
@@ -269,7 +269,7 @@
   '.kb-sky{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;contain:strict;}' +
   'html:not(.kidbg) .kb-sky{display:none;}' +
 
-  /* mesh blobs — the primary light source */
+  /* mesh blobs, the primary light source */
   '.kb-blob{position:absolute;border-radius:50%;filter:blur(90px);will-change:transform;}' +
   '.kb-b1{width:820px;height:820px;left:-16%;top:-24%;background:radial-gradient(circle,rgba(255,122,0,.42),transparent 66%);animation:kb-d1 34s ease-in-out infinite;}' +
   '.kb-b2{width:760px;height:760px;right:-14%;top:-10%;background:radial-gradient(circle,rgba(255,167,38,.3),transparent 68%);animation:kb-d2 42s ease-in-out infinite;}' +
@@ -301,7 +301,7 @@
     'background-size:420px 420px;animation:kb-drift 150s linear infinite;}' +
   '@keyframes kb-drift{to{transform:translate3d(-420px,-420px,0)}}' +
 
-  /* grain — the layer that makes gradients feel like film, not CSS */
+  /* grain, the layer that makes gradients feel like film, not CSS */
   '.kb-noise{position:absolute;inset:0;opacity:.05;mix-blend-mode:overlay;background-image:' + NOISE + ';background-size:200px 200px;}' +
 
   /* floating AI glyphs */
@@ -333,17 +333,17 @@
   'html.kid-dark body{color:rgba(255,255,255,.8)!important;}' +
   'html.kid-dark h1,html.kid-dark h2,html.kid-dark h3,html.kid-dark h4,html.kid-dark .serif{color:#FFFFFF!important;}' +
   /* Scoped to .kidbg, like the .kb-sky rule above, so it lifts on the pages
-     that opt out of the skin. It is decoration — and still the retired amber,
+     that opt out of the skin. It is decoration, and still the retired amber,
      which is why an orange halo was sitting behind "Privacy Policy". */
   'html.kidbg.kid-dark h1{text-shadow:0 0 44px rgba(255,122,0,.35)!important;}' +
-  /* vivid.css hard-codes #000 on these — same selectors, later, light values */
+  /* vivid.css hard-codes #000 on these, same selectors, later, light values */
   'html.kid-dark .chip,html.kid-dark .tag,html.kid-dark .pill,html.kid-dark .fchip,' +
   'html.kid-dark .modchip,html.kid-dark .dchip,html.kid-dark .wchip,html.kid-dark .tagchip,' +
   'html.kid-dark .handchip,html.kid-dark .streakchip,html.kid-dark .lvlpill,html.kid-dark .badge,' +
   'html.kid-dark .rolebadge,html.kid-dark .cls-chip,html.kid-dark .rc-tag,html.kid-dark .weak-chip,' +
   'html.kid-dark .sub-pill,html.kid-dark .subjtag{color:#FFFFFF!important;' +
     'border-color:rgba(255,255,255,.18)!important;background:rgba(255,255,255,.07)!important;}' +
-  /* the account sheet ships as an opaque white card — too small for the
+  /* the account sheet ships as an opaque white card, too small for the
      seamless sweep to catch, so it is named */
   'html.kid-dark .acct-panel,html.kid-dark .acct-fab,html.kid-dark .acct-sec,' +
   'html.kid-dark .acct-row,html.kid-dark .am-hd{' +
@@ -361,7 +361,7 @@
   /* ---------- the ink law: every glyph is white ----------
      vivid.css ships `body,p,li,span,div,a,td,th,label,h1..h6{color:#000!important}`.
      An !important tie is settled by specificity, so the very same element
-     selectors are restated behind `html.kid-dark` — one extra class is all it
+     selectors are restated behind `html.kid-dark`, one extra class is all it
      takes to win. -webkit-text-fill-color must be restated alongside `color`
      because it outranks it, and vivid.css sets both. */
   'html.kid-dark body,html.kid-dark p,html.kid-dark li,html.kid-dark span,html.kid-dark div,' +
@@ -404,7 +404,7 @@
   }
 
   function neuralSvg() {
-    /* deterministic lattice — no Math.random, so it never flickers between
+    /* deterministic lattice, no Math.random, so it never flickers between
        reloads and reads as a designed constellation rather than noise */
     var pts = [], i, x, y;
     for (i = 0; i < 26; i++) {
@@ -444,7 +444,7 @@
     });
     sky.insertAdjacentHTML('beforeend', neuralSvg());
 
-    /* stars first — they sit furthest back */
+    /* stars first, they sit furthest back */
     STARS.forEach(function (st) {
       var d = el('div', 'kb-star');
       d.style.cssText =
@@ -472,7 +472,7 @@
         'opacity:' + Math.min(.62, f.o * BOOST) + ';' +
         'animation-duration:' + f.d + 's;animation-delay:' + f.t0 + 's;';
       /* Both properties, both !important: the ink law paints every span white,
-         and -webkit-text-fill-color outranks color — set only one and the
+         and -webkit-text-fill-color outranks color, set only one and the
          formulas come out as white smudges instead of coloured chalk. */
       var tint = TINT[(n + 2) % TINT.length];
       s.style.setProperty('color', tint, 'important');
@@ -485,7 +485,7 @@
   }
 
   /* ---------------------------------------------------------
-     SEAMLESS SWEEP — strip the page's opaque white slabs
+     SEAMLESS SWEEP, strip the page's opaque white slabs
      --------------------------------------------------------- */
   function rgbaOf(str) {
     var n = (str || '').match(/[\d.]+/g);
@@ -494,7 +494,7 @@
     return { r: n[0] * f, g: n[1] * f, b: n[2] * f, a: n.length > 3 ? parseFloat(n[3]) : 1 };
   }
 
-  /* A hex literal is a colour too — inline custom properties are written
+  /* A hex literal is a colour too, inline custom properties are written
      that way, and those are exactly where the old blue hides. */
   function parseColour(str) {
     if (!str) return null;
@@ -521,10 +521,10 @@
   }
 
   /* ---------------------------------------------------------
-     DE-BLUE — cyan through magenta is the whole cold arc, and it
+     DE-BLUE, cyan through magenta is the whole cold arc, and it
      is squeezed into the warm amber band. Lightness and alpha are
      left untouched, so a pale tile stays pale and glass stays
-     glass; only the hue moves. Surfaces only — never text, or the
+     glass; only the hue moves. Surfaces only, never text, or the
      page's own dark ink would turn brown instead of being fixed
      by the ink pass below.
      --------------------------------------------------------- */
@@ -533,7 +533,7 @@
     if (!c || c.a === 0) return null;
     var x = toHsl(c);
     if (x.s < .12) return null;                  // grey has no hue to rotate
-    /* Only the genuine blues — sky through indigo. The arc is kept deliberately
+    /* Only the genuine blues, sky through indigo. The arc is kept deliberately
        narrow so mint, teal, pink and violet survive: the brief was no blue, not
        no colour, and those accents are what make the tiles read as playful. */
     if (x.h < 195 || x.h >= 265) return null;
@@ -554,7 +554,7 @@
 
   /* What does this element itself paint? A light surface is not always a light
      background-COLOR: a sticky header can be a white gradient over a transparent
-     colour, which a colour-only test walks straight past — that is exactly how
+     colour, which a colour-only test walks straight past, that is exactly how
      the React nav stayed white while the audit reported a clean page. Gradients
      are averaged over the stops opaque enough to actually show. */
   function gradientPaint(bi) {
@@ -587,7 +587,7 @@
      element: `border-top:3px solid var(--ac)` resolves through a token defined
      on :root, and only the token is blue. So collect every custom property any
      stylesheet declares, read what it resolves to, and re-point the blue ones
-     at the root — every var() reference downstream follows. */
+     at the root, every var() reference downstream follows. */
   function warmTokens() {
     /* re-scan for the first few passes, since sibling preview sheets and any
        late stylesheet can introduce tokens after the first run; an already
@@ -626,7 +626,7 @@
     /* getComputedStyle is a forced style recalc, and running it over every
        node on every mutation is what made scrolling crawl. Once the early
        passes have settled, the selector engine filters to nodes we have never
-       touched — which on a stable page is none of them, so a mutation costs
+       touched, which on a stable page is none of them, so a mutation costs
        almost nothing. */
     var all = derivePass > SETTLE
       ? document.body.querySelectorAll('*:not([data-kid-warm])')
@@ -634,14 +634,14 @@
     for (var i = 0; i < all.length; i++) {
       var n = all[i], v;
       if (n.tagName === 'SCRIPT' || n.tagName === 'STYLE') continue;
-      /* the quiz options are styled explicitly by kid-quiz — an inline warm
+      /* the quiz options are styled explicitly by kid-quiz, an inline warm
          background written here would outrank that stylesheet and put them
          back to brown-on-brown */
       if (n.closest && n.closest('.kb-sky,#kh-root,#ka-root,#kq-player,#optGrid,.role-tabs')) {
         /* Mark it even though we are leaving it alone: the settled-pass filter
            keys off this attribute, and a skipped subtree that stays unmarked is
            re-queried and re-measured on every mutation for the life of the page
-           — which on the homepage was most of the DOM. */
+          , which on the homepage was most of the DOM. */
         n.setAttribute('data-kid-warm', 'skip');
         continue;
       }
@@ -652,17 +652,17 @@
 
       /* Drop whatever this pass wrote last time before measuring. kid-bg runs
          before kid-ui and kid-home have injected their sheets, so a first-pass
-         reading captures the page's *original* palette — freezing that inline
+         reading captures the page's *original* palette, freezing that inline
          would lock the old light-blue tiles in place for good. Re-deriving
          from the live cascade is what lets the later sheets win.
 
          It stops once the sheets have all landed, though: removing a property
          and setting it straight back restarts any CSS transition on it, and an
-         element re-derived forever never settles — it just keeps sliding back
+         element re-derived forever never settles, it just keeps sliding back
          toward the light value it was transitioning from. */
       if (n.hasAttribute('data-kid-warm')) {
         /* If the value on screen is still the one this pass wrote, there is
-           nothing to redo — skipping keeps the transition from restarting.
+           nothing to redo, skipping keeps the transition from restarting.
            The moment the page restyles the element (late data, a state class,
            a script rewriting the style attribute) the two stop matching and it
            gets derived again, so nothing stays stale. */
@@ -680,7 +680,7 @@
       /* A near-white opaque chip is a light-theme leftover: too small for the
          seamless sweep, but big enough to punch a hole in the canvas. Turn it
          into the same glass the rest of the shell uses. Saturated fills are
-         left alone — those are deliberate accents, not stray white. */
+         left alone, those are deliberate accents, not stray white. */
       var glassed = false;
       var FORM = n.tagName === 'INPUT' || n.tagName === 'TEXTAREA' || n.tagName === 'SELECT';
       /* a form control filled with 68%-white still reads as a light slab, so
@@ -731,8 +731,8 @@
     }
   }
 
-  /* Form controls get their style attribute rewritten by page scripts — an
-     auto-growing composer sets style.height and can clear what we wrote — so
+  /* Form controls get their style attribute rewritten by page scripts, an
+     auto-growing composer sets style.height and can clear what we wrote, so
      their glass is re-asserted on every pass rather than once. Writing an
      unchanged value is a no-op, so this restarts no transitions. */
   function glassFields() {
@@ -751,7 +751,7 @@
   }
 
   /* ---------------------------------------------------------
-     SEAMLESS — the page's own full-bleed slab is what hides the
+     SEAMLESS, the page's own full-bleed slab is what hides the
      sky. Judge it by SHAPE, not by colour: once the page's dark
      tokens are armed the slab is black, not white, and a colour
      test would sail straight past it.
@@ -775,7 +775,7 @@
       if (n.hasAttribute('data-kid-seam')) return;
       var r = n.getBoundingClientRect();
       /* A panel does not have to be full-bleed to blot out the page. The
-         tutor's stage is 53% of the viewport beside its transcript column —
+         tutor's stage is 53% of the viewport beside its transcript column ,
          under the old 55% bar it was never a "slab", and it painted a white
          sheet over the whole call. Judge it on area instead of on either
          edge alone. */
@@ -786,8 +786,8 @@
          This pass exists to punch a hole in the sheet a PAGE paints over the
          sky. A drawer or a modal is the opposite: it sits on top, and it is
          opaque precisely so its own content can be read. Stripping it left
-         the feature panel completely transparent — the homepage headline
-         showing through its text — and took the dim off its scrim, so the
+         the feature panel completely transparent, the homepage headline
+         showing through its text, and took the dim off its scrim, so the
          page behind stayed at full brightness too.
 
          Position plus stacking separates the two cleanly, measured on the
@@ -802,7 +802,7 @@
       n.classList.add('kid-seam');
       /* Inline, not just the class. `.kid-seam` is a CLASS selector, and a page
          that styles its stage as `#stage{background:#fff}` beats it on
-         specificity no matter how many !importants the class carries — which
+         specificity no matter how many !importants the class carries, which
          is exactly how the tutor kept painting a white sheet over the call.
          An inline !important outranks every selector there is. */
       n.style.setProperty('background', 'transparent', 'important');
@@ -813,7 +813,7 @@
   }
 
   /* ---------------------------------------------------------
-     CONTRAST — measure, don't guess. Any dark text left on the
+     CONTRAST, measure, don't guess. Any dark text left on the
      dark canvas is lifted to white; dark ink on its own light
      chip is correct and stays.
      --------------------------------------------------------- */
@@ -856,10 +856,10 @@
       }
       w = w.parentElement; hops++;
     }
-    return null;                       // nothing opaque — it sits on the sky
+    return null;                       // nothing opaque, it sits on the sky
   }
 
-  /* THE INK PASS — two-way. Text on the dark canvas goes white; text on a
+  /* THE INK PASS, two-way. Text on the dark canvas goes white; text on a
      genuinely bright surface goes dark. Measured per element, so a pastel
      subject tile and a black card both come out readable without either
      being named in a selector. */
@@ -872,7 +872,7 @@
     for (var i = 0; i < all.length; i++) {
       var n = all[i];
       /* Mark these too. An element the pass will never act on still costs a
-         query and a style read on every mutation if it stays unmarked — and
+         query and a style read on every mutation if it stays unmarked, and
          SVG nodes alone are most of the sky. */
       if (n.namespaceURI !== 'http://www.w3.org/1999/xhtml') {
         if (n.setAttribute) n.setAttribute('data-kid-ink', 'svg');
@@ -883,12 +883,12 @@
         continue;
       }
       /* #kh-root and #ka-root style every glyph inside them explicitly (see
-         the landing page and the auth screens) — same reasoning the "warm"
+         the landing page and the auth screens), same reasoning the "warm"
          pass above already applies to this exact pair of roots. Without this
          exclusion this pass still ran inside them, and since it writes color
          via inline style + 'important' it doesn't lose a cascade fight so
          much as unconditionally overwrite whatever the page's own stylesheet
-         set a moment later — a gradient-clipped accent word (background-clip:
+         set a moment later, a gradient-clipped accent word (background-clip:
          text) reads to surfaceLum() as a bright surface the text sits ON
          rather than the text's own fill, so it "corrected" both the hero's
          accent word and the homepage stat suffixes to flat ink, silently
@@ -898,7 +898,7 @@
       var cs = getComputedStyle(n);
       var s = surfaceLum(n, cs);
       if (s === null) s = .02;                       // nothing opaque: the canvas
-      /* Pick the ink that actually wins, rather than trusting a threshold — a
+      /* Pick the ink that actually wins, rather than trusting a threshold, a
          mid-tone orange pill sits on the wrong side of any fixed cut-off, and
          white on it reads at barely 2:1. */
       var onWhite = 1.05 / (s + .05);
@@ -906,7 +906,7 @@
       var want = onBlack > onWhite ? '#0A0A0A' : '#FFFFFF';
       if (n.getAttribute('data-kid-ink') === want) continue;
       n.style.setProperty('color', want, 'important');
-      /* text-fill outranks color — setting one without the other leaves the
+      /* text-fill outranks color, setting one without the other leaves the
          glyph exactly as it was */
       n.style.setProperty('-webkit-text-fill-color', want, 'important');
       n.setAttribute('data-kid-ink', want);
@@ -933,12 +933,12 @@
   function start() {
     build();
     sync();
-    /* the sibling preview sheets inject during this same tick — one frame
+    /* the sibling preview sheets inject during this same tick, one frame
        later the cascade is complete, so re-derive against the real palette */
     requestAnimationFrame(function () {
       sync();
       /* The content has now been restyled at least once, so it is safe to
-         show. boot.js hid it precisely to cover this window — the product's
+         show. boot.js hid it precisely to cover this window, the product's
          own screens render first and would otherwise be visible in their
          pre-redesign form while this ran. */
       if (window.__kidReveal) window.__kidReveal();
@@ -946,19 +946,19 @@
     setTimeout(sync, 400);
     setTimeout(sync, 1400);
     /* Late, direct passes. The mutation-driven work waits for idle time, and
-       idle can be a long way off on a busy page — or never arrive under an
+       idle can be a long way off on a busy page, or never arrive under an
        automated browser. A slab that only appears once the route has finished
        laying out must not depend on it. */
     setTimeout(sync, 2600);
     setTimeout(sync, 4200);
     window.addEventListener('resize', seamless);
 
-    /* Pages fetch their real content after first paint — chapter rows, class
+    /* Pages fetch their real content after first paint, chapter rows, class
        cards, chat replies. Anything that arrives later has to be measured too,
        or it lands with the page's own black ink on the dark canvas. */
     var pending = 0;
     var mo = new MutationObserver(function (recs) {
-      /* A class change is how a page says "this element looks different now" —
+      /* A class change is how a page says "this element looks different now" ,
          an active tab, a selected option, a current nav item. Our warmed colour
          is pinned inline with !important, so it would survive that change and
          leave the highlight stuck on whatever was selected first. Forget what
@@ -981,7 +981,7 @@
       pending = setTimeout(function () {
         /* allowed(), same as sync(). Only sync() used to ask, so on a SKIPped
            page the four passes still ran from here the moment React mounted
-           anything — which is how /privacy ended up with every paragraph
+           anything, which is how /privacy ended up with every paragraph
            carrying an inline `color:#FFF!important` and data-kid-ink, pinned
            by a pass the page had opted out of. An inline !important outranks
            any stylesheet, so the page could not restyle its own text. */
@@ -1002,7 +1002,7 @@
     start();
   }
 
-  /* A route change, not routine content arriving — react on the same close
+  /* A route change, not routine content arriving, react on the same close
      schedule start() already uses (sync, next frame, 400ms) without calling
      start() itself, which would bolt on another MutationObserver and another
      resize listener every single navigation and never remove the old ones.
@@ -1016,7 +1016,7 @@
      one was left wearing the raw cascade until the 400ms fallback below.
 
      That was visible, because the cascade underneath is the pre-redesign look
-     — vivid.css paints .brand-panel a flat #FFFFFF !important and this file's
+    , vivid.css paints .brand-panel a flat #FFFFFF !important and this file's
      warming pass is what turns it back into a dark surface. Signup's left half
      spent about 370ms as a white rectangle (with white text on it) after every
      click from the homepage. */

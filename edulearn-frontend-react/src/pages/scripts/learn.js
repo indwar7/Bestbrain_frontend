@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/learn.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/learn.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -8,7 +8,7 @@
 export default function init({ location, document, window, onCleanup }) {
 
 /* ============================================================
-   BESTBRAIN · LEARN — application script
+   BESTBRAIN · LEARN, application script
    ============================================================ */
 (function(){
 'use strict';
@@ -66,7 +66,7 @@ function saveState(st){
 }
 
 var state = loadState();
-// Hindi is disabled in production (see the commented-out toggle above) —
+// Hindi is disabled in production (see the commented-out toggle above) ,
 // force English regardless of a stale localStorage value from before.
 state.lang = 'en';
 
@@ -84,8 +84,8 @@ var I18N = {
     nav_dash: 'Dashboard',
     nav_cta: 'Start free',
     hero_title: 'Choose your <em>battlefield.</em>',
-    chip1: 'One subscription — all classes unlocked',
-    chip2: 'Study ahead or revisit any class — no stigma',
+    chip1: 'One subscription, all classes unlocked',
+    chip2: 'Study ahead or revisit any class, no stigma',
     class_word: 'Class',
     chapters_word: 'chapters',
     search_ph: 'Search Class {n} chapters...',
@@ -97,10 +97,10 @@ var I18N = {
     mastered: 'Mastered',
     done: 'Done',
     empty_title: 'No chapters found',
-    empty_pre: 'Tokky suggests —',
+    empty_pre: 'Tokky suggests -',
     footer_tag: 'Made for Bharat. Works fully offline.',
     tokky_name: 'Tokky says:',
-    tokky_tip_progress: 'You’re {pct}% through {title} — keep going!',
+    tokky_tip_progress: 'You’re {pct}% through {title}, keep going!',
     tokky_tip_empty: 'Pick a chapter above and Tokky will cheer you on as you go.',
     beyond_yoga: 'Yoga & Mindfulness',
     beyond_fin: 'Financial Literacy',
@@ -117,23 +117,23 @@ var I18N = {
     nav_dash: 'डैशबोर्ड',
     nav_cta: 'मुफ़्त शुरू करें',
     hero_title: 'अपना <em>रणक्षेत्र</em> चुनें।',
-    chip1: 'एक सब्सक्रिप्शन — सभी कक्षाएँ अनलॉक',
-    chip2: 'आगे पढ़ें या कोई भी कक्षा दोहराएँ — बिना झिझक',
+    chip1: 'एक सब्सक्रिप्शन, सभी कक्षाएँ अनलॉक',
+    chip2: 'आगे पढ़ें या कोई भी कक्षा दोहराएँ, बिना झिझक',
     class_word: 'कक्षा',
     chapters_word: 'अध्याय',
     search_ph: 'कक्षा {n} के अध्याय खोजें...',
     try_chip: '“{name}” आज़माएँ?',
-    results_for: 'परिणाम — कक्षा',
+    results_for: 'परिणाम, कक्षा',
     continue_title: 'सीखना जारी रखें',
     resume: 'फिर शुरू करें',
     beyond_title: 'पढ़ाई से आगे',
     mastered: 'महारत',
     done: 'पूरा',
     empty_title: 'कोई अध्याय नहीं मिला',
-    empty_pre: 'Tokky का सुझाव —',
+    empty_pre: 'Tokky का सुझाव -',
     footer_tag: 'भारत के लिए बना। पूरी तरह ऑफ़लाइन चलता है।',
     tokky_name: 'Tokky कहता है:',
-    tokky_tip_progress: 'आप {title} में {pct}% पहुँच गए — ऐसे ही जारी रखें!',
+    tokky_tip_progress: 'आप {title} में {pct}% पहुँच गए, ऐसे ही जारी रखें!',
     tokky_tip_empty: 'ऊपर से एक अध्याय चुनें, Tokky आपका उत्साह बढ़ाएगा।',
     beyond_yoga: 'योग और माइंडफुलनेस',
     beyond_fin: 'वित्तीय साक्षरता',
@@ -155,7 +155,7 @@ function applyI18n(){
     el.setAttribute('placeholder', t(el.getAttribute('data-i18n-ph')).replace('{n}', activeClass));
   });
   document.documentElement.lang = state.lang === 'hi' ? 'hi' : 'en';
-  // Toggle buttons are commented out (Hindi disabled) — guard their absence.
+  // Toggle buttons are commented out (Hindi disabled), guard their absence.
   var en = document.getElementById('langEn');
   var hi = document.getElementById('langHi');
   if (en) en.classList.toggle('is-on', state.lang === 'en');
@@ -178,7 +178,7 @@ function setLang(lang){
 var STROKE = 'fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"';
 
 var ICONS = {
-  /* subject icons — bespoke */
+  /* subject icons, bespoke */
   maths: '<svg width="24" height="24" viewBox="0 0 24 24" ' + STROKE + ' aria-hidden="true">' +
          '<path d="M2.5 21.5 L8 16" opacity=".55"/>' +
          '<path d="M4.2 19.8 l1.1 1.1 M6 18 l1.1 1.1" opacity=".55"/>' +
@@ -205,7 +205,7 @@ var ICONS = {
          '<path d="M3 4.5 h18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' +
          '<text x="12" y="19" text-anchor="middle" font-size="15" font-weight="600" fill="currentColor" font-family="\'Nunito\',sans-serif">अ</text>' +
          '</svg>',
-  /* modality icons — tiny */
+  /* modality icons, tiny */
   video: '<svg width="13" height="13" viewBox="0 0 24 24" ' + STROKE + '>' +
          '<rect x="2.5" y="4.5" width="19" height="15" rx="3.5"/>' +
          '<path d="M10 9 l5.5 3 L10 15 Z"/>' +
@@ -219,7 +219,7 @@ var ICONS = {
          '<path d="M9 3.5 a3 3 0 0 1 6 0"/>' +
          '<path d="M8.5 13.5 l2.4 2.4 L16 11"/>' +
          '</svg>',
-  /* Question bank — a stack of cards, i.e. a pool to draw from. Deliberately
+  /* Question bank, a stack of cards, i.e. a pool to draw from. Deliberately
      not another clipboard: the bank has to read as different from the test at
      a glance, since they now sit next to each other on every row. */
   bank: '<svg width="13" height="13" viewBox="0 0 24 24" ' + STROKE + '>' +
@@ -227,7 +227,7 @@ var ICONS = {
          '<path d="M7 4.5 h11 a2.5 2.5 0 0 1 2.5 2.5 v11" opacity=".55"/>' +
          '<path d="M7.5 12.5 h6M7.5 16 h4"/>' +
          '</svg>',
-  /* Homework — a page with a turned corner and a tick. */
+  /* Homework, a page with a turned corner and a tick. */
   homework: '<svg width="13" height="13" viewBox="0 0 24 24" ' + STROKE + '>' +
          '<path d="M6 2.5 h7.5 L19.5 8.5 V21.5 H6 z"/>' +
          '<path d="M13.5 2.5 V8.5 H19.5" opacity=".55"/>' +
@@ -259,7 +259,7 @@ var ICONS = {
         '</svg>'
 };
 
-/* Tokky the spark-bot — reusable */
+/* Tokky the spark-bot, reusable */
 function tokkySVG(size){
   return '<svg class="tokky" width="' + size + '" height="' + size + '" viewBox="0 0 100 100" aria-hidden="true">' +
     '<circle class="tokky-halo" cx="50" cy="9" r="7" fill="#3DE8C5"/>' +
@@ -275,7 +275,7 @@ function tokkySVG(size){
 }
 
 /* ------------------------------------------------------------
-   4 · CURRICULUM DATA — 4 classes × 5 subjects, real NCERT names
+   4 · CURRICULUM DATA - 4 classes × 5 subjects, real NCERT names
        chapter = [slug, name, minutes]
    ------------------------------------------------------------ */
 var SUBJECTS = [
@@ -364,7 +364,7 @@ var CURRICULUM = {
     // Content-complete chapters first (videos + notes): electricity, metals,
     // physical/chemical changes, adolescence, then ch7 (heat) and ch8 (time &
     // motion); the rest follow. This inline copy is what the Learn page renders
-    // (the shared curriculum.js drives dashboard/lesson) — keep both in sync.
+    // (the shared curriculum.js drives dashboard/lesson), keep both in sync.
     science: [
       ['electricity-circuits','Electricity: Circuits and their Components',26],
       ['metals-nonmetals','The World of Metals and Non-metals',22],
@@ -409,7 +409,7 @@ var CURRICULUM = {
       ['mithaiwala','मिठाईवाला',16],
       ['rakt-sharir','रक्त और हमारा शरीर',17],
       ['papa-kho-gaye','पापा खो गए',15],
-      ['shaam-ek-kisan','शाम — एक किसान',12],
+      ['shaam-ek-kisan','शाम, एक किसान',12],
       ['chidiya-ki-bachchi','चिड़िया की बच्ची',14]
     ]
   },
@@ -433,7 +433,7 @@ var CURRICULUM = {
       ['metals-nonmetals','Materials: Metals and Non-Metals',23],
       ['coal-petroleum','Coal and Petroleum',20],
       ['combustion-flame','Combustion and Flame',21],
-      ['cell-structure','Cell — Structure and Functions',26],
+      ['cell-structure','Cell - Structure and Functions',26],
       ['force-pressure','Force and Pressure',25],
       ['friction','Friction',22],
       ['sound','Sound',24]
@@ -458,7 +458,7 @@ var CURRICULUM = {
       ['jodys-fawn','This is Jody’s Fawn',14],
       ['visit-to-cambridge','A Visit to Cambridge',16],
       ['monsoon-diary','A Short Monsoon Diary',13],
-      ['great-stone-face','The Great Stone Face — I',15]
+      ['great-stone-face','The Great Stone Face - I',15]
     ],
     hindi: [
       ['dhwani','ध्वनि',11],
@@ -502,7 +502,7 @@ var CURRICULUM = {
       ['russian-revolution','Socialism in Europe and the Russian Revolution',28],
       ['nazism-hitler','Nazism and the Rise of Hitler',27],
       ['forest-society','Forest Society and Colonialism',22],
-      ['india-size-location','India — Size and Location',19],
+      ['india-size-location','India - Size and Location',19],
       ['physical-features','Physical Features of India',23],
       ['what-is-democracy','What is Democracy? Why Democracy?',21],
       ['electoral-politics','Electoral Politics',20],
@@ -552,7 +552,7 @@ var params = new URLSearchParams(window.location.search);
 /* ------------------------------------------------------------
    CLASS ACCESS CONTROL (strict, zero-tolerance)
    A student may ONLY browse their own class. Their class comes from the
-   authenticated session (localStorage 'edulearn_user'), NOT from the URL —
+   authenticated session (localStorage 'edulearn_user'), NOT from the URL ,
    so ?class=9 tampering is ignored. Non-students (teacher/parent/admin) may
    browse across classes (they need to see multiple classes by design).
    ------------------------------------------------------------ */
@@ -622,7 +622,7 @@ if (LOCKED_CLASS) {
 
 var activeClass;
 if (LOCKED_CLASS && LOCKED_CLASS >= 6 && LOCKED_CLASS <= 9) {
-  // Student: always their own class — URL param cannot override it.
+  // Student: always their own class - URL param cannot override it.
   activeClass = LOCKED_CLASS;
 } else {
   var urlClass = parseInt(params.get('class'), 10);
@@ -633,7 +633,7 @@ if(!SUBJECTS.some(function(s){ return s.key === activeSubject; })) activeSubject
 var query = '';
 
 /* Which chapters have homework still to hand in: slug -> "due" | "overdue".
-   Empty until the API answers, and an absent entry means no dot — showing one
+   Empty until the API answers, and an absent entry means no dot, showing one
    before we know would be worse than showing none. */
 var HW_STATE = {};
 
@@ -668,7 +668,7 @@ var SUBJECT_API_NAME = {
 function syncURL(){
   try{
     window.history.replaceState(null, '', 'learn.html?class=' + activeClass + '&subject=' + activeSubject);
-  }catch(e){ /* file:// protocol may refuse — fine for demo */ }
+  }catch(e){ /* file:// protocol may refuse, fine for demo */ }
 }
 
 /* ------------------------------------------------------------
@@ -720,11 +720,11 @@ function lessonHref(cls, subj, slug, name){
 }
 
 /* ------------------------------------------------------------
-   7 · RENDER — class tabs
+   7 · RENDER, class tabs
    ------------------------------------------------------------ */
 function renderTabs(){
   var host = document.getElementById('classTabs');
-  // A locked student only ever sees their own class — no other class is shown.
+  // A locked student only ever sees their own class, no other class is shown.
   var classes = LOCKED_CLASS ? [LOCKED_CLASS] : [6,7,8,9];
   var html = '';
   classes.forEach(function(cls){
@@ -753,7 +753,7 @@ function renderTabs(){
 }
 
 /* ------------------------------------------------------------
-   8 · RENDER — subject rail
+   8 · RENDER, subject rail
    ------------------------------------------------------------ */
 function renderRail(stagger){
   var host = document.getElementById('subjectRail');
@@ -785,7 +785,7 @@ function renderRail(stagger){
 }
 
 /* ------------------------------------------------------------
-   9 · RENDER — chapter list (+ search across the class)
+   9 · RENDER, chapter list (+ search across the class)
    ------------------------------------------------------------ */
 function chapterRowHTML(cls, subj, ch, number, delay, withTag){
   var id = chapterId(cls, subj, ch[0]);
@@ -807,7 +807,7 @@ function chapterRowHTML(cls, subj, ch, number, delay, withTag){
   var hwHref = 'homework.html?class=' + cls + '&subject=' + subj.key + '&ch=' + ch[0];
   // A dot on the icon when this chapter has homework still to hand in. hwState
   // is filled by loadHomeworkState(); before it answers the map is empty and
-  // no dot is drawn, which is the right default — an absent dot says "nothing
+  // no dot is drawn, which is the right default, an absent dot says "nothing
   // due", and inventing one before we know would be worse than showing none.
   var hwPending = HW_STATE[ch[0]];
   var hwDot = hwPending
@@ -840,7 +840,7 @@ function chapterRowHTML(cls, subj, ch, number, delay, withTag){
     // The row is a <div> (not an <a>) so the module icons can be real links:
     // chrow__hit is a stretched, transparent link that makes the whole row open
     // the chapter, while the mods sit above it (higher z-index) and navigate on
-    // their own — a valid alternative to nesting <a> inside <a>.
+    // their own, a valid alternative to nesting <a> inside <a>.
     '<div class="chrow rv"' +
       ' style="--cc:' + cc + ';--sa:' + subj.accent + ';animation-delay:' + delay + 'ms">' +
       '<a class="chrow__hit" href="' + href + '" aria-label="Open ' + esc(ch[1]) + '"></a>' +
@@ -850,7 +850,7 @@ function chapterRowHTML(cls, subj, ch, number, delay, withTag){
         '<span class="chrow__meta">' +
           mods +
           '<span class="pbar"><span class="pbar__fill' + (prog.pct === 0 ? ' is-zero' : '') + '" style="width:' + prog.pct + '%"></span></span>' +
-          '<span class="chrow__pct">' + (prog.pct > 0 ? prog.pct + '%' : '—') + '</span>' +
+          '<span class="chrow__pct">' + (prog.pct > 0 ? prog.pct + '%' : '-') + '</span>' +
         '</span>' +
       '</span>' +
       right +
@@ -909,7 +909,7 @@ function renderContent(stagger){
 }
 
 /* ------------------------------------------------------------
-   10 · RENDER — side panel
+   10 · RENDER, side panel
    ------------------------------------------------------------ */
 function pickContinueChapter(){
   var best = null, bestPct = -1;
@@ -979,7 +979,7 @@ function renderTokkyTip(){
 function renderBeyond(){
   var host = document.getElementById('beyondList');
   // The "Beyond Academics" section was removed from the page. Bail out quietly
-  // instead of throwing on a null host — an unguarded innerHTML here used to
+  // instead of throwing on a null host, an unguarded innerHTML here used to
   // abort renderAll()/init(), taking the whole chapter list down with it.
   if(!host) return;
   var items = [
@@ -1023,7 +1023,7 @@ document.getElementById('trySuggest').addEventListener('click', function(){
 });
 
 /* ------------------------------------------------------------
-   12 · LANGUAGE TOGGLE (disabled in production — buttons are commented out
+   12 · LANGUAGE TOGGLE (disabled in production, buttons are commented out
    above until Hindi chapter titles exist; guard their absence here too)
    ------------------------------------------------------------ */
 if (document.getElementById('langEn')) document.getElementById('langEn').addEventListener('click', function(){ setLang('en'); });

@@ -1,15 +1,15 @@
 /* ============================================================
-   BESTBRAIN — QUIZ (preview only)
+   BESTBRAIN - QUIZ (preview only)
    ------------------------------------------------------------
    Two things, neither of which touches the repo:
 
-   1. VOCABULARY — the product says "Test" everywhere; the demo
+   1. VOCABULARY, the product says "Test" everywhere; the demo
       says "Quiz". Only visible words are rewritten (text nodes,
       placeholders, titles). Every href, id, class and data
       attribute is left exactly as it was, so routing and the
       pages' own logic keep working.
 
-   2. EXPLAINER — when an answer comes back wrong, a video plays
+   2. EXPLAINER, when an answer comes back wrong, a video plays
       that walks through that specific question.
 
    The explainer is built from the question on screen rather than
@@ -33,7 +33,7 @@
     [/\bTest\b/g, 'Quiz'], [/\btest\b/g, 'quiz'],
     [/\bTesting\b/g, 'Quizzing'], [/\btesting\b/g, 'quizzing']
   ];
-  /* \b keeps "latest", "greatest", "contest" and "Testimonials" intact —
+  /* \b keeps "latest", "greatest", "contest" and "Testimonials" intact ,
      there is no word boundary inside them. */
   function reword(s) {
     var out = s;
@@ -42,10 +42,10 @@
   }
   var SKIP_TAGS = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, TEXTAREA: 1 };
 
-  /* A URL is not prose — "test" inside take-test.html is a filename, not the
+  /* A URL is not prose - "test" inside take-test.html is a filename, not the
      word this pass exists to relabel. A teacher's create-a-quiz screen
      displays its own share link as plain text, and that link was rewritten
-     into take-quiz.html — a page that does not exist — the moment it hit
+     into take-quiz.html, a page that does not exist, the moment it hit
      the DOM, silently turning a working link into a dead one. Anything that
      reads like a URL or a file path is left alone. */
   function looksLikeUrlOrPath(s) {
@@ -89,7 +89,7 @@
   /* =========================================================
      1b. THE ANSWER OPTIONS
      Left to the page's own tokens the options came out the same
-     brown as the card behind them — readable in theory, invisible
+     brown as the card behind them, readable in theory, invisible
      as *choices*. They are the one thing on the screen a student
      has to act on, so they get a surface of their own, a border
      that is actually a border, and a letter badge that reads at a
@@ -108,7 +108,7 @@
     'background:rgba(255,122,0,.16)!important;transform:translateY(-3px)!important;' +
     'box-shadow:0 16px 34px rgba(255,122,0,.3)!important;}' +
   '#optGrid .opt:focus-visible{outline:3px solid #FFB347!important;outline-offset:3px!important;}' +
-  /* the option text itself — big, white, unmissable */
+  /* the option text itself, big, white, unmissable */
   '#optGrid .opt,#optGrid .opt span:not(.ltr){font-size:clamp(18px,1.8vw,23px)!important;' +
     'font-weight:700!important;color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;}' +
   /* A / B / C / D */
@@ -128,7 +128,7 @@
     'box-shadow:0 0 0 4px rgba(239,68,68,.2)!important;}' +
   '#optGrid .opt.is-wrong .ltr{background:#F87171!important;' +
     'box-shadow:0 6px 16px rgba(239,68,68,.5)!important;}' +
-  /* a disabled option is still being read — never fade it out */
+  /* a disabled option is still being read, never fade it out */
   '#optGrid .opt:disabled{opacity:1!important;cursor:default;}' +
   /* the two controls under the question */
   '#submitBtn,#nextBtn{background:linear-gradient(120deg,#FF7A00,#FFA726)!important;border:0!important;' +
@@ -302,7 +302,7 @@
   function sentences(s) {
     if (!s) return [];
     /* lines first (the solution's own structure), then sentences inside a
-       long line — a step should be one idea, not one paragraph */
+       long line, a step should be one idea, not one paragraph */
     var out = [];
     s.split('\n').forEach(function (line) {
       line.split(/(?<=[.!?])\s+/).forEach(function (part) {
@@ -333,7 +333,7 @@
         html: '<div class="kq-kicker">Your answer</div>' +
               '<div class="kq-chip bad"><span class="kq-mark">✕</span>' +
               '<span class="kq-txt">' + esc(q.picked) + '</span></div>' +
-              '<div class="kq-p">Ye wala sahi nahi tha — dekhte hain kyun.</div>'
+              '<div class="kq-p">Ye wala sahi nahi tha, dekhte hain kyun.</div>'
       });
     }
     if (q.correct) {
@@ -361,7 +361,7 @@
       say: 'Got it? Try the next question.',
       html: '<div class="kq-kicker">You are set</div>' +
             '<div class="kq-h">Samajh aa gaya? Agla question try karo.</div>' +
-            '<div class="kq-p">This explainer replays any time — tap the ▶ button under the question.</div>'
+            '<div class="kq-p">This explainer replays any time, tap the ▶ button under the question.</div>'
     });
     sc.forEach(function (s) { s.dur = secondsFor(s.say); });
     return sc;
@@ -547,7 +547,7 @@
     if (key === lastKey) return;          // same question, already handled
     lastKey = key;
     addReplayButton();
-    /* let the red option register first — the explainer is a follow-up to
+    /* let the red option register first, the explainer is a follow-up to
        seeing the mistake, not a replacement for it */
     setTimeout(function () {
       if (readQuestion()) play(buildScenes(q));

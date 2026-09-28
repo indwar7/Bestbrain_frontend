@@ -1,7 +1,7 @@
 import LegalLayout, { Section } from '../components/LegalLayout';
 
 /**
- * Terms of Service. Placeholder legal content scaffolded for BestBrain — it
+ * Terms of Service. Placeholder legal content scaffolded for BestBrain, it
  * should be reviewed by the company's legal counsel before being relied upon.
  */
 export default function Terms() {

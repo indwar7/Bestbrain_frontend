@@ -33,7 +33,7 @@ ffmpeg -i media-src/sampleVideos-originals/INPUT.mp4 \
 file so the browser can start playing before the download finishes. Without
 it a 20 MB lecture waits for all 20 MB.
 
-Then a poster frame — pick a moment that reads well as a still. All three of
+Then a poster frame, pick a moment that reads well as a still. All three of
 these use each video's own title card, about a second in:
 
 ```sh
@@ -47,4 +47,4 @@ stem, so `{ f: '2' }` resolves to `/sampleVideos/2.mp4` and `/sampleVideos/2.jpg
 
 The page never creates a `<video>` element until the visitor clicks a poster,
 so scrolling past the section costs three ~90 KB JPEGs and nothing else. Keep
-it that way — a `<video>` with a `src`, even hidden, still opens a connection.
+it that way, a `<video>` with a `src`, even hidden, still opens a connection.

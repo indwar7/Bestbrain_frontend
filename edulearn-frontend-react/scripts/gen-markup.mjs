@@ -3,7 +3,7 @@
  *
  * These files are the faithful structural translation of each page's <body>.
  * Pages whose content was built imperatively come out mostly as empty
- * containers — that is correct; the React logic fills them.
+ * containers, that is correct; the React logic fills them.
  *
  * Regenerate with `npm run sync:markup`. Hand-edits are lost, so once a page
  * has real behaviour wired in, that lives in src/pages/<Page>.tsx which
@@ -48,7 +48,7 @@ for (const [page, comp] of Object.entries(PAGES)) {
   const { jsx, needsCssProperties } = htmlToJsx(bodyOf(html), 2);
 
   const src =
-    `/* Generated from edulearn-frontend/${page}.html — do not hand-edit.\n` +
+    `/* Generated from edulearn-frontend/${page}.html, do not hand-edit.\n` +
     `   Regenerate with \`npm run sync:markup\`. */\n` +
     (needsCssProperties ? `import type { CSSProperties } from 'react';\n\n` : '') +
     `export default function ${comp}() {\n` +

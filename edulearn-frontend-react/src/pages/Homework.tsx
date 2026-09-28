@@ -5,7 +5,7 @@ import css from '../styles/pages/homework.css?inline';
 import script from './scripts/homework.js';
 
 /**
- * Homework — homework.html's real stylesheet, markup and script.
+ * Homework, homework.html's real stylesheet, markup and script.
  *
  * All three are lifted from the original page rather than reimplemented,
  * so the behaviour is the code that was already working, running against

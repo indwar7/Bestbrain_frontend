@@ -1,14 +1,14 @@
 /* ============================================================
-   BestBrain — LiveKit live-video glue
+   BestBrain - LiveKit live-video glue
    Connects the live classroom to a real LiveKit room.
    - Fetches an eligibility-checked token from the backend
    - Teacher (host) publishes camera + mic
    - Students (viewer) subscribe and watch
-   Attention monitoring (Socket.IO) runs separately — no conflict.
+   Attention monitoring (Socket.IO) runs separately, no conflict.
    Exposes window.EduLive.{connect, disconnect}.
    ============================================================ */
 (function (global) {
-  // Prefer api.js's resolved base — it already handles the https→proxy switch
+  // Prefer api.js's resolved base, it already handles the https→proxy switch
   // and ignores stale plain-http overrides that the raw localStorage read here
   // used to honour (breaking live video on the deployed site the same way the
   // Arena broke).
@@ -73,11 +73,11 @@
       return false;
     }
 
-    // This class is running on the Google Meet fallback (no LiveKit token) —
+    // This class is running on the Google Meet fallback (no LiveKit token) ,
     // point the user at the Meet link instead of connecting a room here.
     if (data.videoProvider === 'google-meet') {
       showStage(false);
-      setStatus('This class is on Google Meet — use the "Join Google Meet" button above.');
+      setStatus('This class is on Google Meet, use the "Join Google Meet" button above.');
       return { meetLink: data.videoRoom };
     }
 

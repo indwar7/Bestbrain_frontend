@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- Redesign: dark canvas before any stylesheet parses, so switching pages
-     never flashes white. boot.js is not deferred on purpose — the theme
+     never flashes white. boot.js is not deferred on purpose, the theme
      classes have to be set before the page CSS lands. -->
 <meta name="color-scheme" content="dark">
 <style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
@@ -11,7 +11,7 @@
   <!-- Apply saved theme before paint to avoid a light-mode flash. -->
   <script>/* light-only product: strip any stale dark preference before paint */try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.remove('dark-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Create a Test — BestBrain</title>
+  <title>Create a Test | BestBrain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,480&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono&display=swap" rel="stylesheet">
   <style>
@@ -110,7 +110,7 @@
   <div class="wrap">
     <a class="top-link" href="dashboard.html">&larr; Back to dashboard</a>
     <h1>Create a <em>Test</em></h1>
-    <p class="sub">Set how many questions, how long per question, then write the questions — your students get a real, timed, auto-graded test.</p>
+    <p class="sub">Set how many questions, how long per question, then write the questions, your students get a real, timed, auto-graded test.</p>
 
     <div id="gate" class="gate" style="display:none">
       You must be logged in as a <b>teacher</b> to create a test. <a href="login.html">Login</a>
@@ -120,7 +120,7 @@
       <div class="card">
         <h2>Test settings</h2>
         <label for="title">Test title</label>
-        <input type="text" id="title" placeholder="e.g. Heat — Chapter Test" required>
+        <input type="text" id="title" placeholder="e.g. Heat - Chapter Test" required>
 
         <div class="row3">
           <div>
@@ -154,7 +154,7 @@
 
     <div class="card" id="resultCard" style="display:none">
       <h2>Test created</h2>
-      <p class="sub" style="margin-bottom:14px">Share this link with your class — each student who opens it gets their own timed attempt.</p>
+      <p class="sub" style="margin-bottom:14px">Share this link with your class, each student who opens it gets their own timed attempt.</p>
       <div class="link-box">
         <span id="testLink"></span>
         <button type="button" class="btn-ghost" id="copyLinkBtn" style="flex:none">Copy</button>
@@ -175,7 +175,7 @@
     }
 
     /* QA T-09: every question was forced to exactly 5 options, all marked
-       `required` — a teacher could not submit a standard 4-option MCQ, let
+       `required`, a teacher could not submit a standard 4-option MCQ, let
        alone a true/false question, even though the backend already accepts
        2–6 (Question.ts) and the student-facing quiz renders however many a
        question actually has. Four is the default now (the common case), and
@@ -190,7 +190,7 @@
     }
 
     // Keeps each row's radio value / letter / placeholder in step with its
-    // actual position after an option is added or removed — the submit
+    // actual position after an option is added or removed, the submit
     // handler reads correctIndex straight off the checked radio's value, so
     // a stale value there would grade the wrong option as correct.
     function renumberOptions(card){
@@ -275,7 +275,7 @@
     document.getElementById('addQBtn').addEventListener('click', addQuestion);
     addQuestion(); // start with one question row
 
-    // Populate Class & subject from the teacher's own assignments — reuses
+    // Populate Class & subject from the teacher's own assignments, reuses
     // the exact className/subject strings already on their account, so the
     // created questions match a real student's own className exactly (no
     // "Class 7" vs "7" mismatch risk).
@@ -314,7 +314,7 @@
 
       var qcards = Array.prototype.slice.call(host.querySelectorAll('.qcard'));
       if (qcards.length !== numQuestions){
-        msg('You said ' + numQuestions + ' question(s) but wrote ' + qcards.length + ' — add or remove rows to match, or update the number above.', false);
+        msg('You said ' + numQuestions + ' question(s) but wrote ' + qcards.length + ', add or remove rows to match, or update the number above.', false);
         return;
       }
 
@@ -336,7 +336,7 @@
       submitBtn.textContent = 'Creating…';
       msg('Creating ' + questions.length + ' question(s)…', true);
 
-      // A fresh, unique slug per test — so this test's questions form their
+      // A fresh, unique slug per test, so this test's questions form their
       // own isolated pool and a student's attempt only ever draws from
       // exactly this set, never mixed with other tests on the same chapter.
       var chapterSlug = slugify(title) + '-' + Date.now().toString(36);
@@ -368,7 +368,7 @@
         document.getElementById('form').style.display = 'none';
         document.getElementById('resultCard').style.display = 'block';
       } catch (err) {
-        msg(err.message || 'Could not create the test — please try again.', false);
+        msg(err.message || 'Could not create the test, please try again.', false);
         submitBtn.disabled = false;
         submitBtn.textContent = 'Create test';
       }

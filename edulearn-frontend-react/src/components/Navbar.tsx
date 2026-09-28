@@ -26,7 +26,7 @@ const NAV_LINKS: { page: string; label: string; i18n: string }[] = [
 ];
 
 /**
- * Signed-out visitors see a marketing nav, not the app sections — those pages
+ * Signed-out visitors see a marketing nav, not the app sections, those pages
  * are for authenticated users and just bounce a logged-out click back to the
  * landing page. These anchor to real sections of the landing page (see
  * LandingMarkup: #features, #stats), so there are no dead links.
@@ -37,9 +37,9 @@ const MARKETING_LINKS: { href: string; label: string }[] = [
 ];
 
 /**
- * Only these pages loaded role-guard.js, and its nav cosmetics — hiding the
+ * Only these pages loaded role-guard.js, and its nav cosmetics, hiding the
  * "Start free" CTA, repointing the brand at the dashboard, hiding links the
- * role cannot open — ran nowhere else. videos.html and the teacher tools show
+ * role cannot open, ran nowhere else. videos.html and the teacher tools show
  * the signed-out CTA even to a signed-in user for exactly this reason, so the
  * cosmetics are applied per page rather than globally.
  */
@@ -49,7 +49,7 @@ const GUARDED = new Set(['dashboard', 'learn', 'lesson', 'mocktest', 'challenge'
  * Which nav item each page marked `is-current`.
  *
  * Six pages are not themselves in the nav and highlighted their parent
- * section instead — a lesson is part of Learn, creating a test is part of
+ * section instead, a lesson is part of Learn, creating a test is part of
  * Tests, and the teacher tools sit under Dashboard. Deriving this from the
  * route alone leaves those pages with no highlight at all, which is what the
  * pixel diff caught on upload, admin, videos, lesson and create-test.
@@ -81,7 +81,7 @@ export default function Navbar({ page }: { page: string }) {
   // clicking it never bounces an authenticated user out to the landing page.
   const brandHref = loggedIn && guarded ? '/dashboard' : '/';
 
-  // A route change means the drawer did its job — never leave it covering the
+  // A route change means the drawer did its job, never leave it covering the
   // page you just navigated to.
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
@@ -115,7 +115,7 @@ export default function Navbar({ page }: { page: string }) {
   /*
     One list drives both the desktop row and the drawer. Rendering the links
     twice from two different sources is how a role filter ends up applied to
-    one and not the other — the drawer would leak Learn/Arena/Tests to a
+    one and not the other, the drawer would leak Learn/Arena/Tests to a
     teacher exactly as the nav once did.
   */
   const items = loggedIn
@@ -149,7 +149,7 @@ export default function Navbar({ page }: { page: string }) {
       {/*
         The --mobilenav marker is what opts this bar into the phone collapse in
         vivid.css. That file is shared with the legacy static pages, whose
-        hand-written nav has no burger — collapsing them too would leave them
+        hand-written nav has no burger, collapsing them too would leave them
         with no navigation at all. The class travels with the component that
         renders the burger, so the two can never drift apart.
       */}
@@ -158,7 +158,7 @@ export default function Navbar({ page }: { page: string }) {
           The burger sits LEFT of the brand on purpose. account-menu.js pins its
           settings FAB to `position:fixed; top:18px; right:18px` on nine app
           pages, which lands on top of the bar's right-hand end at phone widths
-          — a burger there would sit underneath it.
+         , a burger there would sit underneath it.
         */}
         <button
           type="button"
@@ -187,7 +187,7 @@ export default function Navbar({ page }: { page: string }) {
         </Link>
 
         {/*
-          Signed in: only the sections this role can open — on every page, not
+          Signed in: only the sections this role can open, on every page, not
           just the role-guarded ones. Otherwise a teacher on the upload/dashboard
           tools saw student links (Learn/Arena/Tests) that aren't theirs.
           Signed out: marketing links only.
@@ -208,7 +208,7 @@ export default function Navbar({ page }: { page: string }) {
             <a className="btn-back" id="backLink" href="learn.html">← Back</a>
           )}
 
-          {/* "Start free" points at the login screen — only ever shown to a
+          {/* "Start free" points at the login screen, only ever shown to a
               signed-out visitor. A signed-in user manages their session through
               the account menu instead. */}
           {!loggedIn && (
@@ -232,7 +232,7 @@ export default function Navbar({ page }: { page: string }) {
         Every page's own stylesheet gives `.nav` a backdrop-filter:blur(20px),
         and a filtered element becomes the containing block for its
         position:fixed descendants. Inside <nav> the drawer therefore sized
-        itself against the 60px bar instead of the viewport — `top:0;bottom:0`
+        itself against the 60px bar instead of the viewport - `top:0;bottom:0`
         collapsed to bar height and the panel rendered as a clipped sliver.
         Portalling to <body> puts it back on the viewport, where a fixed
         overlay belongs; #root is display:contents, so this is also where the
@@ -257,7 +257,7 @@ export default function Navbar({ page }: { page: string }) {
           >
             {/*
               The open drawer sits above the bar, so the burger that opened it
-              is underneath — without this the only ways out are Escape (no
+              is underneath, without this the only ways out are Escape (no
               keyboard on a phone) and guessing that the dimmed strip is
               tappable. It sits where the burger was, so the control reads as
               having turned into an X.

@@ -1,14 +1,14 @@
 /* ============================================================
-   BESTBRAIN — AMBER OS · GLASS DESIGN SYSTEM + SHELL
+   BESTBRAIN - AMBER OS · GLASS DESIGN SYSTEM + SHELL
    ------------------------------------------------------------
    Local preview only. Never written to the repo.
 
    Three jobs:
-     1. one glass language for every surface — cards, nav, sidebar,
+     1. one glass language for every surface, cards, nav, sidebar,
         dialogs, tables, inputs, buttons
      2. the app shell: the top navbar becomes a LEFT SIDEBAR, plus a
         slim top HUD, both frosted
-     3. motion — scroll reveal, hover lift, count-up, ripple
+     3. motion, scroll reveal, hover lift, count-up, ripple
 
    THE SIDEBAR IS BUILT BY MOVING, NOT COPYING. The page's real
    .brand / .nav__links / .nav__right nodes are relocated into the
@@ -34,18 +34,18 @@
      REAL PROGRESS (QA S-07 / T-05 / T-06 / P-02)
 
      "Level 7 · 680/1000 XP", "480 coins" and a hardcoded "🔥 7" streak were
-     literal text in this file — the same numbers for every account, on every
+     literal text in this file, the same numbers for every account, on every
      role, forever. A QA pass caught it instantly: the header disagreed with
      the page body on the same screen, a teacher and a parent were shown a
      student's level-up nudge, and "Class 6 · CBSE" was printed under a
      teacher's name.
 
      There is no coins/XP/level field anywhere in the backend (confirmed by
-     reading the API) — so the honest fix is not to invent a second backend
+     reading the API), so the honest fix is not to invent a second backend
      to back them. Streak is real and per-user; XP, level and coins are
      derived from it plus badges and minutes so they move with an account's
      actual activity instead of being the same for all 55 seeded users. And
-     the gamification cluster only renders for students — a teacher or
+     the gamification cluster only renders for students, a teacher or
      parent does not have a chapter to finish.
      --------------------------------------------------------- */
   function api() {
@@ -67,7 +67,7 @@
   }
 
   var progressPromise = null;
-  /* One fetch, cached and shared — every chip that shows a number reads from
+  /* One fetch, cached and shared, every chip that shows a number reads from
      the same object, so the header and the body can no longer disagree. */
   function loadProgress() {
     if (progressPromise) return progressPromise;
@@ -82,14 +82,14 @@
 
   /* Deterministic, not fictional: the same real inputs always produce the
      same XP, so two students with identical activity see identical numbers
-     — and a student who has done nothing sees 0, not 480.
+    , and a student who has done nothing sees 0, not 480.
 
      Coins are no longer among them. They used to be invented here from the
      streak and badge counts, which made them a decoration: nothing awarded
      them, nothing could spend them, and the figure existed only for as long
-     as the page was open. They are a real balance now — earned server-side
+     as the page was open. They are a real balance now, earned server-side
      from progress the server has accepted, spendable, and backed by a ledger
-     — so the number comes from /api/coins instead of a formula. XP and level
+    , so the number comes from /api/coins instead of a formula. XP and level
      are still derived; they are a view of the same activity, not a currency. */
   function deriveStats(p) {
     var streak = (p && p.streak) || 0;
@@ -117,7 +117,7 @@
     'box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 18px 46px rgba(0,0,0,.5)!important;' +
     'transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s ease,' +
       'background .45s ease,border-color .45s ease!important;}' +
-  /* the light rake across the top of every card — glass, not flat fill */
+  /* the light rake across the top of every card, glass, not flat fill */
   '.pcard::before,.vcard::before,.card::before,.feature-card::before,.feat-card::before,' +
   '.qcard::before,.optcard::before,.subjcard::before,.cont-card::before{' +
     'content:"";position:absolute;inset:0 0 auto;height:38%;pointer-events:none;border-radius:22px 22px 0 0;' +
@@ -147,7 +147,7 @@
   /* buttons: soft-depth pills, orange primary, ripple on press.
 
      `.cta` is deliberately NOT in this list. On the homepage it names the
-     flex row that HOLDS the buttons, not a button — so the row was given a
+     flex row that HOLDS the buttons, not a button, so the row was given a
      999px radius and, because hovering a child hovers its parent, hovering
      either button lit the whole strip up as one giant glowing pill behind
      them. Only elements that are themselves clickable belong here, so a
@@ -162,7 +162,7 @@
     'transform:translateY(-3px)!important;filter:brightness(1.06);' +
     'box-shadow:0 16px 42px rgba(255,122,0,.55)!important;}' +
   '.btn-primary:active,.btn:active,a.btn:active{transform:translateY(-1px) scale(.98)!important;}' +
-  /* Sized and clipped in JS; kept dim and modest on purpose — at .5 white and
+  /* Sized and clipped in JS; kept dim and modest on purpose, at .5 white and
      2.6x it read as a flashbulb rather than a touch response. */
   '.kid-ripple{position:absolute;border-radius:50%;transform:scale(0);pointer-events:none;' +
     'background:rgba(255,255,255,.3);animation:kid-rip .6s ease-out forwards;}' +
@@ -287,7 +287,7 @@
 
   /* ================= PAL MASCOT ================= */
   /* QA S-27: fixed at left:14px;bottom:14px, this sat directly on top of the
-     rail's own bottom-left icons (settings/logout) — same corner, same
+     rail's own bottom-left icons (settings/logout), same corner, same
      stack. It had no dismiss control either, so a visitor who found it in
      the way had no way to make it stop. Moved clear of the rail entirely,
      given a close button, and made to stay closed once closed. */
@@ -320,7 +320,7 @@
 
   /* Laptop / small-desktop: the rail keeps its place but drops to icons only.
      .knew and the streak pill are `margin-left:auto` items, so in a 76px
-     centred link they were pushed straight out of the rail and cut off — 15
+     centred link they were pushed straight out of the rail and cut off - 15
      pages showed a sliced "NEW". They have no room here; the drawer below
      shows them in full. */
   '@media(max-width:980px){html.kid-rail-on{--kid-rail:76px;}' +
@@ -330,7 +330,7 @@
 
   /* ================= PHONE / TABLET: RAIL BECOMES A DRAWER =================
      Below 900px (vivid.css's own breakpoint) a permanent rail is not
-     affordable: at 320px it took 76px — a quarter of the screen — off every
+     affordable: at 320px it took 76px, a quarter of the screen, off every
      page, and the layout it left behind is what clipped the search field, the
      subject tabs and the chapter rows.
 
@@ -397,7 +397,7 @@
     /* Nothing may end up underneath the floating furniture.
        The mascot, the Features button and the PDF button stack in the
        bottom-right corner and are fixed, so the last thing on a page sits
-       under them — the audit caught the question-remove button on create-test
+       under them, the audit caught the question-remove button on create-test
        and the language select on the tutor call buried 47-59% each. Reserving
        the height they occupy is what puts the page's own last control back
        within reach. */
@@ -406,7 +406,7 @@
     'html.kid-rail-on{scroll-padding-top:68px;}' +
   '}' +
 
-  /* Narrow phones: the HUD chips are the first thing to go — the same numbers
+  /* Narrow phones: the HUD chips are the first thing to go, the same numbers
      are in the drawer, and a half-cut streak pill reads as breakage. */
   '@media(max-width:600px){#kid-top .hchip{display:none!important;}' +
     '#kid-top .kt-ttl{font-size:14.5px;}}' +
@@ -416,7 +416,7 @@
     '.kid-rv{opacity:1;transform:none;}}';
 
   /* ---------------------------------------------------------
-     rail icons, keyed by destination — the i18n layer rewrites
+     rail icons, keyed by destination, the i18n layer rewrites
      link TEXT in place, so keying on href survives translation
      --------------------------------------------------------- */
   var NAV_ICON = {
@@ -441,10 +441,10 @@
 
   var TIPS = [
     'Hi! I am PAL 👋 Tap me whenever you get stuck.',
-    'Naya AI Tutor try kiya? Mic dabao aur bolo — main sun raha hoon 🎙️',
-    'Roz 15 minute padho — streak banega, badge milega 🔥',
+    'Naya AI Tutor try kiya? Mic dabao aur bolo, main sun raha hoon 🎙️',
+    'Roz 15 minute padho, streak banega, badge milega 🔥',
     'Fractions ka trick: ek chapati ke 4 tukde socho 🍕',
-    'Ek chapter khatam? Quiz khel lo — 50 star coins pakke ⭐'
+    'Ek chapter khatam? Quiz khel lo - 50 star coins pakke ⭐'
   ];
 
   /* React serves everything from one document. Two things follow:
@@ -454,12 +454,12 @@
      framework still owns those nodes, and its next reconcile of a navbar
      whose children have been spirited away throws NotFoundError mid-render.
      So inside the SPA the rail is built from clones and the original nav is
-     simply hidden by the rail CSS — React keeps a tree it fully owns, and
+     simply hidden by the rail CSS - React keeps a tree it fully owns, and
      link clicks still work because the app translates them at the document
      level, not per node.
 
      REBUILD PER ROUTE. There is no fresh page load to re-run us, so the
-     rail is torn down and rebuilt when the route changes — that is also
+     rail is torn down and rebuilt when the route changes, that is also
      what keeps is-current and the top bar's title honest. */
   var SPA = !!document.getElementById('root');
   var builtFor = '';
@@ -536,7 +536,7 @@
     buildMascot();
     wireMotion();
     ctaPass();
-    /* kid-home swaps the homepage body in after us — relabel what it built */
+    /* kid-home swaps the homepage body in after us, relabel what it built */
     setTimeout(ctaPass, 300);
     setTimeout(ctaPass, 1200);
   }
@@ -555,13 +555,13 @@
     var u = readUser() || {};
     var name = (u.name || 'Student').split(' ')[0];
     var isStudent = role() === 'student';
-    /* The backend's own field is className: "Class 6" — already the whole
+    /* The backend's own field is className: "Class 6", already the whole
        label, not a bare number. Prefixing "Class " onto it a second time is
        how "Class Class 6" happens; a bare u.class (if a page ever sets one)
        still needs the prefix. Strip either shape down to the digits and
        rebuild the label once, so it can never double up. */
     var classNum = String(u.class || u.className || '6').replace(/\D+/g, '') || '6';
-    /* "Class 6 · CBSE" was printed under every account regardless of role —
+    /* "Class 6 · CBSE" was printed under every account regardless of role ,
        a teacher and a parent do not have a class. Say what they actually
        are instead of guessing a student's class for them. */
     var sub = isStudent ? 'Class ' + classNum + ' · CBSE'
@@ -573,7 +573,7 @@
     hello.innerHTML =
       '<span class="av">' + name.charAt(0).toUpperCase() + '</span>' +
       '<div><b>' + name + '</b><span>' + sub + '</span></div>' +
-      (isStudent ? '<span class="streak" id="kid-streak">🔥 —</span>' : '');
+      (isStudent ? '<span class="streak" id="kid-streak">🔥 -</span>' : '');
     rail.appendChild(hello);
 
     var lab = document.createElement('span');
@@ -595,7 +595,7 @@
         a.insertBefore(ic, a.firstChild);
       });
 
-      /* tutor.html shipped after some pages' navs were written — every
+      /* tutor.html shipped after some pages' navs were written, every
          student gets the entry regardless of which nav they landed on */
       if (!links.querySelector('a[href*="tutor"]')) {
         var t = document.createElement('a');
@@ -612,7 +612,7 @@
         if (cur) cur.classList.add('is-current');
       }
 
-      /* PDF Maker has no page of its own — it is a panel. It still belongs in
+      /* PDF Maker has no page of its own, it is a panel. It still belongs in
          the rail, because a feature a student cannot find is a feature that
          does not exist, and the tutor page was the one place they had no
          reason to look for it. */
@@ -637,7 +637,7 @@
       var xp = document.createElement('div');
       xp.id = 'kid-xp';
       xp.innerHTML =
-        '<div class="top"><b>Level —</b><span>— / 500 XP</span></div>' +
+        '<div class="top"><b>Level -</b><span>- / 500 XP</span></div>' +
         '<div class="tr"><i style="width:0"></i></div>' +
         '<p>Keep learning to level up 🏅</p>';
       rail.appendChild(xp);
@@ -651,7 +651,7 @@
     builtFor = pageKey();
 
     /* account-menu.js pins its settings/logout cluster to the viewport's
-       top-right and builds it after we run — adopt it once it exists */
+       top-right and builds it after we run, adopt it once it exists */
     function adopt() {
       var fab = document.querySelector('.acct-fab');
       if (fab && fab.parentElement !== rail) rail.appendChild(fab);
@@ -674,9 +674,9 @@
     bar.innerHTML =
       '<span class="kt-ttl"><span class="dot"></span></span><span class="spacer"></span>' +
       (role() === 'student'
-        ? '<span class="hchip a" id="kid-hud-streak">🔥 — day streak</span>' +
-          '<span class="hchip b" id="kid-hud-coins">⭐ — coins</span>' +
-          '<span class="hchip c" id="kid-hud-level">🚀 Level —</span>'
+        ? '<span class="hchip a" id="kid-hud-streak">🔥, day streak</span>' +
+          '<span class="hchip b" id="kid-hud-coins">⭐, coins</span>' +
+          '<span class="hchip c" id="kid-hud-level">🚀 Level -</span>'
         : '');
     bar.querySelector('.kt-ttl').appendChild(document.createTextNode(title));
     document.body.appendChild(bar);
@@ -688,7 +688,7 @@
      The rail's mobile form.
 
      Under 900px the rail is off-canvas (see the stylesheet above), so
-     without this there is no way to reach navigation at all on a phone —
+     without this there is no way to reach navigation at all on a phone ,
      the skin hides nav.nav outright, which also takes React's own drawer
      with it. The burger and scrim are built here so both the static pages
      and the SPA get the same one.
@@ -720,7 +720,7 @@
       html.classList.remove('kid-nav-open');
       if (burger) {
         burger.setAttribute('aria-expanded', 'false');
-        /* Returning focus to the control that opened it — otherwise focus is
+        /* Returning focus to the control that opened it, otherwise focus is
            left on an element that just slid off the screen. */
         if (document.activeElement && document.getElementById('kid-rail') &&
             document.getElementById('kid-rail').contains(document.activeElement)) {
@@ -808,7 +808,7 @@
           var left = s.xpForLevel - s.xpIntoLevel;
           p2.textContent = s.xp === 0
             ? 'Finish a chapter to start earning XP 🏅'
-            : left + ' XP to go — keep it up 🏅';
+            : left + ' XP to go, keep it up 🏅';
         }
       }
     });
@@ -821,7 +821,7 @@
     if (NO_RAIL.indexOf(pageKey()) !== -1) return;
     if (document.getElementById('pal-mascot')) return;
 
-    /* Once dismissed, it stays dismissed for the session — a control with
+    /* Once dismissed, it stays dismissed for the session, a control with
        no way to say "stop" is not a control. */
     try { if (sessionStorage.getItem('pal_dismissed') === '1') return; } catch (e) {}
 
@@ -852,7 +852,7 @@
     var i = -1, hide;
     function speak() {
       i = (i + 1) % TIPS.length;
-      /* clear the previous tip but keep the close button — it is not part
+      /* clear the previous tip but keep the close button, it is not part
          of what gets replaced */
       while (say.firstChild && say.firstChild !== close) say.removeChild(say.firstChild);
       var tip = document.createElement('b');
@@ -869,7 +869,7 @@
   }
 
   /* ---------------------------------------------------------
-     MOTION — reveal on scroll, ripple on press, count-up
+     MOTION, reveal on scroll, ripple on press, count-up
      --------------------------------------------------------- */
   function wireMotion() {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -881,7 +881,7 @@
     }, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
 
     /* The fail-safe. A reveal animation starts its subject at opacity:0 and
-       trusts an observer to turn it back on — so anything the observer misses
+       trusts an observer to turn it back on, so anything the observer misses
        is not "un-animated", it is GONE. Content arriving on a route the
        observer was not watching is exactly that case, and a blank screen is a
        far worse failure than an entrance that does not play. Everything is
@@ -902,7 +902,7 @@
 
         /* Never hide what the reader is already looking at. An entrance
            animation on above-the-fold content does not read as polish, it
-           reads as the page being slow — the words are simply not there yet.
+           reads as the page being slow, the words are simply not there yet.
            Anything already on screen renders immediately; only what is still
            below the fold gets an entrance, where the animation is free. */
         var r = n.getBoundingClientRect();
@@ -917,7 +917,7 @@
     setTimeout(observe, 900);
     setTimeout(revealAll, 400);
 
-    /* a route swap brings its own cards — watch for them, and keep the
+    /* a route swap brings its own cards, watch for them, and keep the
        fail-safe behind each batch */
     var pending = 0;
     new MutationObserver(function () {
@@ -947,7 +947,7 @@
       /* Never on a button that submits. Sizing the circle to the button was
          fine for a chip and wrong for anything wide: a full-width "Sign In"
          is ~400px across, so the ripple was a 400px circle that then scaled
-         2.6x — a white disc bigger than the card, arriving at the exact
+         2.6x, a white disc bigger than the card, arriving at the exact
          moment the student is waiting to learn whether their password
          worked. It reads as the page breaking, not as feedback. */
       if (b.matches('button[type=submit],input[type=submit]')) return;
@@ -980,7 +980,7 @@
 
      account-menu.js creates .acct-fab a single time, on load, and buildRail
      MOVES it into the rail. Tearing the rail down therefore took the only
-     copy of settings and logout with it — and nothing rebuilds them, so on
+     copy of settings and logout with it, and nothing rebuilds them, so on
      a client-side route change they were gone for the rest of the session.
      Hand it back to the body before the rail goes, and the next buildRail
      adopts it again. */
@@ -1018,13 +1018,13 @@
     }
 
     if (!rail) {
-      buildRail();          // no-op until nav.nav exists — the observer retries
+      buildRail();          // no-op until nav.nav exists, the observer retries
       buildTop();
     }
 
     /* buildRail's own adopt() gives up after 1.4s. account-menu.js waits on the
        stored session, so on a slow load the fab can arrive after that and would
-       then sit where it was born — fixed to the viewport's top-right, floating
+       then sit where it was born, fixed to the viewport's top-right, floating
        over the page instead of resting in the rail. This runs on every
        reconcile, so it catches a late one whenever it shows up. */
     var host = document.getElementById('kid-rail');
@@ -1042,17 +1042,17 @@
 
     if (!SPA) return;
 
-    /* A route change swaps in a whole new page's worth of DOM at once — until
+    /* A route change swaps in a whole new page's worth of DOM at once, until
        the rail catches up, whatever was built for the PREVIOUS route (wrong
        links, wrong "current" highlight) is what's on screen, which is what
        reads as "the old design" for a beat after every sidebar click. The
        180ms debounce below exists to stop routine, incremental mutations
-       (typing, lazy content) from re-running this on every keystroke — but
+       (typing, lazy content) from re-running this on every keystroke, but
        applying that same patience to a just-fired navigation is exactly
        backwards, so the next mutation after one gets reacted to fast instead. */
     var navPending = false;
 
-    /* React mounts after us and swaps content on navigation — watch for both */
+    /* React mounts after us and swaps content on navigation, watch for both */
     ['pushState', 'replaceState'].forEach(function (m) {
       var orig = history[m];
       history[m] = function () {

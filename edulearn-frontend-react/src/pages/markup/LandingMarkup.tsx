@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/index.html — do not hand-edit.
+/* Generated from edulearn-frontend/index.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 export default function LandingMarkup() {
   return (
@@ -354,7 +354,7 @@ export default function LandingMarkup() {
               </p>
             </div>
             {/* "11 Languages" card removed: the platform is English-only for now,
-               no language switcher — this copy advertised Hindi/Tamil/etc. support
+               no language switcher, this copy advertised Hindi/Tamil/etc. support
                that doesn't exist yet. */}
             <div className="feature-card" data-ac="rose">
               <div className="feature-icon">
@@ -377,7 +377,7 @@ export default function LandingMarkup() {
                 Built for Bharat
               </h3>
               <p>
-                CBSE, NCERT and 20+ state boards — Classes 6 to 9, all in one place.
+                CBSE, NCERT and 20+ state boards - Classes 6 to 9, all in one place.
               </p>
             </div>
             <div className="feature-card" data-ac="peri">
@@ -485,7 +485,7 @@ export default function LandingMarkup() {
                 </em>
               </h2>
               <p className="showcase-sub">
-                The same lessons, tests and PAL AI — on the school lab desktop, the family phone, or no internet at all.
+                The same lessons, tests and PAL AI, on the school lab desktop, the family phone, or no internet at all.
               </p>
               <div className="checkrow">
                 <span className="ck">
@@ -536,7 +536,7 @@ export default function LandingMarkup() {
                     <path d="M4 12.5l5.5 5.5L20 7" />
                   </svg>
                 </span>
-                Works fully offline — syncs when you're back
+                Works fully offline, syncs when you're back
               </div>
             </div>
             <div className="devices" aria-hidden="true">

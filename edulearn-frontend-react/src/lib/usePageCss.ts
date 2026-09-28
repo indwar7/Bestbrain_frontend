@@ -6,8 +6,8 @@ import { useLayoutEffect } from 'react';
  *
  * The static site loaded exactly one page stylesheet at a time, and those
  * sheets reuse generic names (.card, .wrap, .grid) for different things while
- * each declaring its own :root and body rules. Swapping — rather than loading
- * them all at once — is what keeps routes from bleeding into each other, and
+ * each declaring its own :root and body rules. Swapping, rather than loading
+ * them all at once, is what keeps routes from bleeding into each other, and
  * keeps vivid.css winning by source order the way it was written to.
  *
  * useLayoutEffect (not useEffect) so the swap lands before the browser paints;

@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/upload.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/upload.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -11,7 +11,7 @@ export default function init({ location, document, window, onCleanup }) {
 /* ---- next <script> block ---- */
 
 
-    // EduAPI.API_BASE is the final answer — api.js (loaded synchronously above)
+    // EduAPI.API_BASE is the final answer, api.js (loaded synchronously above)
     // already resolves the host and applies the localStorage.edulearn_api
     // override safely. The old fallbacks were unreachable, and '/backend-api'
     // was a trap: nothing serves it in dev, so a miss returned index.html and
@@ -26,7 +26,7 @@ export default function init({ location, document, window, onCleanup }) {
     }
 
     // Pre-select the teacher's OWN class + subject so a lecture is uploaded for
-    // the class they actually teach — students of that class then see it.
+    // the class they actually teach, students of that class then see it.
     (function preselectTeacherClass(){
       if (!user || user.role !== 'teacher') return;
       var teaches = (user.teaches && user.teaches.length) ? user.teaches
@@ -43,7 +43,7 @@ export default function init({ location, document, window, onCleanup }) {
       }
       setSelect('className', t.className);
       setSelect('subject', t.subject);
-      // If the teacher teaches multiple subjects/classes, let them pick — but
+      // If the teacher teaches multiple subjects/classes, let them pick, but
       // limit the class dropdown to classes they actually teach.
       var classSel = document.getElementById('className');
       if (classSel){
@@ -70,7 +70,7 @@ export default function init({ location, document, window, onCleanup }) {
 
     function msg(text, ok){ var m = document.getElementById('msg'); m.textContent = text; m.className = 'msg ' + (ok?'ok':'err'); }
 
-    // Upload type — a lecture video or chapter notes. Both share the same
+    // Upload type, a lecture video or chapter notes. Both share the same
     // metadata fields (class/subject/topic); only the endpoint, file field,
     // accepted types and copy differ, so it's one form with a toggle rather
     // than two.
@@ -99,7 +99,7 @@ export default function init({ location, document, window, onCleanup }) {
       set('dropHint', cfg.dropHint);
       var sb = document.getElementById('submit'); if (sb && !sb.disabled) sb.textContent = cfg.btn;
       fileInput.setAttribute('accept', cfg.accept);
-      // A file chosen for the other type may not fit — clear the selection.
+      // A file chosen for the other type may not fit, clear the selection.
       fileInput.value = ''; document.getElementById('fileName').textContent = '';
       Array.prototype.forEach.call(document.querySelectorAll('.utype__tab'), function(tab){
         var on = tab.getAttribute('data-utype') === uploadType;

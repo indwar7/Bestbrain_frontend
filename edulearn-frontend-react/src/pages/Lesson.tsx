@@ -6,7 +6,7 @@ import css from '../styles/pages/lesson.css?inline';
 import script from './scripts/lesson.js';
 
 /**
- * Lesson — lesson.html's real stylesheet, markup and script.
+ * Lesson, lesson.html's real stylesheet, markup and script.
  *
  * The chapter arrived as `lesson.html?class=&subject=&ch=<id>&t=&view=` and the
  * script still reads it all from location.search. The SPA carries the chapter as

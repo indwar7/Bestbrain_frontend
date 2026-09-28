@@ -1,7 +1,7 @@
 import LegalLayout, { Section } from '../components/LegalLayout';
 
 /**
- * Privacy Policy. Placeholder legal content scaffolded for BestBrain — it should
+ * Privacy Policy. Placeholder legal content scaffolded for BestBrain, it should
  * be reviewed by the company's legal counsel before being relied upon.
  */
 export default function Privacy() {
@@ -19,15 +19,15 @@ export default function Privacy() {
     >
       <Section heading="1. Information we collect">
         <ul>
-          <li><strong>Account information</strong> you provide at sign-up — name, email, phone number, role (student, teacher, or parent), and class, section, or board where relevant.</li>
-          <li><strong>Learning activity</strong> — chapters viewed, lectures watched, tests attempted, scores, and streaks, so we can show your progress.</li>
-          <li><strong>Content you upload</strong> — for teachers and admins, the video lectures and chapter notes you add.</li>
-          <li><strong>Technical data</strong> — device and browser information and basic logs needed to run and secure the Service.</li>
+          <li><strong>Account information</strong> you provide at sign-up, name, email, phone number, role (student, teacher, or parent), and class, section, or board where relevant.</li>
+          <li><strong>Learning activity</strong>, chapters viewed, lectures watched, tests attempted, scores, and streaks, so we can show your progress.</li>
+          <li><strong>Content you upload</strong>, for teachers and admins, the video lectures and chapter notes you add.</li>
+          <li><strong>Technical data</strong>, device and browser information and basic logs needed to run and secure the Service.</li>
         </ul>
       </Section>
 
       <Section heading="2. How we use information">
-        <p>We use the information to provide and improve the Service — to authenticate you, deliver lessons for your class and subject, track progress, enable live classes and PAL AI help, and communicate important account or service updates.</p>
+        <p>We use the information to provide and improve the Service, to authenticate you, deliver lessons for your class and subject, track progress, enable live classes and PAL AI help, and communicate important account or service updates.</p>
       </Section>
 
       <Section heading="3. Sharing">

@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/bank.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/bank.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -12,12 +12,12 @@ export default function init({ location, document, window, onCleanup }) {
 
 
   /* ============================================================
-     QUESTION BANK — untimed chapter practice
+     QUESTION BANK, untimed chapter practice
      ------------------------------------------------------------
      Deliberately not a test. There is no timer, no running score sent
      anywhere, and no submission: the student answers, the server says whether
      that was right and why, and they move on. Getting one wrong is not a
-     penalty, so the answer is revealed either way — the point is to learn the
+     penalty, so the answer is revealed either way, the point is to learn the
      thing now rather than at the end of a paper.
 
      Nothing here knows a correctIndex until the server replies to that one
@@ -38,14 +38,14 @@ export default function init({ location, document, window, onCleanup }) {
 
     /* Paint a right/wrong verdict so it survives the skin.
        kid-bg turns any near-white opaque surface into glass by writing
-       background-color and border-color INLINE with !important — no stylesheet
+       background-color and border-color INLINE with !important, no stylesheet
        rule can outrank that, which is why .opt.bank-right rendered identical
        to every other option. Setting the same properties inline afterwards
        replaces those declarations, and the low-alpha accent this writes does
        not meet the pass's own >=.82-alpha bar, so it is not glassed again.
 
        The glyph is not decoration. Correctness must not depend on colour
-       alone — for colour-blind readers, and because this is exactly the sort
+       alone, for colour-blind readers, and because this is exactly the sort
        of styling a later skin pass can take away again. */
     function markState(node, kind) {
       var teal = 'rgba(16,185,129,.22)', rose = 'rgba(244,63,94,.20)';
@@ -80,7 +80,7 @@ export default function init({ location, document, window, onCleanup }) {
         if (!Q.length) { el('empty').hidden = false; return; }
         if (chapterSlug) {
           el('sub').textContent = 'Practising ' + chapterSlug.replace(/-/g, ' ') +
-            '. No timer, no marks — answer, see why, keep going.';
+            '. No timer, no marks, answer, see why, keep going.';
         }
         i = 0;
         el('quiz').hidden = false;
@@ -150,7 +150,7 @@ export default function init({ location, document, window, onCleanup }) {
     el('nextBtn').addEventListener('click', function () {
       if (i < Q.length - 1) { i += 1; paint(); }
     });
-    // A fresh sample rather than the same ten again — the API samples, so
+    // A fresh sample rather than the same ten again, the API samples, so
     // asking again deals a different set.
     el('moreBtn').addEventListener('click', function () { load(); });
 

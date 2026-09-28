@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/tutor.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/tutor.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -11,13 +11,13 @@ export default function init({ location, document, window, onCleanup }) {
 'use strict';
 
 /* ============================================================
-   LIVE DOUBT SESSION — voice call with PAL
+   LIVE DOUBT SESSION, voice call with PAL
    ------------------------------------------------------------
    Turn loop: listen (browser SpeechRecognition) → send the final
    transcript to /api/pal/tutor/stream (SSE) → speak the reply
    sentence-by-sentence AS CHUNKS ARRIVE (speechSynthesis), so the
    student hears the start of the answer within seconds → listen
-   again. No audio ever leaves the device — only text goes to the
+   again. No audio ever leaves the device, only text goes to the
    server, which keeps the whole loop fast and free.
    ============================================================ */
 
@@ -54,7 +54,7 @@ var recognition = null;  // active SpeechRecognition instance
 var speakQueue = [];     // sentences waiting for TTS
 var speaking = false;    // an utterance is currently playing
 var streamDone = true;   // the SSE stream has finished
-// Auto-listen again after PAL finishes — but only once the student has tapped
+// Auto-listen again after PAL finishes, but only once the student has tapped
 // the mic themselves, so a typed-only session never springs a mic prompt.
 var handsFree = false;
 
@@ -84,11 +84,11 @@ function addTurn(who, text){
 /* ---------- speech recognition (STT) ---------- */
 var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 if (!SR) {
-  // No STT in this browser (e.g. Firefox) — fall back to typed questions;
+  // No STT in this browser (e.g. Firefox), fall back to typed questions;
   // PAL still answers OUT LOUD, so the call experience mostly survives.
   micBtn.disabled = true;
   typeBar.classList.add('is-open');
-  micHint.textContent = 'Voice input is not supported in this browser — type your doubt below and PAL will still answer aloud. (Chrome or Edge enable full voice.)';
+  micHint.textContent = 'Voice input is not supported in this browser, type your doubt below and PAL will still answer aloud. (Chrome or Edge enable full voice.)';
   statusText.textContent = 'Type your doubt below';
 }
 
@@ -113,7 +113,7 @@ function startListening(){
     caption.innerHTML = '<em>' + esc(finalText + interim) + '</em>';
   };
   rec.onerror = function(ev){
-    if (rec !== recognition) return; // a stale instance — ignore
+    if (rec !== recognition) return; // a stale instance, ignore
     if (ev.error === 'no-speech') return; // onend will restart the loop
     recognition = null;
     if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') {
@@ -138,7 +138,7 @@ function startListening(){
 
   try { rec.start(); } catch(e) { recognition = null; return; }
   setState('listening', 'Listening…');
-  caption.textContent = 'Ask your doubt — I\'m listening.';
+  caption.textContent = 'Ask your doubt - I\'m listening.';
 }
 
 function stopListening(){
@@ -194,7 +194,7 @@ function stopSpeaking(){
 }
 
 // After the stream has ended AND the last utterance has played, the turn is
-// over — hands-free mode flows straight back into listening.
+// over, hands-free mode flows straight back into listening.
 function maybeFinishTurn(){
   if (!streamDone || speaking || speakQueue.length) return;
   if (state !== 'speaking' && state !== 'thinking') return;
@@ -205,7 +205,7 @@ function maybeFinishTurn(){
 /* ---------- sentence chunking ---------- */
 // Feed streamed text in; emit complete sentences to the TTS queue as soon as
 // they close ('.', '!', '?', or the Hindi danda '।'). This is what makes the
-// answer AUDIBLE within seconds — sentence one plays while the model is still
+// answer AUDIBLE within seconds, sentence one plays while the model is still
 // writing sentence three.
 var pendingText = '';
 function feedTts(text){
@@ -222,7 +222,7 @@ function flushTts(){
   pendingText = '';
 }
 function queueSentence(s){
-  // Defensive cleanup: strip any markdown the model slipped in — TTS would
+  // Defensive cleanup: strip any markdown the model slipped in - TTS would
   // read "asterisk asterisk" otherwise.
   s = s.replace(/[*_#`]+/g, '').replace(/\s+/g, ' ').trim();
   if (!s) return;
@@ -265,12 +265,12 @@ function ask(text, isRetry){
     flushTts();
     if (!full) palTx.textContent = '(no reply)';
     // If TTS already drained the queue before the stream closed, nothing else
-    // will advance the turn — check here too (no-op while speech is playing).
+    // will advance the turn, check here too (no-op while speech is playing).
     maybeFinishTurn();
   }).catch(function(err){
     streamDone = true;
     if (err && err.name === 'AbortError') return; // interrupted on purpose
-    // A stale sessionId (deleted elsewhere) 404s forever — drop it and retry
+    // A stale sessionId (deleted elsewhere) 404s forever, drop it and retry
     // once as a fresh session, same recovery as the PAL chat page.
     if (err && err.status === 404 && sessionId && !isRetry) {
       sessionId = null;
@@ -280,7 +280,7 @@ function ask(text, isRetry){
       return;
     }
     var msg = (err && err.code === 'pal_not_configured')
-      ? 'PAL’s AI service is not set up on the server right now. This needs an admin to fix — please report it.'
+      ? 'PAL’s AI service is not set up on the server right now. This needs an admin to fix, please report it.'
       : (err && err.status === 429)
         ? 'You’re asking very fast! Give PAL a few seconds, then ask again.'
         : 'Sorry, I could not reach PAL just now. Please check your connection and try again.';
@@ -296,7 +296,7 @@ micBtn.addEventListener('click', function(){
     // Tap while listening = pause the call.
     stopListening();
     handsFree = false;
-    setState('idle', 'Paused — tap the mic to continue');
+    setState('idle', 'Paused, tap the mic to continue');
     return;
   }
   // Tap while speaking/thinking = interrupt and ask something new.
@@ -333,7 +333,7 @@ function teardown(){
 window.addEventListener('beforeunload', teardown);
 // In the SPA this script runs inside pageScriptEnv, which passes onCleanup
 // for route-change teardown (beforeunload never fires there). On the static
-// site the identifier doesn't exist — typeof keeps that safe.
+// site the identifier doesn't exist, typeof keeps that safe.
 if (typeof onCleanup === 'function') onCleanup(teardown);
 })();
 

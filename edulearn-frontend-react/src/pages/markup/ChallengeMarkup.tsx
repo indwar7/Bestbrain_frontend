@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/challenge.html — do not hand-edit.
+/* Generated from edulearn-frontend/challenge.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 import type { CSSProperties } from 'react';
 
@@ -29,7 +29,7 @@ export default function ChallengeMarkup() {
             </em>
           </h1>
           <p className="hero__sub rv" style={{ animationDelay: ".2s" }}>
-            The whole school sees the same question at the same time. 45 seconds on the clock — nobody can google that fast.
+            The whole school sees the same question at the same time. 45 seconds on the clock, nobody can google that fast.
           </p>
           <div className="hero__chips rv" style={{ animationDelay: ".28s" }}>
             <span className="chip">
@@ -39,7 +39,7 @@ export default function ChallengeMarkup() {
             {' '}
             <span className="chip">
               <span className="dot" />
-              45s window — too fast to cheat
+              45s window, too fast to cheat
             </span>
           </div>
         </section>
@@ -85,7 +85,7 @@ export default function ChallengeMarkup() {
                   Accuracy
                 </span>
                 <b id="statAcc">
-                  —
+                  ,
                 </b>
               </div>
               <div className="statrow">
@@ -113,7 +113,7 @@ export default function ChallengeMarkup() {
                     1
                   </span>
                   <span>
-                    A question drops every hour — the same one for everyone.
+                    A question drops every hour, the same one for everyone.
                   </span>
                 </div>
                 <div className="how__row">
@@ -136,7 +136,7 @@ export default function ChallengeMarkup() {
             </div>
           </aside>
         </section>
-        {/* Most-asked Class 7 questions — a colourful reference bank, subject by
+        {/* Most-asked Class 7 questions, a colourful reference bank, subject by
          subject, of the questions that come up again and again in exams. */}
         <section className="faq">
           <div className="faq__head">
@@ -144,7 +144,7 @@ export default function ChallengeMarkup() {
               Questions that come up again & again
             </h2>
             <p className="faq__sub rv" style={{ animationDelay: ".16s" }}>
-              The Class 7 questions your exams love to repeat — keep them handy, quiz a friend, and walk into the Arena ready. Straight from the NCERT chapters.
+              The Class 7 questions your exams love to repeat, keep them handy, quiz a friend, and walk into the Arena ready. Straight from the NCERT chapters.
             </p>
           </div>
           <div className="faq__grid">

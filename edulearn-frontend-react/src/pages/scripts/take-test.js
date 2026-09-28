@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/take-test.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/take-test.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -91,7 +91,7 @@ export default function init({ location, document, window, onCleanup }) {
         '</div>' +
         '<div class="locked-note" id="lockedNote"></div>';
 
-      // Selecting an option only highlights it — nothing is graded until Submit.
+      // Selecting an option only highlights it, nothing is graded until Submit.
       document.querySelectorAll('#optGrid .opt').forEach(function(btn){
         btn.addEventListener('click', function(){
           if (STATE.answered) return;
@@ -139,7 +139,7 @@ export default function init({ location, document, window, onCleanup }) {
     async function lockAnswer(chosenIdx, timedOut){
       if (STATE.answered) return; // ignore a click that lands as the timer also fires
       STATE.answered = true;
-      clearInterval(STATE.timerId); // stop the clock — reading time isn't timed
+      clearInterval(STATE.timerId); // stop the clock, reading time isn't timed
       STATE.answers[STATE.i] = chosenIdx;
 
       var buttons = document.querySelectorAll('#optGrid .opt');
@@ -149,7 +149,7 @@ export default function init({ location, document, window, onCleanup }) {
       submitBtn.disabled = true;
       submitBtn.textContent = 'Checking…';
 
-      // The server holds the correct answer and the explanation — it only hands
+      // The server holds the correct answer and the explanation, it only hands
       // them over once this question has been committed to.
       var res = null;
       try {
@@ -161,7 +161,7 @@ export default function init({ location, document, window, onCleanup }) {
         document.getElementById('qHint').textContent = '';
         var slot = document.getElementById('solutionSlot');
         slot.innerHTML = '<div class="solution"><span class="lbl">Solution</span>' +
-          '<div class="body">Could not load the solution just now — your answer is saved ' +
+          '<div class="body">Could not load the solution just now, your answer is saved ' +
           'and you will see the full explanation on the results page.</div></div>';
         showNext(timedOut);
         return;
@@ -178,11 +178,11 @@ export default function init({ location, document, window, onCleanup }) {
       var rightLtr = String.fromCharCode(65 + res.correctIndex);
       var rightTxt = '<b>' + rightLtr + '. ' + esc(q.options[res.correctIndex] || '') + '</b>';
       var verdict = res.correct
-        ? '<span style="color:var(--teal)">Correct — the answer is ' + rightTxt + '</span>'
+        ? '<span style="color:var(--teal)">Correct, the answer is ' + rightTxt + '</span>'
         : '<span style="color:var(--rose)">' +
             (chosenIdx < 0
-              ? 'Time’s up — the answer is '
-              : 'Not quite. You chose ' + String.fromCharCode(65 + chosenIdx) + ' — the answer is ') +
+              ? 'Time’s up, the answer is '
+              : 'Not quite. You chose ' + String.fromCharCode(65 + chosenIdx) + ', the answer is ') +
             rightTxt + '</span>';
 
       document.getElementById('solutionSlot').innerHTML =
@@ -199,13 +199,13 @@ export default function init({ location, document, window, onCleanup }) {
       showNext(timedOut);
     }
 
-    // Reveal the Next button — the student advances when they're done reading.
+    // Reveal the Next button, the student advances when they're done reading.
     function showNext(timedOut){
       var nextBtn = document.getElementById('nextBtn');
       nextBtn.hidden = false;
       nextBtn.focus(); // move focus with the control that replaced Submit
       var note = document.getElementById('lockedNote');
-      if (note) note.textContent = timedOut ? "Time's up — this one was auto-submitted." : '';
+      if (note) note.textContent = timedOut ? "Time's up, this one was auto-submitted." : '';
     }
 
     function advance(){
@@ -216,7 +216,7 @@ export default function init({ location, document, window, onCleanup }) {
     }
 
     async function finishTest(){
-      clearInterval(STATE.timerId); // point of no return — stop the clock for good
+      clearInterval(STATE.timerId); // point of no return, stop the clock for good
       center('Grading your test…');
       var res;
       try {
@@ -233,12 +233,12 @@ export default function init({ location, document, window, onCleanup }) {
       var reviewHtml = (res.review || []).map(function(r, i){
         var q = STATE.questions[i];
         var yourAns = r.chosen >= 0 && q.options[r.chosen] ? q.options[r.chosen] : 'No answer';
-        var rightAns = q.options[r.correctIndex] || '—';
+        var rightAns = q.options[r.correctIndex] || '-';
         return '<div class="review-row">' +
           '<div class="qt">' + (i + 1) + '. ' + esc(q.text) + '</div>' +
           '<div class="ans ' + (r.correct ? 'correct' : 'wrong') + '">' +
             (r.correct
-              ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-3px"><path d="M20 6 9 17l-5-5"/></svg> Correct — ' + esc(yourAns)
+              ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-3px"><path d="M20 6 9 17l-5-5"/></svg> Correct - ' + esc(yourAns)
               : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-3px"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Your answer: ' + esc(yourAns) + ' &middot; Correct: ' + esc(rightAns)) +
           '</div>' +
           // repeat the worked solution here so the whole paper can be revised at once

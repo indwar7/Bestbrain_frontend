@@ -1,5 +1,5 @@
 /* ============================================================
-   BESTBRAIN — BOOT (preview only)
+   BESTBRAIN - BOOT (preview only)
    ------------------------------------------------------------
    Runs synchronously in <head>, before the page's own stylesheets
    have painted anything. Its whole job is that there is never a
@@ -17,7 +17,7 @@
   var page = (location.pathname.split('/').pop() || '').toLowerCase().replace(/\.html$/, '') || 'index';
   if (SKIP.indexOf(page) !== -1) return;
 
-  /* classes first — every themed rule keys off these */
+  /* classes first, every themed rule keys off these */
   var h = document.documentElement;
   h.classList.add('kidbg', 'kid-dark', 'dark-mode', 'kid-booting');
   h.classList.remove('light-mode');
@@ -27,7 +27,7 @@
      kid-bg calls this the moment its first pass is done. Everything else
      here is a backstop: if that script is slow, fails to parse, or never
      loads at all, the page must still become visible. Each path is
-     independent on purpose — a single missed reveal means a blank screen,
+     independent on purpose, a single missed reveal means a blank screen,
      which is a worse bug than the one being fixed. */
   var safety = 0;
   function reveal() {
@@ -73,7 +73,7 @@
     /* ----------------------------------------------------------------
        Hold the content back until the skin has been over it once.
 
-       The pre-redesign screens are not a stale cache — they are the real
+       The pre-redesign screens are not a stale cache, they are the real
        markup. React (and each static page) renders the product's own
        layout, and the skin restyles it a beat later, so the old design is
        genuinely on screen in between. No amount of making that beat
@@ -83,7 +83,7 @@
        Only body's opacity is held. html keeps the dark canvas above, so
        this reads as the page still loading rather than as a flash of a
        different product. Revealed by kid-bg once its first pass lands,
-       with the timeouts below as a hard backstop — content that never
+       with the timeouts below as a hard backstop, content that never
        comes back would be far worse than the flash this replaces. */
     'html.kid-booting body{opacity:0!important;}' +
     'html body{transition:opacity .16s ease-out;}';
@@ -91,7 +91,7 @@
   /* ------------------------------------------------------------------
      An expired session must end the session.
 
-     When the access token dies the API answers 401 — and the app went on
+     When the access token dies the API answers 401, and the app went on
      rendering a fully signed-in shell with stale numbers, offering a banner
      that said "please refresh" for a state refreshing cannot fix. A student
      was left looking at yesterday's progress with no way to understand why.
@@ -108,7 +108,7 @@
       return native.apply(this, arguments).then(function (res) {
         try {
           var url = typeof input === 'string' ? input : (input && input.url) || '';
-          /* only the app's own API — a 401 from anywhere else is not our session */
+          /* only the app's own API, a 401 from anywhere else is not our session */
           if (res.status === 401 && /\/api\//.test(url) && !/\/auth\/(login|signup|refresh)/.test(url)) {
             if (!signingOut) {
               signingOut = true;

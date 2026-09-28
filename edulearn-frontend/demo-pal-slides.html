@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>PAL Space Station — BestBrain (demo)</title>
+<title>PAL Space Station | BestBrain (demo)</title>
 <meta name="description" content="Standalone visual demo. Not wired into the app.">
 <!-- ============================================================
      BESTBRAIN · DEMO ONLY  ·  v3
@@ -70,7 +70,7 @@ input,select{font-family:inherit;color:inherit;}
 .mono{font-family:'Fragment Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;}
 
 /* ============================================================
-   COSMOS — unchanged
+   COSMOS, unchanged
    ============================================================ */
 .cosmos{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
 .nebula{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;}
@@ -325,7 +325,7 @@ input,select{font-family:inherit;color:inherit;}
 .panel-head .mono{margin-left:auto;color:var(--dim);}
 
 /* ============================================================
-   LIBRARY — hero + tiles
+   LIBRARY, hero + tiles
    ============================================================ */
 .hero{
   position:relative;display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);
@@ -596,7 +596,7 @@ input,select{font-family:inherit;color:inherit;}
 .tl-item .body span{font-family:'Fragment Mono',monospace;font-size:10px;color:var(--dim);}
 
 /* ============================================================
-   LIST ROWS — talks + quizzes
+   LIST ROWS, talks + quizzes
    ============================================================ */
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:18px;}
 .list{display:flex;flex-direction:column;gap:10px;}
@@ -861,7 +861,7 @@ input,select{font-family:inherit;color:inherit;}
     <div class="gauge">
       <div class="row"><b>Level 7</b><span class="mono" id="xpLabel">680 / 1000 XP</span></div>
       <div class="track"><i id="xpBar" style="--w:68%"></i></div>
-      <p id="xpNote">320 XP to go — finish one deck today and you unlock the <b>Comet badge</b> 🏅</p>
+      <p id="xpNote">320 XP to go, finish one deck today and you unlock the <b>Comet badge</b> 🏅</p>
     </div>
   </aside>
 
@@ -870,7 +870,7 @@ input,select{font-family:inherit;color:inherit;}
     <div class="stage-head">
       <div>
         <h1 id="stageTitle">Slide Decks<span class="pill-count">6</span></h1>
-        <p id="stageSub">Every lesson deck PAL built for you — replay any time.</p>
+        <p id="stageSub">Every lesson deck PAL built for you, replay any time.</p>
       </div>
       <div class="head-right">
         <label class="search" id="searchWrap">
@@ -897,7 +897,7 @@ input,select{font-family:inherit;color:inherit;}
 <div class="pal">
   <div class="bubble" id="bubble">
     <span class="mono">PAL says</span>
-    <span id="bubbleText">Light travels in a straight line — that's why your shadow has sharp edges. Want to replay that deck?</span>
+    <span id="bubbleText">Light travels in a straight line, that's why your shadow has sharp edges. Want to replay that deck?</span>
   </div>
   <button class="orb" id="orb" title="Talk to PAL"><b>PAL</b></button>
 </div>
@@ -910,7 +910,7 @@ input,select{font-family:inherit;color:inherit;}
 'use strict';
 
 /* ============================================================
-   ART — inline SVG so the file works offline with no assets
+   ART, inline SVG so the file works offline with no assets
    ============================================================ */
 var ART = {
   light: '<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">\
@@ -1014,51 +1014,51 @@ var SUBJECT = {
 };
 
 /* ============================================================
-   DATA — real class-6 NCERT chapters
+   DATA, real class-6 NCERT chapters
    ============================================================ */
 var DATA = {
   slides:[
     {t:'Light, Shadows and Reflections', s:'science', art:'light',     n:'12 slides', time:'23 min', date:'04 Aug', ts:20260804, prog:72,
      say:'We stopped right where the pinhole camera flips the picture upside down. Shall we finish it?'},
-    {t:'Fractions — slice by slice',      s:'maths',   art:'fractions', n:'14 slides', time:'28 min', date:'02 Aug', ts:20260802, prog:45,
+    {t:'Fractions, slice by slice',      s:'maths',   art:'fractions', n:'14 slides', time:'28 min', date:'02 Aug', ts:20260802, prog:45,
      say:'Half done! Next up: adding fractions when the bottom numbers are different.'},
     {t:'On the Trail of the Earliest People', s:'social', art:'cave',   n:'10 slides', time:'20 min', date:'31 Jul', ts:20260731, prog:100,
-     say:'You finished this one — want a quick 5-question rematch?'},
+     say:'You finished this one, want a quick 5-question rematch?'},
     {t:'Getting to Know Plants',          s:'science', art:'plants',    n:'16 slides', time:'22 min', date:'29 Jul', ts:20260729, prog:18,
      say:'We have only met the roots so far. Leaves and their kitchen are next.'},
     {t:'Playing with Numbers',            s:'maths',   art:'numbers',   n:'11 slides', time:'26 min', date:'27 Jul', ts:20260727, prog:0,
-     say:'Brand new deck — factors, multiples and a few number tricks.'},
+     say:'Brand new deck, factors, multiples and a few number tricks.'},
     {t:'Taro’s Reward',                   s:'english', art:'story',     n:'8 slides',  time:'16 min', date:'25 Jul', ts:20260725, prog:60,
      say:'Taro just found the waterfall. What happens next is the best part.'}
   ],
   notes:[
-    {t:'Separation of Substances — quick recap', s:'science', art:'paper',  n:'4 pages', time:'6 min read', date:'03 Aug', ts:20260803, prog:100, say:'Handpicking, winnowing, sieving — all on one page.'},
+    {t:'Separation of Substances, quick recap', s:'science', art:'paper',  n:'4 pages', time:'6 min read', date:'03 Aug', ts:20260803, prog:100, say:'Handpicking, winnowing, sieving, all on one page.'},
     {t:'Integers on the number line',            s:'maths',   art:'numbers',n:'3 pages', time:'5 min read', date:'01 Aug', ts:20260801, prog:80,  say:'Left is smaller, right is bigger. That one rule solves most sums.'},
     {t:'In the Earliest Cities',                 s:'social',  art:'cave',   n:'5 pages', time:'8 min read', date:'28 Jul', ts:20260728, prog:30,  say:'Harappan drains were better than in many towns today!'},
-    {t:'Body Movements — joints cheat sheet',    s:'science', art:'plants', n:'2 pages', time:'4 min read', date:'24 Jul', ts:20260724, prog:0,   say:'Ball and socket, hinge, pivot — with places to feel each one.'}
+    {t:'Body Movements, joints cheat sheet',    s:'science', art:'plants', n:'2 pages', time:'4 min read', date:'24 Jul', ts:20260724, prog:0,   say:'Ball and socket, hinge, pivot, with places to feel each one.'}
   ],
   pdfs:[
-    {t:'Fractions practice sheet — set A', s:'maths',   art:'paper', n:'PDF · 1.2 MB', time:'20 questions', date:'05 Aug', ts:20260805, prog:0,   say:'Twenty sums, easy to hard. I will check them with you after.'},
-    {t:'Light & shadows lab worksheet',    s:'science', art:'light', n:'PDF · 0.9 MB', time:'12 questions', date:'02 Aug', ts:20260802, prog:50,  say:'You are halfway. Q7 needs a torch and a wall — try it tonight.'},
-    {t:'Map skills — early India',         s:'social',  art:'cave',  n:'PDF · 2.4 MB', time:'8 tasks',      date:'30 Jul', ts:20260730, prog:100, say:'All eight tasks done. Neat work on the river map.'}
+    {t:'Fractions practice sheet, set A', s:'maths',   art:'paper', n:'PDF · 1.2 MB', time:'20 questions', date:'05 Aug', ts:20260805, prog:0,   say:'Twenty sums, easy to hard. I will check them with you after.'},
+    {t:'Light & shadows lab worksheet',    s:'science', art:'light', n:'PDF · 0.9 MB', time:'12 questions', date:'02 Aug', ts:20260802, prog:50,  say:'You are halfway. Q7 needs a torch and a wall, try it tonight.'},
+    {t:'Map skills, early India',         s:'social',  art:'cave',  n:'PDF · 2.4 MB', time:'8 tasks',      date:'30 Jul', ts:20260730, prog:100, say:'All eight tasks done. Neat work on the river map.'}
   ]
 };
 
 var CALLS = [
-  {t:'Why is 3/4 bigger than 2/3?',        s:'maths',   em:'🍕', dur:'8 min',  when:'Yesterday · 7:40 pm',  note:'You got it in two tries — the chapati trick worked.'},
+  {t:'Why is 3/4 bigger than 2/3?',        s:'maths',   em:'🍕', dur:'8 min',  when:'Yesterday · 7:40 pm',  note:'You got it in two tries, the chapati trick worked.'},
   {t:'How do plants make their own food?', s:'science', em:'🌱', dur:'14 min', when:'2 days ago · 6:05 pm', note:'We drew the leaf kitchen together, step by step.'},
-  {t:'Harappan cities — why so many drains?', s:'social', em:'🏺', dur:'11 min', when:'4 days ago · 5:20 pm', note:'Great question about the baked bricks.'},
-  {t:'Reading practice — Taro’s Reward',   s:'english', em:'📖', dur:'9 min',  when:'5 days ago · 8:00 pm', note:'Pronunciation is getting smoother every week.'},
+  {t:'Harappan cities, why so many drains?', s:'social', em:'🏺', dur:'11 min', when:'4 days ago · 5:20 pm', note:'Great question about the baked bricks.'},
+  {t:'Reading practice - Taro’s Reward',   s:'english', em:'📖', dur:'9 min',  when:'5 days ago · 8:00 pm', note:'Pronunciation is getting smoother every week.'},
   {t:'Shadow experiment doubt',            s:'science', em:'🔦', dur:'6 min',  when:'1 week ago · 7:15 pm', note:'Torch closer = bigger shadow. Try it again tonight.'},
-  {t:'Multiples and factors — quick help', s:'maths',   em:'🔢', dur:'5 min',  when:'1 week ago · 4:30 pm', note:'Skip counting made it click instantly.'}
+  {t:'Multiples and factors, quick help', s:'maths',   em:'🔢', dur:'5 min',  when:'1 week ago · 4:30 pm', note:'Skip counting made it click instantly.'}
 ];
 
 var QUIZZES = [
-  {t:'Fractions — quick check',          s:'maths',   score:9,  total:10, date:'04 Aug', xp:45, note:'Only slipped on comparing unlike fractions.'},
+  {t:'Fractions, quick check',          s:'maths',   score:9,  total:10, date:'04 Aug', xp:45, note:'Only slipped on comparing unlike fractions.'},
   {t:'Light & Shadows',                  s:'science', score:7,  total:10, date:'02 Aug', xp:35, note:'Revise transparent vs translucent once more.'},
-  {t:'On the Trail of the Earliest People', s:'social', score:10, total:10, date:'31 Jul', xp:50, note:'Perfect score — full marks on tool names!'},
+  {t:'On the Trail of the Earliest People', s:'social', score:10, total:10, date:'31 Jul', xp:50, note:'Perfect score, full marks on tool names!'},
   {t:'Getting to Know Plants',           s:'science', score:6,  total:10, date:'28 Jul', xp:30, note:'Leaf venation is worth one more read.'},
-  {t:'Taro’s Reward — comprehension',    s:'english', score:8,  total:10, date:'25 Jul', xp:40, note:'Nice work on the "why" questions.'}
+  {t:'Taro’s Reward, comprehension',    s:'english', score:8,  total:10, date:'25 Jul', xp:40, note:'Nice work on the "why" questions.'}
 ];
 
 var WEEK = [
@@ -1093,9 +1093,9 @@ var ACTIVITY = [
 ];
 
 var VIEW_META = {
-  slides:{title:'Slide Decks', sub:'Every lesson deck PAL built for you — replay any time.', sec:'All decks',      cta:'Continue'},
+  slides:{title:'Slide Decks', sub:'Every lesson deck PAL built for you, replay any time.', sec:'All decks',      cta:'Continue'},
   notes:{title:'Notes',        sub:'Short recaps PAL wrote after your lessons.',            sec:'All notes',      cta:'Read'},
-  pdfs:{title:'Worksheets',    sub:'Printable practice — solve, then check with PAL.',      sec:'All worksheets', cta:'Practise'},
+  pdfs:{title:'Worksheets',    sub:'Printable practice, solve, then check with PAL.',      sec:'All worksheets', cta:'Practise'},
   dashboard:{title:'Mission Control', sub:'Everything you have done this week, in one place.'},
   calls:{title:'Talks with PAL',      sub:'Every voice session, with what you two worked out.'},
   quizzes:{title:'Quiz History',      sub:'Your scores, and exactly what to revise next.'}
@@ -1145,7 +1145,7 @@ function toast(msg){
 }
 
 /* ============================================================
-   LIBRARY VIEWS — hero + tiles
+   LIBRARY VIEWS, hero + tiles
    ============================================================ */
 function pickHero(rows){
   var best = null;
@@ -1163,7 +1163,7 @@ function heroNode(d){
     '<div class="hero-art">' + ART[d.art] + '<div class="fade"></div></div>' +
     '<div class="hero-body">' +
       '<span class="hero-eyebrow mono"><span class="dot"></span>' +
-        (d.prog === 0 ? 'Fresh from PAL' : d.prog === 100 ? 'Finished — replay it' : 'Pick up where you left') +
+        (d.prog === 0 ? 'Fresh from PAL' : d.prog === 100 ? 'Finished, replay it' : 'Pick up where you left') +
       '</span>' +
       '<h2>' + d.t + '</h2>' +
       '<p class="say">“' + d.say + '”</p>' +
@@ -1176,7 +1176,7 @@ function heroNode(d){
       '</div>' +
     '</div>';
   n.querySelector('.btn-hero').addEventListener('click', function(){ toast('PAL is opening “' + d.t + '” … (demo)'); });
-  n.querySelector('.btn-ghost').addEventListener('click', function(){ toast('Doubt box would open here — demo only ✨'); });
+  n.querySelector('.btn-ghost').addEventListener('click', function(){ toast('Doubt box would open here, demo only ✨'); });
   return n;
 }
 
@@ -1243,7 +1243,7 @@ function renderLibrary(){
 
   var grid = el('div', 'grid');
   if(!rows.length){
-    grid.innerHTML = '<div class="empty"><b>Nothing here yet 🛰️</b>Nothing matches that — try another subject or clear the search.</div>';
+    grid.innerHTML = '<div class="empty"><b>Nothing here yet 🛰️</b>Nothing matches that, try another subject or clear the search.</div>';
   } else {
     rows.forEach(function(d, i){ grid.appendChild(tileNode(d, i, meta.cta)); });
   }
@@ -1336,7 +1336,7 @@ function renderDashboard(){
     }).join('') + '</div>');
   left.appendChild(act);
 
-  /* missions — interactive */
+  /* missions, interactive */
   var miss = el('section', 'panel rv',
     '<div class="panel-head"><h4>Today’s missions</h4><span class="mono">+80 XP</span></div>' +
     '<div id="missionList"></div>' +
@@ -1385,7 +1385,7 @@ function paintMissions(){
       m.done = !m.done;
       paintMissions();
       var earned = MISSIONS.filter(function(x){ return x.done; }).length;
-      if(m.done && earned === MISSIONS.length) toast('All missions done — Comet badge unlocked ☄️ (demo)');
+      if(m.done && earned === MISSIONS.length) toast('All missions done - Comet badge unlocked ☄️ (demo)');
       else if(m.done) toast('+' + m.xp + ' XP added. Keep going!');
     });
     list.appendChild(b);
@@ -1403,7 +1403,7 @@ function paintMissions(){
   document.getElementById('xpLabel').textContent = xp + ' / 1000 XP';
   document.getElementById('xpBar').style.setProperty('--w', Math.min(xp / 10, 100) + '%');
   document.getElementById('xpBar').style.width = Math.min(xp / 10, 100) + '%';
-  document.getElementById('xpNote').innerHTML = (1000 - xp) + ' XP to go — finish today’s missions and you unlock the <b>Comet badge</b> 🏅';
+  document.getElementById('xpNote').innerHTML = (1000 - xp) + ' XP to go, finish today’s missions and you unlock the <b>Comet badge</b> 🏅';
   document.getElementById('coinVal').textContent = 400 + gained;
 }
 
@@ -1440,7 +1440,7 @@ function renderCalls(){
         '<span class="when">' + c.when + '</span>' +
       '</div>' +
       '<div class="end"><span class="dur">' + c.dur + '</span><button class="btn-mini">Open transcript</button></div>';
-    n.querySelector('.btn-mini').addEventListener('click', function(){ toast('Transcript of “' + c.t + '” would open here — demo'); });
+    n.querySelector('.btn-mini').addEventListener('click', function(){ toast('Transcript of “' + c.t + '” would open here, demo'); });
     list.appendChild(n);
   });
   body.appendChild(list);
@@ -1484,7 +1484,7 @@ function renderQuizzes(){
         '<span class="when">' + q.date + ' · +' + q.xp + ' XP</span>' +
       '</div>' +
       '<div class="end"><button class="btn-mini">Retry quiz</button></div>';
-    n.querySelector('.btn-mini').addEventListener('click', function(){ toast('“' + q.t + '” would restart here — demo'); });
+    n.querySelector('.btn-mini').addEventListener('click', function(){ toast('“' + q.t + '” would restart here, demo'); });
     list.appendChild(n);
   });
   body.appendChild(list);
@@ -1511,7 +1511,7 @@ function render(){
   else                              renderLibrary();
 }
 
-/* rail navigation — "My books" entries also preset a subject */
+/* rail navigation - "My books" entries also preset a subject */
 document.querySelectorAll('.rlink').forEach(function(btn){
   btn.addEventListener('click', function(){
     document.querySelectorAll('.rlink').forEach(function(b){ b.classList.remove('on'); });
@@ -1536,19 +1536,19 @@ document.querySelectorAll('.tab').forEach(function(tab){
     e.preventDefault();
     document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('on'); });
     tab.classList.add('on');
-    if(tab.textContent.trim() !== 'Space Station') toast('Demo mock — only the Space Station screens are designed.');
+    if(tab.textContent.trim() !== 'Space Station') toast('Demo mock, only the Space Station screens are designed.');
   });
 });
 
 document.getElementById('btnCreate').addEventListener('click', function(){
-  toast('Tell PAL a chapter and it builds the deck — demo only ✨');
+  toast('Tell PAL a chapter and it builds the deck, demo only ✨');
 });
 
 /* PAL keeps talking */
 var TIPS = [
-  'Light travels in a straight line — that’s why your shadow has sharp edges. Want to replay that deck?',
+  'Light travels in a straight line, that’s why your shadow has sharp edges. Want to replay that deck?',
   'Stuck on fractions? Think of a chapati: 3 of 4 pieces is ¾. Easy, na?',
-  'You’re on a 7-day streak 🔥 — one more deck and the Comet badge is yours.',
+  'You’re on a 7-day streak 🔥, one more deck and the Comet badge is yours.',
   'The earliest people were hunter-gatherers. Tap the cave deck and I’ll tell you why they moved so much.',
   'Try asking me: “explain photosynthesis like I’m 11”.'
 ];

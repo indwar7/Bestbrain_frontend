@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/homework.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/homework.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -12,12 +12,12 @@ export default function init({ location, document, window, onCleanup }) {
 
 
   /* ============================================================
-     HOMEWORK — student view
+     HOMEWORK, student view
      ------------------------------------------------------------
      Three views in one page: the list of what has been set, the attempt, and
      the marked result. They are separate <section>s toggled with [hidden]
      rather than separate pages, because the attempt has unsaved answers in
-     memory — navigating away to mark it would mean posting them somewhere
+     memory, navigating away to mark it would mean posting them somewhere
      first, and there is nothing to post to until the student submits.
 
      Answers are held client-side and sent once. The server grades: nothing
@@ -44,14 +44,14 @@ export default function init({ location, document, window, onCleanup }) {
 
     /* Paint a right/wrong verdict so it survives the skin.
        kid-bg turns any near-white opaque surface into glass by writing
-       background-color and border-color INLINE with !important — no stylesheet
+       background-color and border-color INLINE with !important, no stylesheet
        rule can outrank that, which is why .opt.bank-right rendered identical
        to every other option. Setting the same properties inline afterwards
        replaces those declarations, and the low-alpha accent this writes does
        not meet the pass's own >=.82-alpha bar, so it is not glassed again.
 
        The glyph is not decoration. Correctness must not depend on colour
-       alone — for colour-blind readers, and because this is exactly the sort
+       alone, for colour-blind readers, and because this is exactly the sort
        of styling a later skin pass can take away again. */
     function markState(node, kind) {
       var teal = 'rgba(16,185,129,.22)', rose = 'rgba(244,63,94,.20)';
@@ -155,14 +155,14 @@ export default function init({ location, document, window, onCleanup }) {
     function updateProgress() {
       var answered = Object.keys(A.answers).length;
       el('prog').textContent = answered + ' of ' + A.questions.length + ' answered';
-      // Submitting with blanks is allowed — they are marked wrong, exactly as
-      // the server grades them — so the button is never disabled. Making the
+      // Submitting with blanks is allowed, they are marked wrong, exactly as
+      // the server grades them, so the button is never disabled. Making the
       // student answer everything to hand in would be a different rule than
       // the one the API enforces.
     }
 
     // A is null until a homework is opened, and these buttons exist in the DOM
-    // from the start — hidden with the attempt view, but still clickable by a
+    // from the start, hidden with the attempt view, but still clickable by a
     // script, and still focusable. Without the guard they throw on A.i.
     el('prevBtn').addEventListener('click', function () { if (A && A.i > 0) { A.i--; paintQuestion(); } });
     el('nextBtn').addEventListener('click', function () { if (A && A.i < A.questions.length - 1) { A.i++; paintQuestion(); } });
@@ -190,7 +190,7 @@ export default function init({ location, document, window, onCleanup }) {
       var s = res.submission;
       el('score').innerHTML = s.score + ' <small>/ ' + s.total + '</small>';
       el('scoreNote').textContent = s.status === 'late'
-        ? 'Handed in after the due date — it still counts, and your teacher can see it was late.'
+        ? 'Handed in after the due date, it still counts, and your teacher can see it was late.'
         : 'Handed in on time.';
 
       el('review').innerHTML = (res.review || []).map(function (r, n) {

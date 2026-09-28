@@ -5,7 +5,7 @@ import css from '../styles/pages/bank.css?inline';
 import script from './scripts/bank.js';
 
 /**
- * Bank — bank.html's real stylesheet, markup and script.
+ * Bank, bank.html's real stylesheet, markup and script.
  *
  * All three are lifted from the original page rather than reimplemented,
  * so the behaviour is the code that was already working, running against

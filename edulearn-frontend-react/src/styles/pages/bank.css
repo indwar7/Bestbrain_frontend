@@ -39,7 +39,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
             background:var(--card);font-family:'Fragment Mono',monospace;font-size:12px;}
     /* bank-* rather than is-right/is-wrong on purpose. kid-quiz.js watches the
        document for `.opt.is-wrong` and launches a full-screen explainer video
-       — right for a timed test, wrong here: it covers the inline explanation
+      , right for a timed test, wrong here: it covers the inline explanation
        this page exists to show, on every single wrong answer while drilling. */
     .opt.bank-right{border-color:var(--teal);background:rgba(16,185,129,.14);}
     .opt.bank-wrong{border-color:var(--rose);background:rgba(244,63,94,.12);}

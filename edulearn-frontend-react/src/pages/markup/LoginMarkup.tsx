@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/login.html — do not hand-edit.
+/* Generated from edulearn-frontend/login.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 export default function LoginMarkup() {
   return (
@@ -36,7 +36,7 @@ export default function LoginMarkup() {
               .
             </h2>
             <p className="brand-sub">
-              Animated lessons, adaptive practice and an AI tutor that never sleeps — for Classes 6–9.
+              Animated lessons, adaptive practice and an AI tutor that never sleeps, for Classes 6–9.
             </p>
             <div className="brand-feats">
               <div className="brand-feat">
@@ -91,7 +91,7 @@ export default function LoginMarkup() {
                     <path d="M9 22h6" />
                   </svg>
                 </span>
-                {" PAL — your personal AI doubt solver"}
+                {" PAL, your personal AI doubt solver"}
               </div>
             </div>
           </div>
@@ -514,7 +514,7 @@ export default function LoginMarkup() {
       {/* /auth-shell */}
       {' '}
       {/* Auth pages are DARK by default (premium look). Theme is chosen from
-         Settings (after login), not here — this just honours a saved 'light'. */}
+         Settings (after login), not here, this just honours a saved 'light'. */}
       {/* Redesign: look only. Every screen keeps the layout it already has. */}
       {' '}
       {' '}

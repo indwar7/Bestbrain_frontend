@@ -1,28 +1,28 @@
-# EduLearn — Manager Demo Runbook
+# EduLearn - Manager Demo Runbook
 
 Role-based signup/login with three separate dashboards (Student / Teacher / Parent),
 backed by a real Node + Express + MongoDB backend.
 
 ## One-time: nothing to install if already done
-Backend deps are installed. Uses an **in-memory database** — no MongoDB setup needed.
+Backend deps are installed. Uses an **in-memory database**, no MongoDB setup needed.
 
 ---
 
 ## Start the demo (2 terminals)
 
-### Terminal 1 — Backend (shows live registrations & logins)
+### Terminal 1 - Backend (shows live registrations & logins)
 ```bash
 cd /Users/abhayindwar/Documents/edulearn-backend
 npm run demo
 ```
 You'll see a banner + the API starts on `http://localhost:4000`.
-**Keep this visible during the demo** — every signup/login/dashboard call prints here live:
+**Keep this visible during the demo**, every signup/login/dashboard call prints here live:
 ```
 🟢 POST /api/auth/login → 200 (67ms)
 🟢 GET  /api/dashboard → 200 (9ms)
 ```
 
-### Terminal 2 — Frontend
+### Terminal 2 - Frontend
 ```bash
 cd /Users/abhayindwar/Documents/edu
 python3 -m http.server 8000
@@ -46,11 +46,11 @@ Password for all demo accounts: **`Demo@2024`**
 | Teacher | `teacher@edulearn.com` | Teacher dashboard (class roster + averages) |
 | Parent | `parent@edulearn.com` | Parent dashboard (their child's progress) |
 
-→ Each user is **locked to their own view** — the role switcher is hidden. A student
+→ Each user is **locked to their own view**, the role switcher is hidden. A student
 can only see the student dashboard, etc.
 
 **3. Show the backend reacting (Terminal 1)**
-As you log in, point to Terminal 1 — the request appears instantly with status 200.
+As you log in, point to Terminal 1, the request appears instantly with status 200.
 "The login hit the backend, it verified credentials, issued a JWT, and returned this
 user's role-specific data."
 
@@ -72,12 +72,12 @@ user's role-specific data."
 ---
 
 ## Talking points
-- **One backend, role-based access** — single `users` collection, JWT carries the role.
+- **One backend, role-based access**, single `users` collection, JWT carries the role.
 - **Architecture follows PW / Unacademy / school-management patterns** (researched).
-- **Parent→student linking is verified** (roll number + name + class must match) — can't
+- **Parent→student linking is verified** (roll number + name + class must match), can't
   link to a random child.
-- **Each feature is scoped to the logged-in role** — the dashboard data endpoint returns
+- **Each feature is scoped to the logged-in role**, the dashboard data endpoint returns
   different data for student vs teacher vs parent.
 
 ## Reset
-The in-memory DB resets every time you restart `npm run demo` — fresh demo each run.
+The in-memory DB resets every time you restart `npm run demo`, fresh demo each run.

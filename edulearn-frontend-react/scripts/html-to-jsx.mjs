@@ -3,11 +3,11 @@
  *
  * The markup is hand-written HTML full of dense inline SVG (mascots, icons,
  * gradients). Retyping that by hand is where UI drift creeps in, so the
- * translation is done mechanically against a real HTML parse tree — every
+ * translation is done mechanically against a real HTML parse tree, every
  * element, attribute and text node is carried across, or the run fails loudly.
  *
  * What is deliberately dropped: <script> and <style> (ported separately), and
- * the chrome the SPA now owns as shared components — the <nav>, the hidden
+ * the chrome the SPA now owns as shared components, the <nav>, the hidden
  * aurora <defs> svg, and account-menu markup.
  *
  * Output is a starting point, not the finished page: containers the original
@@ -65,7 +65,7 @@ const NUMERIC = new Set(['colspan', 'rowspan', 'tabindex', 'maxlength', 'minleng
 /** Attributes that stay hyphenated in JSX. */
 const KEEP_HYPHEN = /^(data-|aria-)/;
 
-/** Void elements — always self-closed in JSX. */
+/** Void elements, always self-closed in JSX. */
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
   'link', 'meta', 'param', 'source', 'track', 'wbr']);
 
@@ -216,7 +216,7 @@ function isDropped(node) {
   // Each static page shipped its own #auroraGrad with different stops (the
   // landing page's is teal, the app pages' gold), and only one page is mounted
   // at a time, so keeping them page-local preserves that. They render before
-  // <AuroraDefs/>, which stays mounted as a fallback — with duplicate ids the
+  // <AuroraDefs/>, which stays mounted as a fallback, with duplicate ids the
   // first in document order wins, so the page's own definition takes effect.
   return false;
 }

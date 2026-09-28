@@ -3,7 +3,7 @@
 html{background:#050505!important;color-scheme:dark}html body{background:#050505}
 
 /* ============================================================
-   BESTBRAIN · LEARN — design tokens
+   BESTBRAIN · LEARN, design tokens
    ============================================================ */
 :root{
   --ink:#FFFFFF;
@@ -66,7 +66,7 @@ body{
   display:flex;
   flex-direction:column;
 }
-/* Seamless full-white surface — drop vivid.css's tinted radial canvas and the
+/* Seamless full-white surface, drop vivid.css's tinted radial canvas and the
    blob glow so the page reads as one clean white surface (per feedback).
    `html body` out-specifies vivid's body{…!important}. */
 html body{background:#FFFFFF !important;background-image:none !important}
@@ -83,7 +83,7 @@ input{font-family:inherit;color:inherit}
 }
 
 /* ============================================================
-   Atmosphere — aurora blobs + grain
+   Atmosphere, aurora blobs + grain
    ============================================================ */
 .blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .blob{
@@ -134,7 +134,7 @@ input{font-family:inherit;color:inherit}
 .io.in{opacity:1;transform:translateY(0)}
 
 /* ============================================================
-   Nav — sticky glass
+   Nav, sticky glass
    ============================================================ */
 .nav{
   position:sticky;top:0;z-index:80;
@@ -220,7 +220,7 @@ input{font-family:inherit;color:inherit}
 /* ============================================================
    Layout shell
    ============================================================ */
-/* Learn runs edge to edge — full viewport width, no 1600px cap, so there are no
+/* Learn runs edge to edge, full viewport width, no 1600px cap, so there are no
    empty margins on the left/right. The nav and footer are widened to match
    below (both are shared and 1600px by default) so the whole page is seamless. */
 /* Match the dashboard's container exactly (1600px, 32px gutters) so the
@@ -236,7 +236,7 @@ input{font-family:inherit;color:inherit}
 .hero__crumb a:hover{color:var(--teal)}
 .hero__crumb .sep{opacity:.4}
 /* Left-aligned vertical stack (heading → subtitle → chips row), flush to the
-   page's left margin exactly like the dashboard greeting — instead of pushing
+   page's left margin exactly like the dashboard greeting, instead of pushing
    the chips to the far right and leaving the heading floating mid-page. */
 .hero__row{
   display:flex;flex-direction:column;align-items:flex-start;
@@ -279,7 +279,7 @@ input{font-family:inherit;color:inherit}
 .chip--soft svg{color:var(--peri)}
 
 /* ============================================================
-   Class switcher — 4 giant pill tabs
+   Class switcher - 4 giant pill tabs
    ============================================================ */
 .classes{
   display:grid;
@@ -326,7 +326,7 @@ input{font-family:inherit;color:inherit}
 /* ============================================================
    Main split: browser + sticky panel
    ============================================================ */
-/* Single full-width column — the subject rail, chapter list and rows now run
+/* Single full-width column, the subject rail, chapter list and rows now run
    edge to edge instead of being squeezed by a 332px sidebar. The "Continue
    learning / Beyond academics" panel stacks full-width below. */
 .split{
@@ -484,13 +484,13 @@ input{font-family:inherit;color:inherit}
   vertical-align:2px;
   display:inline-block;
 }
-/* Transparent link stretched over the whole row — makes any empty area open
+/* Transparent link stretched over the whole row, makes any empty area open
    the chapter, while the mods (higher z-index) stay independently clickable. */
 .chrow__hit{position:absolute;inset:0;z-index:1;border-radius:22px;}
 .chrow__meta{display:flex;align-items:center;gap:14px}
 .mods{position:relative;z-index:2;display:flex;align-items:center;gap:7px}
 /* Pending-homework marker. Sits on the icon's corner rather than beside it so
-   adding it cannot reflow the row — the mods strip is already five items wide
+   adding it cannot reflow the row, the mods strip is already five items wide
    on a phone. Amber for due, rose for overdue: the two states have to differ
    without reading a tooltip. */
 .mod__dot{
@@ -585,7 +585,7 @@ input{font-family:inherit;color:inherit}
 .chrow:hover .chrow__arrow{transform:translateX(4px);color:var(--teal)}
 
 /* ============================================================
-   Empty state — Tokky
+   Empty state - Tokky
    ============================================================ */
 .empty{
   display:none;
@@ -838,7 +838,7 @@ input{font-family:inherit;color:inherit}
   .tokky,.tokky *{animation:none}
 }
 
-/* Theme toggle — lives in the nav, matches the lang pill */
+/* Theme toggle, lives in the nav, matches the lang pill */
 .nav .nav__theme{
   width:auto;height:34px;
   display:inline-flex;align-items:center;justify-content:center;
@@ -870,7 +870,7 @@ input{font-family:inherit;color:inherit}
 
 /* ---- phone/tablet: active class tab contrast ----
    Near-black text on the class accent fill measures 4.28:1 against the pixels
-   actually painted — just under the 4.5:1 needed for body-size text, and the
+   actually painted, just under the 4.5:1 needed for body-size text, and the
    count line below it 4.26:1. Lightening the fill a fifth toward white clears
    both without changing the colour the tab is recognised by.
 

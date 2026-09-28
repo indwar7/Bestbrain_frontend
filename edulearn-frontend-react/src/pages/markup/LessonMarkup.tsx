@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/lesson.html — do not hand-edit.
+/* Generated from edulearn-frontend/lesson.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 export default function LessonMarkup() {
   return (
@@ -24,7 +24,7 @@ export default function LessonMarkup() {
               This chapter
             </h1>
             <p className="hub__sub">
-              Pick how you'd like to learn this chapter — read the notes or watch the video lecture.
+              Pick how you'd like to learn this chapter, read the notes or watch the video lecture.
             </p>
           </div>
           <div className="hub__grid">
@@ -209,7 +209,7 @@ export default function LessonMarkup() {
             This lesson
           </h1>
           <p className="stage__sub" id="placeholderSub">
-            No video lecture has been uploaded for this chapter yet. Read the notes for now — the video lands here as soon as a teacher uploads it.
+            No video lecture has been uploaded for this chapter yet. Read the notes for now, the video lands here as soon as a teacher uploads it.
           </p>
           <div className="stage__mods" aria-hidden="true">
             <span className="modchip">

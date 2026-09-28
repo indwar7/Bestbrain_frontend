@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/mocktest.html — do not hand-edit.
+/* Generated from edulearn-frontend/mocktest.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 import type { CSSProperties } from 'react';
 
@@ -32,7 +32,7 @@ export default function MockTestMarkup() {
               {" to you."}
             </h1>
             <p className="hero__sub rv" style={{ animationDelay: ".2s" }}>
-              Answer well and the questions climb with you. Struggle, and the test quietly steps back — just like PAL practice.
+              Answer well and the questions climb with you. Struggle, and the test quietly steps back, just like PAL practice.
             </p>
             <div className="hero__chips rv" style={{ animationDelay: ".28s" }}>
               <span className="chip">
@@ -60,7 +60,7 @@ export default function MockTestMarkup() {
                 Polynomials & Number Systems
               </h3>
               <p>
-                Degrees, zeroes, factor theorem, identities, rational and irrational numbers — a 24-question adaptive bank.
+                Degrees, zeroes, factor theorem, identities, rational and irrational numbers, a 24-question adaptive bank.
               </p>
               <button className="btn-primary" data-test="maths" type="button">
                 Start test
@@ -74,7 +74,7 @@ export default function MockTestMarkup() {
                 Motion & Force
               </h3>
               <p>
-                Graphs, equations of motion, momentum and Newton’s laws — a 24-question adaptive bank.
+                Graphs, equations of motion, momentum and Newton’s laws, a 24-question adaptive bank.
               </p>
               <button className="btn-primary" data-test="science" type="button">
                 Start test
@@ -88,17 +88,17 @@ export default function MockTestMarkup() {
             <div className="weights">
               <span className="wchip">
                 <i style={{ background: "var(--teal)" }} />
-                Easy — 1 point
+                Easy - 1 point
               </span>
               {' '}
               <span className="wchip">
                 <i style={{ background: "var(--peri)" }} />
-                Medium — 2 points
+                Medium - 2 points
               </span>
               {' '}
               <span className="wchip">
                 <i style={{ background: "var(--rose)" }} />
-                Hard — 3 points
+                Hard - 3 points
               </span>
               {' '}
               <span className="wchip">
@@ -112,7 +112,7 @@ export default function MockTestMarkup() {
             </div>
             <div id="attList">
               <p className="empty-hint">
-                No attempts yet — your history and mastery levels will appear here.
+                No attempts yet, your history and mastery levels will appear here.
               </p>
             </div>
           </div>

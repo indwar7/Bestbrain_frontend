@@ -1,5 +1,5 @@
 /* ============================================================
-   BESTBRAIN — CONTENT-FIRST CHAPTERS  (preview only)
+   BESTBRAIN - CONTENT-FIRST CHAPTERS  (preview only)
    ------------------------------------------------------------
    learn.html renders its chapter list from an inline curriculum
    and gives every row the same Video / Notes / Quiz icons, whether
@@ -15,7 +15,7 @@
      · dims the icons that would open an empty stage
 
    If the backend is not running, or the class has no content, it
-   does nothing at all — the list is left exactly as the page built
+   does nothing at all, the list is left exactly as the page built
    it. Ordering is a hint, never a filter: no chapter is hidden.
    ============================================================ */
 (function () {
@@ -77,7 +77,7 @@
   }
 
   /* ---------- the backend ---------- */
-  /* The app resolves its own API host — a deployed build talks to a different
+  /* The app resolves its own API host, a deployed build talks to a different
      origin than the one it is served from. Reading that first is the only way
      these calls land where every other call in the app lands; location.origin
      is a last resort for the static pages, which are same-origin anyway. */
@@ -163,7 +163,7 @@
     if (!withContent.length) return true;      // nothing to lift; leave the order
 
     /* Re-order in place. The rows keep their own parent, so the page's own
-       click handlers, progress bars and animations are untouched — only the
+       click handlers, progress bars and animations are untouched, only the
        sequence changes. */
     var parent = withContent[0].parentNode;
     if (!parent) return true;
@@ -182,7 +182,7 @@
   }
 
   /* The dashboard opens a brand-new student on the first chapter of the first
-     subject in the syllabus — which is whatever the curriculum happens to list
+     subject in the syllabus, which is whatever the curriculum happens to list
      first, not whatever they can actually watch. Send them to a chapter that
      has a lecture waiting instead: the first click of the product should not
      land on an empty stage. */
@@ -197,7 +197,7 @@
     if (!title || !cta) return;
     if (host.dataset.kcDone) return;
 
-    /* prefer something with a video — that is what "start here" should mean */
+    /* prefer something with a video, that is what "start here" should mean */
     var pick = videos[0] || notes[0];
     if (!pick) return;
 
@@ -210,7 +210,7 @@
     if (sub) sub.textContent = subject + ' · lecture and notes ready';
 
     /* Link to the chapter's own video stage. The lesson hub matches content by
-       class + subject + topic, which is the same rule the backend uses — so
+       class + subject + topic, which is the same rule the backend uses, so
        the video that made this the pick is the video that opens. */
     var cls = currentClass() || 6;
     cta.setAttribute('href',
@@ -226,7 +226,7 @@
     style();
     Promise.all([load('videos', cls), load('notes', cls)]).then(function (res) {
       var videos = res[0], notes = res[1];
-      if (!videos.length && !notes.length) return;   // nothing uploaded — leave it alone
+      if (!videos.length && !notes.length) return;   // nothing uploaded, leave it alone
 
       if (pageKey() === 'dashboard') {
         fixStartHere(videos, notes);

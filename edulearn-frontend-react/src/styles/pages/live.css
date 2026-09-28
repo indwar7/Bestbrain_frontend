@@ -19,7 +19,7 @@ html.dark-mode{
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--ink);color:var(--cream);font-family:'Nunito',sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
-/* Seamless full-white surface — drop vivid.css's tinted radial canvas so the
+/* Seamless full-white surface, drop vivid.css's tinted radial canvas so the
    content doesn't read as a white box floating on a tinted page (per feedback).
    `html body` out-specifies vivid's body{…!important}. */
 html body{background:#FFFFFF !important;background-image:none !important}
@@ -65,7 +65,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .pcard__eyebrow{font-family:'Fragment Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .pcard__eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--aurora);flex:none}
 
-/* teacher "start a live class" composer — theme-aware (light + dark) */
+/* teacher "start a live class" composer, theme-aware (light + dark) */
 .composer{display:none;margin-bottom:22px}
 .composer.is-visible{display:block}
 .composer__form{display:flex;flex-direction:column;gap:12px}
@@ -114,7 +114,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .rep__date{font-size:11.5px;color:var(--muted)}
 .empty-hint{color:var(--muted);font-size:13.5px;padding:6px 2px}
 
-/* Live actions (start a class / join by code) — a full-width band above the
+/* Live actions (start a class / join by code), a full-width band above the
    syllabus so the top of the page reads as a complete section. */
 .live-actions{margin-bottom:32px;display:flex;flex-direction:column;gap:18px}
 .joinband{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:30px clamp(22px,2.6vw,38px);display:grid;grid-template-columns:1.25fr 1fr;gap:36px;align-items:center}
@@ -129,9 +129,9 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .joinstep span{font-size:13px;color:var(--muted);line-height:1.45}
 @media(max-width:860px){.joinband{grid-template-columns:1fr;gap:24px}.joinband__steps{border-left:none;border-top:1px solid var(--line);padding-left:0;padding-top:22px}}
 
-/* ── Class 7 NCERT syllabus — colourful subject panels ─────────────────── */
+/* ── Class 7 NCERT syllabus, colourful subject panels ─────────────────── */
 
-/* ── Class 7 NCERT syllabus — colourful subject panels ─────────────────── */
+/* ── Class 7 NCERT syllabus, colourful subject panels ─────────────────── */
 /* The page .wrap is full-width (max-width:none) so this fills the screen
    edge-to-edge; no empty left/right gutters. */
 .syl{padding:20px 0 100px}
@@ -195,7 +195,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .gaze-badge::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--on-accent);opacity:.7}
 .handchip{position:absolute;top:10px;right:14px;background:var(--amber);color:var(--on-accent);font-weight:700;font-size:11.5px;border-radius:999px;padding:4px 12px;display:none;z-index:3}
 
-/* Chalkboard "tutor screen" — a static board of polynomial formulas shown as
+/* Chalkboard "tutor screen", a static board of polynomial formulas shown as
    the class content (used as the stage fallback in place of the tutor tile). */
 .board{position:absolute;inset:0;background:
   radial-gradient(120% 90% at 30% 20%,rgba(255,255,255,.05),transparent 60%),

@@ -3,7 +3,7 @@
  * carried this hidden <svg> at the end of its <body> to define that gradient.
  * In the SPA it only needs to exist once, mounted for the whole app.
  *
- * Stop colours are the current (post-vivid) ones — teal/indigo/gold — not the
+ * Stop colours are the current (post-vivid) ones, teal/indigo/gold, not the
  * older #3DE8C5 set still referenced by some inline page markup.
  */
 export default function AuroraDefs() {

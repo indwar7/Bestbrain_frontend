@@ -22,7 +22,7 @@ html.dark-mode{
    rule, so the hidden attribute silently stops working. Restore it. */
 [hidden]{display:none!important}
 body{background:var(--ink);color:var(--cream);font-family:'Nunito',sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
-/* Seamless full-white surface (see live.html) — drop vivid.css's tinted canvas. */
+/* Seamless full-white surface (see live.html), drop vivid.css's tinted canvas. */
 html body{background:#FFFFFF !important;background-image:none !important}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer}
@@ -99,12 +99,12 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .opt.is-wrong{border-color:var(--rose);background:rgba(255,122,162,.12);animation:shake .35s var(--ease)}
 .opt.is-wrong .ltr{background:var(--rose);color:var(--on-accent);border-color:transparent}
 .opt:disabled{cursor:default}
-/* picked but not yet submitted — its own colour, distinct from right/wrong */
+/* picked but not yet submitted, its own colour, distinct from right/wrong */
 .opt.is-picked{border-color:var(--peri);background:color-mix(in srgb, var(--peri) 10%, transparent)}
 .opt.is-picked .ltr{background:var(--peri);color:#FFFFFF;border-color:transparent}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .toast{margin-top:16px;font-size:13.5px;font-weight:600;min-height:21px}
-/* worked solution — revealed only once the student submits */
+/* worked solution, revealed only once the student submits */
 .solution{margin-top:20px;border:1px solid var(--line);border-left:3px solid var(--peri);background:var(--card2);border-radius:16px;padding:18px 20px;animation:solIn .4s var(--ease)}
 .solution .mono{display:block;margin-bottom:10px}
 .solution__verdict{font-weight:700;font-size:14.5px;margin-bottom:8px}

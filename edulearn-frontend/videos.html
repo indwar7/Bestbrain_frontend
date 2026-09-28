@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- Redesign: dark canvas before any stylesheet parses, so switching pages
-     never flashes white. boot.js is not deferred on purpose — the theme
+     never flashes white. boot.js is not deferred on purpose, the theme
      classes have to be set before the page CSS lands. -->
 <meta name="color-scheme" content="dark">
 <style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
@@ -11,7 +11,7 @@
   <!-- Apply saved theme before paint to avoid a light-mode flash. -->
   <script>/* light-only product: strip any stale dark preference before paint */try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.remove('dark-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Video Lectures — BestBrain</title>
+  <title>Video Lectures | BestBrain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,480;9..144,600&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono&display=swap" rel="stylesheet">
   <style>
@@ -158,8 +158,8 @@
     .vidwrap.paused .center-play{opacity:1;}
     .controls{position:absolute;left:0;right:0;bottom:0;padding:8px 14px 12px;background:linear-gradient(transparent,rgba(0,0,0,.78));opacity:0;transition:opacity .25s;}
     .vidwrap:hover .controls,.vidwrap.paused .controls{opacity:1;}
-    /* QA T-07: hover-only meant a touch device — which has no hover state at
-       all — could only ever see these while the video happened to be paused.
+    /* QA T-07: hover-only meant a touch device, which has no hover state at
+       all, could only ever see these while the video happened to be paused.
        A device that cannot hover gets the bar on always instead of hiding a
        working control layer behind a gesture that doesn't exist for it. */
     @media (hover:none){.controls{opacity:1;}}
@@ -269,7 +269,7 @@
   <script src="account-menu.js"></script>
   <script src="../theme.js"></script>
   <script>
-    // EduAPI.API_BASE is the final answer — api.js (loaded synchronously above)
+    // EduAPI.API_BASE is the final answer, api.js (loaded synchronously above)
     // already resolves the host and applies the localStorage.edulearn_api
     // override safely. The old fallbacks were unreachable, and '/backend-api'
     // was a trap: nothing serves it in dev, so a miss returned index.html and
@@ -388,7 +388,7 @@
       } catch(e){
         document.getElementById('stage').innerHTML='';
         // "Is the backend running?" was wrong for the most common failure.
-        // A 401 means the server answered fine and REJECTED THE TOKEN — which
+        // A 401 means the server answered fine and REJECTED THE TOKEN, which
         // happens whenever the session was issued by a different backend than
         // the one being called (the two servers sign with different secrets and
         // use different databases, so their tokens are not interchangeable).
@@ -475,11 +475,11 @@
       list.forEach(function(v){ var k=keyFn(v)||'More lectures'; if(!map[k]){map[k]=[];order.push(k);} map[k].push(v); });
       return order.map(function(k){ return {key:k, items:sortByPart(map[k])}; });
     }
-    // A part number embedded in the title ("Part 3 — …") drives ordering + labels.
+    // A part number embedded in the title ("Part 3 - …") drives ordering + labels.
     function partOf(v){ var m=String(v&&v.title||'').match(/\bpart\s*(\d+)/i); return m?parseInt(m[1],10):null; }
     // The chapter heading + a number badge already convey position, so show the
-    // human title without the "Part N — " prefix.
-    function cleanTitle(v){ return String(v&&v.title||'').replace(/^\s*part\s*\d+\s*[-–—:.]\s*/i,''); }
+    // human title without the "Part N - " prefix.
+    function cleanTitle(v){ return String(v&&v.title||'').replace(/^\s*part\s*\d+\s*[-–\u2014:.]\s*/i,''); }
     // Ascending by part number; un-numbered lectures keep their original order after.
     function sortByPart(items){
       return items.map(function(v,i){ var p=partOf(v); return {v:v,k:(p!=null?p:1000+i)}; })

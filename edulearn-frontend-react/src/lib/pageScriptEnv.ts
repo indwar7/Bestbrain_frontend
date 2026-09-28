@@ -13,7 +13,7 @@ import { routeForHtmlHref } from './pages';
  *   document   DOMContentLoaded has long since fired by the time a route
  *              mounts, so a listener for it would never run. Registered
  *              callbacks are invoked once the script finishes instead.
- *   window     listeners are recorded so they can be removed on unmount —
+ *   window     listeners are recorded so they can be removed on unmount ,
  *              otherwise every revisit to a route stacks another handler.
  *   cleanup    timers and observers a page sets up, torn down the same way.
  */
@@ -58,7 +58,7 @@ export function createPageEnv(navigate: Navigate, searchOverride?: string): Page
   function go(url: string, replace: boolean) {
     const route = routeForHtmlHref(url);
     if (route) { navigate(route, { replace }); return; }
-    // Not a known page link — let the browser do what it would have done.
+    // Not a known page link, let the browser do what it would have done.
     if (replace) window.location.replace(url);
     else window.location.href = url;
   }
@@ -92,7 +92,7 @@ export function createPageEnv(navigate: Navigate, searchOverride?: string): Page
     return new Proxy(target, {
       get(t, prop, receiver) {
         // Scripts reach for `window.location` and `document.location` as often
-        // as the bare global, and those must resolve to the shim too —
+        // as the bare global, and those must resolve to the shim too ,
         // otherwise a param route's synthesized query string is invisible and
         // a ".html" assignment escapes the router.
         if (prop === 'location') return location;

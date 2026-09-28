@@ -5,7 +5,7 @@ import css from '../styles/pages/live.css?inline';
 import script from './scripts/live.js';
 
 /**
- * Live — live.html's real stylesheet, markup and script.
+ * Live, live.html's real stylesheet, markup and script.
  *
  * All three are lifted from the original page rather than reimplemented,
  * so the behaviour is the code that was already working, running against

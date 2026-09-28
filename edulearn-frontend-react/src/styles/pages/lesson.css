@@ -121,12 +121,12 @@ main{
 .vstage__crumb{color:var(--muted)}
 .vstage__title{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(24px,4vw,36px);letter-spacing:-.02em}
 /* Proper framed player: a fixed 16:9 box with the video fit inside (never
-   stretched or cropped) — a clean square-cornered card whatever the source. */
+   stretched or cropped), a clean square-cornered card whatever the source. */
 .vplayer-wrap{width:100%;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 18px 50px -22px rgba(8,14,30,.5)}
 .vplayer-wrap video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
 .vmeta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:13px}
 .vmeta .tag{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-family:'Fragment Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
-/* Playlist — all uploaded parts for a chapter, in order */
+/* Playlist, all uploaded parts for a chapter, in order */
 .vplaylist{display:flex;flex-direction:column;gap:8px;margin-top:4px}
 .vplaylist__hd{color:var(--muted);font-family:'Fragment Mono',monospace;text-transform:uppercase;letter-spacing:.1em;font-size:11px;margin-bottom:2px}
 .vpitem{display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);cursor:pointer;text-align:left;transition:border-color .2s,transform .2s,background .2s;width:100%}
@@ -138,7 +138,7 @@ main{
 .vpitem__meta{flex:none;color:var(--muted);font-size:11px;font-family:'Fragment Mono',monospace}
 
 /* ------------------------------------------------------------
-   Chapter hub — the two-option chooser shown when a chapter opens
+   Chapter hub, the two-option chooser shown when a chapter opens
    ------------------------------------------------------------ */
 .hub{width:100%;max-width:760px;display:flex;flex-direction:column;gap:26px}
 .hub__head{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}

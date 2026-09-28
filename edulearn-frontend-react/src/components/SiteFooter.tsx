@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 /**
- * Marketing footer for the public landing page (the logged-out home — Landing
+ * Marketing footer for the public landing page (the logged-out home - Landing
  * redirects signed-in visitors to the dashboard, so this is only ever seen
  * logged out). Ported from the static site's site footer but self-contained:
  * its own `sf-` classes and hard-coded colours, so it does not depend on any
@@ -12,7 +12,7 @@ import { useAuth } from '../context/AuthContext';
  * gated feature link now does (see lib/guard.ts): the visitor isn't signed in
  * yet, and clicking a feature is an expression of interest in it, not a claim
  * to already have an account. The Classes and Company columns stay on /login
- * — they are not features.
+ *, they are not features.
  */
 const PRODUCT = [
   ['Learn', '/signup'],
@@ -55,7 +55,7 @@ export default function SiteFooter() {
             </ul>
           </div>
 
-          {/* Browsing other classes is a signed-out affordance — hidden once
+          {/* Browsing other classes is a signed-out affordance, hidden once
               logged in (per review). The landing is logged-out only anyway, so
               this is belt-and-suspenders. */}
           {!loggedIn && (

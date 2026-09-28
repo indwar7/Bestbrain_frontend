@@ -1,6 +1,6 @@
 <?php
 /**
- * FALLBACK FIX — only needed if the .htaccess mod_proxy rule (see
+ * FALLBACK FIX, only needed if the .htaccess mod_proxy rule (see
  * htaccess-snippet.txt) gives a 500 error, meaning Apache's mod_proxy
  * isn't enabled on this Hostinger plan. Most shared hosting supports PHP
  * even when mod_proxy is locked down, so this reverse-proxies over cURL
@@ -8,7 +8,7 @@
  *
  * LIMITATION: this does NOT support WebSockets. Anything using
  * /socket.io/* (live classes' real-time connection) will still be broken
- * under this fallback — PHP's request/response model can't hold a
+ * under this fallback - PHP's request/response model can't hold a
  * long-lived socket open. If live classes matter, the mod_proxy route
  * (or moving off Hostinger for API traffic) is the only real fix for that
  * part.

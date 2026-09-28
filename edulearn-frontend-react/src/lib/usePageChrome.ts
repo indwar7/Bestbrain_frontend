@@ -14,7 +14,7 @@ import { PAGE_FONTS } from './pageFonts';
  *                             same thing inline, so it stays global
  *
  * Loading all of them everywhere is what made /login render 6.8% different
- * from login.html — it gained a feature panel the original never had.
+ * from login.html, it gained a feature panel the original never had.
  */
 
 /**

@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/signup.html — do not hand-edit.
+/* Generated from edulearn-frontend/signup.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 export default function SignupMarkup() {
   return (

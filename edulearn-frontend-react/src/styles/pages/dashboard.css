@@ -3,10 +3,10 @@
 html{background:#050505!important;color-scheme:dark}html body{background:#050505}
 
 /* ============================================================
-   BESTBRAIN · DASHBOARD — design tokens
+   BESTBRAIN · DASHBOARD, design tokens
    ============================================================ */
 :root{
-  /* light is the default — vibrant palette for young students */
+  /* light is the default, vibrant palette for young students */
   --ink:#F5F7FF;
   --deep:#FFFFFF;
   --card:#FFFFFF;
@@ -50,7 +50,7 @@ html.dark-mode{
 
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-/* Visually hidden but still announced — used for the relink-child form labels,
+/* Visually hidden but still announced, used for the relink-child form labels,
    whose fields previously had only a placeholder. */
 .sr-only{
   position:absolute;width:1px;height:1px;padding:0;margin:-1px;
@@ -66,7 +66,7 @@ body{
   overflow-x:hidden;
   min-height:100vh;
 }
-/* Full-white, seamless surface for the dashboard — no canvas tint or blob glow
+/* Full-white, seamless surface for the dashboard, no canvas tint or blob glow
    bleeding in at the left/right edges (per design feedback). `html body` out-
    specifies vivid.css's `body{…!important}`, so it wins even though this page
    CSS loads earlier in the cascade. */
@@ -200,7 +200,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .coin-chip .coin-ic{color:var(--peri);flex:none;}
 .coin-chip b{font-family:'Fragment Mono',monospace;font-size:13px;color:var(--peri);letter-spacing:.04em;}
 .coin-chip span{font-family:'Fragment Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
-/* Low-balance state — same rose used for the load-failure banner elsewhere
+/* Low-balance state, same rose used for the load-failure banner elsewhere
    on this page, so "something needs your attention" reads consistently. */
 .coin-chip.low{border-color:rgba(255,122,162,.4);background:rgba(255,122,162,.1);}
 .coin-chip.low .coin-ic,.coin-chip.low b{color:var(--rose);}
@@ -256,7 +256,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 /* ============================================================
    LAYOUT GRID
    ============================================================ */
-/* Full-width single-column layout — no more empty right rail. The rhythm card
+/* Full-width single-column layout, no more empty right rail. The rhythm card
    (formerly the sidebar) now sits inline as a full-width section. */
 .layout{display:block;padding-bottom:90px;}
 .boards{position:relative;min-width:0;}
@@ -265,7 +265,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .view.leaving{opacity:0;transform:translateY(-10px);transition:opacity .25s ease,transform .25s ease;}
 .vgrid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;}
 /* Role-based feature menu */
-/* Two rows of three (was one row of six) — bigger cards + type for readability. */
+/* Two rows of three (was one row of six), bigger cards + type for readability. */
 .feat-menu{grid-column:span 12;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:6px;}
 @media (max-width:680px){.feat-menu{grid-template-columns:repeat(2,1fr);}}
 .feat-card{position:relative;display:flex;flex-direction:column;gap:9px;padding:26px 22px 22px;border:1px solid var(--line);border-radius:18px;background:var(--card);text-decoration:none;color:inherit;overflow:hidden;transition:transform .28s var(--ease),border-color .28s var(--ease),box-shadow .28s var(--ease);}
@@ -317,7 +317,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .pluscard__action{display:flex;align-items:center;gap:10px;flex:none;}
 .pluscard__action form{display:flex;}
 /* Razorpay's hosted button renders inside the <form> the script above injects
-   into #plusAction — this only sizes the wrapper, never the button itself
+   into #plusAction, this only sizes the wrapper, never the button itself
    (that markup is Razorpay's, not ours, and can change without notice). */
 .pluscard.is-active .pluscard__badge{background:linear-gradient(135deg,var(--teal),var(--peri));}
 .plus-active-chip{
@@ -326,7 +326,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   color:var(--teal);font-weight:700;font-size:13px;white-space:nowrap;
 }
 .plus-price{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream);white-space:nowrap;}
-/* The one moment BestBrain itself confirms a payment — see loadSubscriptionCard's
+/* The one moment BestBrain itself confirms a payment, see loadSubscriptionCard's
    poll. Reduced-motion users still get the state change, just without the pulse. */
 @keyframes plusSuccessPulse{
   0%{box-shadow:0 0 0 0 rgba(16,185,129,.55);}
@@ -349,7 +349,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .pal-chip .lvl-dots i.f{background:var(--peri);box-shadow:0 0 6px rgba(124,155,255,.8);}
 
 /* ============================================================
-   STUDENT — bar chart
+   STUDENT, bar chart
    ============================================================ */
 .chart-wrap{position:relative;}
 .barchart{width:100%;height:auto;display:block;}
@@ -498,7 +498,7 @@ table.roster{width:100%;border-collapse:collapse;min-width:640px;}
 /* Roster table polish (per review): larger header type, real header padding,
    and thinner/softer borders than vivid.css's hard black. `table.roster …`
    out-specifies vivid's `.roster …`/`.roster th` rules so these win. */
-/* Whole "Students" roster section — larger, readable type across the board. */
+/* Whole "Students" roster section, larger, readable type across the board. */
 #rosterAnchor{font-size:15px !important;}
 #rosterAnchor .card-title{font-size:23px !important;}
 #rosterAnchor .eyebrow{font-size:12px !important;}
@@ -559,7 +559,7 @@ table.roster td .mono, table.roster td .tag, table.roster td .rc-tag{font-size:1
 /* ============================================================
    RIGHT RAIL
    ============================================================ */
-/* The rail is gone — "Learning rhythm" now sits inside the student grid beside
+/* The rail is gone - "Learning rhythm" now sits inside the student grid beside
    "AI recommends", and its styles live in the contribution-calendar block
    further down. What used to be here is dropped: .hm-foot/.hm-scale duplicates
    that the later block silently overrode (a live edit-here-see-nothing trap),
@@ -683,7 +683,7 @@ html.dark-mode [data-theme-toggle] {
 
 /* Colourful dark mode: layer deep aurora glows over the dark base via
    background-IMAGE (theme.css pins background-COLOR with !important, so this
-   never fights it — the glows sit on top of #0F172A). Matches the light-mode
+   never fights it, the glows sit on top of #0F172A). Matches the light-mode
    canvas so both themes feel alive. */
 html.dark-mode body{
   background-image:
@@ -764,8 +764,8 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 
 /* ---------- NEXT UP: the hero action card ---------- */
 /* QA S-14: this card was empty at first paint and jumped to its real height
-   once buildNextUp() ran (deliberately not awaited — see the comment near
-   its call site — so it can arrive well after the rest of the page has
+   once buildNextUp() ran (deliberately not awaited, see the comment near
+   its call site, so it can arrive well after the rest of the page has
    settled). Reserving the height a populated row actually renders at (60px
    icon + 48px padding, ~112px) stops that push instead of chasing every
    downstream element it was shoving. */
@@ -866,7 +866,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
   background:var(--c7); color:#000 !important; box-shadow:3px 3px 0 #000;
 }
 
-/* weekly bar chart — one hue per weekday (see buildBars()) */
+/* weekly bar chart, one hue per weekday (see buildBars()) */
 .barchart .bar-h0{fill:var(--c1);}
 .barchart .bar-h1{fill:var(--c2);}
 .barchart .bar-h2{fill:var(--c3);}
@@ -875,7 +875,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 .barchart .bar-h5{fill:var(--c6);}
 .barchart .bar-htoday{fill:var(--c8);}
 
-/* tool tiles — each owns a hue on its icon chip */
+/* tool tiles, each owns a hue on its icon chip */
 .feat-card:nth-child(6n+1) .fc-ico{background:color-mix(in srgb,var(--c1) 16%,#fff);color:var(--c1);}
 .feat-card:nth-child(6n+2) .fc-ico{background:color-mix(in srgb,var(--c2) 16%,#fff);color:var(--c2);}
 .feat-card:nth-child(6n+3) .fc-ico{background:color-mix(in srgb,var(--c3) 16%,#fff);color:var(--c3);}
@@ -918,7 +918,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
   /* --hm-max caps cell size: at a 1600px shell the span4 card is ~441px inside,
      so 32px cells fill ~78% of it; minmax(0,…) lets them shrink below that on
      narrower screens rather than overflowing. Without the cap the ≤920px
-     full-width card would render ~82px cells — a bingo board, not a heatmap. */
+     full-width card would render ~82px cells, a bingo board, not a heatmap. */
   display:block;filter:none;--hm-gap:3px;--hm-max:32px;
   width:auto;margin:6px 0 14px;
 }
@@ -927,7 +927,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
   gap:var(--hm-gap);margin-left:34px;margin-bottom:5px;height:14px;
 }
 .hm-mon{
-  /* No overflow:hidden — buildHeatmap's MIN_GAP deliberately reserves three
+  /* No overflow:hidden, buildHeatmap's MIN_GAP deliberately reserves three
      clear columns so a label can bleed right past its own column, as GitHub's
      do. Clipping here would cut "MAY" to "MA" and waste that reserved space. */
   font-family:'Fragment Mono',monospace;font-size:10px;font-weight:700;
@@ -956,7 +956,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 }
 .hcell.in{opacity:1;}
 .hcell--pad{background:transparent;outline:none;cursor:default;}
-/* days of the current month that haven't happened yet — visible so the month
+/* days of the current month that haven't happened yet, visible so the month
    keeps its full shape, but clearly not "rest days" */
 .hcell--future{background:transparent;outline:1px dashed rgba(27,31,35,.18);cursor:default;}
 .hcell--future:hover{outline:1px dashed rgba(27,31,35,.18);}
@@ -968,7 +968,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 .hcell:hover{outline:1px solid rgba(27,31,35,.5);outline-offset:-1px;}
 .hcell.is-today{outline:1.5px solid #0E0F14;outline-offset:-1px;}
 /* QA S-26: space-between only inserts a gap when there's free space to
-   distribute — on a narrow card the range text and the legend land edge to
+   distribute, on a narrow card the range text and the legend land edge to
    edge with none, reading as "…TODAYLESS  MORE". A fixed gap and the
    ability to wrap fixes both the collision and the narrow-card case. */
 .hm-foot{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;}
@@ -991,7 +991,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
    caption. All of them sat under the 12px floor for supporting text.
 
    They live inside the SVG viewBox, so they scale with the chart rather than
-   the page — sizing them up costs no layout and cannot reflow anything
+   the page, sizing them up costs no layout and cannot reflow anything
    outside the chart. Desktop keeps the density it was drawn for. */
 @media (max-width:600px){
   .barchart text{font-size:13px;letter-spacing:.06em;}

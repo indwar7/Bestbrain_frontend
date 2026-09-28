@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/pal.html — do not hand-edit.
+/* Generated from edulearn-frontend/pal.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 export default function PalMarkup() {
   return (
@@ -43,7 +43,7 @@ export default function PalMarkup() {
             </svg>
             {" New chat "}
           </button>
-          {/* Live voice call with PAL. Student-only (see role-guard ACCESS) —
+          {/* Live voice call with PAL. Student-only (see role-guard ACCESS) ,
            unhidden below once EduGuard confirms this role may open it. */}
           <a className="btn-doubt" id="doubtBtn" href="tutor.html" hidden={true}>
             <span className="live-dot" />
@@ -68,7 +68,7 @@ export default function PalMarkup() {
           </span>
           <div className="chatlist" id="chatList" />
           <div className="side__foot">
-            PAL answers from the BestBrain syllabus and your activity on this device. Prototype — answers are generated locally.
+            PAL answers from the BestBrain syllabus and your activity on this device. Prototype, answers are generated locally.
           </div>
         </aside>
         {/* ============ CHAT PANE ============ */}
@@ -110,7 +110,7 @@ export default function PalMarkup() {
                 </button>
               </div>
               <div className="composer__note">
-                PAL can make mistakes — verify with your textbook before exams.
+                PAL can make mistakes, verify with your textbook before exams.
               </div>
             </div>
           </div>

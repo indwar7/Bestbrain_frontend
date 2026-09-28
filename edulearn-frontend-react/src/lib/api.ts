@@ -9,7 +9,7 @@ function resolveApiBase(): string {
     VITE_API_ORIGIN wins everywhere, before any host sniffing below.
 
     Vite reads it from .env / .env.production / .env.local at BUILD time and
-    inlines the literal — there is no runtime env on a static site, so it has
+    inlines the literal, there is no runtime env on a static site, so it has
     to be set before `npm run build`, not when the server starts. See
     .env.example.
 
@@ -24,14 +24,14 @@ function resolveApiBase(): string {
   try {
     // Dev: go through Vite's proxy (see vite.config.ts) so calls are
     // same-origin. Hitting the deployed API directly from :5173 would be
-    // blocked — production CORS deliberately allows only :8000 and the Vercel
-    // origin — and a blocked response surfaces as a misleading "Failed to
+    // blocked, production CORS deliberately allows only :8000 and the Vercel
+    // origin, and a blocked response surfaces as a misleading "Failed to
     // fetch" rather than an explicit CORS error.
     // Must be a non-empty, same-origin absolute URL rather than ''. The lifted
     // page scripts resolve their base as
     //     (window.EduAPI && EduAPI.API_BASE) || '/backend-api'
     // and an empty string is falsy, so '' would silently fall through to
-    // /backend-api — which the dev server does not proxy, returning index.html
+    // /backend-api, which the dev server does not proxy, returning index.html
     // and failing as "Unexpected token '<'".
     if (isLocalHost(location.hostname)) return location.origin;
 
@@ -40,7 +40,7 @@ function resolveApiBase(): string {
         HTTPS deployments call the backend's own HTTPS origin directly.
 
         This replaces the 2026-08-24 directed change that pointed here at
-        http://ec2-65-2-183-7... — a plain-http origin. That was mixed content
+        http://ec2-65-2-183-7..., a plain-http origin. That was mixed content
         (an HTTPS page calling an HTTP API), which browsers block at the
         network layer with no code-level override, so every call died in the
         browser. It also pointed at a box that is no longer serving.
@@ -48,7 +48,7 @@ function resolveApiBase(): string {
         api.bestbrainplus.com resolves the whole problem properly: it is a
         real HTTPS origin with its own certificate, so there is no mixed
         content left to block, and its CORS allowlist already returns
-        Access-Control-Allow-Origin: https://bestbrainplus.com — verified
+        Access-Control-Allow-Origin: https://bestbrainplus.com, verified
         against a live preflight, not assumed.
 
         VITE_API_ORIGIN still wins over this (handled above) and
@@ -112,8 +112,8 @@ export function getUser(): User | null {
 /**
  * Announce that the stored session changed, so AuthProvider re-reads it.
  *
- * The lifted page scripts call these module functions directly — login.js does
- * `EduAPI.login(...)` — not AuthContext's wrappers. Without this, React state
+ * The lifted page scripts call these module functions directly, login.js does
+ * `EduAPI.login(...)`, not AuthContext's wrappers. Without this, React state
  * keeps whatever it read at mount, and a user who just logged in is still
  * `loggedIn: false` to ProtectedRoute, which bounces them straight back out.
  */
@@ -353,7 +353,7 @@ export function recordVideoView(id: string) {
   request(`/api/videos/${id}/view`, { method: 'POST' }).catch(() => {});
 }
 
-// Notes — chapter notes (usually a PDF) a teacher uploaded. Same class/subject/
+// Notes, chapter notes (usually a PDF) a teacher uploaded. Same class/subject/
 // topic filtering as videos; each note carries a `fileUrl` the lesson hub turns
 // into a token-authed link.
 export async function listNotes(filters: Record<string, string> = {}) {
@@ -389,7 +389,7 @@ export function chatPal(message: string, sessionId?: string) {
   return request('/api/pal/chat', { method: 'POST', body });
 }
 /**
- * AI Tutor (live doubt session) — streams a voice-optimized PAL reply over SSE
+ * AI Tutor (live doubt session), streams a voice-optimized PAL reply over SSE
  * (POST /api/pal/tutor/stream). EventSource can't POST, so this reads the
  * response body stream directly. Port of api.js's tutorStream, kept in sync
  * because the lifted tutor.js page script calls it via window.EduAPI.
@@ -514,7 +514,7 @@ export function createQuestion(fields: any) {
 // These live here as well as in the static edulearn-frontend/api.js because
 // the two clients are separate: the static pages load api.js, while the React
 // app publishes window.EduAPI from THIS module (see eduApiGlobal.ts). A method
-// added to only one of them exists on only one of the two sites — which is
+// added to only one of them exists on only one of the two sites, which is
 // exactly how the homework dot on Learn came out blank the first time.
 export function getQuestionBank(subject: string, chapterSlug?: string, count?: number, difficulty?: string) {
   const qs = new URLSearchParams({ subject });
@@ -584,7 +584,7 @@ export function getChallengeLeaderboard() { return request('/api/assessments/cha
  *
  * ProtectedRoute already enforces this before a page mounts, so in practice
  * this only ever returns the user. The redirects stay for the cases the router
- * cannot see — a page script asserting a specific role for itself — and go
+ * cannot see, a page script asserting a specific role for itself, and go
  * through the SPA by dispatching to the shim rather than reloading the app.
  */
 export function requireAuth(requiredRole?: string): User | null {

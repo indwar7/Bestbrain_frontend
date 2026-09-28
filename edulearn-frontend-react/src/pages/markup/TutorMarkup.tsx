@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/tutor.html — do not hand-edit.
+/* Generated from edulearn-frontend/tutor.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 export default function TutorMarkup() {
   return (
@@ -50,7 +50,7 @@ export default function TutorMarkup() {
             Tap the mic and ask your doubt
           </div>
           <div className="caption" id="caption">
-            PAL listens, thinks, and answers out loud — like a teacher on a call.
+            PAL listens, thinks, and answers out loud, like a teacher on a call.
           </div>
           <div className="controls">
             <button
@@ -125,7 +125,7 @@ export default function TutorMarkup() {
             </button>
           </form>
           <div className="hint" id="micHint">
-            Speak naturally in English, Hindi or Hinglish — tap the mic again to interrupt PAL.
+            Speak naturally in English, Hindi or Hinglish, tap the mic again to interrupt PAL.
           </div>
         </section>
         {/* ============ TRANSCRIPT ============ */}
@@ -146,7 +146,7 @@ export default function TutorMarkup() {
           </div>
           <div className="tlist" id="tList" />
           <div className="transcript__foot">
-            This call is saved to your PAL history so you can revisit the answers. PAL can make mistakes — verify with your textbook before exams.
+            This call is saved to your PAL history so you can revisit the answers. PAL can make mistakes, verify with your textbook before exams.
           </div>
         </aside>
       </div>

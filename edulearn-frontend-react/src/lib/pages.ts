@@ -1,7 +1,7 @@
 /**
  * Page ids are the static site's filenames minus ".html". They stay the
  * canonical identifier because the access matrix in role-guard.js was keyed by
- * them, and AuthContext's ACCESS is a direct port — keeping the ids identical
+ * them, and AuthContext's ACCESS is a direct port, keeping the ids identical
  * means the policy can be compared line-for-line against the original.
  *
  * This map is the one place that translates a page id to its SPA route.
@@ -53,7 +53,7 @@ export function routeForHtmlHref(rawHref: string, base: string = window.location
 
   // lesson.html?ch=c6-sci-food carried its target in the query string; the SPA
   // takes it as a path param instead, but the rest of the query (class, subject,
-  // t, view) is preserved — lesson.js needs class & subject to run its
+  // t, view) is preserved, lesson.js needs class & subject to run its
   // video/notes lookup. take-test.html keeps its full query string untouched.
   let to = route;
   if (page === 'lesson') {

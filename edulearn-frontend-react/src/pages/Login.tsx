@@ -5,7 +5,7 @@ import css from '../styles/pages/login.css?inline';
 import script from './scripts/login.js';
 
 /**
- * Login — login.html's real stylesheet, markup and script.
+ * Login, login.html's real stylesheet, markup and script.
  *
  * All three are lifted from the original page rather than reimplemented,
  * so the behaviour is the code that was already working, running against

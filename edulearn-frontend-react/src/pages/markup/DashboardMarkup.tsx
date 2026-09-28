@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/dashboard.html — do not hand-edit.
+/* Generated from edulearn-frontend/dashboard.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 import type { CSSProperties } from 'react';
 
@@ -55,7 +55,7 @@ export default function DashboardMarkup() {
   ============================================================ */}
       <main className="shell">
         {/* ============================================================
-         TOP STRIP — greeting · streak · sync · role switcher
+         TOP STRIP, greeting · streak · sync · role switcher
     ============================================================ */}
         <header className="topstrip">
           <div className="greet pl" style={{ '--d': "160ms" } as CSSProperties}>
@@ -101,7 +101,7 @@ export default function DashboardMarkup() {
                   day streak
                 </span>
               </span>
-              {/* Hidden until loadCoinChip() resolves (see script) — same reasoning
+              {/* Hidden until loadCoinChip() resolves (see script), same reasoning
                as #plusCard: a slow/failed fetch must never show 0 and look like
                an empty wallet. Low-balance styling is a CSS state (.low), set
                from script once the real number is known. */}
@@ -129,9 +129,9 @@ export default function DashboardMarkup() {
                   coins
                 </span>
               </span>
-              {/* REMOVED: the "Offline data — synced 2h ago" chip.
+              {/* REMOVED: the "Offline data, synced 2h ago" chip.
                It was static markup with no code behind it, so it claimed a sync
-               that happened 2 hours ago on every single page load, forever —
+               that happened 2 hours ago on every single page load, forever ,
                including the very first load of a brand-new account, and including
                loads where the fetch had just failed. A status indicator that is
                not wired to any status is worse than no indicator. Restore it only
@@ -180,7 +180,7 @@ export default function DashboardMarkup() {
           </div>
         </header>
         {/* ============================================================
-         LOW COIN BALANCE — shown only when balance < 100 (see script).
+         LOW COIN BALANCE, shown only when balance < 100 (see script).
          role="alert" so a screen reader announces it the moment it appears,
          same reasoning as showLoadFailure()'s banner elsewhere on this page.
     ============================================================ */}
@@ -202,7 +202,7 @@ export default function DashboardMarkup() {
           </svg>
           {' '}
           <span>
-            {"Coins running low — "}
+            {"Coins running low - "}
             <b id="lowCoinBalance">
               0
             </b>
@@ -210,11 +210,11 @@ export default function DashboardMarkup() {
           </span>
         </div>
         {/* ============================================================
-         BESTBRAIN PLUS — subscription upsell / active badge.
+         BESTBRAIN PLUS, subscription upsell / active badge.
          Hidden until loadSubscriptionCard() resolves (see script), so a slow
          or failed /api/subscription/* call never shows a half-built card.
          Entitlement itself is decided server-side from signed Razorpay
-         webhooks only — this card only ever reads it, never sets it.
+         webhooks only, this card only ever reads it, never sets it.
     ============================================================ */}
         <div id="plusCard" className="pluscard" style={{ display: "none" }}>
           <div className="pluscard__head">
@@ -241,7 +241,7 @@ export default function DashboardMarkup() {
             <section className="view" id="view-student" aria-label="Student dashboard">
               <div className="vgrid">
                 {/* ============================================================
-                 NEXT UP — the single most important thing on the page.
+                 NEXT UP, the single most important thing on the page.
                  An 11-year-old should never have to work out what to do next.
                  Filled by buildNextUp() from STATE.chapters + CHAPTER_META.
             ============================================================ */}
@@ -252,7 +252,7 @@ export default function DashboardMarkup() {
                  />
                 {/* STUDENT feature menu */}
                 {/* ============================================================
-                 YOUR WEEK — a slim stats STRIP, not four large cards.
+                 YOUR WEEK, a slim stats STRIP, not four large cards.
                  These are secondary numbers. At full-card size a quiet week
                  renders as a wall of giant zeros, which is the most
                  discouraging thing a student can open the app to.
@@ -434,7 +434,7 @@ export default function DashboardMarkup() {
                 <div className="weekgrid stag" style={{ '--i': "0" } as CSSProperties} id="weekGrid" />
                 {/* The PAL LEVEL chip was removed.
                  It read STATE.pal.level, and nothing in the app ever writes
-                 STATE.pal — api.js only deletes the key. So it was pinned to
+                 STATE.pal, api.js only deletes the key. So it was pinned to
                  "LEVEL 1 · SPARK" permanently, for every student, forever. On a
                  child's dashboard a level badge that can never go up is a
                  permanent "you are at the bottom" label, which is the opposite
@@ -553,15 +553,15 @@ export default function DashboardMarkup() {
                       className="empty-hint"
                       style={{ gridColumn: "1/-1", color: "var(--muted)", fontSize: "13.5px", padding: "6px 2px" }}
                     >
-                      {" No gaps flagged yet — take a mock test or complete a chapter and Tokky will point out exactly what to revise. "}
+                      {" No gaps flagged yet, take a mock test or complete a chapter and Tokky will point out exactly what to revise. "}
                     </p>
                   </div>
                 </div>
-                {/* (e) learning rhythm — sits beside "AI recommends" rather than in a
+                {/* (e) learning rhythm, sits beside "AI recommends" rather than in a
                  rail of its own, so the calendar isn't stranded in a full-width band */}
                 <div className="card span4 stag" style={{ '--i': "5" } as CSSProperties}>
-                  {/* .hm-wrap shrink-wraps the calendar and centres the whole block —
-                   title, eyebrow, grid and legend together — so the caption and
+                  {/* .hm-wrap shrink-wraps the calendar and centres the whole block ,
+                   title, eyebrow, grid and legend together, so the caption and
                    the LESS/MORE ramp line up with the grid they describe instead
                    of overhanging it on both sides. */}
                   <div className="hm-wrap">
@@ -735,7 +735,7 @@ export default function DashboardMarkup() {
                     </span>
                     {' '}
                     <span className="fc-sub">
-                      Timed, auto-graded — get a link to share
+                      Timed, auto-graded, get a link to share
                     </span>
                   </a>
                   {' '}
@@ -1040,7 +1040,7 @@ export default function DashboardMarkup() {
                   <div className="child-stats">
                     <div className="cstat">
                       <b id="pStreak">
-                        —
+                        ,
                       </b>
                       <span data-i18n="p.streak">
                         day streak
@@ -1048,7 +1048,7 @@ export default function DashboardMarkup() {
                     </div>
                     <div className="cstat">
                       <b id="pHours">
-                        —
+                        ,
                       </b>
                       <span data-i18n="p.week">
                         this week
@@ -1056,7 +1056,7 @@ export default function DashboardMarkup() {
                     </div>
                     <div className="cstat">
                       <b id="pAllTime">
-                        —
+                        ,
                       </b>
                       <span data-i18n="p.total">
                         all-time
@@ -1094,7 +1094,7 @@ export default function DashboardMarkup() {
                    Placeholders disappear the moment you type, so a screen-reader
                    or magnifier user lost the field identity mid-entry. Real
                    (visually-hidden) labels fix that without changing the design.
-                   #relinkMsg carries "Checking…", "Fixed — reloading…" and API
+                   #relinkMsg carries "Checking…", "Fixed, reloading…" and API
                    errors, so it needs role="status" or none of that is announced. */}
                   <form
                     id="relinkChildForm"
@@ -1178,7 +1178,7 @@ export default function DashboardMarkup() {
                       className="empty-hint"
                       style={{ color: "var(--muted)", fontSize: "13.5px", padding: "6px 2px" }}
                     >
-                      {" No activity yet this week — alerts about your child's tests, streaks and gaps will appear here. "}
+                      {" No activity yet this week, alerts about your child's tests, streaks and gaps will appear here. "}
                     </p>
                   </div>
                 </div>
@@ -1203,7 +1203,7 @@ export default function DashboardMarkup() {
                     Built to never block learning
                   </h4>
                   <p data-i18n="p.reassureP">
-                    All learning works offline — videos, practice and tests run without internet, and usage syncs automatically when you are back online.
+                    All learning works offline, videos, practice and tests run without internet, and usage syncs automatically when you are back online.
                   </p>
                   <div className="divide" />
                   <div className="note">
@@ -1226,7 +1226,7 @@ export default function DashboardMarkup() {
                       <b>
                         Multi-grade access:
                       </b>
-                      {" your child can revisit any earlier-class chapter anytime — quietly, stigma-free. PAL never labels, it just bridges."}
+                      {" your child can revisit any earlier-class chapter anytime, quietly, stigma-free. PAL never labels, it just bridges."}
                     </span>
                   </div>
                 </div>
@@ -1237,7 +1237,7 @@ export default function DashboardMarkup() {
       </main>
       {/* Heatmap hover tooltip. Lives at top level on purpose: it is position:fixed
        and JS-positions itself from getBoundingClientRect(), so it must not sit
-       inside the rhythm card — .stag keeps a transform (translateY(0) is still a
+       inside the rhythm card - .stag keeps a transform (translateY(0) is still a
        transform), which would make it a containing block for fixed descendants
        and offset the tooltip, and .card{overflow:hidden} would clip it. */}
       <div className="chart-tip" id="hmTip" style={{ position: "fixed" }}>
@@ -1351,7 +1351,7 @@ export default function DashboardMarkup() {
           </div>
         </div>
       </footer>
-      {/* shared curriculum (190 chapters) — MUST load before the inline
+      {/* shared curriculum (190 chapters) - MUST load before the inline
        script below derives CHAPTER_META from window.EduCurriculum */}
       {' '}
       {' '}

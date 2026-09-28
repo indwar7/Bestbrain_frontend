@@ -1,5 +1,5 @@
 /* ============================================================
-   BESTBRAIN — AMBER OS · AI TUTOR CALL SKIN
+   BESTBRAIN - AMBER OS · AI TUTOR CALL SKIN
    ------------------------------------------------------------
    Local preview only. tutor.html already runs the whole doubt loop
    (SpeechRecognition in, SSE out, speechSynthesis back). This layer
@@ -75,7 +75,7 @@
     var name = document.createElement('div');
     name.id = 'kc-name';
     name.innerHTML = '<span class="av">🤖</span>' +
-      '<span><b>PAL — AI Tutor</b><span>Class 6 · Science &amp; Maths doubts</span></span>' +
+      '<span><b>PAL - AI Tutor</b><span>Class 6 · Science &amp; Maths doubts</span></span>' +
       '<span class="eqz"><i></i><i></i><i></i><i></i></span>';
     stage.appendChild(name);
 
@@ -102,7 +102,7 @@
             stream.getTracks().forEach(function (t) { t.stop(); });
           });
         })
-        .catch(function () { /* camera declined — the initials tile stays */ });
+        .catch(function () { /* camera declined, the initials tile stays */ });
     }
 
     var t0 = Date.now(), timer = document.getElementById('kc-timer');
@@ -111,7 +111,7 @@
       timer.textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
     }, 1000);
 
-    /* mirror the page's own state — equaliser while PAL talks, red mic dot
+    /* mirror the page's own state, equaliser while PAL talks, red mic dot
        while the student's mic is hot */
     setInterval(function () {
       document.documentElement.classList.toggle('kc-talking', stage.classList.contains('is-speaking'));
@@ -127,9 +127,9 @@
 })();
 
 /* ============================================================
-   AI TUTOR — CHAT ALONGSIDE THE CALL
+   AI TUTOR - CHAT ALONGSIDE THE CALL
    ------------------------------------------------------------
-   The call answers out loud, which is the point of it — and the
+   The call answers out loud, which is the point of it, and the
    wrong tool when a student is in a quiet room, wants to paste a
    question, or needs the answer to stay on screen while they copy
    it into a notebook. The right-hand column gets a real one-to-one
@@ -244,7 +244,7 @@
       var buf = '';
 
       /* The reply arrives as SSE frames. Render each chunk as it lands rather
-         than waiting for the stream to close — a tutor that pauses and then
+         than waiting for the stream to close, a tutor that pauses and then
          dumps a paragraph reads as broken. */
       function pump() {
         return reader.read().then(function (r) {
@@ -278,7 +278,7 @@
       if (!reply.textContent) reply.textContent = 'Could not reach PAL. Check your connection and try again.';
     }).then(function () {
       reply.classList.remove('think');
-      if (!reply.textContent) reply.textContent = 'PAL had nothing to say — try asking it another way.';
+      if (!reply.textContent) reply.textContent = 'PAL had nothing to say, try asking it another way.';
       busy = false;
       send.disabled = false;
       input.focus();

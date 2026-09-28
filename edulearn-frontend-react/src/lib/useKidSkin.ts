@@ -13,7 +13,7 @@ declare global {
  * kid-bg.js derives the dark surfaces and ink by measuring what the cascade
  * actually produced and pinning the result inline. The cascade underneath it
  * is still the pre-redesign look, so anything it has not measured yet paints
- * in the old palette — vivid.css gives .brand-panel a flat white background,
+ * in the old palette, vivid.css gives .brand-panel a flat white background,
  * for one, which is what the signup page's left half showed for a third of a
  * second after every navigation.
  *

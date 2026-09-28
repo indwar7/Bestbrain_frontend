@@ -1,5 +1,5 @@
 /* ============================================================
-   BestBrain — shared account menu (settings + logout)
+   BestBrain, shared account menu (settings + logout)
    Self-injects a gear + logout button (fixed, top-right) and a
    slide-in Settings panel with role-specific fields + preferences.
    Works on every page. Must load AFTER api.js.
@@ -47,7 +47,7 @@
     '.acct-msg.ok{color:#0FA983;background:rgba(15,169,131,.1);}.acct-msg.err{color:#C2181C;background:rgba(226,76,77,.1);}' +
     /* Phone: this panel becomes a full-height sheet on a small screen, so it
        takes phone type sizes rather than the desktop side-panel's density.
-       16px on the controls specifically — below that iOS Safari zooms the
+       16px on the controls specifically, below that iOS Safari zooms the
        page the moment a field takes focus, and the user has to pinch back out
        to read the form they are filling in. The 10px section headings sit
        under the 12px floor for supporting text. */
@@ -110,7 +110,7 @@
     '<button class="acct-btn" id="acctQuickLogout" title="Logout" aria-label="Logout"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"/><path d=\"m16 17 5-5-5-5\"/><path d=\"M21 12H9\"/></svg></button>';
   document.body.appendChild(fab);
 
-  // Quick light/dark toggle — self-contained so it works regardless of whether
+  // Quick light/dark toggle, self-contained so it works regardless of whether
   // theme.js has loaded yet. Shows on every logged-in screen.
   var themeBtn = fab.querySelector('#acctTheme');
   function paintThemeIcon(){
@@ -140,12 +140,12 @@
     '<div class="acct-sec"><h3>Profile</h3>' + fieldsForRole(user) + '</div>' +
     '<div class="acct-sec"><h3>Preferences</h3>' +
       // Hindi disabled platform-wide (learn.html's ~190 chapter titles have no
-      // Hindi text yet) — English only, no switcher, not even here.
+      // Hindi text yet) - English only, no switcher, not even here.
       '<div class="acct-field"><label>Language</label><select id="acctLang" disabled>' +
         '<option value="en" selected>English</option>' +
       '</select></div>' +
       // Theme is explicit-only (Dark / Light). No "System" option, so the theme
-      // NEVER changes on its own with the OS — it only changes when the user
+      // NEVER changes on its own with the OS, it only changes when the user
       // picks it here. Current value comes from the applied theme.
       '<div class="acct-field"><label>Theme</label><select id="acctThemeSel">' +
         '<option value="light"' + (currentTheme==='light'?' selected':'') + '>Light</option>' +
@@ -188,7 +188,7 @@
 
   // ---------- theme: apply from Settings (replaces the removed auth-page toggle) ----------
   // Explicit only: the theme is exactly what the user picked (dark/light). It is
-  // NEVER derived from the OS, so it never changes on its own — only when the
+  // NEVER derived from the OS, so it never changes on its own, only when the
   // user changes it here. App pages theme via the `dark-mode` class (theme.js);
   // login/signup read the same 'edulearn-theme' key.
   function applyTheme(pref){

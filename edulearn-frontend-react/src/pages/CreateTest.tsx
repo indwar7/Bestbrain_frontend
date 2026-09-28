@@ -5,7 +5,7 @@ import css from '../styles/pages/create-test.css?inline';
 import script from './scripts/create-test.js';
 
 /**
- * CreateTest — create-test.html's real stylesheet, markup and script.
+ * CreateTest, create-test.html's real stylesheet, markup and script.
  *
  * All three are lifted from the original page rather than reimplemented,
  * so the behaviour is the code that was already working, running against

@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/live.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/live.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -10,7 +10,7 @@ export default function init({ location, document, window, onCleanup }) {
 (function(){
 'use strict';
 
-/* Class 7's grid below is genuinely curated — a teacher picked which
+/* Class 7's grid below is genuinely curated, a teacher picked which
    chapters are foundational/high-weightage, one by one, and that judgment
    isn't something curriculum.js's plain chapter list carries. Every other
    class gets its own real chapters instead, without inventing a "must-do"
@@ -31,7 +31,7 @@ export default function init({ location, document, window, onCleanup }) {
 
   var C = window.EduCurriculum;
   var data = C && C.CURRICULUM && C.CURRICULUM[String(cls)];
-  if (!data) return;       // no data for this class — leave the fallback rather than show nothing
+  if (!data) return;       // no data for this class, leave the fallback rather than show nothing
 
   var ICONS = {
     science: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6M10 2v6.5L5.2 17A2 2 0 0 0 7 20h10a2 2 0 0 0 1.8-3L14 8.5V2"/><path d="M7.5 14h9"/></svg>',
@@ -62,10 +62,10 @@ export default function init({ location, document, window, onCleanup }) {
   if (grid) grid.innerHTML = html;
 
   var h2 = section.querySelector('.syl__head h2');
-  if (h2) h2.textContent = 'Class ' + cls + ' NCERT — the full syllabus';
+  if (h2) h2.textContent = 'Class ' + cls + ' NCERT, the full syllabus';
   var sub = section.querySelector('.syl__sub');
   if (sub) sub.textContent = 'Every subject, chapter by chapter, straight from the NCERT syllabus for your class.';
-  /* the "must-do, foundational" star is Class 7's curation only — nothing
+  /* the "must-do, foundational" star is Class 7's curation only, nothing
      here has grounds to claim the same for a class it was never applied to */
   var legend = section.querySelector('.syl__legend');
   if (legend) legend.style.display = 'none';
@@ -115,10 +115,10 @@ function tomorrowAt(h){
 }
 var SESSIONS = [
   { id:'s1', topic:'Polynomials, Part 2',        cls:9, subj:'maths',   tutor:'Priya Sharma', rating:'4.9', start:at(-12), mins:60, seats:'3/15',  live:true  },
-  { id:'s2', topic:'Heat — Revision',            cls:7, subj:'science', tutor:'Arjun Mehta',  rating:'4.8', start:at(60),  mins:45, seats:'6/15',  live:false },
+  { id:'s2', topic:'Heat - Revision',            cls:7, subj:'science', tutor:'Arjun Mehta',  rating:'4.8', start:at(60),  mins:45, seats:'6/15',  live:false },
   { id:'s3', topic:'The French Revolution',      cls:9, subj:'social',  tutor:'Kavita Rao',   rating:'4.9', start:at(150), mins:60, seats:'9/15',  live:false },
   { id:'s4', topic:'Fractions Doubt Clinic',     cls:6, subj:'maths',   tutor:'Rohan Iyer',   rating:'4.8', start:at(240), mins:45, seats:'11/15', live:false },
-  { id:'s5', topic:'Light — Numericals',         cls:7, subj:'science', tutor:'Arjun Mehta',  rating:'4.8', start:tomorrowAt(10), mins:60, seats:'13/15', live:false },
+  { id:'s5', topic:'Light - Numericals',         cls:7, subj:'science', tutor:'Arjun Mehta',  rating:'4.8', start:tomorrowAt(10), mins:60, seats:'13/15', live:false },
   { id:'s6', topic:'Grammar Power Hour',         cls:8, subj:'english', tutor:'Sneha Kulkarni', rating:'4.9', start:tomorrowAt(17), mins:45, seats:'8/15', live:false }
 ];
 
@@ -140,7 +140,7 @@ function renderSessions(){
     var act = s.live
       ? '<button class="btn-join" data-join="' + s.id + '" type="button">Join live</button>'
       : (isBooked(s.id)
-        ? '<button class="btn-book is-booked" type="button" disabled>Booked — added to calendar</button>'
+        ? '<button class="btn-book is-booked" type="button" disabled>Booked, added to calendar</button>'
         : '<button class="btn-book" data-book="' + s.id + '" type="button">Book seat</button>');
     html +=
       '<article class="sess rv" style="--sa:' + sub.color + ';animation-delay:' + (380 + i*70) + 'ms">' +
@@ -169,7 +169,7 @@ function renderSessions(){
 function renderMyList(){
   var host = document.getElementById('myList');
   if(!store.bookings.length){
-    host.innerHTML = '<p class="empty-hint">Nothing booked yet — grab a seat from today&rsquo;s sessions.</p>';
+    host.innerHTML = '<p class="empty-hint">Nothing booked yet, grab a seat from today&rsquo;s sessions.</p>';
     return;
   }
   var html = '';
@@ -186,7 +186,7 @@ function scoreColor(s){ return s >= 80 ? 'var(--teal)' : s >= 50 ? 'var(--amber)
 function renderReports(){
   var host = document.getElementById('reportList');
   if(!store.reports.length){
-    host.innerHTML = '<p class="empty-hint">Join a class and your attentiveness report will appear here — and on the parent dashboard.</p>';
+    host.innerHTML = '<p class="empty-hint">Join a class and your attentiveness report will appear here, and on the parent dashboard.</p>';
     return;
   }
   var html = '';
@@ -408,7 +408,7 @@ function detectGaze(video){
 }
 
 /* fallback when FaceDetector is unavailable (Firefox/Safari):
-   compare centre-region skin-tone coverage — present & facing forward → looking */
+   compare centre-region skin-tone coverage, present & facing forward → looking */
 function heuristicGaze(video){
   try{
     gazeCtx.drawImage(video, 0, 0, gazeCanvas.width, gazeCanvas.height);
@@ -470,7 +470,7 @@ function camFailed(msg){
   var consent = document.getElementById('camConsent');
   consent.classList.add('is-hidden');
   document.getElementById('stageNote').textContent = msg;
-  if(CLS) logEvent('warn', 'Camera not enabled — tab-focus tracking only');
+  if(CLS) logEvent('warn', 'Camera not enabled, tab-focus tracking only');
 }
 
 function stopCamera(){
@@ -483,7 +483,7 @@ function stopCamera(){
 document.getElementById('enableCam').addEventListener('click', startCamera);
 document.getElementById('skipCam').addEventListener('click', function(){
   document.getElementById('camConsent').classList.add('is-hidden');
-  document.getElementById('stageNote').textContent = 'Camera monitoring skipped — attention tracked by tab focus only.';
+  document.getElementById('stageNote').textContent = 'Camera monitoring skipped, attention tracked by tab focus only.';
   if(CLS) logEvent('warn', 'Skipped camera monitoring');
 });
 
@@ -513,7 +513,7 @@ function tick(){
     /* left the browser tab entirely */
     if(CLS.awayLoss < 20){ CLS.score -= 2; CLS.awayLoss += 2; }
   } else if(CLS.camOn && CLS.gazeAway){
-    /* camera says eyes are off the screen — strongest penalty */
+    /* camera says eyes are off the screen, strongest penalty */
     CLS.score -= 1.5;
   } else if(Date.now() - CLS.lastActivity > 45000 && !CLS.camOn){
     /* no camera: fall back to idle detection */
@@ -570,11 +570,11 @@ document.getElementById('handBtn').addEventListener('click', function(){
 var SCRIPT = [
   { d: 4000,  who:'Priya Sharma · Tutor', tutor:true,  text:'Welcome everyone! Today we finish the factor theorem and start splitting cubics.' },
   { d: 11000, who:'Diya S.',              tutor:false, text:'mam ek baar zeroes wala dobara please' },
-  { d: 16000, who:'Priya Sharma · Tutor', tutor:true,  text:'Sure Diya — a zero is just the x where p(x) becomes 0. Watch this example.' },
+  { d: 16000, who:'Priya Sharma · Tutor', tutor:true,  text:'Sure Diya, a zero is just the x where p(x) becomes 0. Watch this example.' },
   { d: 26000, who:'Ishaan K.',            tutor:false, text:'so (x-2) is a factor because p(2)=0?' },
   { d: 31000, who:'Priya Sharma · Tutor', tutor:true,  text:'Exactly, Ishaan. That IS the factor theorem. Now try q(x) = x² − 5x + 6 yourselves.' },
   { d: 44000, who:'Meera R.',             tutor:false, text:'(x-2)(x-3)!' },
-  { d: 49000, who:'Priya Sharma · Tutor', tutor:true,  text:'Well done. Next: what happens with cubics — this is where your boards marks hide.' }
+  { d: 49000, who:'Priya Sharma · Tutor', tutor:true,  text:'Well done. Next: what happens with cubics, this is where your boards marks hide.' }
 ];
 function pushMsg(who, text, tutor, me){
   var log = document.getElementById('chatLog');
@@ -615,7 +615,7 @@ document.getElementById('chatForm').addEventListener('submit', function(e){
   CLS.score = Math.min(100, CLS.score + 5);
   logEvent('ok', 'Asked in chat');
   CLS.chatTimers.push(setTimeout(function(){
-    pushMsg('Priya Sharma · Tutor', 'Good question — let me cover that right after this example.', true, false);
+    pushMsg('Priya Sharma · Tutor', 'Good question, let me cover that right after this example.', true, false);
   }, 4000));
 });
 
@@ -690,7 +690,7 @@ document.getElementById('leaveBtn').addEventListener('click', function(){
   if(score >= 80){
     v.innerHTML = '<span style="color:var(--teal)">Excellent focus</span><small>Locked in for nearly the whole session. Keep this rhythm.</small>';
   } else if(score >= 50){
-    v.innerHTML = '<span style="color:var(--amber)">Good, some drift</span><small>A few wander-offs — try keeping the tab front and centre next class.</small>';
+    v.innerHTML = '<span style="color:var(--amber)">Good, some drift</span><small>A few wander-offs, try keeping the tab front and centre next class.</small>';
   } else {
     v.innerHTML = '<span style="color:var(--rose)">Needs attention</span><small>Attention dropped a lot this session. PAL will suggest a shorter format next time.</small>';
   }
@@ -722,7 +722,7 @@ document.getElementById('backBtn').addEventListener('click', function(){
   window.scrollTo(0, 0);
 });
 
-/* hero CTA — jump into the live demo class and prompt the camera right away */
+/* hero CTA, jump into the live demo class and prompt the camera right away */
 document.getElementById('tryAttn').addEventListener('click', function(){
   var liveSess = SESSIONS.filter(function(x){ return x.live; })[0] || SESSIONS[0];
   joinClass(liveSess.id);
@@ -781,13 +781,13 @@ function setupTeacherComposer(){
   if (!liveUser || liveUser.role !== 'teacher') return;
 
   // Teachers get a teacher page: hide the same fake demo content every
-  // logged-in user gets hidden, plus (teacher-only) the join-by-code box —
+  // logged-in user gets hidden, plus (teacher-only) the join-by-code box ,
   // the page is about STARTING a class, not booking/joining a seat in one.
   hideDemoContentForLoggedInUser();
   var joinCodeBox = document.getElementById('joinCodeBox');
   if (joinCodeBox) joinCodeBox.style.display = 'none';
   var heroSub = document.querySelector('.hero__sub');
-  if (heroSub) heroSub.textContent = 'Start a live class for your section below — your students join in one tap or with the class code.';
+  if (heroSub) heroSub.textContent = 'Start a live class for your section below, your students join in one tap or with the class code.';
   var heroTitle = document.getElementById('liveHero');
   if (heroTitle) heroTitle.innerHTML = 'Teach live, <em>face to face.</em>';
 
@@ -842,7 +842,7 @@ async function loadRealSessions(){
 function renderRealSessions(){
   var host = document.getElementById('liveGrid');
   var title = document.getElementById('liveNowTitle');
-  // The "Live now" section was removed from the page — bail out quietly if its
+  // The "Live now" section was removed from the page, bail out quietly if its
   // elements aren't present so this doesn't throw on a null innerHTML.
   if (!host || !title) return;
   if (!realSessions.length){
@@ -1005,7 +1005,7 @@ function joinRealClass(sessionId, known){
   var consent = document.getElementById('camConsent');
   consent.classList.remove('is-hidden');
   document.getElementById('selfTile').classList.remove('has-cam','cam-on','cam-away');
-  // Real classes have no scripted chat — start with an empty, live chat log.
+  // Real classes have no scripted chat, start with an empty, live chat log.
   document.getElementById('chatLog').innerHTML = '';
 
   // Connect realtime presence + chat for this backend session.
@@ -1034,12 +1034,12 @@ var LiveRT = (function(){
     setTagPending(null);
 
     if (!window.io || !window.EduAPI || !EduAPI.getToken()){
-      return; // socket.io not loaded or not logged in — chat stays inert
+      return; // socket.io not loaded or not logged in, chat stays inert
     }
     // Fresh connection per class.
     if (sock){ try { sock.disconnect(); } catch(e){} sock = null; }
     // When API_BASE is an absolute origin (localhost dev), connect straight to
-    // it. On the deployed https site API_BASE is the relative '/backend-api' —
+    // it. On the deployed https site API_BASE is the relative '/backend-api' ,
     // passing that to io() would be read as a NAMESPACE on the Vercel origin,
     // not a URL. Connect same-origin instead: vercel.json proxies /socket.io/*
     // to the backend. Vercel rewrites can't carry a WebSocket upgrade, so use
@@ -1177,16 +1177,16 @@ window.LiveRT = LiveRT; // expose so the chat/leave handlers can reach it
 
 /* boot */
 // A logged-in user must never see the fake demo sessions/bookings/reports,
-// not even briefly — check localStorage directly (synchronous, available
+// not even briefly, check localStorage directly (synchronous, available
 // immediately) rather than waiting for api.js to load before hiding them,
 // which left a flash-of-fake-content window on slower connections.
 // Live classes are shown ONLY from the real backend (loadRealSessions →
-// #liveGrid). The old demo tutors/sessions/reports are never rendered — this
+// #liveGrid). The old demo tutors/sessions/reports are never rendered, this
 // page is auth-gated (role-guard sends logged-out visitors to login), and a
 // logged-in user only ever sees their own class's real sessions. No fake data.
 // (Navbar CTA + role-based nav are handled by role-guard.js.)
 
-/* real backend live classes — run AFTER api.js has loaded. The inline boot
+/* real backend live classes, run AFTER api.js has loaded. The inline boot
    executes before the <script src="api.js"> tags below it, so EduAPI may not
    exist yet; wait for it (and the DOM) before wiring the backend features. */
 function bootRealLive(){

@@ -1,5 +1,5 @@
 /* ============================================================
-   BESTBRAIN — HOMEPAGE
+   BESTBRAIN - HOMEPAGE
    ------------------------------------------------------------
    Local preview only. index.html on disk is never touched: this
    builds the marketing page in memory and swaps it in, so the
@@ -40,7 +40,7 @@
     { i: 'trophy', t: 'Arena',                d: 'Same question, whole school, live leaderboard.', h: 'challenge.html' },
     { i: 'chat',   t: 'PAL',                  d: 'Summaries, explanations and quizzes in English ya Hinglish.', h: 'pal.html' },
     { i: 'book',   t: 'Learn',                d: 'Your whole syllabus, chapter by chapter.', h: 'learn.html' },
-    { i: 'graph',  t: 'Performance Analytics',d: 'Strengths, gaps and trends — measured, not guessed.' },
+    { i: 'graph',  t: 'Performance Analytics',d: 'Strengths, gaps and trends, measured, not guessed.' },
     { i: 'spark',  t: 'AI Feedback',          d: 'Every answer explained, not just marked.' },
     { i: 'bolt',   t: 'Progress Tracking',    d: 'Chapter mastery that updates as you work.' },
     { i: 'users',  t: 'Leaderboard',          d: 'Class, school and city ranks, refreshed live.' },
@@ -57,7 +57,7 @@
 
   var WHY = [
     { i: 'brain',  t: 'Built on your syllabus', d: 'Not a generic tutor. Every answer is grounded in the NCERT chapter you are actually studying.' },
-    { i: 'mic',    t: 'Speaks your language',   d: 'English, Hindi or Hinglish — ask however you think, PAL replies the same way.' },
+    { i: 'mic',    t: 'Speaks your language',   d: 'English, Hindi or Hinglish, ask however you think, PAL replies the same way.' },
     { i: 'bolt',   t: 'Answers in seconds',     d: 'Streamed replies start speaking before the sentence is finished.' },
     { i: 'shield', t: 'Safe for classrooms',    d: 'Age-appropriate by design, with teacher and parent visibility built in.' },
     { i: 'graph',  t: 'Proof, not vibes',       d: 'Mastery is measured per chapter so effort turns into evidence.' },
@@ -85,8 +85,8 @@
   ];
 
   var FAQ = [
-    { q: 'Which classes and boards do you cover?', a: 'Classes 6 to 9 on the CBSE/NCERT syllabus today — Maths, Science, Social Science, English and Hindi, chapter by chapter.' },
-    { q: 'Can I ask doubts by voice?', a: 'Yes. The AI Tutor is a live doubt call — tap the mic, ask in English, Hindi or Hinglish, and PAL answers out loud while a transcript builds beside you.' },
+    { q: 'Which classes and boards do you cover?', a: 'Classes 6 to 9 on the CBSE/NCERT syllabus today - Maths, Science, Social Science, English and Hindi, chapter by chapter.' },
+    { q: 'Can I ask doubts by voice?', a: 'Yes. The AI Tutor is a live doubt call, tap the mic, ask in English, Hindi or Hinglish, and PAL answers out loud while a transcript builds beside you.' },
     { q: 'Does it work on a slow connection?', a: 'The interface is built for low-end phones and patchy networks. Lessons and notes stay available offline once opened.' },
     { q: 'How is this different from a search engine?', a: 'Answers are grounded in your chapter and your progress. PAL knows what you have already covered and what you got wrong last week.' },
     { q: 'Can teachers and parents see progress?', a: 'Yes. Teachers get class-wide mastery and test analytics; parents see streaks and progress without seeing every keystroke.' },
@@ -144,7 +144,7 @@
   '.kh-nav-in .kh-btn{padding:11px 20px;font-size:14px;white-space:nowrap;flex-shrink:0;}' +
   '.kh-nav-in .kh-btn.p{padding:11px 22px;}' +
   /* .kh-nav-links carries margin-left:auto and is what pushes the CTAs right.
-     Once it is hidden nothing does, so the logo takes over that job — but only
+     Once it is hidden nothing does, so the logo takes over that job, but only
      here, or on desktop it would fight the links for the same space. */
   '@media(max-width:820px){.kh-nav-links{display:none;}' +
     '.kh-nav-in .kh-logo{margin-right:auto;}}' +
@@ -167,7 +167,7 @@
   '#kh-hero{text-align:center;padding-top:clamp(56px,8vw,104px);padding-bottom:clamp(40px,6vw,72px);}' +
   '#kh-hero h1{font-size:clamp(42px,7.4vw,84px);font-weight:900;margin:24px auto 0;max-width:16ch;}' +
   /* Solid, not clipped. A gradient headline needs color:transparent, and the
-     ink law owns -webkit-text-fill-color platform-wide — the two fight and the
+     ink law owns -webkit-text-fill-color platform-wide, the two fight and the
      word loses, rendering near-black on a near-black page. */
   '#kh-hero h1 .gr{color:var(--kh-accent-soft)!important;-webkit-text-fill-color:var(--kh-accent-soft)!important;' +
     'background:none!important;}' +
@@ -181,14 +181,14 @@
 
   /* hero orbit.
      --orb is the ring's diameter, and every node's distance from the centre is
-     derived from it. That distance used to be written in vw — the viewport's
-     width, not this element's — so on a wide screen the radius came out more
+     derived from it. That distance used to be written in vw, the viewport's
+     width, not this element's, so on a wide screen the radius came out more
      than twice the ring's and the nodes were flung out of the circle and
      across the hero copy above it. */
   '.kh-orbit{--orb:min(560px,86vw);--node:58px;position:relative;width:var(--orb);height:var(--orb);' +
     'margin:44px auto 0;}' +
   /* .spin is inset:0 on the orbit and rotates, so its bounding box is the
-     ring's diagonal — orb x 1.41. At 86vw that box is wider than the screen
+     ring's diagonal, orb x 1.41. At 86vw that box is wider than the screen
      and it was extending the page by 33-35px on every phone size. The box is
      empty (only .node children paint, and they ride the ring), so clipping it
      costs nothing visually. overflow:clip rather than hidden: hidden would
@@ -212,7 +212,7 @@
     'border-radius:50%;display:grid;place-items:center;text-align:center;' +
     /* The sphere is a three-stop gradient: a lit highlight, the accent, and a
        shadow. Only the middle stop was a token, so the highlight stayed warm
-       cream and the shadow stayed burnt orange — the one element on the page
+       cream and the shadow stayed burnt orange, the one element on the page
        still reading amber after the retheme, and the most prominent. */
     'background:radial-gradient(circle at 34% 28%,rgba(var(--kh-accent-hi-rgb),.92),' +
       'rgba(var(--kh-accent-rgb),.85) 55%,rgba(var(--kh-accent-deep-rgb),.92));' +
@@ -231,7 +231,7 @@
   '.kh-grid{display:grid;gap:16px;}' +
   /* min(Npx,100%) rather than a bare Npx floor: minmax(360px,1fr) is a hard
      360px minimum, so on a 320px phone the track stayed 360px wide and pushed
-     the whole page past the screen edge — the homepage laid out at 380px on a
+     the whole page past the screen edge, the homepage laid out at 380px on a
      320px device. min() lets the track fall back to the container's width
      when the container is the smaller of the two, which is the only case
      where the floor was doing harm. Above these widths nothing changes. */
@@ -288,23 +288,23 @@
 
   /* ---- the journey runs ACROSS on a wide screen ----
      Four short steps stacked in a column inside an 1180px section used about
-     a third of the width and left the rest of the row empty — the emptiness
+     a third of the width and left the rest of the row empty, the emptiness
      was the layout, not the content. Read left-to-right the timeline also
      says what it means: eight weeks as a span you travel, rather than a list.
 
      The same elements do both jobs. The rail (.kh-tl::before) turns from a
      vertical line into a horizontal one, and each dot moves from the left of
      its item to above it, sitting on that line. Below 901px nothing here
-     applies and the column layout — which is the right shape on a phone —
+     applies and the column layout, which is the right shape on a phone ,
      is untouched.
 
      The numbers line up: the grid's 36px top padding puts each item's content
      at y=36, so a dot at top:-36px sits at y=0. It is 12px tall, so its
-     centre is y=6 — the same as the 2px rail at top:5px. */
+     centre is y=6, the same as the 2px rail at top:5px. */
   '@media(min-width:901px){' +
     '.kh-tl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 26px;' +
       'padding-left:0;padding-top:36px;}' +
-    /* The rail starts and ends ON a dot rather than at the container edge —
+    /* The rail starts and ends ON a dot rather than at the container edge ,
        running it to right:6px left it trailing past the last step into empty
        space, which is the thing this layout is fixing. One column plus the
        6px half-dot is exactly the inset that lands it on the last centre:
@@ -351,7 +351,7 @@
   '#kh-cta .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:32px;}' +
   /* text-align is reset here, not inherited. #kh-foot is a <footer>, and the
      lifted index.html stylesheet carries a bare `footer{…text-align:center}`
-     rule that reaches straight into this one — every column heading and link
+     rule that reaches straight into this one, every column heading and link
      came out centred under a left-aligned brand. An id beats an element
      selector, so this settles it without touching the page stylesheet. */
   '#kh-foot{border-top:1px solid rgba(255,255,255,.1);text-align:left;}' +
@@ -385,7 +385,7 @@
   /* ---------- phone ----------
      The orbit nodes are 58px squares centred ON the ring, so they reach
      orb/2 + 29px from the centre. At 86vw that is 195px from centre on a
-     320px screen — 70px past the section's content edge. Sizing the ring so
+     320px screen - 70px past the section's content edge. Sizing the ring so
      the nodes land inside is the difference between a decoration and a row of
      icons hanging off the page. */
   '@media(max-width:600px){' +
@@ -404,7 +404,7 @@
     '.kh-grid{gap:14px;}' +
     '.kh-card{padding:18px;border-radius:18px;}' +
 
-    /* .kh-g4 carries the eight stats AND the nineteen feature cards — both
+    /* .kh-g4 carries the eight stats AND the nineteen feature cards, both
        are a short label over one or two lines, and both read better two-up
        than as 27 full-width blocks the reader has to scroll past one at a
        time. The reason and testimonial grids (g3, g2) stay single column:
@@ -449,7 +449,7 @@
     '.kh-nav-in .kh-logo{min-height:44px;min-width:44px;}' +
     '.kh-nav-in .kh-btn{min-height:44px;}' +
     /* The card tag, the orbit caption and the journey week markers are 9.5px
-       and 11px — set for a desktop card, under the 12px floor on a phone,
+       and 11px, set for a desktop card, under the 12px floor on a phone,
        and each one is the label that says what the thing beside it is. */
     '.kh-tag{font-size:12px;}' +
     '.kh-core span{font-size:12px;}' +
@@ -458,12 +458,12 @@
 
   /* Narrow phones: the wordmark and two CTAs cannot share 292px. The mark is
      the part that still identifies the site at a glance, so the word goes and
-     the buttons keep their labels — the reverse leaves two buttons nobody can
+     the buttons keep their labels, the reverse leaves two buttons nobody can
      read next to a logo nobody needed. */
   '@media(max-width:420px){' +
     '.kh-nav-in{gap:8px;}' +
     /* Scoped to the nav. This hides the wordmark so the header's two CTAs
-       keep readable labels on a 320px screen — but .kh-logo also appears in
+       keep readable labels on a 320px screen, but .kh-logo also appears in
        the footer, where there is a whole row to spare, and the unscoped rule
        was blanking the brand name there too. */
     '.kh-nav-in .kh-logo{font-size:0;gap:0;flex-shrink:0;}' +
@@ -544,7 +544,7 @@
         '<span class="kh-eyebrow kh-rv"><span class="d"></span>AI powered learning for Bharat</span>' +
         '<h1 class="kh-rv">Your doubt, answered <span class="gr">out loud</span>, in seconds.</h1>' +
         '<p class="sub kh-rv">BestBrain is an AI tutor that knows your syllabus. Ask in English, Hindi or ' +
-          'Hinglish — get an explanation, a practice set and proof you improved.</p>' +
+          'Hinglish, get an explanation, a practice set and proof you improved.</p>' +
         '<div class="cta kh-rv">' +
           '<a class="kh-btn p" href="signup.html">Start learning free <span class="ar">→</span></a>' +
           '<a class="kh-btn g" href="tutor.html">Try the AI Tutor 🎙️</a>' +
@@ -564,7 +564,7 @@
       '<section id="stats">' +
         '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>By the numbers</span>' +
           '<h2>A platform students actually finish.</h2>' +
-          '<p>Not a content dump — a measured learning system with enough depth to last a whole academic year.</p></div>' +
+          '<p>Not a content dump, a measured learning system with enough depth to last a whole academic year.</p></div>' +
         '<div class="kh-grid kh-g4">' +
           STATS.map(function (s) {
             return '<div class="kh-card kh-stat kh-rv"><b data-to="' + s.n + '">0<em>' + s.suf + '</em></b>' +
@@ -577,7 +577,7 @@
       '<section id="features">' +
         '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>Everything inside</span>' +
           '<h2>One platform. Nineteen ways to get better.</h2>' +
-          '<p>Every surface is connected — what you learn feeds what you practise, and what you practise feeds what PAL recommends next.</p></div>' +
+          '<p>Every surface is connected, what you learn feeds what you practise, and what you practise feeds what PAL recommends next.</p></div>' +
         '<div class="kh-grid kh-g4">' + cards(FEATURES) + '</div>' +
       '</section>' +
 
@@ -658,7 +658,7 @@
             'AI-powered learning for Classes 6–9. Built in India, for Indian classrooms.</p>' +
         '</div>' +
         /* Classes is the column a visitor who is not signed in actually
-           needs — the first thing they want to know is whether their class
+           needs, the first thing they want to know is whether their class
            is covered. learn.html reads ?class= (see its VIEW STATE section)
            and useLegacyLinks carries the query string across when it turns
            the .html href into a route, so these land on the right class
@@ -678,7 +678,7 @@
 
     /* Static pages own their DOM, so their content is removed outright. Under
        the router it is only HIDDEN: React still owns those nodes, and deleting
-       them leaves its tree describing a page that no longer exists — the next
+       them leaves its tree describing a page that no longer exists, the next
        render then throws. Hiding is reversible, which is exactly what leaving
        the home route needs. */
     if (SPA) {
@@ -702,7 +702,7 @@
 
     /* Revealing a card and counting its number are ONE operation.
        They used to be two, and .in was added in four separate places while
-       countUp() was called from only one of them — the observer. Every other
+       countUp() was called from only one of them, the observer. Every other
        path revealed the card and left its number showing the literal "0" the
        markup ships with: with reduced motion on, all eight stats read 0+ /
        0% / 0 days permanently. countUp even carries a reduced-motion branch
@@ -728,7 +728,7 @@
     document.querySelectorAll('.kh-rv').forEach(function (n, i) {
       if (reduce) { reveal(n); return; }
 
-      /* The hero is above the fold, and it was starting at opacity:0 — so the
+      /* The hero is above the fold, and it was starting at opacity:0, so the
          first thing a visitor saw was an empty page waiting for an observer.
          An entrance is only worth having where the reader has not arrived
          yet. Anything already on screen is shown at once. */
@@ -739,7 +739,7 @@
       io.observe(n);
     });
 
-    /* and nothing may stay hidden — or stuck at zero — because an observer
+    /* and nothing may stay hidden, or stuck at zero, because an observer
        never fired */
     setTimeout(function () {
       document.querySelectorAll('.kh-rv:not(.in)').forEach(function (n) {

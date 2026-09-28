@@ -70,7 +70,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   /**
    * Pick up sessions the lifted page scripts establish.
    *
-   * login.html's script — carried over verbatim — calls EduAPI.login() and
+   * login.html's script, carried over verbatim, calls EduAPI.login() and
    * then navigates to /dashboard. That writes localStorage but not this state,
    * so ProtectedRoute would read the pre-login value and redirect back to the
    * landing page. api.ts fires SESSION_EVENT on every session write; re-read

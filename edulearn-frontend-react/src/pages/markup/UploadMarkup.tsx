@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/upload.html — do not hand-edit.
+/* Generated from edulearn-frontend/upload.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 export default function UploadMarkup() {
   return (
@@ -11,7 +11,7 @@ export default function UploadMarkup() {
           </em>
         </h1>
         <p className="sub">
-          Teachers & admins — add a lecture video or chapter notes for a class & subject.
+          Teachers & admins, add a lecture video or chapter notes for a class & subject.
         </p>
         <div id="gate" className="gate" style={{ display: "none" }}>
           {" You must be logged in as a "}
@@ -37,7 +37,7 @@ export default function UploadMarkup() {
             Video Title *
           </label>
           {' '}
-          <input id="title" placeholder="Numericals — Whole Numbers" />
+          <input id="title" placeholder="Numericals - Whole Numbers" />
           <div className="row">
             <div>
               <label htmlFor="className">

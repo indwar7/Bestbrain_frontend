@@ -22,7 +22,7 @@ class ThemeManager {
   // The per-page html.dark-mode{} blocks (249 rules across 13 files) are left
   // in place but can never match, because this class is never added and any
   // stored 'dark' preference is cleared on load. That keeps the change small
-  // and fully reversible — restoring dark mode means restoring this one method,
+  // and fully reversible, restoring dark mode means restoring this one method,
   // not re-authoring hundreds of rules.
   //
   // login.html and signup.html are the inverse: they are dark BY DEFAULT and
@@ -31,8 +31,8 @@ class ThemeManager {
     const el = document.documentElement;
     // ...unless the redesign skin is driving the theme. ui/boot.js runs first,
     // in <head>, and sets .kid-dark before a single stylesheet parses, exactly
-    // so the first frame is already dark. Stripping .dark-mode here — which ran
-    // on every page load — dropped the page back to its light token set for the
+    // so the first frame is already dark. Stripping .dark-mode here, which ran
+    // on every page load, dropped the page back to its light token set for the
     // frames between this script and kid-bg.js's first pass, which then puts
     // .dark-mode straight back. That flip-flop is the "old design flashes for a
     // second" on every navigation. Whoever set .kid-dark owns the theme; leave
@@ -44,7 +44,7 @@ class ThemeManager {
       if (localStorage.getItem(this.storageKey) !== 'light') {
         localStorage.setItem(this.storageKey, 'light');
       }
-    } catch (e) { /* storage unavailable — light is already applied above */ }
+    } catch (e) { /* storage unavailable, light is already applied above */ }
   }
 
   setupThemeToggleButtons() {

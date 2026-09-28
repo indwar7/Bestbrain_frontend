@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- Redesign: dark canvas before any stylesheet parses, so switching pages
-     never flashes white. boot.js is not deferred on purpose — the theme
+     never flashes white. boot.js is not deferred on purpose, the theme
      classes have to be set before the page CSS lands. -->
 <meta name="color-scheme" content="dark">
 <style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
@@ -11,7 +11,7 @@
   <!-- Apply saved theme before paint to avoid a light-mode flash. -->
   <script>/* light-only product: strip any stale dark preference before paint */try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.remove('dark-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Upload Video — BestBrain</title>
+  <title>Upload Video | BestBrain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,480&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono&display=swap" rel="stylesheet">
   <style>
@@ -61,7 +61,7 @@
   
     /* ---- phone/tablet ----
        The footer links were a 19px row, and the two selects had visible
-       labels sitting beside them with nothing connecting the two — a screen
+       labels sitting beside them with nothing connecting the two, a screen
        reader announced neither, and tapping the label did not open the
        select. The `for` attributes are in the markup above; this is the
        target size. */
@@ -97,7 +97,7 @@
 </nav>
   <div class="wrap">
     <h1>Upload <em id="uploadKind">Video Lecture</em></h1>
-    <p class="sub">Teachers & admins — add a lecture video or chapter notes for a class & subject.</p>
+    <p class="sub">Teachers & admins, add a lecture video or chapter notes for a class & subject.</p>
 
     <div id="gate" class="gate" style="display:none">
       You must be logged in as a <b>teacher</b> to upload. <a href="login.html">Login</a>
@@ -110,7 +110,7 @@
       </div>
 
       <label id="titleLabel">Video Title *</label>
-      <input id="title" placeholder="Numericals — Whole Numbers">
+      <input id="title" placeholder="Numericals - Whole Numbers">
 
       <div class="row">
         <div>
@@ -161,7 +161,7 @@
   <script src="account-menu.js"></script>
   <script src="../theme.js"></script>
   <script>
-    // EduAPI.API_BASE is the final answer — api.js (loaded synchronously above)
+    // EduAPI.API_BASE is the final answer, api.js (loaded synchronously above)
     // already resolves the host and applies the localStorage.edulearn_api
     // override safely. The old fallbacks were unreachable, and '/backend-api'
     // was a trap: nothing serves it in dev, so a miss returned index.html and
@@ -176,7 +176,7 @@
     }
 
     // Pre-select the teacher's OWN class + subject so a lecture is uploaded for
-    // the class they actually teach — students of that class then see it.
+    // the class they actually teach, students of that class then see it.
     (function preselectTeacherClass(){
       if (!user || user.role !== 'teacher') return;
       var teaches = (user.teaches && user.teaches.length) ? user.teaches
@@ -193,7 +193,7 @@
       }
       setSelect('className', t.className);
       setSelect('subject', t.subject);
-      // If the teacher teaches multiple subjects/classes, let them pick — but
+      // If the teacher teaches multiple subjects/classes, let them pick, but
       // limit the class dropdown to classes they actually teach.
       var classSel = document.getElementById('className');
       if (classSel){
@@ -220,7 +220,7 @@
 
     function msg(text, ok){ var m = document.getElementById('msg'); m.textContent = text; m.className = 'msg ' + (ok?'ok':'err'); }
 
-    // Upload type — a lecture video or chapter notes. Both share the same
+    // Upload type, a lecture video or chapter notes. Both share the same
     // metadata fields (class/subject/topic); only the endpoint, file field,
     // accepted types and copy differ, so it's one form with a toggle rather
     // than two.
@@ -249,7 +249,7 @@
       set('dropHint', cfg.dropHint);
       var sb = document.getElementById('submit'); if (sb && !sb.disabled) sb.textContent = cfg.btn;
       fileInput.setAttribute('accept', cfg.accept);
-      // A file chosen for the other type may not fit — clear the selection.
+      // A file chosen for the other type may not fit, clear the selection.
       fileInput.value = ''; document.getElementById('fileName').textContent = '';
       Array.prototype.forEach.call(document.querySelectorAll('.utype__tab'), function(tab){
         var on = tab.getAttribute('data-utype') === uploadType;

@@ -1,7 +1,7 @@
 /**
  * The one simple footer shared by the feature pages (learn, live, arena, tests,
  * videos, pal, lesson, take-test, create-test, upload, admin). Rendered from App
- * for exactly those routes, so they all show the identical copyright line —
+ * for exactly those routes, so they all show the identical copyright line ,
  * replacing the mix each page used to ship (learn had a mega footer, some had a
  * one-liner, most had none).
  *

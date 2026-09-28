@@ -8,5 +8,5 @@ screenshots/
 # Sample-lesson video ORIGINALS (~402MB, 5.7-7.0 Mbps 720p). They are kept
 # outside public/ so Vite does not copy them into dist/, and ignored here so
 # they never land in a 3.2MB repo. Only the transcoded set in
-# public/sampleVideos/ ships — see the README in that folder.
+# public/sampleVideos/ ships, see the README in that folder.
 edulearn-frontend-react/media-src/sampleVideos-originals/

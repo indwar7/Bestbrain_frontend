@@ -62,7 +62,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
 
     /* ---- phone ----
        The roster is a five-column table inside .tablecard, which clips with
-       overflow:hidden — so on a narrow screen the last columns were cut off
+       overflow:hidden, so on a narrow screen the last columns were cut off
        with no way to reach them. A table is wide content: it scrolls in its
        own container, never by taking the page sideways.
 
@@ -82,7 +82,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
 /* Motion is decorative here, so it yields to the OS setting. Someone who has
    asked their system to reduce motion (vestibular sensitivity, migraine, or
    simple preference) gets the same page with the movement removed rather than
-   a different one — transitions collapse to instant instead of disappearing,
+   a different one, transitions collapse to instant instead of disappearing,
    so nothing that depended on a transitionend still fires. */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{

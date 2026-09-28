@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- Redesign: dark canvas before any stylesheet parses, so switching pages
-     never flashes white. boot.js is not deferred on purpose — the theme
+     never flashes white. boot.js is not deferred on purpose, the theme
      classes have to be set before the page CSS lands. -->
 <meta name="color-scheme" content="dark">
 <style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
@@ -12,8 +12,8 @@
      paints) so a disallowed user is redirected without seeing page content. -->
 <script src="role-guard.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Live Classes — BestBrain</title>
-<meta name="description" content="Small-group live classes with real tutors. Book a seat, get it on your calendar, join in one tap — with an attentiveness report sent to parents.">
+<title>Live Classes | BestBrain</title>
+<meta name="description" content="Small-group live classes with real tutors. Book a seat, get it on your calendar, join in one tap, with an attentiveness report sent to parents.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
@@ -35,7 +35,7 @@ html.dark-mode{
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--ink);color:var(--cream);font-family:'Nunito',sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
-/* Seamless full-white surface — drop vivid.css's tinted radial canvas so the
+/* Seamless full-white surface, drop vivid.css's tinted radial canvas so the
    content doesn't read as a white box floating on a tinted page (per feedback).
    `html body` out-specifies vivid's body{…!important}. */
 html body{background:#FFFFFF !important;background-image:none !important}
@@ -81,7 +81,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .pcard__eyebrow{font-family:'Fragment Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .pcard__eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--aurora);flex:none}
 
-/* teacher "start a live class" composer — theme-aware (light + dark) */
+/* teacher "start a live class" composer, theme-aware (light + dark) */
 .composer{display:none;margin-bottom:22px}
 .composer.is-visible{display:block}
 .composer__form{display:flex;flex-direction:column;gap:12px}
@@ -130,7 +130,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .rep__date{font-size:11.5px;color:var(--muted)}
 .empty-hint{color:var(--muted);font-size:13.5px;padding:6px 2px}
 
-/* Live actions (start a class / join by code) — a full-width band above the
+/* Live actions (start a class / join by code), a full-width band above the
    syllabus so the top of the page reads as a complete section. */
 .live-actions{margin-bottom:32px;display:flex;flex-direction:column;gap:18px}
 .joinband{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:30px clamp(22px,2.6vw,38px);display:grid;grid-template-columns:1.25fr 1fr;gap:36px;align-items:center}
@@ -145,9 +145,9 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .joinstep span{font-size:13px;color:var(--muted);line-height:1.45}
 @media(max-width:860px){.joinband{grid-template-columns:1fr;gap:24px}.joinband__steps{border-left:none;border-top:1px solid var(--line);padding-left:0;padding-top:22px}}
 
-/* ── Class 7 NCERT syllabus — colourful subject panels ─────────────────── */
+/* ── Class 7 NCERT syllabus, colourful subject panels ─────────────────── */
 
-/* ── Class 7 NCERT syllabus — colourful subject panels ─────────────────── */
+/* ── Class 7 NCERT syllabus, colourful subject panels ─────────────────── */
 /* The page .wrap is full-width (max-width:none) so this fills the screen
    edge-to-edge; no empty left/right gutters. */
 .syl{padding:20px 0 100px}
@@ -211,7 +211,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .gaze-badge::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--on-accent);opacity:.7}
 .handchip{position:absolute;top:10px;right:14px;background:var(--amber);color:var(--on-accent);font-weight:700;font-size:11.5px;border-radius:999px;padding:4px 12px;display:none;z-index:3}
 
-/* Chalkboard "tutor screen" — a static board of polynomial formulas shown as
+/* Chalkboard "tutor screen", a static board of polynomial formulas shown as
    the class content (used as the stage fallback in place of the tutor tile). */
 .board{position:absolute;inset:0;background:
   radial-gradient(120% 90% at 30% 20%,rgba(255,255,255,.05),transparent 60%),
@@ -432,7 +432,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
         </form>
       </div>
 
-      <!-- Join with a class code — full-width band so the top reads as a
+      <!-- Join with a class code, full-width band so the top reads as a
            complete section, not a stray input floating on empty space. -->
       <div class="joinband rv" id="joinCodeBox" style="animation-delay:.30s">
         <div class="joinband__main">
@@ -453,18 +453,18 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
       </div>
     </div>
 
-    <!-- Class 7 NCERT syllabus at a glance — the real chapters of every
+    <!-- Class 7 NCERT syllabus at a glance, the real chapters of every
          subject, with the foundational / high-weightage "must-do" ones
          starred. Fills the browse view with genuine study content. -->
     <section class="syl">
       <div class="syl__head">
         <div>
-          <h2 class="sect-title rv" style="margin:0;animation-delay:.1s">Class 7 NCERT — the must-do syllabus</h2>
-          <p class="syl__sub rv" style="animation-delay:.16s">Every subject, chapter by chapter, straight from the NCERT syllabus. Start with the starred chapters — they carry the most weight and everything else builds on them.</p>
+          <h2 class="sect-title rv" style="margin:0;animation-delay:.1s">Class 7 NCERT, the must-do syllabus</h2>
+          <p class="syl__sub rv" style="animation-delay:.16s">Every subject, chapter by chapter, straight from the NCERT syllabus. Start with the starred chapters, they carry the most weight and everything else builds on them.</p>
         </div>
         <span class="syl__legend rv" style="animation-delay:.2s">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
-          Must-do — foundational / high-weightage
+          Must-do, foundational / high-weightage
         </span>
       </div>
 
@@ -563,7 +563,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
             <li class="sylc__ch is-key"><span class="sylc__n">05</span><span class="sylc__t">मिठाईवाला</span><svg class="sylc__key" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></li>
             <li class="sylc__ch is-key"><span class="sylc__n">06</span><span class="sylc__t">रक्त और हमारा शरीर</span><svg class="sylc__key" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></li>
             <li class="sylc__ch"><span class="sylc__n">07</span><span class="sylc__t">पापा खो गए</span></li>
-            <li class="sylc__ch"><span class="sylc__n">08</span><span class="sylc__t">शाम — एक किसान</span></li>
+            <li class="sylc__ch"><span class="sylc__n">08</span><span class="sylc__t">शाम, एक किसान</span></li>
             <li class="sylc__ch"><span class="sylc__n">09</span><span class="sylc__t">चिड़िया की बच्ची</span></li>
           </ul>
         </article>
@@ -580,11 +580,11 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
       <aside class="panel">
         <div class="pcard rv" style="animation-delay:.14s">
           <div class="pcard__eyebrow">My sessions</div>
-          <div id="myList"><p class="empty-hint">Nothing booked yet — grab a seat from today&rsquo;s sessions.</p></div>
+          <div id="myList"><p class="empty-hint">Nothing booked yet, grab a seat from today&rsquo;s sessions.</p></div>
         </div>
         <div class="pcard rv" style="animation-delay:.2s">
           <div class="pcard__eyebrow">Past session reports</div>
-          <div id="reportList"><p class="empty-hint">Join a class and your attentiveness report will appear here — and on the parent dashboard.</p></div>
+          <div id="reportList"><p class="empty-hint">Join a class and your attentiveness report will appear here, and on the parent dashboard.</p></div>
         </div>
       </aside>
     </section>
@@ -605,7 +605,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
           </svg>
           <span class="attn__num" id="attnNum">100</span>
         </div>
-        <span class="attn__label">Attentiveness — tracked for your parent report</span>
+        <span class="attn__label">Attentiveness, tracked for your parent report</span>
       </div>
     </div>
 
@@ -615,7 +615,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
       </div>
       <div class="cam-consent__body">
         <b>Turn on camera attention monitoring</b>
-        <span>PAL watches whether you're looking at the screen and shares a focus report with your parent and teacher. Video stays on your device — only the attention score is saved.</span>
+        <span>PAL watches whether you're looking at the screen and shares a focus report with your parent and teacher. Video stays on your device, only the attention score is saved.</span>
       </div>
       <div class="cam-consent__acts">
         <button class="btn-cam" id="enableCam" type="button">Enable camera</button>
@@ -648,7 +648,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
           <!-- Static chalkboard shown as the tutor's screen: polynomial formulas
                written on a board (fallback when there's no live video). -->
           <div class="board" id="boardStage">
-            <div class="board__head">Polynomials — Formula Board <small>Class 9 · Maths</small></div>
+            <div class="board__head">Polynomials - Formula Board <small>Class 9 · Maths</small></div>
             <div class="board__grid">
               <div>p(x) = ax<b>³</b> + bx<b>²</b> + cx + d</div>
               <div>(a + b)<b>²</b> = a<b>²</b> + 2ab + b<b>²</b></div>
@@ -669,7 +669,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
             <span class="st" id="selfStatus">mic on · cam on</span>
           </div>
         </div>
-        <div class="stage__note" id="stageNote">Prototype classroom — tutor tile simulated. Your tile uses your real camera for attention monitoring.</div>
+        <div class="stage__note" id="stageNote">Prototype classroom, tutor tile simulated. Your tile uses your real camera for attention monitoring.</div>
         <div class="controls">
           <button class="ctl" id="micBtn" type="button">Mic on</button>
           <button class="ctl" id="camBtn" type="button">Camera on</button>
@@ -725,7 +725,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
       <div class="tl" id="repTimeline"></div>
       <div class="sentbanner">
         <span class="mono">Sent</span>
-        Report sent to parent — visible on the Parent dashboard.
+        Report sent to parent, visible on the Parent dashboard.
       </div>
       <div class="report__acts">
         <button class="btn-primary" id="backBtn" type="button">Back to live classes</button>
@@ -740,7 +740,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 </footer>
 
 <!-- QA S-03: the syllabus section below was hand-authored for Class 7 only
-     and shown to every class regardless — a Class 6 student was looking at
+     and shown to every class regardless, a Class 6 student was looking at
      Newton's laws and polynomials. curriculum.js is the same shared source
      dashboard.html already builds chapter data from; loading it here lets
      the syllabus panel rebuild itself for the signed-in student's real
@@ -750,7 +750,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 (function(){
 'use strict';
 
-/* Class 7's grid below is genuinely curated — a teacher picked which
+/* Class 7's grid below is genuinely curated, a teacher picked which
    chapters are foundational/high-weightage, one by one, and that judgment
    isn't something curriculum.js's plain chapter list carries. Every other
    class gets its own real chapters instead, without inventing a "must-do"
@@ -771,7 +771,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 
   var C = window.EduCurriculum;
   var data = C && C.CURRICULUM && C.CURRICULUM[String(cls)];
-  if (!data) return;       // no data for this class — leave the fallback rather than show nothing
+  if (!data) return;       // no data for this class, leave the fallback rather than show nothing
 
   var ICONS = {
     science: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6M10 2v6.5L5.2 17A2 2 0 0 0 7 20h10a2 2 0 0 0 1.8-3L14 8.5V2"/><path d="M7.5 14h9"/></svg>',
@@ -802,10 +802,10 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   if (grid) grid.innerHTML = html;
 
   var h2 = section.querySelector('.syl__head h2');
-  if (h2) h2.textContent = 'Class ' + cls + ' NCERT — the full syllabus';
+  if (h2) h2.textContent = 'Class ' + cls + ' NCERT, the full syllabus';
   var sub = section.querySelector('.syl__sub');
   if (sub) sub.textContent = 'Every subject, chapter by chapter, straight from the NCERT syllabus for your class.';
-  /* the "must-do, foundational" star is Class 7's curation only — nothing
+  /* the "must-do, foundational" star is Class 7's curation only, nothing
      here has grounds to claim the same for a class it was never applied to */
   var legend = section.querySelector('.syl__legend');
   if (legend) legend.style.display = 'none';
@@ -855,10 +855,10 @@ function tomorrowAt(h){
 }
 var SESSIONS = [
   { id:'s1', topic:'Polynomials, Part 2',        cls:9, subj:'maths',   tutor:'Priya Sharma', rating:'4.9', start:at(-12), mins:60, seats:'3/15',  live:true  },
-  { id:'s2', topic:'Heat — Revision',            cls:7, subj:'science', tutor:'Arjun Mehta',  rating:'4.8', start:at(60),  mins:45, seats:'6/15',  live:false },
+  { id:'s2', topic:'Heat - Revision',            cls:7, subj:'science', tutor:'Arjun Mehta',  rating:'4.8', start:at(60),  mins:45, seats:'6/15',  live:false },
   { id:'s3', topic:'The French Revolution',      cls:9, subj:'social',  tutor:'Kavita Rao',   rating:'4.9', start:at(150), mins:60, seats:'9/15',  live:false },
   { id:'s4', topic:'Fractions Doubt Clinic',     cls:6, subj:'maths',   tutor:'Rohan Iyer',   rating:'4.8', start:at(240), mins:45, seats:'11/15', live:false },
-  { id:'s5', topic:'Light — Numericals',         cls:7, subj:'science', tutor:'Arjun Mehta',  rating:'4.8', start:tomorrowAt(10), mins:60, seats:'13/15', live:false },
+  { id:'s5', topic:'Light - Numericals',         cls:7, subj:'science', tutor:'Arjun Mehta',  rating:'4.8', start:tomorrowAt(10), mins:60, seats:'13/15', live:false },
   { id:'s6', topic:'Grammar Power Hour',         cls:8, subj:'english', tutor:'Sneha Kulkarni', rating:'4.9', start:tomorrowAt(17), mins:45, seats:'8/15', live:false }
 ];
 
@@ -880,7 +880,7 @@ function renderSessions(){
     var act = s.live
       ? '<button class="btn-join" data-join="' + s.id + '" type="button">Join live</button>'
       : (isBooked(s.id)
-        ? '<button class="btn-book is-booked" type="button" disabled>Booked — added to calendar</button>'
+        ? '<button class="btn-book is-booked" type="button" disabled>Booked, added to calendar</button>'
         : '<button class="btn-book" data-book="' + s.id + '" type="button">Book seat</button>');
     html +=
       '<article class="sess rv" style="--sa:' + sub.color + ';animation-delay:' + (380 + i*70) + 'ms">' +
@@ -909,7 +909,7 @@ function renderSessions(){
 function renderMyList(){
   var host = document.getElementById('myList');
   if(!store.bookings.length){
-    host.innerHTML = '<p class="empty-hint">Nothing booked yet — grab a seat from today&rsquo;s sessions.</p>';
+    host.innerHTML = '<p class="empty-hint">Nothing booked yet, grab a seat from today&rsquo;s sessions.</p>';
     return;
   }
   var html = '';
@@ -926,7 +926,7 @@ function scoreColor(s){ return s >= 80 ? 'var(--teal)' : s >= 50 ? 'var(--amber)
 function renderReports(){
   var host = document.getElementById('reportList');
   if(!store.reports.length){
-    host.innerHTML = '<p class="empty-hint">Join a class and your attentiveness report will appear here — and on the parent dashboard.</p>';
+    host.innerHTML = '<p class="empty-hint">Join a class and your attentiveness report will appear here, and on the parent dashboard.</p>';
     return;
   }
   var html = '';
@@ -1148,7 +1148,7 @@ function detectGaze(video){
 }
 
 /* fallback when FaceDetector is unavailable (Firefox/Safari):
-   compare centre-region skin-tone coverage — present & facing forward → looking */
+   compare centre-region skin-tone coverage, present & facing forward → looking */
 function heuristicGaze(video){
   try{
     gazeCtx.drawImage(video, 0, 0, gazeCanvas.width, gazeCanvas.height);
@@ -1210,7 +1210,7 @@ function camFailed(msg){
   var consent = document.getElementById('camConsent');
   consent.classList.add('is-hidden');
   document.getElementById('stageNote').textContent = msg;
-  if(CLS) logEvent('warn', 'Camera not enabled — tab-focus tracking only');
+  if(CLS) logEvent('warn', 'Camera not enabled, tab-focus tracking only');
 }
 
 function stopCamera(){
@@ -1223,7 +1223,7 @@ function stopCamera(){
 document.getElementById('enableCam').addEventListener('click', startCamera);
 document.getElementById('skipCam').addEventListener('click', function(){
   document.getElementById('camConsent').classList.add('is-hidden');
-  document.getElementById('stageNote').textContent = 'Camera monitoring skipped — attention tracked by tab focus only.';
+  document.getElementById('stageNote').textContent = 'Camera monitoring skipped, attention tracked by tab focus only.';
   if(CLS) logEvent('warn', 'Skipped camera monitoring');
 });
 
@@ -1253,7 +1253,7 @@ function tick(){
     /* left the browser tab entirely */
     if(CLS.awayLoss < 20){ CLS.score -= 2; CLS.awayLoss += 2; }
   } else if(CLS.camOn && CLS.gazeAway){
-    /* camera says eyes are off the screen — strongest penalty */
+    /* camera says eyes are off the screen, strongest penalty */
     CLS.score -= 1.5;
   } else if(Date.now() - CLS.lastActivity > 45000 && !CLS.camOn){
     /* no camera: fall back to idle detection */
@@ -1310,11 +1310,11 @@ document.getElementById('handBtn').addEventListener('click', function(){
 var SCRIPT = [
   { d: 4000,  who:'Priya Sharma · Tutor', tutor:true,  text:'Welcome everyone! Today we finish the factor theorem and start splitting cubics.' },
   { d: 11000, who:'Diya S.',              tutor:false, text:'mam ek baar zeroes wala dobara please' },
-  { d: 16000, who:'Priya Sharma · Tutor', tutor:true,  text:'Sure Diya — a zero is just the x where p(x) becomes 0. Watch this example.' },
+  { d: 16000, who:'Priya Sharma · Tutor', tutor:true,  text:'Sure Diya, a zero is just the x where p(x) becomes 0. Watch this example.' },
   { d: 26000, who:'Ishaan K.',            tutor:false, text:'so (x-2) is a factor because p(2)=0?' },
   { d: 31000, who:'Priya Sharma · Tutor', tutor:true,  text:'Exactly, Ishaan. That IS the factor theorem. Now try q(x) = x² − 5x + 6 yourselves.' },
   { d: 44000, who:'Meera R.',             tutor:false, text:'(x-2)(x-3)!' },
-  { d: 49000, who:'Priya Sharma · Tutor', tutor:true,  text:'Well done. Next: what happens with cubics — this is where your boards marks hide.' }
+  { d: 49000, who:'Priya Sharma · Tutor', tutor:true,  text:'Well done. Next: what happens with cubics, this is where your boards marks hide.' }
 ];
 function pushMsg(who, text, tutor, me){
   var log = document.getElementById('chatLog');
@@ -1355,7 +1355,7 @@ document.getElementById('chatForm').addEventListener('submit', function(e){
   CLS.score = Math.min(100, CLS.score + 5);
   logEvent('ok', 'Asked in chat');
   CLS.chatTimers.push(setTimeout(function(){
-    pushMsg('Priya Sharma · Tutor', 'Good question — let me cover that right after this example.', true, false);
+    pushMsg('Priya Sharma · Tutor', 'Good question, let me cover that right after this example.', true, false);
   }, 4000));
 });
 
@@ -1430,7 +1430,7 @@ document.getElementById('leaveBtn').addEventListener('click', function(){
   if(score >= 80){
     v.innerHTML = '<span style="color:var(--teal)">Excellent focus</span><small>Locked in for nearly the whole session. Keep this rhythm.</small>';
   } else if(score >= 50){
-    v.innerHTML = '<span style="color:var(--amber)">Good, some drift</span><small>A few wander-offs — try keeping the tab front and centre next class.</small>';
+    v.innerHTML = '<span style="color:var(--amber)">Good, some drift</span><small>A few wander-offs, try keeping the tab front and centre next class.</small>';
   } else {
     v.innerHTML = '<span style="color:var(--rose)">Needs attention</span><small>Attention dropped a lot this session. PAL will suggest a shorter format next time.</small>';
   }
@@ -1462,7 +1462,7 @@ document.getElementById('backBtn').addEventListener('click', function(){
   window.scrollTo(0, 0);
 });
 
-/* hero CTA — jump into the live demo class and prompt the camera right away */
+/* hero CTA, jump into the live demo class and prompt the camera right away */
 document.getElementById('tryAttn').addEventListener('click', function(){
   var liveSess = SESSIONS.filter(function(x){ return x.live; })[0] || SESSIONS[0];
   joinClass(liveSess.id);
@@ -1521,13 +1521,13 @@ function setupTeacherComposer(){
   if (!liveUser || liveUser.role !== 'teacher') return;
 
   // Teachers get a teacher page: hide the same fake demo content every
-  // logged-in user gets hidden, plus (teacher-only) the join-by-code box —
+  // logged-in user gets hidden, plus (teacher-only) the join-by-code box ,
   // the page is about STARTING a class, not booking/joining a seat in one.
   hideDemoContentForLoggedInUser();
   var joinCodeBox = document.getElementById('joinCodeBox');
   if (joinCodeBox) joinCodeBox.style.display = 'none';
   var heroSub = document.querySelector('.hero__sub');
-  if (heroSub) heroSub.textContent = 'Start a live class for your section below — your students join in one tap or with the class code.';
+  if (heroSub) heroSub.textContent = 'Start a live class for your section below, your students join in one tap or with the class code.';
   var heroTitle = document.getElementById('liveHero');
   if (heroTitle) heroTitle.innerHTML = 'Teach live, <em>face to face.</em>';
 
@@ -1582,7 +1582,7 @@ async function loadRealSessions(){
 function renderRealSessions(){
   var host = document.getElementById('liveGrid');
   var title = document.getElementById('liveNowTitle');
-  // The "Live now" section was removed from the page — bail out quietly if its
+  // The "Live now" section was removed from the page, bail out quietly if its
   // elements aren't present so this doesn't throw on a null innerHTML.
   if (!host || !title) return;
   if (!realSessions.length){
@@ -1745,7 +1745,7 @@ function joinRealClass(sessionId, known){
   var consent = document.getElementById('camConsent');
   consent.classList.remove('is-hidden');
   document.getElementById('selfTile').classList.remove('has-cam','cam-on','cam-away');
-  // Real classes have no scripted chat — start with an empty, live chat log.
+  // Real classes have no scripted chat, start with an empty, live chat log.
   document.getElementById('chatLog').innerHTML = '';
 
   // Connect realtime presence + chat for this backend session.
@@ -1774,12 +1774,12 @@ var LiveRT = (function(){
     setTagPending(null);
 
     if (!window.io || !window.EduAPI || !EduAPI.getToken()){
-      return; // socket.io not loaded or not logged in — chat stays inert
+      return; // socket.io not loaded or not logged in, chat stays inert
     }
     // Fresh connection per class.
     if (sock){ try { sock.disconnect(); } catch(e){} sock = null; }
     // When API_BASE is an absolute origin (localhost dev), connect straight to
-    // it. On the deployed https site API_BASE is the relative '/backend-api' —
+    // it. On the deployed https site API_BASE is the relative '/backend-api' ,
     // passing that to io() would be read as a NAMESPACE on the Vercel origin,
     // not a URL. Connect same-origin instead: vercel.json proxies /socket.io/*
     // to the backend. Vercel rewrites can't carry a WebSocket upgrade, so use
@@ -1917,16 +1917,16 @@ window.LiveRT = LiveRT; // expose so the chat/leave handlers can reach it
 
 /* boot */
 // A logged-in user must never see the fake demo sessions/bookings/reports,
-// not even briefly — check localStorage directly (synchronous, available
+// not even briefly, check localStorage directly (synchronous, available
 // immediately) rather than waiting for api.js to load before hiding them,
 // which left a flash-of-fake-content window on slower connections.
 // Live classes are shown ONLY from the real backend (loadRealSessions →
-// #liveGrid). The old demo tutors/sessions/reports are never rendered — this
+// #liveGrid). The old demo tutors/sessions/reports are never rendered, this
 // page is auth-gated (role-guard sends logged-out visitors to login), and a
 // logged-in user only ever sees their own class's real sessions. No fake data.
 // (Navbar CTA + role-based nav are handled by role-guard.js.)
 
-/* real backend live classes — run AFTER api.js has loaded. The inline boot
+/* real backend live classes, run AFTER api.js has loaded. The inline boot
    executes before the <script src="api.js"> tags below it, so EduAPI may not
    exist yet; wait for it (and the DOM) before wiring the backend features. */
 function bootRealLive(){

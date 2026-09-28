@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/login.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/login.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -18,7 +18,7 @@ try{if(!document.documentElement.classList.contains('kid-dark')){document.docume
 
 
     // Already signed in (e.g. arrived here via a stale bookmark or the logo
-    // fallback) — skip the login form entirely instead of asking to re-enter
+    // fallback), skip the login form entirely instead of asking to re-enter
     // credentials for a session that's still valid.
     if (window.EduAPI && EduAPI.getUser()) {
       location.replace('dashboard.html');

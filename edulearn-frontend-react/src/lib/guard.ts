@@ -7,7 +7,7 @@ import { roleAllows } from '../context/AuthContext';
  * useLegacyLinks and the route guard itself can never disagree about which
  * pages are gated. The unguarded pages are deliberately absent: upload,
  * create-test, admin, bank, homework and homework-assign gate themselves
- * in-page, and videos / take-test were never guarded at all — see the route
+ * in-page, and videos / take-test were never guarded at all, see the route
  * table in App.tsx for why.
  */
 export const PROTECTED_PAGES = new Set([
@@ -22,7 +22,7 @@ export const PROTECTED_PAGES = new Set([
  * practise" / "You must be logged in as a teacher" state, which is the right
  * thing when you are already inside the product and clicked through to a page
  * your role cannot open. It is the wrong thing as the answer to a landing-page
- * card — a visitor who taps "Question Bank" on the homepage gets an empty
+ * card, a visitor who taps "Question Bank" on the homepage gets an empty
  * inner screen and a login link, when what they were asking for was the
  * product. The eight cards that link to PROTECTED_PAGES already resolve to
  * signup for them; this makes the rest behave the same.
@@ -45,7 +45,7 @@ export const SIGNUP_WHEN_SIGNED_OUT = new Set([
  * dropping them on the marketing page they just left reads as the button
  * being broken, since nothing on screen changes except the scroll position.
  *
- * Signed in but out of role keeps the old destination — the dashboard is the
+ * Signed in but out of role keeps the old destination, the dashboard is the
  * one page every role can open.
  */
 export function guardRedirect(page: string, loggedIn: boolean, role: string): string | null {

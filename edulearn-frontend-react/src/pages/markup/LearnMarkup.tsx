@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/learn.html — do not hand-edit.
+/* Generated from edulearn-frontend/learn.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 export default function LearnMarkup() {
   return (
@@ -48,7 +48,7 @@ export default function LearnMarkup() {
                 </em>
               </h1>
               <p className="hero__sub rv" style={{ animationDelay: ".18s" }}>
-                Pick a subject to open its chapters — watch the lecture, read the notes, and pick up right where you left off. Your whole syllabus, in one place.
+                Pick a subject to open its chapters, watch the lecture, read the notes, and pick up right where you left off. Your whole syllabus, in one place.
               </p>
             </div>
             <div className="hero__chips">
@@ -70,7 +70,7 @@ export default function LearnMarkup() {
                 </svg>
                 {' '}
                 <span data-i18n="chip1">
-                  One subscription — all classes unlocked
+                  One subscription, all classes unlocked
                 </span>
               </div>
               <div className="chip chip--soft rv" style={{ animationDelay: ".3s" }}>
@@ -91,7 +91,7 @@ export default function LearnMarkup() {
                 </svg>
                 {' '}
                 <span data-i18n="chip2">
-                  Study ahead or revisit any class — no stigma
+                  Study ahead or revisit any class, no stigma
                 </span>
               </div>
             </div>
@@ -152,7 +152,7 @@ export default function LearnMarkup() {
                 </div>
                 <div className="empty__hint">
                   <span data-i18n="empty_pre">
-                    Tokky suggests —
+                    Tokky suggests ,
                   </span>
                   {' '}
                   <button type="button" id="trySuggest" />
@@ -247,7 +247,7 @@ export default function LearnMarkup() {
                 </li>
                 <li>
                   <a href="index.html">
-                    Pricing — ₹299/mo
+                    Pricing - ₹299/mo
                   </a>
                 </li>
               </ul>

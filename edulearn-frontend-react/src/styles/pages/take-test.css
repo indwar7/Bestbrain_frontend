@@ -19,7 +19,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
        so the hidden attribute silently stops working. Restore it. */
     [hidden]{display:none!important;}
     body{margin:0;font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--ink);}
-    /* One question fills the page — a wide, roomy card instead of a small box. */
+    /* One question fills the page, a wide, roomy card instead of a small box. */
     .wrap{max-width:none;margin:0;padding:44px clamp(24px,2.6vw,60px) 96px;}
     .card{background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);padding:clamp(28px,4vw,54px);}
     .center{text-align:center;padding:60px 20px;color:var(--muted);}
@@ -36,7 +36,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     .opt{display:flex;align-items:center;gap:16px;width:100%;text-align:left;border:1px solid var(--line);background:var(--bg2);border-radius:16px;padding:19px 22px;font-size:19px;font-family:inherit;color:inherit;cursor:pointer;margin-bottom:14px;transition:border-color .2s,transform .15s;}
     .opt:hover:not(:disabled){border-color:#3DE8C5;transform:translateY(-1px);}
     .opt:disabled{cursor:default;}
-    /* picked but not yet submitted — its own colour, distinct from right/wrong */
+    /* picked but not yet submitted, its own colour, distinct from right/wrong */
     .opt.is-picked{border-color:#6366F1;background:rgba(99,102,241,.10);}
     .opt.is-picked .ltr{background:#6366F1;color:#fff;border-color:transparent;}
     .opt.is-right{border-color:var(--teal);background:rgba(16,185,129,.12);}
@@ -45,7 +45,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     .opt.is-wrong .ltr{background:var(--rose);color:#fff;border-color:transparent;}
     .opt .ltr{width:36px;height:36px;border-radius:11px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:'Fragment Mono',monospace;font-size:14px;flex:none;}
     .locked-note{text-align:center;color:var(--muted);font-size:13px;margin-top:6px;}
-    /* worked solution — revealed only once the student submits */
+    /* worked solution, revealed only once the student submits */
     .solution{margin-top:18px;border:1px solid var(--line);border-left:3px solid #6366F1;background:var(--bg2);border-radius:14px;padding:16px 18px;}
     .solution .lbl{font-family:'Fragment Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px;}
     .solution .verdict{font-weight:700;font-size:16.5px;margin-bottom:8px;}

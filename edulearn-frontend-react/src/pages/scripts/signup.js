@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/signup.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/signup.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -33,7 +33,7 @@ try{if(!document.documentElement.classList.contains('kid-dark')){document.docume
       });
     })();
 
-    // Role tab switching — shows the matching field group.
+    // Role tab switching, shows the matching field group.
     document.querySelectorAll('.role-tab').forEach(function (tab) {
       tab.addEventListener('click', function () {
         document.querySelectorAll('.role-tab').forEach(function (t) {
@@ -90,7 +90,7 @@ try{if(!document.documentElement.classList.contains('kid-dark')){document.docume
       if (btn) btn.textContent = 'Creating account…';
       try {
         await EduAPI.signup(selectedRole, buildBody());
-        // No email/phone verification — signup logs the user straight in.
+        // No email/phone verification, signup logs the user straight in.
         window.location.href = 'dashboard.html';
       } catch (err) {
         showError(err.message);
@@ -198,7 +198,7 @@ try{if(!document.documentElement.classList.contains('kid-dark')){document.docume
 
       document.getElementById('signupFormView').style.display = 'none';
       document.getElementById('otpFormView').style.display = '';
-      // Hide channel selector — both are mandatory in sequence
+      // Hide channel selector, both are mandatory in sequence
       document.getElementById('otpChannelSelector').style.display = 'none';
 
       determineNextStep();
@@ -220,7 +220,7 @@ try{if(!document.documentElement.classList.contains('kid-dark')){document.docume
           'Step 2 of 2: Enter the 6-digit code sent to your phone ' + (otpState.phone || '');
         triggerSendOtp('phone');
       } else {
-        // Both verified — go to dashboard
+        // Both verified, go to dashboard
         window.location.href = 'dashboard.html';
       }
     }

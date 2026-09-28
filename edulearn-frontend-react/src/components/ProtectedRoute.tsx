@@ -10,7 +10,7 @@ interface Props {
 /**
  * Backstop for the pages in PROTECTED_PAGES.
  *
- * Most gated navigations never reach here — useLegacyLinks resolves the same
+ * Most gated navigations never reach here, useLegacyLinks resolves the same
  * guard on the click and sends the visitor straight to their real
  * destination, which is what keeps the router from walking into a page it is
  * about to bounce out of. This still has to run for the ways in that are not

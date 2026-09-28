@@ -1,5 +1,5 @@
 /* ============================================================
-   BESTBRAIN — MARK A CHAPTER COMPLETE  (QA S-06)
+   BESTBRAIN - MARK A CHAPTER COMPLETE  (QA S-06)
    ------------------------------------------------------------
    A student could read a chapter end to end and the product had
    no way to record it. Learn kept saying "0 of 10 chapters done";
@@ -15,7 +15,7 @@
    Design notes:
      · The button lands at the END of the reading, which is where
        the claim "I have read this" is actually true.
-     · It is optimistic — the state flips immediately and reverts
+     · It is optimistic, the state flips immediately and reverts
        if the call fails, because a student who taps and sees
        nothing happen taps again.
      · Completion is idempotent: the event carries a stable id
@@ -77,7 +77,7 @@
   '#kg-btn:hover:not(:disabled){transform:translateY(-2px);}' +
   '#kg-btn:disabled{cursor:default;transform:none;}' +
   '#kg-btn svg{width:17px;height:17px;}' +
-  /* done is a state, not a disabled button — it should look earned */
+  /* done is a state, not a disabled button, it should look earned */
   '#kg.is-done{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.42);}' +
   '#kg.is-done #kg-btn{background:linear-gradient(120deg,#34D399,#6EE7B7);' +
     'box-shadow:0 0 0 1px rgba(52,211,153,.5),0 12px 30px rgba(52,211,153,.34);}' +
@@ -105,7 +105,7 @@
     if (sub) {
       sub.textContent = done
         ? 'Counted towards your chapters, streak and subject mastery.'
-        : 'Tap when you have read this — it updates your progress and streak.';
+        : 'Tap when you have read this, it updates your progress and streak.';
     }
   }
 
@@ -140,13 +140,13 @@
         st.chapters = st.chapters || {};
         st.chapters[id] = Object.assign({}, st.chapters[id], { completed: true, pct: 100 });
         localStorage.setItem(k, JSON.stringify(st));
-      } catch (e) { /* private mode — the server still has it */ }
+      } catch (e) { /* private mode, the server still has it */ }
       paint(card, btn);
     }).catch(function () {
       busy = false;
       done = false;              // it did not happen; do not pretend it did
       paint(card, btn);
-      fail(card, 'Could not save that just now — check your connection and tap again.');
+      fail(card, 'Could not save that just now, check your connection and tap again.');
     });
   }
 

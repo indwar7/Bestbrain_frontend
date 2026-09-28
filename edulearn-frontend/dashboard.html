@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- Redesign: dark canvas before any stylesheet parses, so switching pages
-     never flashes white. boot.js is not deferred on purpose — the theme
+     never flashes white. boot.js is not deferred on purpose, the theme
      classes have to be set before the page CSS lands. -->
 <meta name="color-scheme" content="dark">
 <style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
@@ -14,22 +14,22 @@
 <!-- Apply the saved theme BEFORE the body paints. ../theme.js is the last
      script in the document, so without this the whole page rendered light and
      then flipped, and account-menu.js (which runs one script earlier) read
-     documentElement.classList before theme.js had added 'dark-mode' — leaving
+     documentElement.classList before theme.js had added 'dark-mode', leaving
      a dark-mode user looking at a moon icon labelled "Switch to dark mode".
      Every other themed page in the repo already carries this line. -->
 <script>try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.remove('dark-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Dashboard — BestBrain · AI-powered learning for Bharat</title>
+<title>Dashboard | BestBrain · AI-powered learning for Bharat</title>
 <meta name="description" content="BestBrain multi-role analytics: students, teachers and parents see real learning progress. Works fully offline.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   BESTBRAIN · DASHBOARD — design tokens
+   BESTBRAIN · DASHBOARD, design tokens
    ============================================================ */
 :root{
-  /* light is the default — vibrant palette for young students */
+  /* light is the default, vibrant palette for young students */
   --ink:#F5F7FF;
   --deep:#FFFFFF;
   --card:#FFFFFF;
@@ -73,7 +73,7 @@ html.dark-mode{
 
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-/* Visually hidden but still announced — used for the relink-child form labels,
+/* Visually hidden but still announced, used for the relink-child form labels,
    whose fields previously had only a placeholder. */
 .sr-only{
   position:absolute;width:1px;height:1px;padding:0;margin:-1px;
@@ -89,7 +89,7 @@ body{
   overflow-x:hidden;
   min-height:100vh;
 }
-/* Full-white, seamless surface for the dashboard — no canvas tint or blob glow
+/* Full-white, seamless surface for the dashboard, no canvas tint or blob glow
    bleeding in at the left/right edges (per design feedback). `html body` out-
    specifies vivid.css's `body{…!important}`, so it wins even though this page
    CSS loads earlier in the cascade. */
@@ -223,7 +223,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .coin-chip .coin-ic{color:var(--peri);flex:none;}
 .coin-chip b{font-family:'Fragment Mono',monospace;font-size:13px;color:var(--peri);letter-spacing:.04em;}
 .coin-chip span{font-family:'Fragment Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
-/* Low-balance state — same rose used for the load-failure banner elsewhere
+/* Low-balance state, same rose used for the load-failure banner elsewhere
    on this page, so "something needs your attention" reads consistently. */
 .coin-chip.low{border-color:rgba(255,122,162,.4);background:rgba(255,122,162,.1);}
 .coin-chip.low .coin-ic,.coin-chip.low b{color:var(--rose);}
@@ -279,7 +279,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 /* ============================================================
    LAYOUT GRID
    ============================================================ */
-/* Full-width single-column layout — no more empty right rail. The rhythm card
+/* Full-width single-column layout, no more empty right rail. The rhythm card
    (formerly the sidebar) now sits inline as a full-width section. */
 .layout{display:block;padding-bottom:90px;}
 .boards{position:relative;min-width:0;}
@@ -288,7 +288,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .view.leaving{opacity:0;transform:translateY(-10px);transition:opacity .25s ease,transform .25s ease;}
 .vgrid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;}
 /* Role-based feature menu */
-/* Two rows of three (was one row of six) — bigger cards + type for readability. */
+/* Two rows of three (was one row of six), bigger cards + type for readability. */
 .feat-menu{grid-column:span 12;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:6px;}
 @media (max-width:680px){.feat-menu{grid-template-columns:repeat(2,1fr);}}
 .feat-card{position:relative;display:flex;flex-direction:column;gap:9px;padding:26px 22px 22px;border:1px solid var(--line);border-radius:18px;background:var(--card);text-decoration:none;color:inherit;overflow:hidden;transition:transform .28s var(--ease),border-color .28s var(--ease),box-shadow .28s var(--ease);}
@@ -340,7 +340,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .pluscard__action{display:flex;align-items:center;gap:10px;flex:none;}
 .pluscard__action form{display:flex;}
 /* Razorpay's hosted button renders inside the <form> the script above injects
-   into #plusAction — this only sizes the wrapper, never the button itself
+   into #plusAction, this only sizes the wrapper, never the button itself
    (that markup is Razorpay's, not ours, and can change without notice). */
 .pluscard.is-active .pluscard__badge{background:linear-gradient(135deg,var(--teal),var(--peri));}
 .plus-active-chip{
@@ -349,7 +349,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   color:var(--teal);font-weight:700;font-size:13px;white-space:nowrap;
 }
 .plus-price{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream);white-space:nowrap;}
-/* The one moment BestBrain itself confirms a payment — see loadSubscriptionCard's
+/* The one moment BestBrain itself confirms a payment, see loadSubscriptionCard's
    poll. Reduced-motion users still get the state change, just without the pulse. */
 @keyframes plusSuccessPulse{
   0%{box-shadow:0 0 0 0 rgba(16,185,129,.55);}
@@ -372,7 +372,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .pal-chip .lvl-dots i.f{background:var(--peri);box-shadow:0 0 6px rgba(124,155,255,.8);}
 
 /* ============================================================
-   STUDENT — bar chart
+   STUDENT, bar chart
    ============================================================ */
 .chart-wrap{position:relative;}
 .barchart{width:100%;height:auto;display:block;}
@@ -521,7 +521,7 @@ table.roster{width:100%;border-collapse:collapse;min-width:640px;}
 /* Roster table polish (per review): larger header type, real header padding,
    and thinner/softer borders than vivid.css's hard black. `table.roster …`
    out-specifies vivid's `.roster …`/`.roster th` rules so these win. */
-/* Whole "Students" roster section — larger, readable type across the board. */
+/* Whole "Students" roster section, larger, readable type across the board. */
 #rosterAnchor{font-size:15px !important;}
 #rosterAnchor .card-title{font-size:23px !important;}
 #rosterAnchor .eyebrow{font-size:12px !important;}
@@ -582,7 +582,7 @@ table.roster td .mono, table.roster td .tag, table.roster td .rc-tag{font-size:1
 /* ============================================================
    RIGHT RAIL
    ============================================================ */
-/* The rail is gone — "Learning rhythm" now sits inside the student grid beside
+/* The rail is gone - "Learning rhythm" now sits inside the student grid beside
    "AI recommends", and its styles live in the contribution-calendar block
    further down. What used to be here is dropped: .hm-foot/.hm-scale duplicates
    that the later block silently overrode (a live edit-here-see-nothing trap),
@@ -706,7 +706,7 @@ html.dark-mode [data-theme-toggle] {
 
 /* Colourful dark mode: layer deep aurora glows over the dark base via
    background-IMAGE (theme.css pins background-COLOR with !important, so this
-   never fights it — the glows sit on top of #0F172A). Matches the light-mode
+   never fights it, the glows sit on top of #0F172A). Matches the light-mode
    canvas so both themes feel alive. */
 html.dark-mode body{
   background-image:
@@ -787,8 +787,8 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 
 /* ---------- NEXT UP: the hero action card ---------- */
 /* QA S-14: this card was empty at first paint and jumped to its real height
-   once buildNextUp() ran (deliberately not awaited — see the comment near
-   its call site — so it can arrive well after the rest of the page has
+   once buildNextUp() ran (deliberately not awaited, see the comment near
+   its call site, so it can arrive well after the rest of the page has
    settled). Reserving the height a populated row actually renders at (60px
    icon + 48px padding, ~112px) stops that push instead of chasing every
    downstream element it was shoving. */
@@ -889,7 +889,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
   background:var(--c7); color:#000 !important; box-shadow:3px 3px 0 #000;
 }
 
-/* weekly bar chart — one hue per weekday (see buildBars()) */
+/* weekly bar chart, one hue per weekday (see buildBars()) */
 .barchart .bar-h0{fill:var(--c1);}
 .barchart .bar-h1{fill:var(--c2);}
 .barchart .bar-h2{fill:var(--c3);}
@@ -898,7 +898,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 .barchart .bar-h5{fill:var(--c6);}
 .barchart .bar-htoday{fill:var(--c8);}
 
-/* tool tiles — each owns a hue on its icon chip */
+/* tool tiles, each owns a hue on its icon chip */
 .feat-card:nth-child(6n+1) .fc-ico{background:color-mix(in srgb,var(--c1) 16%,#fff);color:var(--c1);}
 .feat-card:nth-child(6n+2) .fc-ico{background:color-mix(in srgb,var(--c2) 16%,#fff);color:var(--c2);}
 .feat-card:nth-child(6n+3) .fc-ico{background:color-mix(in srgb,var(--c3) 16%,#fff);color:var(--c3);}
@@ -941,7 +941,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
   /* --hm-max caps cell size: at a 1600px shell the span4 card is ~441px inside,
      so 32px cells fill ~78% of it; minmax(0,…) lets them shrink below that on
      narrower screens rather than overflowing. Without the cap the ≤920px
-     full-width card would render ~82px cells — a bingo board, not a heatmap. */
+     full-width card would render ~82px cells, a bingo board, not a heatmap. */
   display:block;filter:none;--hm-gap:3px;--hm-max:32px;
   width:auto;margin:6px 0 14px;
 }
@@ -950,7 +950,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
   gap:var(--hm-gap);margin-left:34px;margin-bottom:5px;height:14px;
 }
 .hm-mon{
-  /* No overflow:hidden — buildHeatmap's MIN_GAP deliberately reserves three
+  /* No overflow:hidden, buildHeatmap's MIN_GAP deliberately reserves three
      clear columns so a label can bleed right past its own column, as GitHub's
      do. Clipping here would cut "MAY" to "MA" and waste that reserved space. */
   font-family:'Fragment Mono',monospace;font-size:10px;font-weight:700;
@@ -979,7 +979,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 }
 .hcell.in{opacity:1;}
 .hcell--pad{background:transparent;outline:none;cursor:default;}
-/* days of the current month that haven't happened yet — visible so the month
+/* days of the current month that haven't happened yet, visible so the month
    keeps its full shape, but clearly not "rest days" */
 .hcell--future{background:transparent;outline:1px dashed rgba(27,31,35,.18);cursor:default;}
 .hcell--future:hover{outline:1px dashed rgba(27,31,35,.18);}
@@ -991,7 +991,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 .hcell:hover{outline:1px solid rgba(27,31,35,.5);outline-offset:-1px;}
 .hcell.is-today{outline:1.5px solid #0E0F14;outline-offset:-1px;}
 /* QA S-26: space-between only inserts a gap when there's free space to
-   distribute — on a narrow card the range text and the legend land edge to
+   distribute, on a narrow card the range text and the legend land edge to
    edge with none, reading as "…TODAYLESS  MORE". A fixed gap and the
    ability to wrap fixes both the collision and the narrow-card case. */
 .hm-foot{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;}
@@ -1014,7 +1014,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
    caption. All of them sat under the 12px floor for supporting text.
 
    They live inside the SVG viewBox, so they scale with the chart rather than
-   the page — sizing them up costs no layout and cannot reflow anything
+   the page, sizing them up costs no layout and cannot reflow anything
    outside the chart. Desktop keeps the density it was drawn for. */
 @media (max-width:600px){
   .barchart text{font-size:13px;letter-spacing:.06em;}
@@ -1104,7 +1104,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 <main class="shell">
 
   <!-- ============================================================
-       TOP STRIP — greeting · streak · sync · role switcher
+       TOP STRIP, greeting · streak · sync · role switcher
   ============================================================ -->
   <header class="topstrip">
     <div class="greet pl" style="--d:160ms">
@@ -1119,7 +1119,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
           <b id="streakNum">12</b>
           <span data-i18n="strip.streak">day streak</span>
         </span>
-        <!-- Hidden until loadCoinChip() resolves (see script) — same reasoning
+        <!-- Hidden until loadCoinChip() resolves (see script), same reasoning
              as #plusCard: a slow/failed fetch must never show 0 and look like
              an empty wallet. Low-balance styling is a CSS state (.low), set
              from script once the real number is known. -->
@@ -1132,9 +1132,9 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
           <b id="coinBalance">0</b>
           <span>coins</span>
         </span>
-        <!-- REMOVED: the "Offline data — synced 2h ago" chip.
+        <!-- REMOVED: the "Offline data, synced 2h ago" chip.
              It was static markup with no code behind it, so it claimed a sync
-             that happened 2 hours ago on every single page load, forever —
+             that happened 2 hours ago on every single page load, forever ,
              including the very first load of a brand-new account, and including
              loads where the fetch had just failed. A status indicator that is
              not wired to any status is worse than no indicator. Restore it only
@@ -1164,7 +1164,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
   </header>
 
   <!-- ============================================================
-       LOW COIN BALANCE — shown only when balance < 100 (see script).
+       LOW COIN BALANCE, shown only when balance < 100 (see script).
        role="alert" so a screen reader announces it the moment it appears,
        same reasoning as showLoadFailure()'s banner elsewhere on this page.
   ============================================================ -->
@@ -1173,15 +1173,15 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
       <path d="M12 9v4"/><path d="M12 17h.01"/>
       <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/>
     </svg>
-    <span>Coins running low — <b id="lowCoinBalance">0</b> left. Recharge again to enjoy learning at its best!</span>
+    <span>Coins running low - <b id="lowCoinBalance">0</b> left. Recharge again to enjoy learning at its best!</span>
   </div>
 
   <!-- ============================================================
-       BESTBRAIN PLUS — subscription upsell / active badge.
+       BESTBRAIN PLUS, subscription upsell / active badge.
        Hidden until loadSubscriptionCard() resolves (see script), so a slow
        or failed /api/subscription/* call never shows a half-built card.
        Entitlement itself is decided server-side from signed Razorpay
-       webhooks only — this card only ever reads it, never sets it.
+       webhooks only, this card only ever reads it, never sets it.
   ============================================================ -->
   <div id="plusCard" class="pluscard" style="display:none">
     <div class="pluscard__head">
@@ -1205,7 +1205,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
         <div class="vgrid">
 
           <!-- ============================================================
-               NEXT UP — the single most important thing on the page.
+               NEXT UP, the single most important thing on the page.
                An 11-year-old should never have to work out what to do next.
                Filled by buildNextUp() from STATE.chapters + CHAPTER_META.
           ============================================================ -->
@@ -1213,7 +1213,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 
           <!-- STUDENT feature menu -->
           <!-- ============================================================
-               YOUR WEEK — a slim stats STRIP, not four large cards.
+               YOUR WEEK, a slim stats STRIP, not four large cards.
                These are secondary numbers. At full-card size a quiet week
                renders as a wall of giant zeros, which is the most
                discouraging thing a student can open the app to.
@@ -1254,7 +1254,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 
           <!-- The PAL LEVEL chip was removed.
                It read STATE.pal.level, and nothing in the app ever writes
-               STATE.pal — api.js only deletes the key. So it was pinned to
+               STATE.pal, api.js only deletes the key. So it was pinned to
                "LEVEL 1 · SPARK" permanently, for every student, forever. On a
                child's dashboard a level badge that can never go up is a
                permanent "you are at the bottom" label, which is the opposite
@@ -1326,16 +1326,16 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
                  "Fractions/Light/Percentages" demo cards). -->
             <div class="reco-grid" id="recoGrid">
               <p class="empty-hint" style="grid-column:1/-1;color:var(--muted);font-size:13.5px;padding:6px 2px;">
-                No gaps flagged yet — take a mock test or complete a chapter and Tokky will point out exactly what to revise.
+                No gaps flagged yet, take a mock test or complete a chapter and Tokky will point out exactly what to revise.
               </p>
             </div>
           </div>
 
-          <!-- (e) learning rhythm — sits beside "AI recommends" rather than in a
+          <!-- (e) learning rhythm, sits beside "AI recommends" rather than in a
                rail of its own, so the calendar isn't stranded in a full-width band -->
           <div class="card span4 stag" style="--i:5">
-            <!-- .hm-wrap shrink-wraps the calendar and centres the whole block —
-                 title, eyebrow, grid and legend together — so the caption and
+            <!-- .hm-wrap shrink-wraps the calendar and centres the whole block ,
+                 title, eyebrow, grid and legend together, so the caption and
                  the LESS/MORE ramp line up with the grid they describe instead
                  of overhanging it on both sides. -->
             <div class="hm-wrap">
@@ -1397,7 +1397,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
             </a>
             <a class="feat-card" href="create-test.html">
               <span class="fc-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><span class="fc-title">Create a Test</span>
-              <span class="fc-sub">Timed, auto-graded — get a link to share</span>
+              <span class="fc-sub">Timed, auto-graded, get a link to share</span>
             </a>
             <a class="feat-card" href="#rosterAnchor">
               <span class="fc-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="fc-title">Class Roster</span>
@@ -1508,9 +1508,9 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
               </div>
             </div>
             <div class="child-stats">
-              <div class="cstat"><b id="pStreak">—</b><span data-i18n="p.streak">day streak</span></div>
-              <div class="cstat"><b id="pHours">—</b><span data-i18n="p.week">this week</span></div>
-              <div class="cstat"><b id="pAllTime">—</b><span data-i18n="p.total">all-time</span></div>
+              <div class="cstat"><b id="pStreak">-</b><span data-i18n="p.streak">day streak</span></div>
+              <div class="cstat"><b id="pHours">-</b><span data-i18n="p.week">this week</span></div>
+              <div class="cstat"><b id="pAllTime">-</b><span data-i18n="p.total">all-time</span></div>
             </div>
             <div style="display:flex;align-items:center;gap:9px;">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>
@@ -1521,7 +1521,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
                  Placeholders disappear the moment you type, so a screen-reader
                  or magnifier user lost the field identity mid-entry. Real
                  (visually-hidden) labels fix that without changing the design.
-                 #relinkMsg carries "Checking…", "Fixed — reloading…" and API
+                 #relinkMsg carries "Checking…", "Fixed, reloading…" and API
                  errors, so it needs role="status" or none of that is announced. -->
             <form id="relinkChildForm" style="display:none;margin-top:10px;padding-top:12px;border-top:1px solid var(--line);gap:8px;flex-direction:column;">
               <label for="relinkRoll" class="sr-only">Child's roll number</label>
@@ -1554,7 +1554,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
                  No fabricated "85% in Science" / medallion demo rows. -->
             <div class="alerts" id="parentAlerts">
               <p class="empty-hint" style="color:var(--muted);font-size:13.5px;padding:6px 2px;">
-                No activity yet this week — alerts about your child's tests, streaks and gaps will appear here.
+                No activity yet this week, alerts about your child's tests, streaks and gaps will appear here.
               </p>
             </div>
           </div>
@@ -1571,11 +1571,11 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
           <!-- (d) reassurance -->
           <div class="card span5 stag reassure" style="--i:4">
             <h4 data-i18n="p.reassureH">Built to never block learning</h4>
-            <p data-i18n="p.reassureP">All learning works offline — videos, practice and tests run without internet, and usage syncs automatically when you are back online.</p>
+            <p data-i18n="p.reassureP">All learning works offline, videos, practice and tests run without internet, and usage syncs automatically when you are back online.</p>
             <div class="divide"></div>
             <div class="note">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h14v13.5"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
-              <span><b>Multi-grade access:</b> your child can revisit any earlier-class chapter anytime — quietly, stigma-free. PAL never labels, it just bridges.</span>
+              <span><b>Multi-grade access:</b> your child can revisit any earlier-class chapter anytime, quietly, stigma-free. PAL never labels, it just bridges.</span>
             </div>
           </div>
 
@@ -1589,7 +1589,7 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
 
 <!-- Heatmap hover tooltip. Lives at top level on purpose: it is position:fixed
      and JS-positions itself from getBoundingClientRect(), so it must not sit
-     inside the rhythm card — .stag keeps a transform (translateY(0) is still a
+     inside the rhythm card - .stag keeps a transform (translateY(0) is still a
      transform), which would make it a containing block for fixed descendants
      and offset the tooltip, and .card{overflow:hidden} would clip it. -->
 <div class="chart-tip" id="hmTip" style="position:fixed;">23 MIN · MON 12 MAY</div>
@@ -1642,13 +1642,13 @@ html.dark-mode .nav-theme-toggle{background:rgba(255,255,255,.05);border-color:r
   </div>
 </footer>
 
-<!-- shared curriculum (190 chapters) — MUST load before the inline
+<!-- shared curriculum (190 chapters) - MUST load before the inline
      script below derives CHAPTER_META from window.EduCurriculum -->
 <script src="curriculum.js"></script>
 <script src="api.js"></script>
 <script>
 /* ============================================================
-   BESTBRAIN DASHBOARD — application script
+   BESTBRAIN DASHBOARD, application script
    ============================================================ */
 (function(){
 'use strict';
@@ -1659,7 +1659,7 @@ var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce
 var EASE_MS = RM ? 0 : 1;
 
 /* ------------------------------------------------------------
-   SHARED STATE — localStorage "edutok_state"
+   SHARED STATE, localStorage "edutok_state"
 ------------------------------------------------------------ */
 // Empty defaults: a new user sees zeros / empty states, never invented data.
 // Real values are injected from the backend in applyDashboardData().
@@ -1714,12 +1714,12 @@ function saveState(){
   try { localStorage.setItem('edutok_state', JSON.stringify(STATE)); } catch (e) { /* storage unavailable */ }
 }
 var STATE = loadState();
-// Hindi is disabled in production (see the commented-out toggle above) —
+// Hindi is disabled in production (see the commented-out toggle above) ,
 // force English regardless of a stale localStorage value from before.
 STATE.lang = 'en';
 
 /* ------------------------------------------------------------
-   i18n — EN / HI dictionary
+   i18n - EN / HI dictionary
 ------------------------------------------------------------ */
 var I18N = {
   en: {
@@ -1737,7 +1737,7 @@ var I18N = {
     'p.streak':'day streak', 'p.week':'this week', 'p.total':'all-time',
     'p.screen':'Learning time this week', 'p.alerts':'Alerts',
     'p.reassureH':'Built to never block learning',
-    'p.reassureP':'All learning works offline — videos, practice and tests run without internet, and usage syncs automatically when you are back online.',
+    'p.reassureP':'All learning works offline, videos, practice and tests run without internet, and usage syncs automatically when you are back online.',
     'rail.rhythm':'Learning rhythm', 'rail.langs':'11 languages',
     'rail.langsSub':'The whole dashboard, in your language.',
     'foot.tag':'Made for Bharat. Works fully offline.'
@@ -1757,7 +1757,7 @@ var I18N = {
     'p.streak':'दिन की स्ट्रीक', 'p.week':'इस हफ़्ते', 'p.total':'कुल',
     'p.screen':'इस हफ़्ते सीखने का समय', 'p.alerts':'सूचनाएँ',
     'p.reassureH':'सीखना कभी न रुके, ऐसा बनाया गया',
-    'p.reassureP':'पूरी पढ़ाई ऑफ़लाइन चलती है — वीडियो, अभ्यास और टेस्ट बिना इंटरनेट के चलते हैं, और ऑनलाइन आते ही उपयोग अपने आप सिंक हो जाता है।',
+    'p.reassureP':'पूरी पढ़ाई ऑफ़लाइन चलती है, वीडियो, अभ्यास और टेस्ट बिना इंटरनेट के चलते हैं, और ऑनलाइन आते ही उपयोग अपने आप सिंक हो जाता है।',
     'rail.rhythm':'सीखने की लय', 'rail.langs':'11 भाषाएँ',
     'rail.langsSub':'पूरा डैशबोर्ड, आपकी भाषा में।',
     'foot.tag':'भारत के लिए बना। पूरी तरह ऑफ़लाइन।'
@@ -1783,7 +1783,7 @@ function applyLang(lang){
     if (dict[key] !== undefined) el.textContent = dict[key];
   });
   document.documentElement.lang = lang;
-  // Toggle + rail card are commented out (Hindi disabled) — guard absence.
+  // Toggle + rail card are commented out (Hindi disabled), guard absence.
   var en = $('#langEn'), hi = $('#langHi');
   if (en) { en.classList.toggle('on', lang === 'en'); en.setAttribute('aria-pressed', String(lang === 'en')); }
   if (hi) { hi.classList.toggle('on', lang === 'hi'); hi.setAttribute('aria-pressed', String(lang === 'hi')); }
@@ -1829,7 +1829,7 @@ function initDates(){
 }
 
 /* ------------------------------------------------------------
-   top strip — streak + pal chip
+   top strip, streak + pal chip
 ------------------------------------------------------------ */
 // Null-guarded throughout. The PAL level chip was removed from the markup and
 // this function used to dereference #palChipTxt / #palDots unconditionally,
@@ -1868,7 +1868,7 @@ function initStrip(){
 }
 
 /* ------------------------------------------------------------
-   STUDENT — weekly minutes bar chart (SVG)
+   STUDENT, weekly minutes bar chart (SVG)
 ------------------------------------------------------------ */
 function buildBars(){
   var svg = $('#barchart');
@@ -1918,7 +1918,7 @@ function animateBars(){
 }
 
 /* ------------------------------------------------------------
-   STUDENT — subject mastery donuts
+   STUDENT, subject mastery donuts
 ------------------------------------------------------------ */
 // Stable colour per canonical subject key (from the backend mastery payload).
 var SUBJECT_COLORS = {
@@ -1968,7 +1968,7 @@ function animateDonuts(){
 }
 
 /* ------------------------------------------------------------
-   STUDENT — badge shelf (medallion SVGs)
+   STUDENT, badge shelf (medallion SVGs)
 ------------------------------------------------------------ */
 var ICONS = {
   leaf: '<path d="M7 25 C7 13 16 7 26 7 C26 17 20 25 8 25 Z" /><path d="M8 25 C12 19 17 14 23 10"/>',
@@ -2047,7 +2047,7 @@ function buildBadges(){
 }
 
 /* ------------------------------------------------------------
-   STUDENT — continue learning cards
+   STUDENT, continue learning cards
 ------------------------------------------------------------ */
 // CHAPTER_META is now derived from the SHARED curriculum (../curriculum.js,
 // extracted from learn.html) instead of a hardcoded 5-entry demo stub.
@@ -2060,7 +2060,7 @@ function buildBadges(){
 var CHAPTER_META = (function () {
   var out = {};
   var C = window.EduCurriculum;
-  if (!C) return out;                 // curriculum.js failed to load — degrade to empty
+  if (!C) return out;                 // curriculum.js failed to load, degrade to empty
   Object.keys(C.CHAPTER_INDEX).forEach(function (id) {
     var m = C.CHAPTER_INDEX[id];
     out[id] = {
@@ -2078,7 +2078,7 @@ var CHAPTER_META = (function () {
 /* ------------------------------------------------------------
    CLASS-6 FRIENDLY SECTIONS
    Three rules everywhere below:
-     1. Never show a bare number — say what it MEANS.
+     1. Never show a bare number, say what it MEANS.
      2. Always offer the next step.
      3. Empty states must still be useful, not apologetic.
 ------------------------------------------------------------ */
@@ -2147,7 +2147,7 @@ function buildNextUp(){
           '<h3 class="nextup__title">' + (firstMeta ? escapeHtml(firstMeta.title) : 'Pick your first chapter') + '</h3>' +
           '<p class="nextup__sub">' + (firstMeta
             ? escapeHtml(firstMeta.sub) + ' &middot; about ' + firstMeta.mins + ' minutes'
-            : 'Open Learn and choose any chapter — you can always change your mind.') + '</p>' +
+            : 'Open Learn and choose any chapter, you can always change your mind.') + '</p>' +
         '</div>' +
         '<a class="btn-primary nextup__cta" href="' + (firstId && firstMeta ? chapterHref(firstId, firstMeta) : 'learn.html') + '">' +
           ico('play',18) + '<span>Start learning</span></a>' +
@@ -2163,7 +2163,7 @@ function buildNextUp(){
         '<span class="nextup__kicker">Pick up where you left off</span>' +
         '<h3 class="nextup__title">' + escapeHtml(best.meta.title) + '</h3>' +
         '<p class="nextup__sub">' + escapeHtml(best.meta.sub) + ' &middot; you are <b>' + best.pct +
-          '% done</b> — only ' + left + '% left to finish it!</p>' +
+          '% done</b>, only ' + left + '% left to finish it!</p>' +
         '<div class="nextup__bar"><i style="width:' + best.pct + '%;background:' + best.meta.accent + '"></i></div>' +
       '</div>' +
       '<a class="btn-primary nextup__cta" href="' + chapterHref(best.id, best.meta) + '">' +
@@ -2187,12 +2187,12 @@ function buildWeekGrid(){
   var tiles = [
     { c:'--c2', icon:'clock', big: mins, unit:'minutes',
       cap: mins > 0 ? 'That is about ' + chapterEquiv + ' chapter' + (chapterEquiv === 1 ? '' : 's') + ' of learning this week.'
-                    : 'No learning time yet this week — even 10 minutes counts.' },
+                    : 'No learning time yet this week, even 10 minutes counts.' },
     { c:'--c3', icon:'fire', big: streak, unit:'day streak',
       cap: streak > 0 ? 'Learn something tomorrow to make it ' + (streak + 1) + '!'
                       : 'Learn on any day to start a streak.' },
     { c:'--c1', icon:'book', big: activeDays, unit:'of 7 days',
-      cap: activeDays >= 5 ? 'Brilliant — you showed up almost every day.'
+      cap: activeDays >= 5 ? 'Brilliant, you showed up almost every day.'
          : activeDays > 0  ? 'Try for one more day next week.'
                            : 'Pick any one day to begin.' },
     { c:'--c5', icon:'star', big: badges, unit:'badges',
@@ -2276,7 +2276,7 @@ function buildContinue(){
   //
   // KNOWN GAP: this card is currently always empty in production. It is driven
   // by STATE.chapters (localStorage 'edutok_state'), which nothing ever writes
-  // — api.js only deletes the key on login/logout, and applyDashboardData()
+  //, api.js only deletes the key on login/logout, and applyDashboardData()
   // never populates it. Wiring /api/dashboard's progress.chapters through is
   // not sufficient on its own: the backend keys chapters as e.g.
   // "science-motion" with {completed, exercises, correct}, while this renderer
@@ -2285,10 +2285,10 @@ function buildContinue(){
   // intersect, so the rows would still be dropped by the `if (!meta) continue`
   // above. Making this real needs chapter metadata sourced from the backend
   // (learn.html already renders the real 49-chapter list) rather than a
-  // hardcoded demo map — a product decision, not a mechanical fix.
+  // hardcoded demo map, a product decision, not a mechanical fix.
   if (!rows.length){
     html = '<p class="empty-hint" style="color:var(--muted);font-size:13.5px;padding:6px 2px;">' +
-      'Nothing in progress yet — open a chapter from Learn and it will show up here.</p>';
+      'Nothing in progress yet, open a chapter from Learn and it will show up here.</p>';
   }
   grid.innerHTML = html;
 }
@@ -2301,10 +2301,10 @@ function animateContinue(){
 }
 
 /* ------------------------------------------------------------
-   TEACHER — class average + weak topic bars
+   TEACHER, class average + weak topic bars
 ------------------------------------------------------------ */
 var RING_R = 56, RING_C = 2 * Math.PI * 56;
-// Real class-average mastery % (mean of each roster student's masteryPct) —
+// Real class-average mastery % (mean of each roster student's masteryPct) ,
 // set by applyTeacherInsights once real data arrives. Starts at 0 so a
 // logged-in teacher never sees a fabricated number before/without real data.
 var TEACHER_AVG_MASTERY = 0;
@@ -2321,13 +2321,13 @@ function animateTeacherRing(){
 }
 
 // Real weak-topic breakdown, derived from the roster's actual weakSubject
-// tallies — set by applyTeacherInsights. Empty until real data arrives.
+// tallies, set by applyTeacherInsights. Empty until real data arrives.
 var WEAK_TOPICS = [];
 var WEAK_COLORS = ['#FFB454', '#FF7AA2', '#7C9BFF', '#3DE8C5', '#C2A8FF'];
 function buildHbars(){
   var host = $('#hbars');
   if (!WEAK_TOPICS.length){
-    host.innerHTML = '<p class="empty-hint">No test activity yet this week — weak topics appear here once students start practicing.</p>';
+    host.innerHTML = '<p class="empty-hint">No test activity yet this week, weak topics appear here once students start practicing.</p>';
     return;
   }
   var html = '';
@@ -2350,9 +2350,9 @@ function animateHbars(){
 }
 
 /* ------------------------------------------------------------
-   TEACHER — roster table (sortable)
+   TEACHER, roster table (sortable)
 ------------------------------------------------------------ */
-// Starts empty — filled with the real backend roster once EduAPI.getDashboard()
+// Starts empty, filled with the real backend roster once EduAPI.getDashboard()
 // resolves (see applyDashboardData). Never seed this with fake names: this
 // table is only ever shown after a real logged-in teacher's request, so
 // there is no "logged-out preview" case where fake students would be OK.
@@ -2419,7 +2419,7 @@ function renderRoster(){
 }
 
 /* ------------------------------------------------------------
-   PARENT — weekly area chart
+   PARENT, weekly area chart
 ------------------------------------------------------------ */
 function smoothPath(pts){
   if (pts.length < 2) return '';
@@ -2483,7 +2483,7 @@ function animateArea(){
 }
 
 /* ------------------------------------------------------------
-   RAIL — calendar heatmap (current month) — driven by REAL activity.
+   RAIL, calendar heatmap (current month), driven by REAL activity.
    HEAT_BY_DAY maps a "YYYY-MM-DD" key → minutes studied that day
    (populated from backend insights.daily, with insights.weekly as the
    older-server fallback). Days with no data show as rest days, not
@@ -2493,11 +2493,11 @@ var HEAT_BY_DAY = {};            // "2026-06-30" -> minutes (real)
 
 // Must produce the SAME key the backend used to bucket the minutes, or every
 // lookup silently misses. src/services/progressInsights.ts dayKey() is
-// `d.toISOString().slice(0,10)` — UTC. This used to build the key from local
+// `d.toISOString().slice(0,10)` - UTC. This used to build the key from local
 // getFullYear/getMonth/getDate, so the two only agreed at UTC+0: an IST
 // (UTC+5:30) user opening the dashboard at 02:00 on 20 Jul had today's minutes
 // filed by the backend under "2026-07-19", while the frontend looked up
-// "2026-07-20" and got 0 — today rendered as a REST DAY and yesterday's cell
+// "2026-07-20" and got 0, today rendered as a REST DAY and yesterday's cell
 // showed today's minutes. Keying in UTC on both sides removes the mismatch.
 //
 // NOTE: this makes the day boundary UTC midnight (05:30 IST). Bucketing by
@@ -2563,7 +2563,7 @@ function buildHeatmap(){
       var isToday = d.getDate() === now.getDate();
       var isFuture = d.getDate() > now.getDate();
       if (isFuture){
-        // No tooltip, hidden from assistive tech — there is nothing to report.
+        // No tooltip, hidden from assistive tech, there is nothing to report.
         grid += '<span class="hcell hcell--future in" aria-hidden="true"></span>';
         continue;
       }
@@ -2571,7 +2571,7 @@ function buildHeatmap(){
       var lvl = heatLevel(minsVal);
       var label = (minsVal === 0 ? 'No learning' : minsVal + ' min') + ' on ' +
         DAY_TIP[d.getDay()] + ' ' + d.getDate() + ' ' + MON_SHORT[d.getMonth()];
-      // role+aria-label so every day's value is reachable by assistive tech —
+      // role+aria-label so every day's value is reachable by assistive tech ,
       // the tooltip alone is mouseenter-only and invisible to keyboard/touch.
       grid += '<span class="hcell l' + lvl + (isToday ? ' is-today' : '') +
         '" role="img" aria-label="' + escapeHtml(label) + '" data-tip="' +
@@ -2584,10 +2584,10 @@ function buildHeatmap(){
     '<div class="hm-body"><div class="hm-dows">' + dowRow + '</div>' +
     '<div class="hm-grid">' + grid + '</div></div>';
 
-  // e.g. "1 JUL — 21 JUL · TODAY" — the range covered so far this month.
+  // e.g. "1 JUL - 21 JUL · TODAY", the range covered so far this month.
   var rangeEl = document.getElementById('hmRange');
   if (rangeEl){
-    rangeEl.textContent = '1 ' + MON_SHORT[month] + ' — ' +
+    rangeEl.textContent = '1 ' + MON_SHORT[month] + ' - ' +
       now.getDate() + ' ' + MON_SHORT[month] + ' · TODAY';
   }
 
@@ -2626,7 +2626,7 @@ function countUp(el, target, dur, suffix){
 }
 
 /* ------------------------------------------------------------
-   ROLE SWITCHING — fade + restagger
+   ROLE SWITCHING, fade + restagger
 ------------------------------------------------------------ */
 /* ---- live-class camera attention ----
    Prefer the backend (a parent sees their linked child's reports across any
@@ -2679,7 +2679,7 @@ function paintAttention(reps){
       'No camera-monitored class yet. When ' + escapeHtml(childFirst) + ' joins a <a href="live.html" style="color:var(--teal)">live class</a> and turns on attention monitoring, PAL watches whether they are looking at the screen and the focus report appears here.</p>' +
       '<span class="mono" style="color:var(--muted);display:inline-flex;align-items:center;gap:7px;margin-top:6px">' +
       '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>' +
-      'Video stays on the device — only the score is shared</span></div>';
+      'Video stays on the device, only the score is shared</span></div>';
     return;
   }
 
@@ -2727,7 +2727,7 @@ function positionInd(btn){
 // admin lands here and setRole('admin') used to resolve $('#view-admin') to
 // null and throw at nextView.classList.add('active'). That throw aborted the
 // rest of bootAuth, so the admin also lost the user chip, the logout handler,
-// the hidden "Start free" CTA, checkLiveNow() and the getDashboard() call —
+// the hidden "Start free" CTA, checkLiveNow() and the getDashboard() call ,
 // the page rendered as a blank shell. Anything without a view falls back to
 // the student view instead of taking the page down.
 function viewableRole(role){
@@ -2756,7 +2756,7 @@ function setRole(role, instant){
     nextView.classList.add('shown');
     if (VIEW_ANIMATORS[role]) VIEW_ANIMATORS[role]();
     // "Learning rhythm" now lives inside #view-student, so it is hidden from
-    // teachers and parents by the view switch itself — no rail toggle needed.
+    // teachers and parents by the view switch itself, no rail toggle needed.
   }
 
   if (instant || prev === role || !prevView.classList.contains('active')){
@@ -2790,7 +2790,7 @@ function initReveals(){
    wire-up
 ------------------------------------------------------------ */
 function initEvents(){
-  // language pill (disabled in production — buttons are commented out above)
+  // language pill (disabled in production, buttons are commented out above)
   if ($('#langEn')) $('#langEn').addEventListener('click', function(){ applyLang('en'); });
   if ($('#langHi')) $('#langHi').addEventListener('click', function(){ applyLang('hi'); });
   // rail language picker
@@ -2858,7 +2858,7 @@ function initEvents(){
         document.getElementById('relinkClass').value.trim()
       ).then(function(){
         msg.style.color = 'var(--teal)';
-        msg.textContent = 'Fixed — reloading…';
+        msg.textContent = 'Fixed, reloading…';
         setTimeout(function(){ location.reload(); }, 700);
       }).catch(function(err){
         msg.style.color = 'var(--rose)';
@@ -2872,11 +2872,11 @@ function initEvents(){
    boot
 ------------------------------------------------------------ */
 /* ------------------------------------------------------------
-   AUTH + ROLE LOCK — connects this dashboard to the backend.
+   AUTH + ROLE LOCK, connects this dashboard to the backend.
    Each user only sees the view for the role they logged in as.
 ------------------------------------------------------------ */
 function lockToRole(role){
-  // Hide the manual role switcher — the view is fixed to the user's role.
+  // Hide the manual role switcher, the view is fixed to the user's role.
   var sw = document.querySelector('.role-switch');
   if (sw) sw.style.display = 'none';
   var note = document.querySelector('.role-note');
@@ -2892,7 +2892,7 @@ function lockToRole(role){
     if (navPal) navPal.style.display = 'none';
   }
 
-  // Footer also links to the student "Learn" page (Product + Classes columns) —
+  // Footer also links to the student "Learn" page (Product + Classes columns) ,
   // hide those for non-students so it doesn't leak into teacher/parent dashboards.
   if (role === 'parent' || role === 'teacher'){
     document.querySelectorAll('.foot-learn-link').forEach(function(a){ a.style.display = 'none'; });
@@ -2920,11 +2920,11 @@ async function bootAuth(){
   if (!user) return;
   CURRENT_USER = user;               // the kid-facing sections read className off this
 
-  // Re-render the sections that depend on which class the student is in —
+  // Re-render the sections that depend on which class the student is in ,
   // they first painted with the default (Class 7) before auth resolved.
   try { buildSubjectMap(); buildNextUp(); } catch(e){}
 
-  // QA S-03: "Subject mastery" carried a literal, untouched "NCERT · CL 7" —
+  // QA S-03: "Subject mastery" carried a literal, untouched "NCERT · CL 7" ,
   // nothing above ever re-rendered it, so every class saw Class 7's label
   // forever, same bug as the two calls just above it.
   try {
@@ -2950,7 +2950,7 @@ async function bootAuth(){
   if (lo) lo.addEventListener('click', function(){ EduAPI.logout(); });
 
   // Logged-in nav: "Start free" makes no sense (and lets teachers/parents
-  // wander into the student learn page) — hide it. And the logo keeps you on
+  // wander into the student learn page), hide it. And the logo keeps you on
   // your dashboard instead of dropping you on the logged-out landing page.
   var cta = document.getElementById('navCta');
   if (cta) cta.style.display = 'none';
@@ -2961,11 +2961,11 @@ async function bootAuth(){
   renderGreeting();
 
   // Live-class indicator: if a class the user belongs to is LIVE right now,
-  // turn the "Join Live Class" card into a pulsing "LIVE NOW — Join" call to
+  // turn the "Join Live Class" card into a pulsing "LIVE NOW - Join" call to
   // action that links straight into the session.
   checkLiveNow(user);
 
-  // Real per-chapter progress — drives Next up, My subjects and Continue
+  // Real per-chapter progress, drives Next up, My subjects and Continue
   // learning. Deliberately not awaited and separate from getDashboard() so
   // that one failing cannot blank the other.
   hydrateChapterProgress();
@@ -2974,7 +2974,7 @@ async function bootAuth(){
   // wrapped so it can never blank or block anything else on the page.
   loadSubscriptionCard(user);
 
-  // Coin balance + low-balance notice. Scoped to students only — coins
+  // Coin balance + low-balance notice. Scoped to students only, coins
   // exist on every role's user doc, but only student actions (PAL
   // questions, video views) ever spend them, so showing this to a teacher
   // or parent would just be a number that never moves.
@@ -2987,17 +2987,17 @@ async function bootAuth(){
   } catch (e) {
     console.warn('Dashboard data load failed:', e.message);
     // A failed fetch used to leave the roster/dashboard silently on whatever
-    // static markup was already there, indistinguishable from "no data yet" —
+    // static markup was already there, indistinguishable from "no data yet" ,
     // show a real error so a teacher whose roster "won't open" can tell the
     // difference between an empty class and a broken request.
     var rosterBody = document.getElementById('rosterBody');
     if (user.role === 'teacher' && rosterBody) {
       rosterBody.innerHTML =
         '<tr><td colspan="5"><p class="empty-hint" style="padding:14px 4px;color:var(--rose)">' +
-        'Could not load your class roster right now. Please refresh the page — if this keeps happening, let support know.</p></td></tr>';
+        'Could not load your class roster right now. Please refresh the page, if this keeps happening, let support know.</p></td></tr>';
     }
     // Only the teacher used to get an error. A student whose fetch failed saw
-    // "0 day streak / 0 min this week / No badges yet" — pixel-identical to a
+    // "0 day streak / 0 min this week / No badges yet", pixel-identical to a
     // genuinely new account, i.e. the page told them a week of real work never
     // happened. A parent was left with #childName stuck on the literal
     // "Loading…" forever, which reads as a broken child link. Both now say the
@@ -3013,8 +3013,8 @@ function showLoadFailure(role){
   var host = document.querySelector('.boards') || document.querySelector('.shell');
   if (!host) return;
   var msg = role === 'parent'
-    ? 'Could not load your child’s progress right now. The numbers below are not up to date — please refresh.'
-    : 'Could not load your latest progress right now. The numbers below are not up to date — please refresh.';
+    ? 'Could not load your child’s progress right now. The numbers below are not up to date, please refresh.'
+    : 'Could not load your latest progress right now. The numbers below are not up to date, please refresh.';
   var bar = document.createElement('div');
   bar.id = 'loadFailBanner';
   bar.setAttribute('role', 'alert');
@@ -3032,7 +3032,7 @@ function showLoadFailure(role){
   }
 }
 
-// Show a "LIVE NOW — Join" state on the Join-Live-Class card when a class the
+// Show a "LIVE NOW - Join" state on the Join-Live-Class card when a class the
 // user belongs to is actually live. Students are scoped to their own class.
 async function checkLiveNow(user){
   var card = document.getElementById('liveClassCard');
@@ -3061,14 +3061,14 @@ async function checkLiveNow(user){
   var title = document.getElementById('liveClassTitle');
   var sub = document.getElementById('liveClassSub');
   if (ico) ico.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="7"/></svg>';
-  if (title) title.textContent = 'LIVE NOW — Join';
-  if (sub) sub.textContent = (s.subject ? s.subject + ' · ' : '') + (s.title || 'Class in progress') + ' — tap to join';
+  if (title) title.textContent = 'LIVE NOW - Join';
+  if (sub) sub.textContent = (s.subject ? s.subject + ' · ' : '') + (s.title || 'Class in progress') + ', tap to join';
   card.setAttribute('href', 'live.html');
   card.style.borderColor = 'rgba(255,90,95,.5)';
   card.style.boxShadow = '0 0 0 1px rgba(255,90,95,.4), 0 10px 30px -8px rgba(255,90,95,.3)';
 }
 
-// BestBrain Plus — shows either the Razorpay hosted button (not subscribed)
+// BestBrain Plus, shows either the Razorpay hosted button (not subscribed)
 // or an "active until" badge (subscribed). Stays hidden on any failure: this
 // is an upsell, not core dashboard function, and a broken card would be a
 // worse first impression than no card at all.
@@ -3088,7 +3088,7 @@ async function loadSubscriptionCard(user){
     var sub = document.getElementById('plusSub');
     if (sub) {
       sub.textContent = justPaid
-        ? 'Payment successful — you’re a BestBrain Plus member' + (until ? ' until ' + until + '.' : '.')
+        ? 'Payment successful, you’re a BestBrain Plus member' + (until ? ' until ' + until + '.' : '.')
         : (until ? 'Active until ' + until + '.' : 'Your membership is active.');
     }
     var chip = document.createElement('span');
@@ -3098,7 +3098,7 @@ async function loadSubscriptionCard(user){
     wrap.classList.add('is-active');
     wrap.style.display = 'flex';
     if (justPaid) {
-      // A brief pulse so the transition actually gets noticed — this is the
+      // A brief pulse so the transition actually gets noticed, this is the
       // only "payment successful" moment BestBrain itself ever shows (see
       // the comment on the poll below for why nothing earlier in the flow
       // can show one).
@@ -3122,7 +3122,7 @@ async function loadSubscriptionCard(user){
       // record that payment against an account (see subscriptionController's
       // razorpayWebhook, which itself refuses every event while this is
       // false). Showing the button anyway would be taking money for nothing.
-      console.warn('[plus] RAZORPAY_WEBHOOK_SECRET is not set on the backend — hiding the subscribe button so it cannot take an unrecordable payment.');
+      console.warn('[plus] RAZORPAY_WEBHOOK_SECRET is not set on the backend, hiding the subscribe button so it cannot take an unrecordable payment.');
       return;
     }
 
@@ -3148,11 +3148,11 @@ async function loadSubscriptionCard(user){
 
     wrap.style.display = 'flex';
 
-    // Payment happens inside Razorpay's OWN hosted checkout modal — it shows
+    // Payment happens inside Razorpay's OWN hosted checkout modal, it shows
     // its own brief success confirmation, but the simple hosted-button embed
     // has no callback into this page telling it what happened. Entitlement
     // only ever changes once Razorpay's webhook reaches the backend (by
-    // design — see subscriptionService.ts), so the only trustworthy way to
+    // design, see subscriptionService.ts), so the only trustworthy way to
     // know a payment actually went through is to ask. Poll for a few minutes
     // rather than leave the card stuck on "not subscribed" after someone
     // just paid; give up quietly if it never arrives (e.g. webhook not
@@ -3177,7 +3177,7 @@ async function loadSubscriptionCard(user){
 }
 
 // Coin balance chip + low-balance banner. Below 100 coins, both switch to
-// the warning state — 100 is roughly one video's worth (25) with room to
+// the warning state - 100 is roughly one video's worth (25) with room to
 // spare, so it fires with enough runway left to actually act on it, not at
 // the moment the balance is already gone.
 var LOW_COIN_THRESHOLD = 100;
@@ -3207,7 +3207,7 @@ async function loadCoinChip(){
   }
 
   // Coins are spent from OTHER pages (PAL, video) that this page has no
-  // direct signal from — poll gently so a student who leaves the dashboard
+  // direct signal from, poll gently so a student who leaves the dashboard
   // open in a tab still sees a number that's actually current, and so the
   // low-balance warning appears without needing a manual refresh.
   var pollTimer = window.setInterval(async function(){
@@ -3228,7 +3228,7 @@ function applyDashboardData(user, data){
     // Real per-subject mastery + earned badges drive the donuts + badge shelf.
     applyMastery(data.mastery);
     if (data.stats){
-      // NOT data.stats.streak — that is a stored legacy counter that
+      // NOT data.stats.streak, that is a stored legacy counter that
       // disagrees with the event-derived value (6 vs 2 in one payload).
       // insights.dayStreak is computed from real ProgressEvents, so it is
       // the one that matches what the streak chip and heatmap show.
@@ -3263,13 +3263,13 @@ function applyDashboardData(user, data){
           n: s.name,
           t: (s.thisWeek && s.thisWeek.minutes) || 0,
           m: s.masteryPct || 0,
-          w: s.weakSubject || '—'
+          w: s.weakSubject || '-'
         };
       });
       renderRoster();
       if (!ROSTER.length){
         $('#rosterBody').innerHTML =
-          '<tr><td colspan="5"><p class="empty-hint" style="padding:14px 4px;">No students in your class yet — they appear here as soon as they sign up with your class & section.</p></td></tr>';
+          '<tr><td colspan="5"><p class="empty-hint" style="padding:14px 4px;">No students in your class yet, they appear here as soon as they sign up with your class & section.</p></td></tr>';
       }
     }
   }
@@ -3283,12 +3283,12 @@ function applyDashboardData(user, data){
       setText('#childAvatarTxt', '?');
       setText('#pStreak', 0); setText('#pHours', '0h'); setText('#pAllTime', '0h');
       var la0 = document.getElementById('childLastActive');
-      if (la0){ la0.removeAttribute('data-i18n'); la0.textContent = 'Last active · —'; }
+      if (la0){ la0.removeAttribute('data-i18n'); la0.textContent = 'Last active · -'; }
       try { renderAttention(); } catch(e){}
       return;
     }
     var c = kids[0];
-    // Show the REAL linked child — name, class, initials (was hardcoded demo data).
+    // Show the REAL linked child, name, class, initials (was hardcoded demo data).
     setText('#childName', c.name);
     var ccls = document.getElementById('childClass');
     if (ccls){ ccls.removeAttribute('data-i18n'); ccls.textContent = c.classLabel || ''; }
@@ -3316,7 +3316,7 @@ function applyDashboardData(user, data){
 // "Continue learning" card and the subject map.
 //
 // This is the second half of the fix. localStorage['edutok_state'] is written
-// by nobody — api.js only DELETES it on login/logout — so STATE.chapters was
+// by nobody, api.js only DELETES it on login/logout, so STATE.chapters was
 // permanently {} and the card rendered an empty grid. learn.html already calls
 // EduAPI.getProgress() and hydrates from progress.chapters; the dashboard now
 // does the same, so both surfaces agree.
@@ -3324,14 +3324,14 @@ async function hydrateChapterProgress(){
   if (!window.EduAPI || typeof EduAPI.getProgress !== 'function') return;
   var progress = null;
   try { progress = await EduAPI.getProgress(); }
-  catch (e) { return; }              // offline / expired token — keep local view
+  catch (e) { return; }              // offline / expired token, keep local view
   if (!progress || !progress.chapters) return;
 
   Object.keys(progress.chapters).forEach(function(id){
     var src = progress.chapters[id] || {};
     var cur = STATE.chapters[id] || {};
     // Backend shape is {completed, exercises, correct}; this view needs
-    // {video, practice, mastered, test}. Map rather than assume they match —
+    // {video, practice, mastered, test}. Map rather than assume they match ,
     // they do not.
     STATE.chapters[id] = {
       video:    src.video    != null ? src.video    : (cur.video    || (src.completed ? 100 : 0)),
@@ -3369,10 +3369,10 @@ function applyStudentInsights(ins){
     ins.weekly.forEach(function(p){ if (p && p.day) HEAT_BY_DAY[p.day] = p.minutes || 0; });
   }
   // NOTE: chapter progress is hydrated separately in hydrateChapterProgress(),
-  // from EduAPI.getProgress() — see the comment there.
+  // from EduAPI.getProgress(), see the comment there.
   // The full 8-week daily series. Before the backend exposed `daily`, the
-  // heatmap could only ever be seeded from `weekly` — 7 real values out of 56
-  // cells — so 49 days rendered as "no learning" no matter what the student
+  // heatmap could only ever be seeded from `weekly` - 7 real values out of 56
+  // cells, so 49 days rendered as "no learning" no matter what the student
   // had actually done. Applied after `weekly` so both agree on overlap.
   if (Array.isArray(ins.daily)){
     ins.daily.forEach(function(p){ if (p && p.day) HEAT_BY_DAY[p.day] = p.minutes || 0; });
@@ -3390,7 +3390,7 @@ function applyStudentInsights(ins){
   try { buildWeekGrid(); } catch(e){}
   // The parent's "Learning time this week" area chart was built once in init()
   // from the all-zero DEFAULTS and never rebuilt here, so it stayed flat even
-  // when the child had real minutes — the card reported 5.8h this week above a
+  // when the child had real minutes, the card reported 5.8h this week above a
   // chart showing nothing. animateArea() (the only other caller, via
   // VIEW_ANIMATORS.parent) just animates whatever geometry already exists, so
   // the rebuild has to happen here alongside the bar chart.
@@ -3433,13 +3433,13 @@ function applyTeacherInsights(data){
 
   var weakCounts = {};
   roster.forEach(function(s){
-    if (!s.weakSubject || s.weakSubject === '—') return;
+    if (!s.weakSubject || s.weakSubject === '-') return;
     weakCounts[s.weakSubject] = (weakCounts[s.weakSubject] || 0) + 1;
   });
   var totalFlagged = Object.keys(weakCounts).reduce(function(sum, k){ return sum + weakCounts[k]; }, 0);
   WEAK_TOPICS = Object.keys(weakCounts)
     .map(function(name){
-      // % of the roster that's weak in this topic — an honest, real signal,
+      // % of the roster that's weak in this topic, an honest, real signal,
       // not a mastery score (which the roster doesn't break down per-topic).
       return { name: name, pct: totalFlagged ? Math.round((weakCounts[name] / totalFlagged) * 100) : 0 };
     })

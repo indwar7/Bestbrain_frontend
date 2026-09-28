@@ -3,7 +3,7 @@
    The pages do not all request the same fonts: most use the variable
    Fraunces axis (300..700), while videos, take-test, create-test, upload and
    admin request discrete instances (400, 480). Google Fonts serves different
-   files for those, and the glyphs render differently — which is what the
+   files for those, and the glyphs render differently, which is what the
    pixel diff kept showing in the nav of exactly those five pages. */
 export const PAGE_FONTS: Record<string, string> = {
   index: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Nunito:wght@400;500;600;700;800;900&display=swap",

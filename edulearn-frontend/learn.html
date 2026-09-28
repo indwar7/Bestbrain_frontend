@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- Redesign: dark canvas before any stylesheet parses, so switching pages
-     never flashes white. boot.js is not deferred on purpose — the theme
+     never flashes white. boot.js is not deferred on purpose, the theme
      classes have to be set before the page CSS lands. -->
 <meta name="color-scheme" content="dark">
 <style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
@@ -12,14 +12,14 @@
      paints) so a disallowed user is redirected without seeing page content. -->
 <script src="role-guard.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Learn — BestBrain · Browse every class, every chapter</title>
+<title>Learn | BestBrain · Browse every class, every chapter</title>
 <meta name="description" content="BestBrain course browser. CBSE / NCERT + 20 state boards. Classes 6–9, five subjects, 9,000+ lessons. Made for Bharat.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   BESTBRAIN · LEARN — design tokens
+   BESTBRAIN · LEARN, design tokens
    ============================================================ */
 :root{
   --ink:#FFFFFF;
@@ -82,7 +82,7 @@ body{
   display:flex;
   flex-direction:column;
 }
-/* Seamless full-white surface — drop vivid.css's tinted radial canvas and the
+/* Seamless full-white surface, drop vivid.css's tinted radial canvas and the
    blob glow so the page reads as one clean white surface (per feedback).
    `html body` out-specifies vivid's body{…!important}. */
 html body{background:#FFFFFF !important;background-image:none !important}
@@ -99,7 +99,7 @@ input{font-family:inherit;color:inherit}
 }
 
 /* ============================================================
-   Atmosphere — aurora blobs + grain
+   Atmosphere, aurora blobs + grain
    ============================================================ */
 .blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .blob{
@@ -150,7 +150,7 @@ input{font-family:inherit;color:inherit}
 .io.in{opacity:1;transform:translateY(0)}
 
 /* ============================================================
-   Nav — sticky glass
+   Nav, sticky glass
    ============================================================ */
 .nav{
   position:sticky;top:0;z-index:80;
@@ -236,7 +236,7 @@ input{font-family:inherit;color:inherit}
 /* ============================================================
    Layout shell
    ============================================================ */
-/* Learn runs edge to edge — full viewport width, no 1600px cap, so there are no
+/* Learn runs edge to edge, full viewport width, no 1600px cap, so there are no
    empty margins on the left/right. The nav and footer are widened to match
    below (both are shared and 1600px by default) so the whole page is seamless. */
 /* Match the dashboard's container exactly (1600px, 32px gutters) so the
@@ -252,7 +252,7 @@ input{font-family:inherit;color:inherit}
 .hero__crumb a:hover{color:var(--teal)}
 .hero__crumb .sep{opacity:.4}
 /* Left-aligned vertical stack (heading → subtitle → chips row), flush to the
-   page's left margin exactly like the dashboard greeting — instead of pushing
+   page's left margin exactly like the dashboard greeting, instead of pushing
    the chips to the far right and leaving the heading floating mid-page. */
 .hero__row{
   display:flex;flex-direction:column;align-items:flex-start;
@@ -295,7 +295,7 @@ input{font-family:inherit;color:inherit}
 .chip--soft svg{color:var(--peri)}
 
 /* ============================================================
-   Class switcher — 4 giant pill tabs
+   Class switcher - 4 giant pill tabs
    ============================================================ */
 .classes{
   display:grid;
@@ -342,7 +342,7 @@ input{font-family:inherit;color:inherit}
 /* ============================================================
    Main split: browser + sticky panel
    ============================================================ */
-/* Single full-width column — the subject rail, chapter list and rows now run
+/* Single full-width column, the subject rail, chapter list and rows now run
    edge to edge instead of being squeezed by a 332px sidebar. The "Continue
    learning / Beyond academics" panel stacks full-width below. */
 .split{
@@ -500,13 +500,13 @@ input{font-family:inherit;color:inherit}
   vertical-align:2px;
   display:inline-block;
 }
-/* Transparent link stretched over the whole row — makes any empty area open
+/* Transparent link stretched over the whole row, makes any empty area open
    the chapter, while the mods (higher z-index) stay independently clickable. */
 .chrow__hit{position:absolute;inset:0;z-index:1;border-radius:22px;}
 .chrow__meta{display:flex;align-items:center;gap:14px}
 .mods{position:relative;z-index:2;display:flex;align-items:center;gap:7px}
 /* Pending-homework marker. Sits on the icon's corner rather than beside it so
-   adding it cannot reflow the row — the mods strip is already five items wide
+   adding it cannot reflow the row, the mods strip is already five items wide
    on a phone. Amber for due, rose for overdue: the two states have to differ
    without reading a tooltip. */
 .mod__dot{
@@ -601,7 +601,7 @@ input{font-family:inherit;color:inherit}
 .chrow:hover .chrow__arrow{transform:translateX(4px);color:var(--teal)}
 
 /* ============================================================
-   Empty state — Tokky
+   Empty state - Tokky
    ============================================================ */
 .empty{
   display:none;
@@ -854,7 +854,7 @@ input{font-family:inherit;color:inherit}
   .tokky,.tokky *{animation:none}
 }
 
-/* Theme toggle — lives in the nav, matches the lang pill */
+/* Theme toggle, lives in the nav, matches the lang pill */
 .nav .nav__theme{
   width:auto;height:34px;
   display:inline-flex;align-items:center;justify-content:center;
@@ -886,7 +886,7 @@ input{font-family:inherit;color:inherit}
 
 /* ---- phone/tablet: active class tab contrast ----
    Near-black text on the class accent fill measures 4.28:1 against the pixels
-   actually painted — just under the 4.5:1 needed for body-size text, and the
+   actually painted, just under the 4.5:1 needed for body-size text, and the
    count line below it 4.26:1. Lightening the fill a fifth toward white clears
    both without changing the colour the tab is recognised by.
 
@@ -976,7 +976,7 @@ input{font-family:inherit;color:inherit}
     <div class="hero__row">
       <div class="hero__lead">
         <h1 class="hero__title rv" style="animation-delay:.12s" data-i18n="hero_title">Choose your <em>battlefield.</em></h1>
-        <p class="hero__sub rv" style="animation-delay:.18s">Pick a subject to open its chapters — watch the lecture, read the notes, and pick up right where you left off. Your whole syllabus, in one place.</p>
+        <p class="hero__sub rv" style="animation-delay:.18s">Pick a subject to open its chapters, watch the lecture, read the notes, and pick up right where you left off. Your whole syllabus, in one place.</p>
       </div>
       <div class="hero__chips">
         <div class="chip chip--gold rv" style="animation-delay:.22s">
@@ -985,7 +985,7 @@ input{font-family:inherit;color:inherit}
             <path d="M7 11 V7 a5 5 0 0 1 9.9 -1"/>
             <circle cx="12" cy="16" r="1.4" fill="currentColor" stroke="none"/>
           </svg>
-          <span data-i18n="chip1">One subscription — all classes unlocked</span>
+          <span data-i18n="chip1">One subscription, all classes unlocked</span>
         </div>
         <div class="chip chip--soft rv" style="animation-delay:.3s">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -993,7 +993,7 @@ input{font-family:inherit;color:inherit}
             <path d="M9 12 a3 3 0 0 1 6 0 a3 3 0 0 1 -6 0"/>
             <path d="M12 3 v3 m0 12 v3"/>
           </svg>
-          <span data-i18n="chip2">Study ahead or revisit any class — no stigma</span>
+          <span data-i18n="chip2">Study ahead or revisit any class, no stigma</span>
         </div>
       </div>
     </div>
@@ -1031,7 +1031,7 @@ input{font-family:inherit;color:inherit}
         <div>
           <div class="empty__title" data-i18n="empty_title">No chapters found</div>
           <div class="empty__hint">
-            <span data-i18n="empty_pre">Tokky suggests —</span>
+            <span data-i18n="empty_pre">Tokky suggests -</span>
             <button type="button" id="trySuggest"></button>
           </div>
         </div>
@@ -1079,7 +1079,7 @@ input{font-family:inherit;color:inherit}
           <li><a href="mocktest.html" data-i18n="nav_tests">Tests</a></li>
           <li><a href="pal.html" data-i18n="nav_pal">PAL AI</a></li>
           <li><a href="dashboard.html" data-i18n="nav_dash">Dashboard</a></li>
-          <li><a href="index.html">Pricing — ₹299/mo</a></li>
+          <li><a href="index.html">Pricing - ₹299/mo</a></li>
         </ul>
       </div>
       <div class="fcol" id="footerClasses">
@@ -1121,7 +1121,7 @@ input{font-family:inherit;color:inherit}
 
 <script>
 /* ============================================================
-   BESTBRAIN · LEARN — application script
+   BESTBRAIN · LEARN, application script
    ============================================================ */
 (function(){
 'use strict';
@@ -1179,7 +1179,7 @@ function saveState(st){
 }
 
 var state = loadState();
-// Hindi is disabled in production (see the commented-out toggle above) —
+// Hindi is disabled in production (see the commented-out toggle above) ,
 // force English regardless of a stale localStorage value from before.
 state.lang = 'en';
 
@@ -1197,8 +1197,8 @@ var I18N = {
     nav_dash: 'Dashboard',
     nav_cta: 'Start free',
     hero_title: 'Choose your <em>battlefield.</em>',
-    chip1: 'One subscription — all classes unlocked',
-    chip2: 'Study ahead or revisit any class — no stigma',
+    chip1: 'One subscription, all classes unlocked',
+    chip2: 'Study ahead or revisit any class, no stigma',
     class_word: 'Class',
     chapters_word: 'chapters',
     search_ph: 'Search Class {n} chapters...',
@@ -1210,10 +1210,10 @@ var I18N = {
     mastered: 'Mastered',
     done: 'Done',
     empty_title: 'No chapters found',
-    empty_pre: 'Tokky suggests —',
+    empty_pre: 'Tokky suggests -',
     footer_tag: 'Made for Bharat. Works fully offline.',
     tokky_name: 'Tokky says:',
-    tokky_tip_progress: 'You’re {pct}% through {title} — keep going!',
+    tokky_tip_progress: 'You’re {pct}% through {title}, keep going!',
     tokky_tip_empty: 'Pick a chapter above and Tokky will cheer you on as you go.',
     beyond_yoga: 'Yoga & Mindfulness',
     beyond_fin: 'Financial Literacy',
@@ -1230,23 +1230,23 @@ var I18N = {
     nav_dash: 'डैशबोर्ड',
     nav_cta: 'मुफ़्त शुरू करें',
     hero_title: 'अपना <em>रणक्षेत्र</em> चुनें।',
-    chip1: 'एक सब्सक्रिप्शन — सभी कक्षाएँ अनलॉक',
-    chip2: 'आगे पढ़ें या कोई भी कक्षा दोहराएँ — बिना झिझक',
+    chip1: 'एक सब्सक्रिप्शन, सभी कक्षाएँ अनलॉक',
+    chip2: 'आगे पढ़ें या कोई भी कक्षा दोहराएँ, बिना झिझक',
     class_word: 'कक्षा',
     chapters_word: 'अध्याय',
     search_ph: 'कक्षा {n} के अध्याय खोजें...',
     try_chip: '“{name}” आज़माएँ?',
-    results_for: 'परिणाम — कक्षा',
+    results_for: 'परिणाम, कक्षा',
     continue_title: 'सीखना जारी रखें',
     resume: 'फिर शुरू करें',
     beyond_title: 'पढ़ाई से आगे',
     mastered: 'महारत',
     done: 'पूरा',
     empty_title: 'कोई अध्याय नहीं मिला',
-    empty_pre: 'Tokky का सुझाव —',
+    empty_pre: 'Tokky का सुझाव -',
     footer_tag: 'भारत के लिए बना। पूरी तरह ऑफ़लाइन चलता है।',
     tokky_name: 'Tokky कहता है:',
-    tokky_tip_progress: 'आप {title} में {pct}% पहुँच गए — ऐसे ही जारी रखें!',
+    tokky_tip_progress: 'आप {title} में {pct}% पहुँच गए, ऐसे ही जारी रखें!',
     tokky_tip_empty: 'ऊपर से एक अध्याय चुनें, Tokky आपका उत्साह बढ़ाएगा।',
     beyond_yoga: 'योग और माइंडफुलनेस',
     beyond_fin: 'वित्तीय साक्षरता',
@@ -1268,7 +1268,7 @@ function applyI18n(){
     el.setAttribute('placeholder', t(el.getAttribute('data-i18n-ph')).replace('{n}', activeClass));
   });
   document.documentElement.lang = state.lang === 'hi' ? 'hi' : 'en';
-  // Toggle buttons are commented out (Hindi disabled) — guard their absence.
+  // Toggle buttons are commented out (Hindi disabled), guard their absence.
   var en = document.getElementById('langEn');
   var hi = document.getElementById('langHi');
   if (en) en.classList.toggle('is-on', state.lang === 'en');
@@ -1291,7 +1291,7 @@ function setLang(lang){
 var STROKE = 'fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"';
 
 var ICONS = {
-  /* subject icons — bespoke */
+  /* subject icons, bespoke */
   maths: '<svg width="24" height="24" viewBox="0 0 24 24" ' + STROKE + ' aria-hidden="true">' +
          '<path d="M2.5 21.5 L8 16" opacity=".55"/>' +
          '<path d="M4.2 19.8 l1.1 1.1 M6 18 l1.1 1.1" opacity=".55"/>' +
@@ -1318,7 +1318,7 @@ var ICONS = {
          '<path d="M3 4.5 h18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' +
          '<text x="12" y="19" text-anchor="middle" font-size="15" font-weight="600" fill="currentColor" font-family="\'Nunito\',sans-serif">अ</text>' +
          '</svg>',
-  /* modality icons — tiny */
+  /* modality icons, tiny */
   video: '<svg width="13" height="13" viewBox="0 0 24 24" ' + STROKE + '>' +
          '<rect x="2.5" y="4.5" width="19" height="15" rx="3.5"/>' +
          '<path d="M10 9 l5.5 3 L10 15 Z"/>' +
@@ -1332,7 +1332,7 @@ var ICONS = {
          '<path d="M9 3.5 a3 3 0 0 1 6 0"/>' +
          '<path d="M8.5 13.5 l2.4 2.4 L16 11"/>' +
          '</svg>',
-  /* Question bank — a stack of cards, i.e. a pool to draw from. Deliberately
+  /* Question bank, a stack of cards, i.e. a pool to draw from. Deliberately
      not another clipboard: the bank has to read as different from the test at
      a glance, since they now sit next to each other on every row. */
   bank: '<svg width="13" height="13" viewBox="0 0 24 24" ' + STROKE + '>' +
@@ -1340,7 +1340,7 @@ var ICONS = {
          '<path d="M7 4.5 h11 a2.5 2.5 0 0 1 2.5 2.5 v11" opacity=".55"/>' +
          '<path d="M7.5 12.5 h6M7.5 16 h4"/>' +
          '</svg>',
-  /* Homework — a page with a turned corner and a tick. */
+  /* Homework, a page with a turned corner and a tick. */
   homework: '<svg width="13" height="13" viewBox="0 0 24 24" ' + STROKE + '>' +
          '<path d="M6 2.5 h7.5 L19.5 8.5 V21.5 H6 z"/>' +
          '<path d="M13.5 2.5 V8.5 H19.5" opacity=".55"/>' +
@@ -1372,7 +1372,7 @@ var ICONS = {
         '</svg>'
 };
 
-/* Tokky the spark-bot — reusable */
+/* Tokky the spark-bot, reusable */
 function tokkySVG(size){
   return '<svg class="tokky" width="' + size + '" height="' + size + '" viewBox="0 0 100 100" aria-hidden="true">' +
     '<circle class="tokky-halo" cx="50" cy="9" r="7" fill="#3DE8C5"/>' +
@@ -1388,7 +1388,7 @@ function tokkySVG(size){
 }
 
 /* ------------------------------------------------------------
-   4 · CURRICULUM DATA — 4 classes × 5 subjects, real NCERT names
+   4 · CURRICULUM DATA - 4 classes × 5 subjects, real NCERT names
        chapter = [slug, name, minutes]
    ------------------------------------------------------------ */
 var SUBJECTS = [
@@ -1477,7 +1477,7 @@ var CURRICULUM = {
     // Content-complete chapters first (videos + notes): electricity, metals,
     // physical/chemical changes, adolescence, then ch7 (heat) and ch8 (time &
     // motion); the rest follow. This inline copy is what the Learn page renders
-    // (the shared curriculum.js drives dashboard/lesson) — keep both in sync.
+    // (the shared curriculum.js drives dashboard/lesson), keep both in sync.
     science: [
       ['electricity-circuits','Electricity: Circuits and their Components',26],
       ['metals-nonmetals','The World of Metals and Non-metals',22],
@@ -1522,7 +1522,7 @@ var CURRICULUM = {
       ['mithaiwala','मिठाईवाला',16],
       ['rakt-sharir','रक्त और हमारा शरीर',17],
       ['papa-kho-gaye','पापा खो गए',15],
-      ['shaam-ek-kisan','शाम — एक किसान',12],
+      ['shaam-ek-kisan','शाम, एक किसान',12],
       ['chidiya-ki-bachchi','चिड़िया की बच्ची',14]
     ]
   },
@@ -1546,7 +1546,7 @@ var CURRICULUM = {
       ['metals-nonmetals','Materials: Metals and Non-Metals',23],
       ['coal-petroleum','Coal and Petroleum',20],
       ['combustion-flame','Combustion and Flame',21],
-      ['cell-structure','Cell — Structure and Functions',26],
+      ['cell-structure','Cell - Structure and Functions',26],
       ['force-pressure','Force and Pressure',25],
       ['friction','Friction',22],
       ['sound','Sound',24]
@@ -1571,7 +1571,7 @@ var CURRICULUM = {
       ['jodys-fawn','This is Jody’s Fawn',14],
       ['visit-to-cambridge','A Visit to Cambridge',16],
       ['monsoon-diary','A Short Monsoon Diary',13],
-      ['great-stone-face','The Great Stone Face — I',15]
+      ['great-stone-face','The Great Stone Face - I',15]
     ],
     hindi: [
       ['dhwani','ध्वनि',11],
@@ -1615,7 +1615,7 @@ var CURRICULUM = {
       ['russian-revolution','Socialism in Europe and the Russian Revolution',28],
       ['nazism-hitler','Nazism and the Rise of Hitler',27],
       ['forest-society','Forest Society and Colonialism',22],
-      ['india-size-location','India — Size and Location',19],
+      ['india-size-location','India - Size and Location',19],
       ['physical-features','Physical Features of India',23],
       ['what-is-democracy','What is Democracy? Why Democracy?',21],
       ['electoral-politics','Electoral Politics',20],
@@ -1665,7 +1665,7 @@ var params = new URLSearchParams(window.location.search);
 /* ------------------------------------------------------------
    CLASS ACCESS CONTROL (strict, zero-tolerance)
    A student may ONLY browse their own class. Their class comes from the
-   authenticated session (localStorage 'edulearn_user'), NOT from the URL —
+   authenticated session (localStorage 'edulearn_user'), NOT from the URL ,
    so ?class=9 tampering is ignored. Non-students (teacher/parent/admin) may
    browse across classes (they need to see multiple classes by design).
    ------------------------------------------------------------ */
@@ -1735,7 +1735,7 @@ if (LOCKED_CLASS) {
 
 var activeClass;
 if (LOCKED_CLASS && LOCKED_CLASS >= 6 && LOCKED_CLASS <= 9) {
-  // Student: always their own class — URL param cannot override it.
+  // Student: always their own class - URL param cannot override it.
   activeClass = LOCKED_CLASS;
 } else {
   var urlClass = parseInt(params.get('class'), 10);
@@ -1746,7 +1746,7 @@ if(!SUBJECTS.some(function(s){ return s.key === activeSubject; })) activeSubject
 var query = '';
 
 /* Which chapters have homework still to hand in: slug -> "due" | "overdue".
-   Empty until the API answers, and an absent entry means no dot — showing one
+   Empty until the API answers, and an absent entry means no dot, showing one
    before we know would be worse than showing none. */
 var HW_STATE = {};
 
@@ -1781,7 +1781,7 @@ var SUBJECT_API_NAME = {
 function syncURL(){
   try{
     window.history.replaceState(null, '', 'learn.html?class=' + activeClass + '&subject=' + activeSubject);
-  }catch(e){ /* file:// protocol may refuse — fine for demo */ }
+  }catch(e){ /* file:// protocol may refuse, fine for demo */ }
 }
 
 /* ------------------------------------------------------------
@@ -1833,11 +1833,11 @@ function lessonHref(cls, subj, slug, name){
 }
 
 /* ------------------------------------------------------------
-   7 · RENDER — class tabs
+   7 · RENDER, class tabs
    ------------------------------------------------------------ */
 function renderTabs(){
   var host = document.getElementById('classTabs');
-  // A locked student only ever sees their own class — no other class is shown.
+  // A locked student only ever sees their own class, no other class is shown.
   var classes = LOCKED_CLASS ? [LOCKED_CLASS] : [6,7,8,9];
   var html = '';
   classes.forEach(function(cls){
@@ -1866,7 +1866,7 @@ function renderTabs(){
 }
 
 /* ------------------------------------------------------------
-   8 · RENDER — subject rail
+   8 · RENDER, subject rail
    ------------------------------------------------------------ */
 function renderRail(stagger){
   var host = document.getElementById('subjectRail');
@@ -1898,7 +1898,7 @@ function renderRail(stagger){
 }
 
 /* ------------------------------------------------------------
-   9 · RENDER — chapter list (+ search across the class)
+   9 · RENDER, chapter list (+ search across the class)
    ------------------------------------------------------------ */
 function chapterRowHTML(cls, subj, ch, number, delay, withTag){
   var id = chapterId(cls, subj, ch[0]);
@@ -1920,7 +1920,7 @@ function chapterRowHTML(cls, subj, ch, number, delay, withTag){
   var hwHref = 'homework.html?class=' + cls + '&subject=' + subj.key + '&ch=' + ch[0];
   // A dot on the icon when this chapter has homework still to hand in. hwState
   // is filled by loadHomeworkState(); before it answers the map is empty and
-  // no dot is drawn, which is the right default — an absent dot says "nothing
+  // no dot is drawn, which is the right default, an absent dot says "nothing
   // due", and inventing one before we know would be worse than showing none.
   var hwPending = HW_STATE[ch[0]];
   var hwDot = hwPending
@@ -1953,7 +1953,7 @@ function chapterRowHTML(cls, subj, ch, number, delay, withTag){
     // The row is a <div> (not an <a>) so the module icons can be real links:
     // chrow__hit is a stretched, transparent link that makes the whole row open
     // the chapter, while the mods sit above it (higher z-index) and navigate on
-    // their own — a valid alternative to nesting <a> inside <a>.
+    // their own, a valid alternative to nesting <a> inside <a>.
     '<div class="chrow rv"' +
       ' style="--cc:' + cc + ';--sa:' + subj.accent + ';animation-delay:' + delay + 'ms">' +
       '<a class="chrow__hit" href="' + href + '" aria-label="Open ' + esc(ch[1]) + '"></a>' +
@@ -1963,7 +1963,7 @@ function chapterRowHTML(cls, subj, ch, number, delay, withTag){
         '<span class="chrow__meta">' +
           mods +
           '<span class="pbar"><span class="pbar__fill' + (prog.pct === 0 ? ' is-zero' : '') + '" style="width:' + prog.pct + '%"></span></span>' +
-          '<span class="chrow__pct">' + (prog.pct > 0 ? prog.pct + '%' : '—') + '</span>' +
+          '<span class="chrow__pct">' + (prog.pct > 0 ? prog.pct + '%' : '-') + '</span>' +
         '</span>' +
       '</span>' +
       right +
@@ -2022,7 +2022,7 @@ function renderContent(stagger){
 }
 
 /* ------------------------------------------------------------
-   10 · RENDER — side panel
+   10 · RENDER, side panel
    ------------------------------------------------------------ */
 function pickContinueChapter(){
   var best = null, bestPct = -1;
@@ -2092,7 +2092,7 @@ function renderTokkyTip(){
 function renderBeyond(){
   var host = document.getElementById('beyondList');
   // The "Beyond Academics" section was removed from the page. Bail out quietly
-  // instead of throwing on a null host — an unguarded innerHTML here used to
+  // instead of throwing on a null host, an unguarded innerHTML here used to
   // abort renderAll()/init(), taking the whole chapter list down with it.
   if(!host) return;
   var items = [
@@ -2136,7 +2136,7 @@ document.getElementById('trySuggest').addEventListener('click', function(){
 });
 
 /* ------------------------------------------------------------
-   12 · LANGUAGE TOGGLE (disabled in production — buttons are commented out
+   12 · LANGUAGE TOGGLE (disabled in production, buttons are commented out
    above until Hindi chapter titles exist; guard their absence here too)
    ------------------------------------------------------------ */
 if (document.getElementById('langEn')) document.getElementById('langEn').addEventListener('click', function(){ setLang('en'); });

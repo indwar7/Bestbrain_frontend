@@ -1,9 +1,9 @@
-# BestBrain — local preview (demo only)
+# BestBrain, local preview (demo only)
 
 A redesigned skin for the existing site, rendered **at runtime on localhost**.
 Nothing in this folder runs unless you start it by hand.
 
-## Safety — read this first
+## Safety, read this first
 
 - **No page in the repo is modified.** This folder is additive; `git diff` on
   the app itself is empty. Pull this branch and the site behaves exactly as it
@@ -14,7 +14,7 @@ Nothing in this folder runs unless you start it by hand.
 - **Loopback only.** The server binds to `127.0.0.1`, so even if it is started
   on a host by mistake it cannot be reached from outside that machine.
 - **Do not run it in production.** `/api/auth/login` here accepts *any* email
-  and password — that is the point of an offline demo, and exactly why it must
+  and password, that is the point of an offline demo, and exactly why it must
   never sit on a public interface.
 
 ## Run it
@@ -56,8 +56,8 @@ The real backend needs production CORS and a real JWT, so the preview answers a
 few routes itself, in exactly the shape `api.js` expects:
 
 - `POST /api/auth/login`, `/api/auth/signup/:role`, `/api/auth/send-otp`,
-  `/api/auth/verify-otp` — any credentials succeed
-- `POST /api/pal/tutor/stream` — an on-device Class 6 tutor, streamed as SSE
+  `/api/auth/verify-otp`, any credentials succeed
+- `POST /api/pal/tutor/stream`, an on-device Class 6 tutor, streamed as SSE
 
 Every other `/api/*` call returns `503 {"code":"DEMO"}` so the UI shows its
 normal "backend not connected" state instead of hanging.

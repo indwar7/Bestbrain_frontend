@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/live.html — do not hand-edit.
+/* Generated from edulearn-frontend/live.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 import type { CSSProperties } from 'react';
 
@@ -108,7 +108,7 @@ export default function LiveMarkup() {
                 <span id="startMsg" className="empty-hint composer__msg" />
               </form>
             </div>
-            {/* Join with a class code — full-width band so the top reads as a
+            {/* Join with a class code, full-width band so the top reads as a
              complete section, not a stray input floating on empty space. */}
             <div className="joinband rv" id="joinCodeBox" style={{ animationDelay: ".30s" }}>
               <div className="joinband__main">
@@ -178,24 +178,24 @@ export default function LiveMarkup() {
               </div>
             </div>
           </div>
-          {/* Class 7 NCERT syllabus at a glance — the real chapters of every
+          {/* Class 7 NCERT syllabus at a glance, the real chapters of every
            subject, with the foundational / high-weightage "must-do" ones
            starred. Fills the browse view with genuine study content. */}
           <section className="syl">
             <div className="syl__head">
               <div>
                 <h2 className="sect-title rv" style={{ margin: "0", animationDelay: ".1s" }}>
-                  Class 7 NCERT — the must-do syllabus
+                  Class 7 NCERT, the must-do syllabus
                 </h2>
                 <p className="syl__sub rv" style={{ animationDelay: ".16s" }}>
-                  Every subject, chapter by chapter, straight from the NCERT syllabus. Start with the starred chapters — they carry the most weight and everything else builds on them.
+                  Every subject, chapter by chapter, straight from the NCERT syllabus. Start with the starred chapters, they carry the most weight and everything else builds on them.
                 </p>
               </div>
               <span className="syl__legend rv" style={{ animationDelay: ".2s" }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--amber)" aria-hidden="true">
                   <path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z" />
                 </svg>
-                {" Must-do — foundational / high-weightage "}
+                {" Must-do, foundational / high-weightage "}
               </span>
             </div>
             <div className="syl__grid">
@@ -794,7 +794,7 @@ export default function LiveMarkup() {
                       08
                     </span>
                     <span className="sylc__t">
-                      शाम — एक किसान
+                      शाम, एक किसान
                     </span>
                   </li>
                   <li className="sylc__ch">
@@ -825,7 +825,7 @@ export default function LiveMarkup() {
                 </div>
                 <div id="myList">
                   <p className="empty-hint">
-                    Nothing booked yet — grab a seat from today’s sessions.
+                    Nothing booked yet, grab a seat from today’s sessions.
                   </p>
                 </div>
               </div>
@@ -835,7 +835,7 @@ export default function LiveMarkup() {
                 </div>
                 <div id="reportList">
                   <p className="empty-hint">
-                    Join a class and your attentiveness report will appear here — and on the parent dashboard.
+                    Join a class and your attentiveness report will appear here, and on the parent dashboard.
                   </p>
                 </div>
               </div>
@@ -879,7 +879,7 @@ export default function LiveMarkup() {
                 </span>
               </div>
               <span className="attn__label">
-                Attentiveness — tracked for your parent report
+                Attentiveness, tracked for your parent report
               </span>
             </div>
           </div>
@@ -905,7 +905,7 @@ export default function LiveMarkup() {
               </b>
               {' '}
               <span>
-                PAL watches whether you're looking at the screen and shares a focus report with your parent and teacher. Video stays on your device — only the attention score is saved.
+                PAL watches whether you're looking at the screen and shares a focus report with your parent and teacher. Video stays on your device, only the attention score is saved.
               </span>
             </div>
             <div className="cam-consent__acts">
@@ -969,7 +969,7 @@ export default function LiveMarkup() {
                  written on a board (fallback when there's no live video). */}
                 <div className="board" id="boardStage">
                   <div className="board__head">
-                    {"Polynomials — Formula Board "}
+                    {"Polynomials - Formula Board "}
                     <small>
                       Class 9 · Maths
                     </small>
@@ -1093,7 +1093,7 @@ export default function LiveMarkup() {
                 </div>
               </div>
               <div className="stage__note" id="stageNote">
-                Prototype classroom — tutor tile simulated. Your tile uses your real camera for attention monitoring.
+                Prototype classroom, tutor tile simulated. Your tile uses your real camera for attention monitoring.
               </div>
               <div className="controls">
                 <button className="ctl" id="micBtn" type="button">
@@ -1253,7 +1253,7 @@ export default function LiveMarkup() {
               <span className="mono">
                 Sent
               </span>
-              {" Report sent to parent — visible on the Parent dashboard. "}
+              {" Report sent to parent, visible on the Parent dashboard. "}
             </div>
             <div className="report__acts">
               <button className="btn-primary" id="backBtn" type="button">
@@ -1269,7 +1269,7 @@ export default function LiveMarkup() {
         </span>
       </footer>
       {/* QA S-03: the syllabus section below was hand-authored for Class 7 only
-       and shown to every class regardless — a Class 6 student was looking at
+       and shown to every class regardless, a Class 6 student was looking at
        Newton's laws and polynomials. curriculum.js is the same shared source
        dashboard.html already builds chapter data from; loading it here lets
        the syllabus panel rebuild itself for the signed-in student's real

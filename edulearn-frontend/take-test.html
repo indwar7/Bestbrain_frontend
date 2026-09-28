@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- Redesign: dark canvas before any stylesheet parses, so switching pages
-     never flashes white. boot.js is not deferred on purpose — the theme
+     never flashes white. boot.js is not deferred on purpose, the theme
      classes have to be set before the page CSS lands. -->
 <meta name="color-scheme" content="dark">
 <style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
@@ -11,7 +11,7 @@
   <!-- Apply saved theme before paint to avoid a light-mode flash. -->
   <script>/* light-only product: strip any stale dark preference before paint */try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.remove('dark-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Take Test — BestBrain</title>
+  <title>Take Test | BestBrain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,480&family=Nunito:wght@400;500;600;700;800;900&family=Fragment+Mono&display=swap" rel="stylesheet">
   <style>
@@ -32,7 +32,7 @@
        so the hidden attribute silently stops working. Restore it. */
     [hidden]{display:none!important;}
     body{margin:0;font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--ink);}
-    /* One question fills the page — a wide, roomy card instead of a small box. */
+    /* One question fills the page, a wide, roomy card instead of a small box. */
     .wrap{max-width:none;margin:0;padding:44px clamp(24px,2.6vw,60px) 96px;}
     .card{background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);padding:clamp(28px,4vw,54px);}
     .center{text-align:center;padding:60px 20px;color:var(--muted);}
@@ -49,7 +49,7 @@
     .opt{display:flex;align-items:center;gap:16px;width:100%;text-align:left;border:1px solid var(--line);background:var(--bg2);border-radius:16px;padding:19px 22px;font-size:19px;font-family:inherit;color:inherit;cursor:pointer;margin-bottom:14px;transition:border-color .2s,transform .15s;}
     .opt:hover:not(:disabled){border-color:#3DE8C5;transform:translateY(-1px);}
     .opt:disabled{cursor:default;}
-    /* picked but not yet submitted — its own colour, distinct from right/wrong */
+    /* picked but not yet submitted, its own colour, distinct from right/wrong */
     .opt.is-picked{border-color:#6366F1;background:rgba(99,102,241,.10);}
     .opt.is-picked .ltr{background:#6366F1;color:#fff;border-color:transparent;}
     .opt.is-right{border-color:var(--teal);background:rgba(16,185,129,.12);}
@@ -58,7 +58,7 @@
     .opt.is-wrong .ltr{background:var(--rose);color:#fff;border-color:transparent;}
     .opt .ltr{width:36px;height:36px;border-radius:11px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:'Fragment Mono',monospace;font-size:14px;flex:none;}
     .locked-note{text-align:center;color:var(--muted);font-size:13px;margin-top:6px;}
-    /* worked solution — revealed only once the student submits */
+    /* worked solution, revealed only once the student submits */
     .solution{margin-top:18px;border:1px solid var(--line);border-left:3px solid #6366F1;background:var(--bg2);border-radius:14px;padding:16px 18px;}
     .solution .lbl{font-family:'Fragment Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px;}
     .solution .verdict{font-weight:700;font-size:16.5px;margin-bottom:8px;}
@@ -191,7 +191,7 @@
         '</div>' +
         '<div class="locked-note" id="lockedNote"></div>';
 
-      // Selecting an option only highlights it — nothing is graded until Submit.
+      // Selecting an option only highlights it, nothing is graded until Submit.
       document.querySelectorAll('#optGrid .opt').forEach(function(btn){
         btn.addEventListener('click', function(){
           if (STATE.answered) return;
@@ -239,7 +239,7 @@
     async function lockAnswer(chosenIdx, timedOut){
       if (STATE.answered) return; // ignore a click that lands as the timer also fires
       STATE.answered = true;
-      clearInterval(STATE.timerId); // stop the clock — reading time isn't timed
+      clearInterval(STATE.timerId); // stop the clock, reading time isn't timed
       STATE.answers[STATE.i] = chosenIdx;
 
       var buttons = document.querySelectorAll('#optGrid .opt');
@@ -249,7 +249,7 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'Checking…';
 
-      // The server holds the correct answer and the explanation — it only hands
+      // The server holds the correct answer and the explanation, it only hands
       // them over once this question has been committed to.
       var res = null;
       try {
@@ -261,7 +261,7 @@
         document.getElementById('qHint').textContent = '';
         var slot = document.getElementById('solutionSlot');
         slot.innerHTML = '<div class="solution"><span class="lbl">Solution</span>' +
-          '<div class="body">Could not load the solution just now — your answer is saved ' +
+          '<div class="body">Could not load the solution just now, your answer is saved ' +
           'and you will see the full explanation on the results page.</div></div>';
         showNext(timedOut);
         return;
@@ -278,11 +278,11 @@
       var rightLtr = String.fromCharCode(65 + res.correctIndex);
       var rightTxt = '<b>' + rightLtr + '. ' + esc(q.options[res.correctIndex] || '') + '</b>';
       var verdict = res.correct
-        ? '<span style="color:var(--teal)">Correct — the answer is ' + rightTxt + '</span>'
+        ? '<span style="color:var(--teal)">Correct, the answer is ' + rightTxt + '</span>'
         : '<span style="color:var(--rose)">' +
             (chosenIdx < 0
-              ? 'Time’s up — the answer is '
-              : 'Not quite. You chose ' + String.fromCharCode(65 + chosenIdx) + ' — the answer is ') +
+              ? 'Time’s up, the answer is '
+              : 'Not quite. You chose ' + String.fromCharCode(65 + chosenIdx) + ', the answer is ') +
             rightTxt + '</span>';
 
       document.getElementById('solutionSlot').innerHTML =
@@ -299,13 +299,13 @@
       showNext(timedOut);
     }
 
-    // Reveal the Next button — the student advances when they're done reading.
+    // Reveal the Next button, the student advances when they're done reading.
     function showNext(timedOut){
       var nextBtn = document.getElementById('nextBtn');
       nextBtn.hidden = false;
       nextBtn.focus(); // move focus with the control that replaced Submit
       var note = document.getElementById('lockedNote');
-      if (note) note.textContent = timedOut ? "Time's up — this one was auto-submitted." : '';
+      if (note) note.textContent = timedOut ? "Time's up, this one was auto-submitted." : '';
     }
 
     function advance(){
@@ -316,7 +316,7 @@
     }
 
     async function finishTest(){
-      clearInterval(STATE.timerId); // point of no return — stop the clock for good
+      clearInterval(STATE.timerId); // point of no return, stop the clock for good
       center('Grading your test…');
       var res;
       try {
@@ -333,12 +333,12 @@
       var reviewHtml = (res.review || []).map(function(r, i){
         var q = STATE.questions[i];
         var yourAns = r.chosen >= 0 && q.options[r.chosen] ? q.options[r.chosen] : 'No answer';
-        var rightAns = q.options[r.correctIndex] || '—';
+        var rightAns = q.options[r.correctIndex] || '-';
         return '<div class="review-row">' +
           '<div class="qt">' + (i + 1) + '. ' + esc(q.text) + '</div>' +
           '<div class="ans ' + (r.correct ? 'correct' : 'wrong') + '">' +
             (r.correct
-              ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-3px"><path d="M20 6 9 17l-5-5"/></svg> Correct — ' + esc(yourAns)
+              ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-3px"><path d="M20 6 9 17l-5-5"/></svg> Correct - ' + esc(yourAns)
               : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-3px"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> Your answer: ' + esc(yourAns) + ' &middot; Correct: ' + esc(rightAns)) +
           '</div>' +
           // repeat the worked solution here so the whole paper can be revised at once

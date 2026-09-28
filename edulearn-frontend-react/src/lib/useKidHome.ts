@@ -13,8 +13,8 @@ declare global {
  * Keep the standalone home screen (public/ui/kid-home.js) mounted for exactly
  * as long as this component is.
  *
- * The home route has two renderers. React has LandingMarkup — the page as it
- * was before the redesign — and kid-home.js builds the current one into
+ * The home route has two renderers. React has LandingMarkup, the page as it
+ * was before the redesign, and kid-home.js builds the current one into
  * #kh-root, then hides React's #root behind it. Something has to say which of
  * the two is showing, and it has to say it in the same breath as the route
  * change: kid-home used to watch the URL and swap 60ms later, which left the

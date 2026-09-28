@@ -2,7 +2,7 @@ import { Component, type ReactNode } from 'react';
 
 /**
  * Last-resort guard so a render error becomes a recoverable message instead of
- * a blank white screen — the app has no server render, so an uncaught throw in
+ * a blank white screen, the app has no server render, so an uncaught throw in
  * any route unmounts everything and leaves nothing on the page.
  *
  * `resetKey` (the current pathname) is passed from App: when it changes, the
@@ -36,7 +36,7 @@ export default class ErrorBoundary extends Component<Props, State> {
         <div style={{ maxWidth: 520, margin: '18vh auto', padding: '0 24px', textAlign: 'center', fontFamily: 'Nunito, system-ui, sans-serif' }}>
           <h1 style={{ fontSize: 22, marginBottom: 10 }}>Something went wrong on this page</h1>
           <p style={{ opacity: 0.7, marginBottom: 22, lineHeight: 1.5 }}>
-            The page hit an unexpected error. Your work is safe — head back and try again.
+            The page hit an unexpected error. Your work is safe, head back and try again.
           </p>
           <a
             href="/dashboard"

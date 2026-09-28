@@ -1,5 +1,5 @@
 /* ============================================================
-   BestBrain — SHARED THEME  (light only)
+   BestBrain - SHARED THEME  (light only)
 
    Structure comes from the Unfluke Pro design system
    (unfluke-ios/DESIGN-SPEC.md + constants/Colors.ts, light theme):
@@ -7,12 +7,12 @@
      radius 14–22 · generous spacing · soft shadows
      big bold tabular numbers · tiny uppercase letter-spaced labels
 
-   Colour comes from BestBrain's own palette — the 8 accent hues are
+   Colour comes from BestBrain's own palette, the 8 accent hues are
    kept and applied identically on every page, so the platform reads
    as one product instead of fourteen.
 
    Text is BLACK everywhere. Colour lives on surfaces, bars, chips,
-   icons and CTAs — never on the words.
+   icons and CTAs, never on the words.
 
    DARK MODE IS RETIRED. theme.js no longer adds html.dark-mode and
    forces html.light-mode on. The per-page html.dark-mode{} blocks
@@ -28,12 +28,12 @@
   --u-border-light:#F0F1F4;
   --u-input-bg:#F6F7F9;
   --u-text:#000000;        /* black, per the brief */
-  --u-text-2:#3A4150;      /* secondary — still high contrast */
+  --u-text-2:#3A4150;      /* secondary, still high contrast */
   --u-text-3:#5B6472;      /* tertiary / labels */
   --u-gold:#C99A2E;
   --u-gold-bright:#B8860B;
   --u-gold-tint:#FBF1D8;
-  /* Primary CTA — indigo/blue (replaces the gold fill on .btn-primary etc.). */
+  /* Primary CTA, indigo/blue (replaces the gold fill on .btn-primary etc.). */
   --u-cta:#3F5BE0;
   --u-cta-bright:#5B6CF0;
   --u-profit:#0E9E6E;
@@ -78,7 +78,7 @@ body{
 .blobs, .blob{ display:none !important; }
 
 /* ============================================================
-   TYPE — Unfluke hierarchy
+   TYPE - Unfluke hierarchy
    Tiny uppercase tracked labels; big bold tabular numbers.
    ============================================================ */
 .eyebrow, .mono, .feat-label, .pcard__eyebrow, .hm-scale,
@@ -98,7 +98,7 @@ body{
 }
 
 /* ============================================================
-   SURFACES — white cards, hairline border, soft shadow, r14–22
+   SURFACES, white cards, hairline border, soft shadow, r14–22
    Every card class in the app, so all pages match.
    ============================================================ */
 .pcard, .vcard, .tablecard, .box, .feature-card, .optcard,
@@ -116,7 +116,7 @@ body{
   border-color:color-mix(in srgb, var(--ac,var(--c2)) 40%, var(--u-border)) !important;
 }
 
-/* One accent hue per card — the colour the brief asked to keep. */
+/* One accent hue per card, the colour the brief asked to keep. */
 .pcard:nth-of-type(6n+1), .vcard:nth-of-type(6n+1), .card:nth-of-type(6n+1),
 .feature-card:nth-of-type(6n+1), .qcard:nth-of-type(6n+1){--ac:var(--c1);}
 .pcard:nth-of-type(6n+2), .vcard:nth-of-type(6n+2), .card:nth-of-type(6n+2),
@@ -130,7 +130,7 @@ body{
 .pcard:nth-of-type(6n+6), .vcard:nth-of-type(6n+6), .card:nth-of-type(6n+6),
 .feature-card:nth-of-type(6n+6), .qcard:nth-of-type(6n+6){--ac:var(--c6);}
 
-/* A 3px accent rule across the card top — inset so it needs no
+/* A 3px accent rule across the card top, inset so it needs no
    overflow:hidden and cannot clip dropdowns. */
 .pcard::after, .vcard::after, .tablecard::after, .feature-card::after,
 .optcard::after, .attcard::after, .howcard::after, .qcard::after,
@@ -159,7 +159,7 @@ body{
   border-top:1px solid var(--u-border) !important;
 }
 
-/* Dark mode is retired — hide every toggle so it is not reachable.
+/* Dark mode is retired, hide every toggle so it is not reachable.
    #acctTheme is the floating toggle injected by account-menu.js, and
    the settings panel's Theme <select> goes with it. */
 .nav-theme-toggle, .nav__theme, .theme-toggle, [data-theme-toggle],
@@ -179,7 +179,7 @@ body, h1, h2, h3, h4, h5, h6, p, li, span, td, th, label, div, a,
 .foot-cols a, .foot-cols li, .atime, .rail-mini{
   color:var(--u-text-2);
 }
-/* Un-clip gradient headings — background-clip:text with a transparent
+/* Un-clip gradient headings, background-clip:text with a transparent
    fill is what makes them render as a gradient; both must be undone or
    the text stays invisible. */
 h1 em, h2 em, h3 em, .grad, .greet h1 em, .hero-title em, .bar-foot .big{
@@ -192,7 +192,7 @@ h1 em, h2 em, h3 em, .grad, .greet h1 em, .hero-title em, .bar-foot .big{
 
 /* --- the exceptions: text on a genuinely dark/saturated surface ---
    index.html's hero is a saturated brand block (white on purple reads
-   fine). login/signup's brand panel is NOT in this list — it used to be
+   fine). login/signup's brand panel is NOT in this list, it used to be
    a near-black split screen, which read as dark mode on a light-only
    product, so it is converted to a light surface below instead. */
 .hero-title, .hero-title em, .hero-eyebrow, .hero-subtitle,
@@ -233,7 +233,7 @@ h1 em, h2 em, h3 em, .grad, .greet h1 em, .hero-title em, .bar-foot .big{
 .fchip span{ color:var(--u-text-3) !important; -webkit-text-fill-color:var(--u-text-3) !important; }
 
 /* ============================================================
-   CHIPS / TAGS / PILLS — coloured fill, black label
+   CHIPS / TAGS / PILLS, coloured fill, black label
    ============================================================ */
 .chip, .tag, .pill, .fchip, .modchip, .dchip, .wchip, .tagchip,
 .handchip, .streakchip, .lvlpill, .badge, .rolebadge, .cls-chip,
@@ -247,7 +247,7 @@ h1 em, h2 em, h3 em, .grad, .greet h1 em, .hero-title em, .bar-foot .big{
 .pill.parent {background:color-mix(in srgb,var(--c3) 14%,#fff);border-color:color-mix(in srgb,var(--c3) 34%,transparent);}
 
 /* ============================================================
-   BUTTONS — gold gradient primary, outlined secondary
+   BUTTONS, gold gradient primary, outlined secondary
    ============================================================ */
 .btn-primary, .btn, .btn-book, .btn-join, .btn-new, .btn-resume, .btn-fix{
   background:linear-gradient(135deg, var(--u-cta-bright), var(--u-cta)) !important;
@@ -292,7 +292,7 @@ th, td{ border-color:var(--u-border) !important; color:var(--u-text) !important;
 /* ============================================================
    SURFACES THAT MUST STAY COLOUR-FIXED
    Video chrome and live.html's skeuomorphic chalkboard are outside
-   the token system on purpose — a wash over them reads as a bug.
+   the token system on purpose, a wash over them reads as a bug.
    ============================================================ */
 .vstage, .vstage *, .stage__video, .playbadge,
 .board, .board__grid, .chalkboard{
@@ -300,7 +300,7 @@ th, td{ border-color:var(--u-border) !important; color:var(--u-text) !important;
 }
 
 /* ============================================================
-   FALLBACK — color-mix() is baseline, but if it is missing every
+   FALLBACK, color-mix() is baseline, but if it is missing every
    rule using it drops out and leaves a half-applied theme.
    ============================================================ */
 @supports not (color: color-mix(in srgb, red 50%, blue)){
@@ -332,7 +332,7 @@ th, td{ border-color:var(--u-border) !important; color:var(--u-text) !important;
 }
 
 /* ============================================================
-   NAV — glassmorphic, premium, identical on every screen
+   NAV, glassmorphic, premium, identical on every screen
    ------------------------------------------------------------
    Real glass needs three things together: a translucent (not solid)
    background, an actual backdrop-filter blur, and a light top edge
@@ -350,7 +350,7 @@ th, td{ border-color:var(--u-border) !important; color:var(--u-text) !important;
     0 8px 28px rgba(14,15,20,.10) !important; /* lift off the canvas */
 }
 /* Safari/Firefox without backdrop-filter would render an 82%-opaque bar with
-   text showing through from beneath — opaque it up instead. */
+   text showing through from beneath, opaque it up instead. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
   .nav, nav:not([class]){ background:#FFFFFF !important; }
 }
@@ -359,12 +359,12 @@ th, td{ border-color:var(--u-border) !important; color:var(--u-text) !important;
    Six pages carry their OWN .nav rules (learn 17, live 11, challenge 11,
    mocktest 10, pal 8, lesson 6). Several use higher-specificity selectors
    like `.nav .nav__link`, which beat this sheet on specificity even though
-   it loads later — so the bar rendered at a different height, padding and
+   it loads later, so the bar rendered at a different height, padding and
    type size depending on which page you opened. Forcing them is what makes
    the nav genuinely identical everywhere. */
 .nav__inner, .nav-inner{
   /* 3-column grid (1fr auto 1fr) so the links sit at the TRUE centre of the bar
-     — the flex version only centred them within the leftover space between the
+    , the flex version only centred them within the leftover space between the
      brand and the right actions, which is off-centre when those two differ in
      width. Equal 1fr side columns guarantee the middle column is viewport-centred. */
   max-width:none !important; margin:0 !important; padding:0 clamp(24px,2.6vw,60px) !important;
@@ -398,7 +398,7 @@ th, td{ border-color:var(--u-border) !important; color:var(--u-text) !important;
   background:rgba(14,15,20,.06);
   transform:translateY(-1px);
 }
-/* current page: a solid black pill — unmistakable, and it reads as
+/* current page: a solid black pill, unmistakable, and it reads as
    "premium" far better than a 3px underline */
 .nav__link.is-current, .nav-link.current, .nav__link[aria-current="page"]{
   background:#000000 !important;
@@ -438,8 +438,8 @@ th, td{ border-color:var(--u-border) !important; color:var(--u-text) !important;
 
 @media (max-width:1080px){
   /* This block used to also carry `.nav__links{display:none}`. It never once
-     applied — `.nav__links{display:flex !important}` above outranks a plain
-     declaration however late it appears — so the links stayed in the bar and
+     applied - `.nav__links{display:flex !important}` above outranks a plain
+     declaration however late it appears, so the links stayed in the bar and
      forced the document to ~638px wide at phone widths. The collapse now lives
      in the mobile layer at the end of this file, at 900px, paired with a burger
      that gives those links somewhere to go. Do not re-add it here: between
@@ -497,7 +497,7 @@ h1, h2, h3, .card-title, .foot-tag, .cname{ font-weight:800 !important; }
   color:#000000 !important;
   font-weight:700 !important;
 }
-/* chapter numbers and any inline-coloured accent text go black —
+/* chapter numbers and any inline-coloured accent text go black ,
    these carry inline style="color:var(--amber)" in the markup */
 .chnum, .chrow__num, .chapnum, [class*="num"]{
   color:#000000 !important;
@@ -526,7 +526,7 @@ h1, h2, h3, .card-title, .foot-tag, .cname{ font-weight:800 !important; }
   box-shadow:4px 4px 0 rgba(14,15,20,.10) !important;  /* hard offset = crisp, not fuzzy */
 }
 /* Page-specific block classes that the generic list above misses. Found by
-   scanning every rule with a card-like border-radius across all 15 pages —
+   scanning every rule with a card-like border-radius across all 15 pages ,
    .pick (the mocktest test cards) was the visible gap. */
 .pick, .feat-card, .qz__opt, .ph-opt, .solution, .report,
 .stat, .stats, .ladder, .lb__row, .rung, .hist__row, .roster__row,
@@ -552,7 +552,7 @@ h1, h2, h3, .card-title, .foot-tag, .cname{ font-weight:800 !important; }
   font-weight:800 !important;
   letter-spacing:1.3px !important;
 }
-/* the little coloured dot before an eyebrow stays coloured — it is the
+/* the little coloured dot before an eyebrow stays coloured, it is the
    only remaining hue on these labels and it aids scanning */
 .pcard__eyebrow::before, .eyebrow::before{ opacity:1; }
 
@@ -597,7 +597,7 @@ h1, h2, h3, .card-title, .foot-tag, .cname{ font-weight:800 !important; }
 }
 
 /* ============================================================
-   LEARN — colourful + premium
+   LEARN, colourful + premium
    Both .subj (subject buttons) and .chrow (chapter rows) expose the
    subject's own hue as --sa, so every surface here can be coloured
    by its subject rather than all being the same white box.
@@ -657,7 +657,7 @@ h1, h2, h3, .card-title, .foot-tag, .cname{ font-weight:800 !important; }
   transform:translate(-3px,-3px);
   box-shadow:7px 7px 0 var(--sa) !important;
 }
-/* the chapter number becomes a solid colour tile — the single strongest
+/* the chapter number becomes a solid colour tile, the single strongest
    colour cue in the list, and it makes scanning by number effortless */
 .chrow__num{
   display:flex !important; align-items:center; justify-content:center;
@@ -714,7 +714,7 @@ h1, h2, h3, .card-title, .foot-tag, .cname{ font-weight:800 !important; }
 .listhead__title .subj-accent{ font-style:italic; }
 
 /* ============================================================
-   FOOTER — bold, large, black
+   FOOTER, bold, large, black
    The column headings were 10px grey at weight 400 and the links
    13px grey; the Class 6–9 links additionally carry INLINE
    style="color:var(--teal|amber|peri|rose)", and an inline style
@@ -758,7 +758,7 @@ footer .foot-cols li,
   font-weight:700;
   color:var(--u-text) !important;
 }
-/* the giant watermark stays a faint tint — making it black would
+/* the giant watermark stays a faint tint, making it black would
    swamp the column text sitting on top of it. .footer__mark is the same
    watermark on the Learn footer; without it here the global "all text black"
    rule turns it into a huge solid-black BestBrain that overflows the footer. */
@@ -779,7 +779,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 
 
 /* ================================================================
-   MOBILE LAYER — phones and small tablets
+   MOBILE LAYER, phones and small tablets
    ================================================================
    Last block in the file, and heavy on !important, both on purpose.
    Everything above was authored desktop-first and already forces its
@@ -788,7 +788,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
    by source order alone, so a mobile rule that has to win one has to
    be !important too. The nav is the clearest case: line ~377 sets
    `.nav__links{display:flex !important}` while the old max-width:1080px
-   rule below it said plain `display:none` — which is why the links
+   rule below it said plain `display:none`, which is why the links
    never collapsed and every page scrolled sideways at phone widths.
 
    There is deliberately NO blanket `overflow-x:hidden` on html/body.
@@ -849,7 +849,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   }
   .nav__scrim.is-open{ opacity:1; pointer-events:auto; }
 
-  /* Slides from the LEFT because the burger is on the left — a drawer that
+  /* Slides from the LEFT because the burger is on the left, a drawer that
      flies in from the opposite side to the control that opened it reads as a
      different surface entirely. */
   .nav__drawer{
@@ -885,7 +885,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
     border-radius:12px !important;
     min-height:48px;
   }
-  /* Floating buttons belong to body, not to this component's tree — they are
+  /* Floating buttons belong to body, not to this component's tree, they are
      hidden by class while the drawer owns the screen (see Navbar.tsx). */
   body.nav-drawer-open .acct-fab,
   body.nav-drawer-open #efp-btn{ display:none !important; }
@@ -902,7 +902,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
    viewports either side of it untouched: a phone held sideways is 667px wide
    and a tablet is 768px, and neither of them is read from any further away
    than a phone held upright. The audit counted 60 sub-12px labels at 667px
-   and 66 at 768px against 11 at 390px — all of them these same selectors,
+   and 66 at 768px against 11 at 390px, all of them these same selectors,
    simply out of range.
 
    900px is the breakpoint the rest of this file already uses, and it is where
@@ -912,7 +912,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   /* 11px eyebrow/mono labels read fine on a monitor at arm's length and not
      on a phone held at 30cm. 12px is the floor. These are the same selectors
      that set the small sizes earlier in this file, plus the per-page
-     equivalents the page stylesheets set themselves — the audit found text
+     equivalents the page stylesheets set themselves, the audit found text
      down to 9.5px on live and pal. */
   .eyebrow, .mono, .feat-label, .pcard__eyebrow, .hm-scale,
   .roster th, .cstat span, .dlab, .role-note, .foot-mono, .rc-tag,
@@ -922,7 +922,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   .how__num, .faqc__tag, .pick__subj, .qnum, .sylc__count,
   .joinband__eyebrow, .side__foot, .composer__note, .rolebadge,
   .tag, .count,
-  /* found by the audit after the range widened — same kind of label, same
+  /* found by the audit after the range widened, same kind of label, same
      job, they were simply never in the list */
   .wtile__unit, .chrow__meta, .feat-foot__inner span, .fcol h4{
     font-size:12px !important;
@@ -933,7 +933,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 @media (max-width:900px){
   /* ---------- tables scroll instead of being cut off ---------- */
   /* .tablecard uses overflow:hidden to clip its own rounded corners, which
-     also clipped the roster's right-hand columns clean off — the table was
+     also clipped the roster's right-hand columns clean off, the table was
      168px wider than the screen with no way to reach the rest. Scrolling it
      horizontally keeps the corners and gives the columns back. */
   .tablecard{
@@ -963,7 +963,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 
   /* ---------- nothing hides under the floating Features button ---------- */
   /* #efp-btn is fixed to the bottom-right corner at z-index 99998, so the last
-     line of a footer — and PAL's composer note — sat underneath it. */
+     line of a footer, and PAL's composer note, sat underneath it. */
   .foot-inner, .composer{ padding-bottom:64px !important; }
 
   /* Media never widens the document. */
@@ -973,7 +973,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 @media (max-width:900px){
   /* The per-chapter video/notes/test chips and the chapter arrow are sized in
      px above (30px and 34px), so the touch-target padding further up cannot
-     grow them — a fixed height wins over padding. On a phone these are the
+     grow them, a fixed height wins over padding. On a phone these are the
      primary way into a chapter, so they get a proper finger-sized box. */
   .chrow .mod, .mod{ width:40px !important; height:40px !important; }
   .chrow__arrow{ width:40px !important; height:40px !important; }
@@ -982,7 +982,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 
 @media (max-width:900px){
   /* Second pass on the type floor: these turned up only once the first pass
-     removed the louder offenders — live's stage/roster furniture ran as small
+     removed the louder offenders, live's stage/roster furniture ran as small
      as 8.5px, which is unreadable at arm's length.
 
      900px for the same reason as the first pass: a phone on its side and a
@@ -992,13 +992,13 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   .handchip, .gaze-badge, .st, .stage__note, .roster__count,
   .vcard__meta, .sylc__label, .lvlpill, .streakchip,
   /* the chapter reader's "notes"/"video" chips and the tutor call's hint and
-     transcript footer — the running commentary on what the call is doing */
+     transcript footer, the running commentary on what the call is doing */
   #notesTagText, #videoTagText, .transcript__foot, #kx-hint{
     font-size:12px !important;
   }
 
   /* SVG chart labels. These sit inside the viewBox and scale with the chart,
-     so raising them cannot reflow anything outside it — and on a phone the
+     so raising them cannot reflow anything outside it, and on a phone the
      chart is a third of its desktop width, which is exactly where the day
      names and axis stop being readable. */
   .barchart text, .barchart .today-lab, .areachart .axis, .ring-sub{
@@ -1019,7 +1019,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   .syl__grid{ grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr)) !important; }
   .faq__grid{ grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr)) !important; }
 
-  /* The roster's segmented filter is width:max-content — four tabs are wider
+  /* The roster's segmented filter is width:max-content, four tabs are wider
      than a small phone. Scrolling it keeps the segmented-control look instead
      of wrapping it into a ragged block. */
   .filters{
@@ -1031,7 +1031,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 }
 
 /* ================================================================
-   MOBILE STANDARDS PASS — target size and type floor
+   MOBILE STANDARDS PASS, target size and type floor
    ================================================================
    Two published minimums, applied uniformly rather than per page:
 
@@ -1039,7 +1039,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
        Size AAA; WCAG 2.5.8 AA only asks 24px, so 44 clears both)
      · body/label text never below 12px
 
-   Applied by role — every standalone control — instead of listing the
+   Applied by role, every standalone control, instead of listing the
    pages, so a control added later inherits the floor for free. Inline
    links inside running prose are deliberately NOT included: WCAG
    exempts them, and padding them out would wreck the line box.
@@ -1054,7 +1054,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
     min-height:44px;
   }
 
-  /* Icon-only controls need the width too — a 19px-wide "×" is a 19px
+  /* Icon-only controls need the width too, a 19px-wide "×" is a 19px
      target however tall it is. */
   .mod, .remove, .send, .menu-btn, .cbtn, .chrow__arrow,
   .vtoggle button, .filters button, .nav__burger, .nav__drawer-close{
@@ -1077,7 +1077,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 }
 
 @media (max-width:600px){
-  /* Type floor, second sweep. `small` is the generic offender — the live
+  /* Type floor, second sweep. `small` is the generic offender, the live
      board caption, the videos skip counter and the mocktest ring label all
      use it and all landed between 9px and 9.3px. */
   small,
@@ -1088,7 +1088,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 }
 
 @media (max-width:900px){
-  /* Footer column links are stacked block links — real navigation, not prose —
+  /* Footer column links are stacked block links, real navigation, not prose ,
      so they take the 44px floor like every other control. Centring the text
      keeps the label optically in the middle of the taller row. */
   .foot-cols a, .fcol a, .footer__cols a{

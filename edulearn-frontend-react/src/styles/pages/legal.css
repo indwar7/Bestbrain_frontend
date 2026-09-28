@@ -1,5 +1,5 @@
 /* ============================================================
-   LEGAL PAGES — Privacy Policy, Terms of Service
+   LEGAL PAGES - Privacy Policy, Terms of Service
    ------------------------------------------------------------
    These two are the only pages on the site whose job is reading.
    They used to render inside the full product shell: the 273px
@@ -17,7 +17,7 @@
        html.kid-dark p, html.kid-dark h1 … { color:#FFF!important }
    so ordinary colour declarations are simply overwritten. That is
    why the muted tones below are !important and carry the
-   html.kid-dark prefix — they need to outrank an !important rule
+   html.kid-dark prefix, they need to outrank an !important rule
    with (0,1,1) specificity, and they also set
    -webkit-text-fill-color, which is the half that actually paints
    in WebKit once boot has set it.
@@ -41,15 +41,15 @@
    that black. Sampling the landing page puts its background around
    rgb(59,41,30), with the lit areas near rgb(75,46,11).
 
-   This is those same four blobs — the same hues at the same corners as
-   .kb-b1 through .kb-b4 in kid-bg.js — painted once as static gradients
+   This is those same four blobs, the same hues at the same corners as
+   .kb-b1 through .kb-b4 in kid-bg.js, painted once as static gradients
    instead of animated elements. A page you read for four minutes should
    not have anything drifting behind the text, and the alphas are pulled
    down from the marketing page's .42/.30/.26 so the ground stays well
    behind the words: white on this measures ~14:1.
 
    position:fixed so it stays put while the document scrolls, and z-index
-   -1 to sit behind the text but above html's background — the same
+   -1 to sit behind the text but above html's background, the same
    technique .kb-sky uses, on the same body, so the stacking works. */
 .legal-page::before {
   content: '';
@@ -66,8 +66,8 @@
 }
 
 /* boot.js pins BOTH html and body to #050505!important, and body's
-   background paints ABOVE a z-index:-1 layer — an in-flow block's
-   background comes after negative-z descendants in the paint order — so
+   background paints ABOVE a z-index:-1 layer, an in-flow block's
+   background comes after negative-z descendants in the paint order, so
    an opaque body hides the gradients completely. kid-bg has the same
    problem with .kb-sky and solves it the same way: colour on html, body
    transparent. `:has()` contributes its argument's specificity, making
@@ -130,7 +130,7 @@ html.kid-dark .legal-meta * {
 .legal-body p:last-child { margin-bottom: 0; }
 
 /* vivid.css asserts `body, p, li, span, div, a, h1-h6 { font-weight:700
-   !important }` site-wide — fine for a dashboard label, punishing across nine
+   !important }` site-wide, fine for a dashboard label, punishing across nine
    sections of policy. These selectors carry a class, so they outrank it. */
 .legal-page .legal-lede,
 .legal-page .legal-body p,

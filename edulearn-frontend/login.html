@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <!-- Redesign: dark canvas before any stylesheet parses, so switching pages
-     never flashes white. boot.js is not deferred on purpose — the theme
+     never flashes white. boot.js is not deferred on purpose, the theme
      classes have to be set before the page CSS lands. -->
 <meta name="color-scheme" content="dark">
 <style>html{background:#050505!important;color-scheme:dark}html body{background:#050505}</style>
 <script src="ui/boot.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Login — BestBrain · Start Learning Today</title>
+  <title>Login | BestBrain · Start Learning Today</title>
   <script>
     (function(){try{var t=localStorage.getItem('edulearn_token');var u=localStorage.getItem('edulearn_user');if(t&&u&&JSON.parse(u)){location.replace('dashboard.html');return;}}catch(e){}})();
   </script>
@@ -129,7 +129,7 @@
       transition:border-color .25s var(--ease),background .25s var(--ease),box-shadow .25s var(--ease);
     }
     input:focus{outline:none;border-color:rgba(61,232,197,.75);background:var(--field-focus);box-shadow:0 0 0 4px rgba(61,232,197,.14)}
-    /* 4.97:1 on the composited field. The old #5D6580 sat at 3.16 — under
+    /* 4.97:1 on the composited field. The old #5D6580 sat at 3.16, under
        the 4.5 floor, so the hint text was hard to read before typing. */
     input::placeholder{color:#7B85A3}
     .pw-field{position:relative}
@@ -159,7 +159,7 @@
     .social-btn:hover{border-color:var(--line-strong);background:var(--field-focus);transform:translateY(-2px)}
 
     .signup-link{text-align:center;font-size:14px;color:var(--muted)}
-    /* Distinct highlight so "Sign up" stands out — !important beats vivid.css's
+    /* Distinct highlight so "Sign up" stands out - !important beats vivid.css's
        global `a{color:#000}`, which was flattening it to black. */
     .signup-link a{color:#3F5BE0 !important;-webkit-text-fill-color:#3F5BE0 !important;font-weight:800;text-decoration:underline;text-underline-offset:2px;transition:opacity .25s var(--ease)}
     .signup-link a:hover{opacity:.82}
@@ -167,7 +167,7 @@
     .role-tabs{display:flex;gap:4px;background:rgba(255,255,255,.05);padding:5px;border-radius:14px;margin-bottom:22px;border:1px solid var(--line)}
     .role-tab{flex:1;border:none;background:transparent;padding:11px 8px;border-radius:10px;font-family:'Nunito',sans-serif;font-size:13px;letter-spacing:.02em;font-weight:700;color:#475569;cursor:pointer;transition:all .24s cubic-bezier(.22,1,.36,1)}
     .role-tab:hover:not(.on){color:#1E293B}
-    /* Active tab: solid indigo fill + white text — high contrast, so the
+    /* Active tab: solid indigo fill + white text, high contrast, so the
        selected role is unmistakable (the old light teal-on-teal was too faint). */
     .role-tab.on{background:#3F5BE0 !important;color:#FFFFFF !important;-webkit-text-fill-color:#FFFFFF !important;box-shadow:0 4px 14px rgba(63,91,224,.34)}
 
@@ -197,7 +197,7 @@
          back out of. Meet the threshold on the controls only. */
       input,select,textarea,.otp-digit{font-size:16px}
 
-      /* 34px is a mouse target, not a thumb one — both Apple and Google put
+      /* 34px is a mouse target, not a thumb one, both Apple and Google put
          the floor at 44px. */
       .pw-toggle{width:44px;height:44px;right:4px}
       .role-tab{padding:13px 8px}
@@ -205,7 +205,7 @@
     }
 
     /* 100vh on mobile measures the viewport with the address bar ignored, so
-       a 100vh panel is about a bar taller than what is visible — enough to
+       a 100vh panel is about a bar taller than what is visible, enough to
        push the submit button below the fold on load. dvh tracks the real
        viewport. Guarded so browsers without dvh keep the 100vh rule above. */
     @supports (height:100dvh){
@@ -223,13 +223,13 @@
     html.light-mode input{background:#F4F7FB;border-color:rgba(15,23,42,.1);color:#0F1425}
     /* The light-mode block overrode input, select and role-tabs but never
        .pw-toggle or .field-icon, so both kept the DARK --muted (#93A0BD)
-       and measured 2.44:1 on the light field — the eye icon was all but
+       and measured 2.44:1 on the light field, the eye icon was all but
        gone. These two rules are the missing half of that override. */
     html.light-mode .pw-toggle{color:#5C6478}
     html.light-mode .pw-toggle:hover{color:#0F1425;background:rgba(15,23,42,.06)}
     html.light-mode .field-icon{color:#667085}
     html.light-mode .field-wrap:focus-within .field-icon{color:#1E9E86}
-    /* 4.63:1 on #F4F7FB. #9AA3B8 measured 2.35 — effectively invisible on
+    /* 4.63:1 on #F4F7FB. #9AA3B8 measured 2.35, effectively invisible on
        the light field. */
     html.light-mode input::placeholder{color:#667085}
     html.light-mode .social-btn{background:#F4F7FB;border-color:rgba(15,23,42,.1);color:#0F1425}
@@ -252,11 +252,11 @@
       <div class="brand-mid">
         <span class="brand-eyebrow">CBSE · NCERT · 20+ State Boards</span>
         <h2 class="brand-head">Learn <em>smarter</em>,<br>score <em>better</em>.</h2>
-        <p class="brand-sub">Animated lessons, adaptive practice and an AI tutor that never sleeps — for Classes 6–9.</p>
+        <p class="brand-sub">Animated lessons, adaptive practice and an AI tutor that never sleeps, for Classes 6–9.</p>
         <div class="brand-feats">
           <div class="brand-feat"><span class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span> 9,000+ interactive video lessons</div>
           <div class="brand-feat"><span class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 8v6M21 8v6M7 11v4a5 3 0 0 0 10 0v-4"/></svg></span> Live classes with real tutors</div>
-          <div class="brand-feat"><span class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-4 12.7V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.3A7 7 0 0 0 12 2Z"/><path d="M9 22h6"/></svg></span> PAL — your personal AI doubt solver</div>
+          <div class="brand-feat"><span class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-4 12.7V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.3A7 7 0 0 0 12 2Z"/><path d="M9 22h6"/></svg></span> PAL, your personal AI doubt solver</div>
         </div>
       </div>
       <div class="brand-foot">
@@ -407,7 +407,7 @@
   <script src="api.js"></script>
   <script>
     // Already signed in (e.g. arrived here via a stale bookmark or the logo
-    // fallback) — skip the login form entirely instead of asking to re-enter
+    // fallback), skip the login form entirely instead of asking to re-enter
     // credentials for a session that's still valid.
     if (window.EduAPI && EduAPI.getUser()) {
       location.replace('dashboard.html');
@@ -664,7 +664,7 @@
   </script>
 
   <!-- Auth pages are DARK by default (premium look). Theme is chosen from
-       Settings (after login), not here — this just honours a saved 'light'. -->
+       Settings (after login), not here, this just honours a saved 'light'. -->
   <script>
     (function () {
       try{if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}localStorage.setItem('edulearn-theme','light');}catch(e){if(!document.documentElement.classList.contains('kid-dark')){document.documentElement.classList.add('light-mode');}}

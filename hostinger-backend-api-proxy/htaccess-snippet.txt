@@ -1,10 +1,10 @@
 # ============================================================
-# PRIMARY FIX — try this first.
+# PRIMARY FIX, try this first.
 #
 # Add this block to the .htaccess file in the SAME DIRECTORY as
 # bestbrainplus.com's live index.html on Hostinger (open it via
 # hPanel's File Manager, or FTP). If a .htaccess already exists
-# there, paste this block into it — do not overwrite the file.
+# there, paste this block into it, do not overwrite the file.
 #
 # Why this is needed: the app's own vercel.json already contains
 # this exact rewrite (backend-api/* -> the EC2 backend), but that
@@ -31,6 +31,6 @@ RewriteRule ^socket\.io/(.*)$ https://api.bestbrainplus.com/socket.io/$1 [P,L]
 #   - Still broken: shows Hostinger's 503 page, OR a 500 error
 #
 # A 500 error (not the 503 page) means Apache's mod_proxy module
-# is disabled on this hosting plan and this approach can't work —
+# is disabled on this hosting plan and this approach can't work ,
 # use backend-api-proxy.php (see README.md) instead.
 # ============================================================

@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/lesson.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/lesson.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -33,7 +33,7 @@ var ch = params.get('ch');
 var cls = params.get('class');
 var subject = params.get('subject');
 var titleParam = params.get('t'); // exact chapter name passed from learn.html
-var viewParam = params.get('view'); // 'video' | 'notes' — deep-link from Learn's module icons
+var viewParam = params.get('view'); // 'video' | 'notes', deep-link from Learn's module icons
 var slug = null;
 
 /* ------------------------------------------------------------
@@ -71,7 +71,7 @@ hubTitle.textContent = title.textContent;
 hubCrumb.textContent = crumb.textContent;
 
 // Null-guarded: this is decorative navigation, but an unguarded assignment
-// here throws and aborts the rest of this bootstrap — including the LESSON.*
+// here throws and aborts the rest of this bootstrap, including the LESSON.*
 // assignments below that the video lookup depends on. A missing back button
 // must never be able to take the lesson video down with it.
 if(back && cls && subject){
@@ -95,7 +95,7 @@ window.HUB = (function(){
 'use strict';
 
 /* ------------------------------------------------------------------
-   NOTES — keyed by chapter slug (the part after c<class>-<code>- in the
+   NOTES, keyed by chapter slug (the part after c<class>-<code>- in the
    URL's ?ch=). Content is trusted static HTML; add more chapters here.
    ------------------------------------------------------------------ */
 var NOTES = {
@@ -103,7 +103,7 @@ var NOTES = {
     read: 8,
     sections: [
       { h: 'Food variety',
-        body: '<p>We eat a huge variety of food. A <b>food item</b> is anything we eat or drink — such as chapati, rice, dal, vegetables, milk or fruit. A single dish is usually made from more than one material. For example, <b>vegetable curry</b> needs vegetables, oil, salt and spices, and each of these is called an <b>ingredient</b>.</p>' +
+        body: '<p>We eat a huge variety of food. A <b>food item</b> is anything we eat or drink, such as chapati, rice, dal, vegetables, milk or fruit. A single dish is usually made from more than one material. For example, <b>vegetable curry</b> needs vegetables, oil, salt and spices, and each of these is called an <b>ingredient</b>.</p>' +
               '<div class="nterm"><b>Ingredients</b> are the materials that are used to prepare a dish.</div>' },
       { h: 'Where does food come from?',
         body: '<p>If we trace any ingredient back to its source, it comes from either a <b>plant</b> or an <b>animal</b>. These are the two main sources of our food.</p>' +
@@ -113,7 +113,7 @@ var NOTES = {
               '</ul>' +
               '<p>Interestingly, <b>honey</b> is made by bees from the nectar of flowers, so it involves both a plant and an animal.</p>' },
       { h: 'Plant parts we eat',
-        body: '<p>Different plants give us food from different parts — roots, stems, leaves, flowers, fruits and seeds.</p>' +
+        body: '<p>Different plants give us food from different parts, roots, stems, leaves, flowers, fruits and seeds.</p>' +
               '<ul>' +
               '<li><b>Seeds:</b> wheat, rice, pulses, mustard.</li>' +
               '<li><b>Roots:</b> carrot, radish, beetroot.</li>' +
@@ -121,15 +121,15 @@ var NOTES = {
               '<li><b>Stems:</b> potato, ginger, sugarcane.</li>' +
               '<li><b>Flowers:</b> cauliflower, banana flower.</li>' +
               '</ul>' +
-              '<p>Some plants, like the mustard plant, give us more than one type of food — its seeds give oil and its leaves are eaten as a vegetable. When we let seeds like moong or chana <b>sprout</b>, tiny plants begin to grow, and sprouts are a healthy food too.</p>' },
+              '<p>Some plants, like the mustard plant, give us more than one type of food, its seeds give oil and its leaves are eaten as a vegetable. When we let seeds like moong or chana <b>sprout</b>, tiny plants begin to grow, and sprouts are a healthy food too.</p>' },
       { h: 'Animal products as food',
         body: '<p>Animals give us products such as <b>milk, eggs, meat and honey</b>. Milk comes from cows, buffaloes and goats, and from milk we make curd, butter, cheese (paneer) and ghee.</p>' },
       { h: 'What do animals eat?',
         body: '<p>Based on their food habits, animals are grouped into three types:</p>' +
               '<ul>' +
-              '<li><b>Herbivores</b> — eat only plants (cow, goat, deer, elephant).</li>' +
-              '<li><b>Carnivores</b> — eat other animals (lion, tiger, lizard).</li>' +
-              '<li><b>Omnivores</b> — eat both plants and animals (human, crow, dog, bear).</li>' +
+              '<li><b>Herbivores</b>, eat only plants (cow, goat, deer, elephant).</li>' +
+              '<li><b>Carnivores</b>, eat other animals (lion, tiger, lizard).</li>' +
+              '<li><b>Omnivores</b>, eat both plants and animals (human, crow, dog, bear).</li>' +
               '</ul>' }
     ],
     recap: [
@@ -144,7 +144,7 @@ var NOTES = {
     read: 9,
     sections: [
       { h: 'What food contains',
-        body: '<p>The food we eat contains different components called <b>nutrients</b> — mainly <b>carbohydrates, proteins, fats, vitamins</b> and <b>minerals</b>. In addition, food contains <b>dietary fibre (roughage)</b> and <b>water</b>. Each nutrient is needed by the body for a special purpose.</p>' +
+        body: '<p>The food we eat contains different components called <b>nutrients</b>, mainly <b>carbohydrates, proteins, fats, vitamins</b> and <b>minerals</b>. In addition, food contains <b>dietary fibre (roughage)</b> and <b>water</b>. Each nutrient is needed by the body for a special purpose.</p>' +
               '<div class="nterm">Simple tests can detect nutrients: <b>iodine</b> turns blue-black with <b>starch</b>, and a food that leaves an <b>oily patch</b> on paper contains <b>fat</b>.</div>' },
       { h: 'Energy-giving nutrients',
         body: '<ul>' +
@@ -156,10 +156,10 @@ var NOTES = {
       { h: 'Protective nutrients',
         body: '<p><b>Vitamins</b> and <b>minerals</b> protect the body from diseases and keep it healthy. They are needed in small amounts.</p>' +
               '<ul>' +
-              '<li><b>Vitamin A</b> — keeps skin and eyes healthy (carrot, papaya, mango).</li>' +
-              '<li><b>Vitamin C</b> — helps fight diseases (amla, orange, lemon).</li>' +
-              '<li><b>Vitamin D</b> — keeps bones and teeth strong (sunlight, milk).</li>' +
-              '<li><b>Minerals</b> — iron, calcium, iodine, etc., needed in small amounts for good health.</li>' +
+              '<li><b>Vitamin A</b>, keeps skin and eyes healthy (carrot, papaya, mango).</li>' +
+              '<li><b>Vitamin C</b>, helps fight diseases (amla, orange, lemon).</li>' +
+              '<li><b>Vitamin D</b>, keeps bones and teeth strong (sunlight, milk).</li>' +
+              '<li><b>Minerals</b>, iron, calcium, iodine, etc., needed in small amounts for good health.</li>' +
               '</ul>' },
       { h: 'Roughage and water',
         body: '<ul>' +
@@ -188,12 +188,12 @@ var NOTES = {
     read: 8,
     sections: [
       { h: 'Variety in fabrics',
-        body: '<p>We use many kinds of cloth — cotton, silk, wool, nylon and polyester. All fabrics are made from thin thread-like strands called <b>yarn</b>, and yarn is made from even thinner strands called <b>fibres</b>.</p>' +
+        body: '<p>We use many kinds of cloth, cotton, silk, wool, nylon and polyester. All fabrics are made from thin thread-like strands called <b>yarn</b>, and yarn is made from even thinner strands called <b>fibres</b>.</p>' +
               '<div class="nterm"><b>Fibre → Yarn → Fabric.</b> Fibres are spun into yarn, and yarn is woven or knitted into fabric.</div>' },
       { h: 'Natural and synthetic fibres',
         body: '<ul>' +
-              '<li><b>Natural fibres</b> come from plants or animals — cotton and jute (plants); wool and silk (animals).</li>' +
-              '<li><b>Synthetic fibres</b> are made from chemicals — nylon, polyester, acrylic.</li>' +
+              '<li><b>Natural fibres</b> come from plants or animals, cotton and jute (plants); wool and silk (animals).</li>' +
+              '<li><b>Synthetic fibres</b> are made from chemicals, nylon, polyester, acrylic.</li>' +
               '</ul>' },
       { h: 'Plant fibres: cotton and jute',
         body: '<ul>' +
@@ -223,39 +223,39 @@ var NOTES = {
     read: 7,
     sections: [
       { h: 'What is science?',
-        body: '<p>Science is a way of understanding the world around us. Instead of simply accepting things as they are, we <b>observe</b>, ask <b>questions</b>, and look for answers backed by <b>evidence</b>. Science is not just a fixed set of facts — it is a living <b>process of exploration</b> powered by curiosity.</p>' +
-              '<div class="nterm">Science is both a <b>body of knowledge</b> and a <b>way of thinking</b> — asking questions and testing ideas with evidence.</div>' },
+        body: '<p>Science is a way of understanding the world around us. Instead of simply accepting things as they are, we <b>observe</b>, ask <b>questions</b>, and look for answers backed by <b>evidence</b>. Science is not just a fixed set of facts, it is a living <b>process of exploration</b> powered by curiosity.</p>' +
+              '<div class="nterm">Science is both a <b>body of knowledge</b> and a <b>way of thinking</b>, asking questions and testing ideas with evidence.</div>' },
       { h: 'The scientific method',
         body: '<p>Scientists work in an organised way to move from a question to a reliable answer:</p>' +
               '<ul>' +
-              '<li><b>Observation</b> — noticing something around us.</li>' +
-              '<li><b>Question</b> — asking why or how it happens.</li>' +
-              '<li><b>Hypothesis</b> — a possible explanation that can be tested.</li>' +
-              '<li><b>Experiment</b> — a fair test to check the hypothesis.</li>' +
-              '<li><b>Analysis &amp; conclusion</b> — studying the results and deciding whether the hypothesis holds.</li>' +
+              '<li><b>Observation</b>, noticing something around us.</li>' +
+              '<li><b>Question</b>, asking why or how it happens.</li>' +
+              '<li><b>Hypothesis</b>, a possible explanation that can be tested.</li>' +
+              '<li><b>Experiment</b>, a fair test to check the hypothesis.</li>' +
+              '<li><b>Analysis &amp; conclusion</b>, studying the results and deciding whether the hypothesis holds.</li>' +
               '</ul>' +
-              '<div class="nterm">A <b>hypothesis</b> is a testable, possible explanation — not a final answer.</div>' },
+              '<div class="nterm">A <b>hypothesis</b> is a testable, possible explanation, not a final answer.</div>' },
       { h: 'Science is ever-evolving',
         body: '<p>Scientific knowledge keeps <b>changing</b> as new evidence is found. Older ideas are refined or replaced by better ones. Our understanding of the atom, the Solar System and the causes of diseases has improved over time. Being willing to <b>update our ideas</b> when the evidence demands it is at the very heart of science.</p>' },
       { h: 'Branches of science',
         body: '<p>Science has many branches that study different parts of nature:</p>' +
               '<ul>' +
-              '<li><b>Physics</b> — matter, energy, motion, light and electricity.</li>' +
-              '<li><b>Chemistry</b> — substances and the way they change.</li>' +
-              '<li><b>Biology</b> — living things and how they live.</li>' +
-              '<li><b>Astronomy</b> — stars, planets and space.</li>' +
+              '<li><b>Physics</b>, matter, energy, motion, light and electricity.</li>' +
+              '<li><b>Chemistry</b>, substances and the way they change.</li>' +
+              '<li><b>Biology</b>, living things and how they live.</li>' +
+              '<li><b>Astronomy</b>, stars, planets and space.</li>' +
               '</ul>' +
               '<p>Many discoveries come from <b>combining</b> ideas across these branches.</p>' },
       { h: 'Curiosity and great scientists',
-        body: '<p>Every discovery begins with <b>curiosity</b>. India has a rich scientific heritage — <b>Aryabhata</b> studied astronomy and the idea of zero, <b>Sir C.V. Raman</b> explained the scattering of light, and <b>Jagadish Chandra Bose</b> showed that plants respond to stimuli. Around the world, scientists such as Newton and Marie Curie expanded what we know.</p>' +
-              '<div class="nterm">Sir <b>C.V. Raman</b> won the Nobel Prize in Physics (1930) for the <b>Raman Effect</b> — the scattering of light.</div>' },
+        body: '<p>Every discovery begins with <b>curiosity</b>. India has a rich scientific heritage - <b>Aryabhata</b> studied astronomy and the idea of zero, <b>Sir C.V. Raman</b> explained the scattering of light, and <b>Jagadish Chandra Bose</b> showed that plants respond to stimuli. Around the world, scientists such as Newton and Marie Curie expanded what we know.</p>' +
+              '<div class="nterm">Sir <b>C.V. Raman</b> won the Nobel Prize in Physics (1930) for the <b>Raman Effect</b>, the scattering of light.</div>' },
       { h: 'Science in everyday life',
-        body: '<p>Science and technology shape our daily lives — <b>medicines</b> keep us healthy, <b>transport</b> and <b>communication</b> connect us, and better <b>farming</b> and <b>clean water</b> improve living. Learning science helps us make sensible, <b>evidence-based decisions</b> and solve real problems.</p>' }
+        body: '<p>Science and technology shape our daily lives - <b>medicines</b> keep us healthy, <b>transport</b> and <b>communication</b> connect us, and better <b>farming</b> and <b>clean water</b> improve living. Learning science helps us make sensible, <b>evidence-based decisions</b> and solve real problems.</p>' }
     ],
     recap: [
       'Science is a way of exploring the world through observation, questions and evidence.',
       'The scientific method: observe → question → hypothesise → experiment → conclude.',
-      'Scientific knowledge is ever-evolving — ideas change as new evidence appears.',
+      'Scientific knowledge is ever-evolving, ideas change as new evidence appears.',
       'Curiosity drives discovery; Indian scientists like C.V. Raman and Aryabhata made major contributions.'
     ]
   },
@@ -266,11 +266,11 @@ var NOTES = {
       { h: 'Acidic, basic and neutral substances',
         body: '<p>Substances can be grouped by their nature:</p>' +
               '<ul>' +
-              '<li><b>Acidic</b> substances taste <b>sour</b> — lemon, tamarind (imli), vinegar, curd.</li>' +
-              '<li><b>Basic</b> substances taste <b>bitter</b> and feel <b>soapy</b> — baking soda, soap, lime water.</li>' +
-              '<li><b>Neutral</b> substances are neither acidic nor basic — water, common salt, sugar solution.</li>' +
+              '<li><b>Acidic</b> substances taste <b>sour</b>, lemon, tamarind (imli), vinegar, curd.</li>' +
+              '<li><b>Basic</b> substances taste <b>bitter</b> and feel <b>soapy</b>, baking soda, soap, lime water.</li>' +
+              '<li><b>Neutral</b> substances are neither acidic nor basic, water, common salt, sugar solution.</li>' +
               '</ul>' +
-              '<div class="nterm">We must <b>never taste or touch</b> laboratory chemicals to test them — we use <b>indicators</b> instead.</div>' },
+              '<div class="nterm">We must <b>never taste or touch</b> laboratory chemicals to test them, we use <b>indicators</b> instead.</div>' },
       { h: 'Indicators',
         body: '<p>An <b>indicator</b> is a substance that changes colour to show whether something is acidic or basic. The most common one is <b>litmus</b>, a natural dye obtained from <b>lichens</b>. It is used as blue litmus, red litmus, litmus solution or litmus paper.</p>' +
               '<div class="nterm">An <b>indicator</b> changes colour in acidic and basic solutions, telling us the nature of a substance.</div>' },
@@ -283,13 +283,13 @@ var NOTES = {
       { h: 'Natural indicators',
         body: '<p>Many indicators come straight from nature:</p>' +
               '<ul>' +
-              '<li><b>Turmeric (haldi)</b> is yellow; it stays yellow in acids but turns <b>red-brown</b> in bases — that is why a turmeric stain turns red when soap is applied.</li>' +
+              '<li><b>Turmeric (haldi)</b> is yellow; it stays yellow in acids but turns <b>red-brown</b> in bases, that is why a turmeric stain turns red when soap is applied.</li>' +
               '<li><b>China rose (gudhal)</b> turns acids <b>pink/magenta</b> and bases <b>green</b>.</li>' +
               '<li><b>Red cabbage</b> and <b>beetroot</b> juice also work as indicators.</li>' +
               '</ul>' },
       { h: 'Neutralisation',
         body: '<p>When an acid and a base are mixed in the right amounts, they cancel each other’s nature and form <b>salt and water</b>, releasing heat. This reaction is called <b>neutralisation</b>.</p>' +
-              '<div class="nterm"><b>Acid + Base → Salt + Water</b> — this reaction is called <b>neutralisation</b>.</div>' },
+              '<div class="nterm"><b>Acid + Base → Salt + Water</b>, this reaction is called <b>neutralisation</b>.</div>' },
       { h: 'Neutralisation in daily life',
         body: '<ul>' +
               '<li><b>Indigestion:</b> too much acid in the stomach is neutralised by an <b>antacid</b> (a mild base such as milk of magnesia).</li>' +
@@ -302,18 +302,18 @@ var NOTES = {
       'Substances are acidic (sour), basic (bitter and soapy) or neutral.',
       'Indicators show the nature: acids turn blue litmus red; bases turn red litmus blue.',
       'Turmeric and china rose are common natural indicators.',
-      'Acid + base → salt + water (neutralisation) — used in antacids, stings, soil and waste treatment.'
+      'Acid + base → salt + water (neutralisation), used in antacids, stings, soil and waste treatment.'
     ]
   },
 
   'electricity-circuits': {
     read: 8,
     sections: [
-      { h: 'The electric cell — a source of electricity',
-        body: '<p>An <b>electric cell</b> stores chemical energy and supplies electricity. It has two <b>terminals</b> — a <b>positive (+)</b> and a <b>negative (–)</b>. When two or more cells are joined together, they form a <b>battery</b>.</p>' +
+      { h: 'The electric cell, a source of electricity',
+        body: '<p>An <b>electric cell</b> stores chemical energy and supplies electricity. It has two <b>terminals</b>, a <b>positive (+)</b> and a <b>negative (–)</b>. When two or more cells are joined together, they form a <b>battery</b>.</p>' +
               '<div class="nterm">A <b>battery</b> is a combination of two or more cells; the <b>+</b> terminal of one cell is joined to the <b>–</b> terminal of the next.</div>' },
       { h: 'What is an electric circuit?',
-        body: '<p>An <b>electric circuit</b> is the complete path along which electric current flows — starting from the <b>positive</b> terminal of the cell, through the wires and components, and back to the <b>negative</b> terminal.</p>' +
+        body: '<p>An <b>electric circuit</b> is the complete path along which electric current flows, starting from the <b>positive</b> terminal of the cell, through the wires and components, and back to the <b>negative</b> terminal.</p>' +
               '<div class="nterm">Current flows only when the path is <b>complete (closed)</b>; a break anywhere stops it.</div>' },
       { h: 'Open and closed circuits',
         body: '<ul>' +
@@ -323,19 +323,19 @@ var NOTES = {
       { h: 'The switch',
         body: '<p>A <b>switch</b> is a simple device that opens or closes a circuit. Switching it <b>ON</b> closes the circuit and the bulb glows; switching it <b>OFF</b> opens the circuit and the bulb goes off. Switches let us control appliances conveniently and safely.</p>' },
       { h: 'The bulb and the LED',
-        body: '<p>In an <b>incandescent bulb</b>, current heats a thin coiled wire called the <b>filament</b> until it glows. If the filament breaks, the bulb is <b>fused</b> and will not light. An <b>LED</b> (light-emitting diode) gives light using very little electricity and has two leads — a longer <b>(+)</b> and a shorter <b>(–)</b> — so it must be connected the right way round.</p>' +
+        body: '<p>In an <b>incandescent bulb</b>, current heats a thin coiled wire called the <b>filament</b> until it glows. If the filament breaks, the bulb is <b>fused</b> and will not light. An <b>LED</b> (light-emitting diode) gives light using very little electricity and has two leads, a longer <b>(+)</b> and a shorter <b>(–)</b>, so it must be connected the right way round.</p>' +
               '<div class="nterm">The <b>filament</b> is the thin, high-resistance wire in a bulb that glows when current passes through it.</div>' },
       { h: 'Conductors and insulators',
-        body: '<p>Materials that <b>allow</b> current to pass through them are <b>conductors</b> — most metals such as copper and aluminium (and graphite). Materials that <b>do not allow</b> current are <b>insulators</b> — plastic, rubber, wood and glass. A wire has a <b>copper conductor</b> inside a <b>plastic insulator</b> for safety.</p>' +
-              '<div class="nterm"><b>Conductors</b> let current flow; <b>insulators</b> stop it — that is why switches and plugs are covered in plastic or rubber.</div>' },
+        body: '<p>Materials that <b>allow</b> current to pass through them are <b>conductors</b>, most metals such as copper and aluminium (and graphite). Materials that <b>do not allow</b> current are <b>insulators</b>, plastic, rubber, wood and glass. A wire has a <b>copper conductor</b> inside a <b>plastic insulator</b> for safety.</p>' +
+              '<div class="nterm"><b>Conductors</b> let current flow; <b>insulators</b> stop it, that is why switches and plugs are covered in plastic or rubber.</div>' },
       { h: 'Effects of current & staying safe',
-        body: '<p>Electric current can produce a <b>heating effect</b> (used in heaters, and it makes a bulb’s filament glow) and a <b>magnetic effect</b> (used in electromagnets). Electricity must always be used with care — never touch switches or wires with <b>wet hands</b>, and never experiment with electricity from <b>wall sockets (mains)</b>.</p>' }
+        body: '<p>Electric current can produce a <b>heating effect</b> (used in heaters, and it makes a bulb’s filament glow) and a <b>magnetic effect</b> (used in electromagnets). Electricity must always be used with care, never touch switches or wires with <b>wet hands</b>, and never experiment with electricity from <b>wall sockets (mains)</b>.</p>' }
     ],
     recap: [
       'A cell has + and – terminals; joining cells makes a battery.',
       'Current flows only in a complete (closed) circuit; a switch opens or closes it.',
       'A bulb glows when current heats its filament; an LED uses little electricity and is direction-sensitive.',
-      'Conductors (metals) allow current; insulators (plastic, rubber) do not — and current has heating and magnetic effects.'
+      'Conductors (metals) allow current; insulators (plastic, rubber) do not, and current has heating and magnetic effects.'
     ]
   }
 };
@@ -399,7 +399,7 @@ function renderNotes(){
 
   var uploads = uploadedNotesHTML();
 
-  // Nothing authored AND nothing uploaded — a loading-aware placeholder.
+  // Nothing authored AND nothing uploaded, a loading-aware placeholder.
   if(!note && !uploads){
     var msg = uploadedNotes === null
       ? 'Checking for notes…'
@@ -458,7 +458,7 @@ function setNotes(list){
 }
 
 /* ------------------------------------------------------------------
-   Video option state — driven by the video-lookup script below.
+   Video option state, driven by the video-lookup script below.
    'loading' → still checking; 'ready' → an upload exists; 'none' → none.
    ------------------------------------------------------------------ */
 var videoState = 'loading';
@@ -476,7 +476,7 @@ function openVideo(){
   videoSectionActive = true;
   if(videoState === 'ready'){ show('videoStage'); }
   else if(videoState === 'none'){ show('placeholderStage'); }
-  else { show('placeholderStage'); } // still loading — placeholder, upgraded on resolve
+  else { show('placeholderStage'); } // still loading, placeholder, upgraded on resolve
 }
 
 // Called by the video-lookup script once the API responds.
@@ -531,7 +531,7 @@ return { setVideoState: setVideoState, setNotes: setNotes };
 (function(){
 'use strict';
 // Only academic chapters (not "beyond academics" tracks) have uploaded
-// lecture videos — those are keyed by class/subject/topic, tracks aren't.
+// lecture videos, those are keyed by class/subject/topic, tracks aren't.
 // When we can't look one up, tell the hub so the Video option resolves to
 // "Coming soon" instead of hanging on "Checking…".
 if (!LESSON.cls || !LESSON.subject || !LESSON.slug || !window.EduAPI) {
@@ -544,7 +544,7 @@ if (!LESSON.cls || !LESSON.subject || !LESSON.slug || !window.EduAPI) {
 
 var searchTerm = LESSON.slug.replace(/-/g, ' ');
 
-// Uploaded notes for this chapter — same class/subject/topic lookup as videos,
+// Uploaded notes for this chapter, same class/subject/topic lookup as videos,
 // so a chapter surfaces its notes wherever a teacher filed them.
 EduAPI.listNotes({ className: LESSON.cls, subject: LESSON.subject, topic: searchTerm })
   .then(function(notes){ if (window.HUB && window.HUB.setNotes) window.HUB.setNotes(notes || []); })
@@ -555,10 +555,10 @@ EduAPI.listVideos({ className: LESSON.cls, subject: LESSON.subject, topic: searc
     if (!videos.length) { if (window.HUB) window.HUB.setVideoState('none'); return; }
 
     // A chapter can have several parts. If every title carries an explicit part
-    // number ("… — Part 3", "Ep 2", "4. Foo") use that; otherwise fall back to
+    // number ("… - Part 3", "Ep 2", "4. Foo") use that; otherwise fall back to
     // upload order (oldest first), which is how the parts were uploaded.
     videos.forEach(function(v){
-      var m = String(v.title || '').match(/(?:part|episode|ep)\s*(\d+)|^\s*(\d+)\s*[.)\-–—]|[-–—]\s*(\d+)\s*$/i);
+      var m = String(v.title || '').match(/(?:part|episode|ep)\s*(\d+)|^\s*(\d+)\s*[.)\-–\u2014]|[-–\u2014]\s*(\d+)\s*$/i);
       v._num = m ? parseInt(m[1] || m[2] || m[3], 10) : null;
     });
     var allNumbered = videos.every(function(v){ return v._num != null; });
@@ -579,7 +579,7 @@ EduAPI.listVideos({ className: LESSON.cls, subject: LESSON.subject, topic: searc
     var viewed   = {};
 
     // <video src> can't send an Authorization header, and streaming is
-    // eligibility-gated server-side — pass the token as a query param.
+    // eligibility-gated server-side, pass the token as a query param.
     function select(v, autoplay){
       titleEl.textContent = v.title || LESSON.chapterTitle;
       byline.textContent  = 'By ' + (v.uploadedByName || 'Teacher') + ' · ' + v.views + ' views';
@@ -608,9 +608,9 @@ EduAPI.listVideos({ className: LESSON.cls, subject: LESSON.subject, topic: searc
         b.innerHTML = '<span class="vpitem__n">' + v._part + '</span>' +
                       '<span class="vpitem__t"></span>' +
                       '<span class="vpitem__meta">' + v.views + ' views</span>';
-        // Badge already shows the number, so drop a leading "Part N — " prefix.
+        // Badge already shows the number, so drop a leading "Part N - " prefix.
         b.querySelector('.vpitem__t').textContent =
-          (v.title || ('Part ' + v._part)).replace(/^\s*part\s*\d+\s*[-–—:.]\s*/i, '');
+          (v.title || ('Part ' + v._part)).replace(/^\s*part\s*\d+\s*[-–\u2014:.]\s*/i, '');
         b.addEventListener('click', function(){ select(v, true); });
         playlist.appendChild(b);
       });
@@ -618,7 +618,7 @@ EduAPI.listVideos({ className: LESSON.cls, subject: LESSON.subject, topic: searc
 
     select(videos[0], false);
 
-    // A lecture exists — light up the "Watch Video" option on the hub. The hub
+    // A lecture exists, light up the "Watch Video" option on the hub. The hub
     // controller reveals the player if the student is already waiting on it.
     if (window.HUB) window.HUB.setVideoState('ready');
 
@@ -630,7 +630,7 @@ EduAPI.listVideos({ className: LESSON.cls, subject: LESSON.subject, topic: searc
     if (LESSON.view === 'video') { player.play().catch(function(){}); }
 
     // Not actually eligible for this specific video (e.g. wrong class/subject)
-    // — fall back to the honest placeholder instead of a broken player.
+    //, fall back to the honest placeholder instead of a broken player.
     player.addEventListener('error', function(){
       if (window.HUB) window.HUB.setVideoState('none');
     });

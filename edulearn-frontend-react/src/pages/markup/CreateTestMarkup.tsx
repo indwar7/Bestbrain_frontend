@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/create-test.html — do not hand-edit.
+/* Generated from edulearn-frontend/create-test.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 export default function CreateTestMarkup() {
   return (
@@ -14,7 +14,7 @@ export default function CreateTestMarkup() {
           </em>
         </h1>
         <p className="sub">
-          Set how many questions, how long per question, then write the questions — your students get a real, timed, auto-graded test.
+          Set how many questions, how long per question, then write the questions, your students get a real, timed, auto-graded test.
         </p>
         <div id="gate" className="gate" style={{ display: "none" }}>
           {" You must be logged in as a "}
@@ -35,7 +35,7 @@ export default function CreateTestMarkup() {
               Test title
             </label>
             {' '}
-            <input type="text" id="title" placeholder="e.g. Heat — Chapter Test" required={true} />
+            <input type="text" id="title" placeholder="e.g. Heat - Chapter Test" required={true} />
             <div className="row3">
               <div>
                 <label htmlFor="classSubject">
@@ -81,7 +81,7 @@ export default function CreateTestMarkup() {
             Test created
           </h2>
           <p className="sub" style={{ marginBottom: "14px" }}>
-            Share this link with your class — each student who opens it gets their own timed attempt.
+            Share this link with your class, each student who opens it gets their own timed attempt.
           </p>
           <div className="link-box">
             <span id="testLink" />

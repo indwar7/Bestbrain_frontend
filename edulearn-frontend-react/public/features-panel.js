@@ -1,5 +1,5 @@
 /* ============================================================
-   BestBrain — Feature Showcase + Live Progress Panel
+   BestBrain - Feature Showcase + Live Progress Panel
    A floating button + slide-out panel. The top shows the signed-in
    user's REAL progress pulled live from the backend (/api/dashboard);
    below it, the module map links to every page.
@@ -26,7 +26,7 @@
       items: [
         ['Small-group live classes with real tutors', 'done', 'live.html'],
         ['Seat booking + .ics calendar invite', 'done', 'live.html'],
-        ['In-app classroom — stage, chat, controls', 'done', 'live.html'],
+        ['In-app classroom, stage, chat, controls', 'done', 'live.html'],
         ['Zoom Video SDK / self-hosted LiveKit', 'plan', 'live.html']
       ]
     },
@@ -41,7 +41,7 @@
       ]
     },
     {
-      title: 'PAL — AI Assistant', link: 'pal.html', color: '#7C9BFF',
+      title: 'PAL - AI Assistant', link: 'pal.html', color: '#7C9BFF',
       items: [
         ['GPT-style chat: Student / Parent / Teacher', 'done', 'pal.html'],
         ['Student: doubts, notes, summaries, quizzes', 'done', 'pal.html'],
@@ -52,10 +52,10 @@
       ]
     },
     {
-      title: 'Arena — Hourly Challenge', link: 'challenge.html', color: '#FFB454',
+      title: 'Arena - Hourly Challenge', link: 'challenge.html', color: '#FFB454',
       items: [
         ['One question every hour, same for all', 'done', 'challenge.html'],
-        ['45-second window — speed is anti-cheat', 'done', 'challenge.html'],
+        ['45-second window, speed is anti-cheat', 'done', 'challenge.html'],
         ['Speed points, streaks, leaderboard', 'done', 'challenge.html']
       ]
     },
@@ -69,7 +69,7 @@
       ]
     },
     {
-      title: 'Learn — Course Library', link: 'learn.html', color: '#7C9BFF',
+      title: 'Learn - Course Library', link: 'learn.html', color: '#7C9BFF',
       items: [
         ['Classes 6–9 × 5 subjects, ~190 chapters', 'done', 'learn.html'],
         ['Live search, progress bars, badges', 'done', 'learn.html'],
@@ -90,7 +90,7 @@
       title: 'Platform', link: 'index.html', color: '#FF7AA2',
       items: [
         ['Dark / light theme across all pages', 'done', 'index.html'],
-        ['Bilingual UI — English / हिंदी', 'done', 'learn.html'],
+        ['Bilingual UI - English / हिंदी', 'done', 'learn.html'],
         ['Character-driven animated landing', 'done', 'index.html'],
         ['Offline-first PWA + Android app', 'plan', 'index.html'],
         ['Phone-OTP auth, UPI payments', 'plan', 'login.html']
@@ -108,7 +108,7 @@
      - Base rules (light mode) use dark text on a light surface.
      - html.dark-mode overrides flip to light text on a dark surface.
      Colours are set explicitly (not inherited) so nothing on the host
-     page can wash them out — this is what fixes the "can't read" bug. */
+     page can wash them out, this is what fixes the "can't read" bug. */
   var css = [
     '#efp-btn{position:fixed;right:18px;bottom:18px;z-index:99998;display:inline-flex;align-items:center;gap:9px;',
     'background:linear-gradient(135deg,#5B6CF0,#3F5BE0);color:#FFFFFF;font-family:"Schibsted Grotesk",system-ui,sans-serif;',
@@ -208,7 +208,7 @@
     /* ---- phone ----
        Last in the sheet on purpose. A media query adds no specificity, so
        these lose to the identical single-class selectors above unless they
-       come after them in source order — placed higher up, every one of these
+       come after them in source order, placed higher up, every one of these
        was silently dropped.
 
        The type in here was set for a desktop side panel: 8px on the .pl chips
@@ -219,7 +219,7 @@
     /* Legibility and touch targets key off 900px, not 600px: a phone held
        sideways is 667px wide and a tablet is 768px, and neither of them grew
        a mouse. Sizing these at 600px left the same 9px links and 34px close
-       button on both. Layout is the separate block below — that genuinely
+       button on both. Layout is the separate block below, that genuinely
        depends on how much width there is. */
     '@media(max-width:900px){',
     '  #efp-x{width:44px;height:44px}',
@@ -283,7 +283,7 @@
   panel.setAttribute('role', 'dialog');
   panel.setAttribute('aria-label', 'Feature showcase');
   panel.innerHTML =
-    '<div id="efp-hd"><h2>BestBrain — Feature Tour</h2>' +
+    '<div id="efp-hd"><h2>BestBrain - Feature Tour</h2>' +
     '<p>Your live progress, plus every module. Click any row to jump straight to it.</p>' +
     '<button id="efp-x" type="button" aria-label="Close">' +
       '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
@@ -382,7 +382,7 @@
       return;
     }
 
-    progressLoaded = true; // we have a real session — load it once
+    progressLoaded = true; // we have a real session, load it once
     api.getDashboard().then(function (data) {
       var cells = statsFromDashboard(data);
       if (cells) {

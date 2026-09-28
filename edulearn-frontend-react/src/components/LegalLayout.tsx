@@ -9,7 +9,7 @@ import css from '../styles/pages/legal.css?inline';
  * These are the only two routes whose job is reading a document, and they are
  * chromeless (see CHROMELESS in App.tsx): no nav, no student rail, no mascot,
  * no aurora. That means the layout owns the whole page, including the way
- * back — hence the "BestBrain" pill at the top and the sibling links at the
+ * back, hence the "BestBrain" pill at the top and the sibling links at the
  * bottom, which are the only navigation a visitor gets here.
  *
  * Styling moved out of inline style props and into legal.css. It had to:
@@ -57,7 +57,7 @@ export default function LegalLayout({
   );
 }
 
-/** A titled section — an h2 plus its paragraphs/lists. */
+/** A titled section, an h2 plus its paragraphs/lists. */
 export function Section({ heading, children }: { heading: string; children: ReactNode }) {
   return (
     <section>

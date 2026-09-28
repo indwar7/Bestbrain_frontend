@@ -5,7 +5,7 @@
  * shadow `location`, `document` and `window` (see pageScriptEnv.ts). That is
  * the whole trick: the page's own, already-working code keeps running against
  * a DOM that the converted markup reproduces exactly, instead of being
- * re-derived in React idiom — which is where behaviour drift would come from.
+ * re-derived in React idiom, which is where behaviour drift would come from.
  *
  * Emitted as .js, not .ts: this is untouched legacy source and should not have
  * to satisfy strict type checking. tsconfig sets allowJs so it can be imported.
@@ -24,7 +24,7 @@ const OUT = join(HERE, '../src/pages/scripts');
 // Inline on* handlers.
 //
 // A few pages (login, signup, admin) wire submit/click behaviour through
-// attributes in the markup — `<form onsubmit="handleLogin(event)">` — not
+// attributes in the markup - `<form onsubmit="handleLogin(event)">`, not
 // addEventListener. html-to-jsx.mjs deliberately drops every on* attribute
 // ("re-attached in React"), and the lifted script only *defines* those
 // functions, it never binds them. So without this, the login form has no
@@ -34,7 +34,7 @@ const OUT = join(HERE, '../src/pages/scripts');
 // We reproduce each inline handler as an addEventListener call appended to the
 // lifted script. The expression runs inside init(), where those functions are
 // in scope, and the target is selected by a path anchored at the nearest
-// id-bearing ancestor — stable because the converted markup carries the same
+// id-bearing ancestor, stable because the converted markup carries the same
 // element tree across.
 // ---------------------------------------------------------------------------
 const isEl = (n) => n && typeof n.tagName === 'string';
@@ -49,7 +49,7 @@ function nthOfType(el) {
  * A CSS selector for `el`, anchored at its nearest ancestor with an id.
  * Returns null when no ancestor has an id: a document-relative nth-of-type path
  * would not survive markup conversion (which drops the shared chrome), and a
- * loose path risks binding the wrong element — so we skip binding rather than
+ * loose path risks binding the wrong element, so we skip binding rather than
  * bind something fragile.
  */
 function selectorFor(el) {
@@ -80,7 +80,7 @@ function collectHandlers(html, page) {
         if (/^on[a-z]+$/i.test(a.name)) {
           const selector = selectorFor(n);
           if (selector) found.push({ selector, type: a.name.slice(2).toLowerCase(), expr: a.value });
-          else { skipped++; console.warn(`  ⚠ ${page}: on${a.name.slice(2)} on <${n.tagName}> has no id ancestor — left unbound.`); }
+          else { skipped++; console.warn(`  ⚠ ${page}: on${a.name.slice(2)} on <${n.tagName}> has no id ancestor, left unbound.`); }
         }
       }
     }
@@ -110,7 +110,7 @@ function bindingsBlock(handlers) {
 
 const PAGES = ['dashboard', 'learn', 'lesson', 'videos', 'mocktest', 'take-test',
   'create-test', 'challenge', 'pal', 'tutor', 'live', 'login', 'signup', 'upload', 'admin',
-  // Question bank and homework — added with those features.
+  // Question bank and homework, added with those features.
   'bank', 'homework', 'homework-assign'];
 
 mkdirSync(OUT, { recursive: true });
@@ -135,7 +135,7 @@ for (const page of PAGES) {
   const bindings = bindingsBlock(handlers);
 
   const src =
-    `/* Lifted verbatim from edulearn-frontend/${page}.html — do not hand-edit.\n` +
+    `/* Lifted verbatim from edulearn-frontend/${page}.html, do not hand-edit.\n` +
     `   Regenerate with \`npm run sync:js\`.\n\n` +
     `   Runs inside the page-script environment: the destructured parameters\n` +
     `   shadow the real globals so ".html" navigations become route changes and\n` +

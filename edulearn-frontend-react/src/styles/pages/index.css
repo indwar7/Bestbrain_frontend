@@ -41,7 +41,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     .bg-elements{position:fixed;inset:0;z-index:0;pointer-events:none}
     /* Orbs: blur(100px) is expensive to repaint every frame. Promote each to its
        own GPU layer so the blur rasterizes ONCE and only a cheap transform moves
-       it — kills the whole-page float stutter. */
+       it, kills the whole-page float stutter. */
     .gradient-orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:.1;animation:float 20s ease-in-out infinite alternate;will-change:transform;transform:translateZ(0);backface-visibility:hidden}
     .orb-1{width:400px;height:400px;background:linear-gradient(135deg,#3DE8C5,transparent);top:-150px;left:-150px}
     .orb-2{width:300px;height:300px;background:linear-gradient(135deg,#7C9BFF,transparent);bottom:-100px;right:-100px;animation-delay:3s}
@@ -90,7 +90,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     .stat-number{font-family:'Fraunces',serif;font-size:36px;font-weight:700;color:var(--teal);margin-bottom:8px}
     .stat-label{font-size:14px;color:var(--text-secondary);font-weight:500}
 
-    /* ============ SHOWCASE — light mode only ============ */
+    /* ============ SHOWCASE, light mode only ============ */
     .showcase{display:none}
 
     footer{position:relative;z-index:10;margin-top:56px;padding:44px 40px 40px;text-align:center;color:var(--text-secondary);font-size:14px}
@@ -103,7 +103,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     html footer{ border-top:1.5px solid rgba(11,18,36,.16) !important; }
 
     /* ============================================================
-       LIGHT MODE REDESIGN — every rule below is scoped so the
+       LIGHT MODE REDESIGN, every rule below is scoped so the
        dark UI stays exactly as it is.
        ============================================================ */
     html:not(.dark-mode) .hero{max-width:1280px;padding:36px 24px 0;text-align:left}
@@ -160,7 +160,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     @keyframes point{from{transform:rotate(0deg)}to{transform:rotate(-7deg)}}
     /* Blink: scaleY toward each eye's OWN centre. transform-box:fill-box +
        transform-origin:center resolved unreliably here (the eye slid upward as
-       it shrank — a visible glitch). Pin an EXPLICIT origin in SVG user-space
+       it shrank, a visible glitch). Pin an EXPLICIT origin in SVG user-space
        per eye (no fill-box) so it squishes in place on every browser. */
     .blink{animation:blink 4.4s infinite;will-change:transform}
     .blink-l{transform-origin:148px 124px}
@@ -191,7 +191,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     .ringy{width:40px;height:40px;border-radius:50%;flex:none;background:conic-gradient(#FFB454 0 76%, #F0F2F6 76% 100%);display:flex;align-items:center;justify-content:center}
     .ringy i{width:28px;height:28px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;font-size:10.5px;color:#D9851E}
 
-    /* features — light polish */
+    /* features, light polish */
     html:not(.dark-mode) .features-wrap{padding-top:90px}
     html:not(.dark-mode) .feature-card{
       background:#fff;border:2px solid #EEF2FF;
@@ -207,12 +207,12 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     html:not(.dark-mode) .feature-card[data-ac="amber"]:hover{border-color:#FCD34D}
     html:not(.dark-mode) .feature-card[data-ac="rose"]:hover{border-color:#FDA4AF}
 
-    /* stats — light: black band with lit-up figures.
+    /* stats, light: black band with lit-up figures.
        The indigo gradient this replaces lost its text: vivid.css paints every
        word black (`[class*="num"]` catches .stat-number, the bare `div` rule
        catches .stat-label), so the numbers and labels disappeared into the
-       blue. A true black surface makes that an exception worth declaring —
-       same deal as .hero-title — so every rule here carries !important to
+       blue. A true black surface makes that an exception worth declaring ,
+       same deal as .hero-title, so every rule here carries !important to
        out-rank vivid, and the accent hues finally show. */
     html:not(.dark-mode) .stats{
       background:#0B0D12 !important;
@@ -222,7 +222,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
       gap:20px !important;
       box-shadow:8px 8px 0 rgba(11,13,18,.16) !important;
     }
-    /* each figure sits on its own faintly-lifted tile — vivid's hard black
+    /* each figure sits on its own faintly-lifted tile, vivid's hard black
        edge is invisible against the black band, so swap it for a light one */
     html:not(.dark-mode) .stat{
       background:rgba(255,255,255,.05) !important;
@@ -253,7 +253,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     html:not(.dark-mode) .stat:nth-child(3) .stat-number{color:#FFC24D !important}
     html:not(.dark-mode) .stat:nth-child(4) .stat-number{color:#FF7AA2 !important}
 
-    /* showcase — light only */
+    /* showcase, light only */
     html:not(.dark-mode) .showcase{display:block;position:relative;z-index:10;max-width:1280px;margin:90px auto 0;padding:0 24px}
     .showcase-inner{
       background:linear-gradient(160deg,#EEF2FF 0%,#FDF4FF 100%);
@@ -308,7 +308,7 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     .ph-tabs i:first-child{background:#3DE8C5}
 
     /* ============================================================
-       DARK MODE — same new hero + showcase layout, dark surfaces
+       DARK MODE, same new hero + showcase layout, dark surfaces
        ============================================================ */
     html.dark-mode .hero{max-width:1280px;padding:36px 24px 0;text-align:left}
     html.dark-mode .hero-inner{
@@ -361,14 +361,14 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     html.dark-mode .feature-card[data-ac="amber"] .feature-icon{background:rgba(255,180,84,.18);color:var(--amber)}
     html.dark-mode .feature-card[data-ac="rose"] .feature-icon{background:rgba(255,122,162,.16);color:var(--rose)}
 
-    /* stats band — slightly lifted panel on dark */
+    /* stats band, slightly lifted panel on dark */
     html.dark-mode .stats{background:#16243F;border:1px solid rgba(255,255,255,.08);border-radius:30px;padding:52px 40px}
     html.dark-mode .stat:nth-child(1) .stat-number{color:#3DE8C5}
     html.dark-mode .stat:nth-child(2) .stat-number{color:#7C9BFF}
     html.dark-mode .stat:nth-child(3) .stat-number{color:#FFB454}
     html.dark-mode .stat:nth-child(4) .stat-number{color:#FF7AA2}
 
-    /* showcase — turn it on for dark with dark surfaces */
+    /* showcase, turn it on for dark with dark surfaces */
     html.dark-mode .showcase{display:block;position:relative;z-index:10;max-width:1280px;margin:90px auto 0;padding:0 24px}
     html.dark-mode .showcase-inner{background:linear-gradient(160deg,#16243F 0%,#131D33 100%);border:1px solid rgba(255,255,255,.08)}
     html.dark-mode .showcase-eyebrow{color:var(--teal);background:rgba(61,232,197,.1);border-color:rgba(61,232,197,.3)}

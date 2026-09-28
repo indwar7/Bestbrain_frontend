@@ -1,5 +1,5 @@
 /* ============================================================
-   BESTBRAIN — HOMEPAGE
+   BESTBRAIN - HOMEPAGE
    ------------------------------------------------------------
    Local preview only. index.html on disk is never touched: this
    builds the marketing page in memory and swaps it in, so the
@@ -35,48 +35,48 @@
 
   // Every card either links straight to the real feature (h) or, if there's
   // nowhere to send a click yet, expands in place to show one concrete
-  // example (ex) — see cards() below. Copy throughout is written for a
+  // example (ex), see cards() below. Copy throughout is written for a
   // Class 6 reader: short sentences, one real example per feature, second
   // person, no jargon ("adaptive", "entitlement", "mastery" etc. rewritten
   // into things that actually happen to a kid using the app).
   var FEATURES = [
-    { i: 'graph',  t: 'Dashboard',            d: 'One page that shows everything you did this week — minutes studied, chapters finished, your streak.', h: 'dashboard.html' },
+    { i: 'graph',  t: 'Dashboard',            d: 'One page that shows everything you did this week, minutes studied, chapters finished, your streak.', h: 'dashboard.html' },
     { i: 'mic',    t: 'AI Tutor',             d: 'Stuck on something? Just say it out loud. PAL explains it back like a teacher sitting right next to you.', h: 'tutor.html', tag: 'NEW' },
-    { i: 'target', t: 'Practice Tests',       d: 'Questions that get a little harder every time you get one right — like leveling up in a game.', h: 'mocktest.html' },
+    { i: 'target', t: 'Practice Tests',       d: 'Questions that get a little harder every time you get one right, like leveling up in a game.', h: 'mocktest.html' },
     { i: 'trophy', t: 'Arena',                d: 'The same question goes out to your whole school at once. Answer fast, climb the live leaderboard.', h: 'challenge.html' },
-    { i: 'chat',   t: 'PAL',                  d: 'Type or talk to PAL in English or Hinglish — it explains chapters, makes quizzes, and never gets tired of "why?"', h: 'pal.html' },
+    { i: 'chat',   t: 'PAL',                  d: 'Type or talk to PAL in English or Hinglish, it explains chapters, makes quizzes, and never gets tired of "why?"', h: 'pal.html' },
     { i: 'book',   t: 'Learn',                d: 'Your whole syllabus, one chapter at a time, ready whenever you want to open it.', h: 'learn.html' },
     { i: 'video',  t: 'Live Classes',         d: 'Book a class and walk straight into a real online classroom with a real teacher.', h: 'live.html' },
-    { i: 'eye',    t: 'Attention Monitoring', d: "Gently checks if you're focused in live class so your parents and teacher know how it went — your video itself never leaves your device.", h: 'live.html' },
-    { i: 'graph',  t: 'Performance Analytics',d: 'Shows exactly what you’re strong at and what needs more practice — like "great at Fractions, needs Decimals".', ex: "You'll see a simple chart: strong in Fractions, needs a bit more practice in Decimals — so you know exactly what to open next." },
-    { i: 'spark',  t: 'AI Feedback',          d: 'Get 8 out of 10 on a quiz? PAL tells you exactly why the other 2 were wrong, not just the score.', ex: 'Score 8/10 and PAL walks you through the 2 you missed — so next time you actually know why, not just what.' },
+    { i: 'eye',    t: 'Attention Monitoring', d: "Gently checks if you're focused in live class so your parents and teacher know how it went, your video itself never leaves your device.", h: 'live.html' },
+    { i: 'graph',  t: 'Performance Analytics',d: 'Shows exactly what you’re strong at and what needs more practice, like "great at Fractions, needs Decimals".', ex: "You'll see a simple chart: strong in Fractions, needs a bit more practice in Decimals, so you know exactly what to open next." },
+    { i: 'spark',  t: 'AI Feedback',          d: 'Get 8 out of 10 on a quiz? PAL tells you exactly why the other 2 were wrong, not just the score.', ex: 'Score 8/10 and PAL walks you through the 2 you missed, so next time you actually know why, not just what.' },
     { i: 'bolt',   t: 'Progress Tracking',    d: 'A bar that fills up as you finish a chapter, so you can see your own progress grow.', ex: "Finish 3 out of 5 topics in a chapter and watch your progress bar jump straight to 60%." },
-    { i: 'users',  t: 'Leaderboard',          d: 'See exactly where you rank — in your class, your school, even your whole city.', ex: "Top the weekly Maths quiz and see your name at #1 for your class — updated live, not once a month." },
-    { i: 'code',   t: 'Coding Challenges',    d: 'Learn to code with tiny, fun puzzles — perfect if you’ve never written a line of code before.', ex: 'Write your very first "if this happens, then do that" rule — and watch it actually run.' },
+    { i: 'users',  t: 'Leaderboard',          d: 'See exactly where you rank, in your class, your school, even your whole city.', ex: "Top the weekly Maths quiz and see your name at #1 for your class, updated live, not once a month." },
+    { i: 'code',   t: 'Coding Challenges',    d: 'Learn to code with tiny, fun puzzles, perfect if you’ve never written a line of code before.', ex: 'Write your very first "if this happens, then do that" rule, and watch it actually run.' },
     { i: 'shield', t: 'Mock Interviews',      d: 'Practise saying your answers out loud and get instant, friendly tips on how to say them better.', ex: 'Practise answering "Tell me about yourself" out loud, and get a tip on speaking clearer next time.' },
-    { i: 'cap',    t: 'Question Bank',        d: 'Thousands of practice questions, sorted so you only see the ones from your chapter. No timer, no marks — answer, see why it was right, keep going.', h: 'bank.html' },
+    { i: 'cap',    t: 'Question Bank',        d: 'Thousands of practice questions, sorted so you only see the ones from your chapter. No timer, no marks, answer, see why it was right, keep going.', h: 'bank.html' },
     { i: 'brain',  t: 'Personalised Learning',d: 'PAL quietly notices what you’re weak in and picks tomorrow’s lesson to fix exactly that.', ex: "Struggling with Grammar this week? Tomorrow's first lesson quietly starts there instead of somewhere random." },
-    { i: 'bolt',   t: 'Daily Streaks',        d: 'Study a little bit every day and watch your streak count go up — small wins that add up fast.', ex: 'Study 5 days in a row and unlock your first streak badge — day 6 gets even easier to show up for.' },
-    { i: 'trophy', t: 'Achievements',         d: 'Badges you earn for really understanding a topic — not just for logging in.', ex: "Really master every topic in Algebra and unlock the 'Algebra Ace' badge — not given, earned." },
+    { i: 'bolt',   t: 'Daily Streaks',        d: 'Study a little bit every day and watch your streak count go up, small wins that add up fast.', ex: 'Study 5 days in a row and unlock your first streak badge, day 6 gets even easier to show up for.' },
+    { i: 'trophy', t: 'Achievements',         d: 'Badges you earn for really understanding a topic, not just for logging in.', ex: "Really master every topic in Algebra and unlock the 'Algebra Ace' badge, not given, earned." },
     { i: 'shield', t: 'Certificates',         d: 'Finish a full module and get a real certificate with your name on it.', ex: "Complete the 'Living Things' module and download a certificate with your own name on it." },
-    { i: 'wave',   t: 'Recent Activity',      d: 'One tap and you’re back exactly where you left off — no hunting for the right chapter.', ex: "Left off on Question 7 last night? One tap on the homepage and you're back on Question 7." },
-    { i: 'wand',   t: 'AI Recommendations',   d: 'Every evening, PAL tells you the one thing worth revising tonight — decided from how you actually did.', ex: 'PAL might say: "Revise Light & Shadows tonight — you missed 2 questions on it yesterday."' },
+    { i: 'wave',   t: 'Recent Activity',      d: 'One tap and you’re back exactly where you left off, no hunting for the right chapter.', ex: "Left off on Question 7 last night? One tap on the homepage and you're back on Question 7." },
+    { i: 'wand',   t: 'AI Recommendations',   d: 'Every evening, PAL tells you the one thing worth revising tonight, decided from how you actually did.', ex: 'PAL might say: "Revise Light & Shadows tonight, you missed 2 questions on it yesterday."' },
 
     /* ---- pages that shipped without a card here ----
-       Each of these is a real, wired surface — videos.html, homework.html,
+       Each of these is a real, wired surface, videos.html, homework.html,
        create-test.html (with upload.html and homework-assign.html beside it),
        the KidPDF panel and the dashboard's Plus card. Every one of them was
        reachable only from inside Learn or the dashboard, so the person
        deciding whether to sign up was the one person who never saw them. */
-    { i: 'video',  t: 'Video Lectures',       d: 'Recorded lessons for your class and subject — watch the chapter explained first, then go answer the questions.', h: 'videos.html' },
+    { i: 'video',  t: 'Video Lectures',       d: 'Recorded lessons for your class and subject, watch the chapter explained first, then go answer the questions.', h: 'videos.html' },
     { i: 'pencil', t: 'Homework',             d: 'Work your teacher sets for your class, with a due date. Answer it here and it gets marked the second you hit submit.', h: 'homework.html' },
     { i: 'ruler',  t: 'Teacher Studio',       d: 'Teachers build a timed, auto-marked test in minutes, set homework straight from the question bank, and upload their own videos and notes.', h: 'create-test.html' },
-    { i: 'bulb',   t: 'PDF Study Sheets',     d: 'Type any topic and PAL writes you a neat one-page study sheet — read it on screen or save it as a PDF for later.', ex: 'Type "Light and Shadows" and get a printable sheet: what it means, the diagram to remember, and a few questions to try.' },
-    { i: 'rocket', t: 'BestBrain Plus',       d: 'Free to start. Plus unlocks every class and subject and takes the cap off your PAL doubts — your coin balance sits right on your dashboard.', h: 'dashboard.html' }
+    { i: 'bulb',   t: 'PDF Study Sheets',     d: 'Type any topic and PAL writes you a neat one-page study sheet, read it on screen or save it as a PDF for later.', ex: 'Type "Light and Shadows" and get a printable sheet: what it means, the diagram to remember, and a few questions to try.' },
+    { i: 'rocket', t: 'BestBrain Plus',       d: 'Free to start. Plus unlocks every class and subject and takes the cap off your PAL doubts, your coin balance sits right on your dashboard.', h: 'dashboard.html' }
   ];
 
   /* Sample lessons. These are the real animated lectures that sit inside
-     Learn, not a marketing reel — the same Class 6 Science chapter a student
+     Learn, not a marketing reel, the same Class 6 Science chapter a student
      opens after signing up.
 
      public/sampleVideos/ holds the TRANSCODED set and nothing else. The
@@ -86,7 +86,7 @@
 
      The originals deliberately live OUTSIDE public/, in
      edulearn-frontend-react/media-src/sampleVideos-originals/. Vite copies
-     everything under public/ into dist/ verbatim — with the originals still
+     everything under public/ into dist/ verbatim, with the originals still
      in there a production build came out at 464MB, shipping 402MB nobody can
      ever watch. Anything in public/ is something the browser can download.
 
@@ -96,23 +96,23 @@
      `d` is the duration label only; the real duration comes from the file. */
   /* Copy note: kid-quiz.js rewrites the visible word "test" to "quiz" across
      every page, which is right for the product's own noun and wrong for a
-     science one — "the starch test" rendered as "the starch quiz". Say
+     science one - "the starch test" rendered as "the starch quiz". Say
      experiment here. */
   var SAMPLES = [
     { f: '2', cls: 'Class 6 · Science', d: '2:58',
       t: 'Do plants really need sunlight?',
-      p: 'Three pots, three different spots. Watch what happens to the one kept in the dark — and find out what a plant is actually eating.' },
+      p: 'Three pots, three different spots. Watch what happens to the one kept in the dark, and find out what a plant is actually eating.' },
     { f: '3', cls: 'Class 6 · Science', d: '2:45',
       t: 'Boiling a leaf to find its food',
-      p: 'Animals take their food. Plants make it. Hot water, then alcohol, then iodine — the experiment that shows the starch hiding inside an ordinary leaf.' },
+      p: 'Animals take their food. Plants make it. Hot water, then alcohol, then iodine, the experiment that shows the starch hiding inside an ordinary leaf.' },
     { f: '4', cls: 'Class 6 · Science', d: '2:48',
       t: 'Meet chlorophyll, the food-maker',
-      p: 'The green stuff inside every leaf introduces itself — and shows you exactly what it needs from the sunlight and the water to cook a plant its dinner.' }
+      p: 'The green stuff inside every leaf introduces itself, and shows you exactly what it needs from the sunlight and the water to cook a plant its dinner.' }
   ];
 
   var WHY = [
     { i: 'brain',  t: 'Built on your syllabus', d: 'Not a generic tutor. Every answer is grounded in the NCERT chapter you are actually studying.' },
-    { i: 'mic',    t: 'Speaks your language',   d: 'English, Hindi or Hinglish — ask however you think, PAL replies the same way.' },
+    { i: 'mic',    t: 'Speaks your language',   d: 'English, Hindi or Hinglish, ask however you think, PAL replies the same way.' },
     { i: 'bolt',   t: 'Answers in seconds',     d: 'Streamed replies start speaking before the sentence is finished.' },
     { i: 'shield', t: 'Safe for classrooms',    d: 'Age-appropriate by design, with teacher and parent visibility built in.' },
     { i: 'graph',  t: 'Proof, not vibes',       d: 'Mastery is measured per chapter so effort turns into evidence.' },
@@ -120,9 +120,9 @@
   ];
 
   var ROLES = [
-    { i: 'target', t: 'Student',  d: 'Your own dashboard — streak, minutes studied and badges earned — plus PAL telling you exactly what to revise tonight.' },
+    { i: 'target', t: 'Student',  d: 'Your own dashboard, streak, minutes studied and badges earned, plus PAL telling you exactly what to revise tonight.' },
     { i: 'shield', t: 'Parent',   d: "See your child's progress and live-class attention score without watching every keystroke. No separate app to install." },
-    { i: 'cap',    t: 'Teacher',  d: 'Class roster, chapter-wise averages and live-class attendance, grounded in real submitted work — not guesses. Build a timed test, set homework from the question bank, upload your own lecture videos and notes.' }
+    { i: 'cap',    t: 'Teacher',  d: 'Class roster, chapter-wise averages and live-class attendance, grounded in real submitted work, not guesses. Build a timed test, set homework from the question bank, upload your own lecture videos and notes.' }
   ];
 
   var STEPS = [
@@ -146,8 +146,8 @@
   ];
 
   var FAQ = [
-    { q: 'Which classes and boards do you cover?', a: 'Classes 6 to 9 on the CBSE/NCERT syllabus today — Maths, Science, Social Science, English and Hindi, chapter by chapter.' },
-    { q: 'Can I ask doubts by voice?', a: 'Yes. The AI Tutor is a live doubt call — tap the mic, ask in English, Hindi or Hinglish, and PAL answers out loud while a transcript builds beside you.' },
+    { q: 'Which classes and boards do you cover?', a: 'Classes 6 to 9 on the CBSE/NCERT syllabus today - Maths, Science, Social Science, English and Hindi, chapter by chapter.' },
+    { q: 'Can I ask doubts by voice?', a: 'Yes. The AI Tutor is a live doubt call, tap the mic, ask in English, Hindi or Hinglish, and PAL answers out loud while a transcript builds beside you.' },
     { q: 'Does it work on a slow connection?', a: 'The interface is built for low-end phones and patchy networks. Lessons and notes stay available offline once opened.' },
     { q: 'How is this different from a search engine?', a: 'Answers are grounded in your chapter and your progress. PAL knows what you have already covered and what you got wrong last week.' },
     { q: 'Can teachers and parents see progress?', a: 'Yes. Teachers get class-wide mastery and test analytics; parents see streaks and progress without seeing every keystroke.' },
@@ -186,7 +186,7 @@
     'background:rgba(var(--kh-accent-rgb),.12);border:1px solid rgba(var(--kh-accent-rgb),.32);' +
     'font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--kh-accent-soft);}' +
   /* Static. The dot used to run `kh-blip 2s infinite`, dropping to opacity .4
-     and scale .7 and back, forever — on nine capsules at once (one per section
+     and scale .7 and back, forever, on nine capsules at once (one per section
      head). Nothing on the page depends on it and nothing is loading, so it was
      a blink with no meaning attached, and with several on screen at different
      scroll offsets it read as the page flickering. */
@@ -207,7 +207,7 @@
   /* Header wordmark lockup: "BestBrain" over a small parent-company caption.
      Text styling lives on .lt, not the bare .kh-logo anchor, because the
      narrow-phone rules below need to hide the caption+wordmark as one unit
-     while leaving .m (the icon) visible — a bare font-size:0 on .kh-logo
+     while leaving .m (the icon) visible, a bare font-size:0 on .kh-logo
      wouldn't reach .lt's own explicit font-size (a child's explicit font-size
      is never overridden by an ancestor's), so hiding has to target .lt
      directly rather than relying on inherited zero. */
@@ -216,7 +216,7 @@
   '.kh-logo .lt small{margin-top:3px;font-size:9px;font-weight:800;letter-spacing:.09em;' +
     'text-transform:uppercase;color:rgba(255,255,255,.4);}' +
   /* The landing page's own stylesheet still styles the bare `nav` tag
-     (index.css: sticky, blurred, background, border-bottom) — that was the
+     (index.css: sticky, blurred, background, border-bottom), that was the
      pre-redesign navbar, and it lands on both <nav>s built below, painting a
      hairline under the link group and a panel behind it. theme.css restates
      the background with !important, so the reset has to as well. */
@@ -230,7 +230,7 @@
   '.kh-nav-in .kh-btn{padding:11px 20px;font-size:14px;white-space:nowrap;flex-shrink:0;}' +
   '.kh-nav-in .kh-btn.p{padding:11px 22px;}' +
   /* .kh-nav-links carries margin-left:auto and is what pushes the CTAs right.
-     Once it is hidden nothing does, so the logo takes over that job — but only
+     Once it is hidden nothing does, so the logo takes over that job, but only
      here, or on desktop it would fight the links for the same space. */
   '@media(max-width:820px){.kh-nav-links{display:none;}' +
     '.kh-nav-in .kh-logo{margin-right:auto;}}' +
@@ -238,10 +238,10 @@
   /* ---- mobile drawer ----
      Below 820px .kh-nav-links just vanishes with nothing replacing it, so a
      phone visitor had no way to reach Roles/How it works/Journey/Stories/FAQ
-     — only the two header CTAs. This burger + drawer restores that, matching
+    , only the two header CTAs. This burger + drawer restores that, matching
      the same scrim/inert/Escape pattern the router's Navbar.tsx uses.
 
-     Scrim and drawer are siblings of #kh-nav, not children of it — #kh-nav has
+     Scrim and drawer are siblings of #kh-nav, not children of it - #kh-nav has
      backdrop-filter, which creates a containing block for position:fixed
      descendants and would size/clip a fixed drawer against the 70px bar
      instead of the viewport (the exact bug Navbar.tsx's own drawer comment
@@ -284,8 +284,8 @@
   '.kh-btn.p:hover{box-shadow:0 18px 46px rgba(var(--kh-accent-rgb),.56);}' +
   '.kh-btn:active{transform:translateY(-1px) scale(.98);}' +
   /* .ar used to hold the character "→", so it needed no box. It now holds an
-     <svg> with no width/height attribute — an SVG without either lays out at
-     its default 300x150 — so the size lives here, once, for every .ar on the
+     <svg> with no width/height attribute, an SVG without either lays out at
+     its default 300x150, so the size lives here, once, for every .ar on the
      page. */
   '.ar{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}' +
   '.ar svg{width:100%;height:100%;display:block;}' +
@@ -296,7 +296,7 @@
   '#kh-hero{text-align:center;padding-top:clamp(56px,8vw,104px);padding-bottom:clamp(40px,6vw,72px);}' +
   '#kh-hero h1{font-size:clamp(42px,7.4vw,84px);font-weight:900;margin:24px auto 0;max-width:16ch;}' +
   /* Solid, not clipped. A gradient headline needs color:transparent, and the
-     ink law owns -webkit-text-fill-color platform-wide — the two fight and the
+     ink law owns -webkit-text-fill-color platform-wide, the two fight and the
      word loses, rendering near-black on a near-black page. */
   '#kh-hero h1 .gr{color:var(--kh-accent-soft)!important;-webkit-text-fill-color:var(--kh-accent-soft)!important;' +
     'background:none!important;}' +
@@ -314,14 +314,14 @@
 
   /* hero orbit.
      --orb is the ring's diameter, and every node's distance from the centre is
-     derived from it. That distance used to be written in vw — the viewport's
-     width, not this element's — so on a wide screen the radius came out more
+     derived from it. That distance used to be written in vw, the viewport's
+     width, not this element's, so on a wide screen the radius came out more
      than twice the ring's and the nodes were flung out of the circle and
      across the hero copy above it. */
   '.kh-orbit{--orb:min(560px,86vw);--node:58px;position:relative;width:var(--orb);height:var(--orb);' +
     'margin:44px auto 0;}' +
   /* .spin is inset:0 on the orbit and rotates, so its bounding box is the
-     ring's diagonal — orb x 1.41. At 86vw that box is wider than the screen
+     ring's diagonal, orb x 1.41. At 86vw that box is wider than the screen
      and it was extending the page by 33-35px on every phone size. The box is
      empty (only .node children paint, and they ride the ring), so clipping it
      costs nothing visually. overflow:clip rather than hidden: hidden would
@@ -345,7 +345,7 @@
     'border-radius:50%;display:grid;place-items:center;text-align:center;' +
     /* The sphere is a three-stop gradient: a lit highlight, the accent, and a
        shadow. Only the middle stop was a token, so the highlight stayed warm
-       cream and the shadow stayed burnt orange — the one element on the page
+       cream and the shadow stayed burnt orange, the one element on the page
        still reading amber after the retheme, and the most prominent. */
     'background:radial-gradient(circle at 34% 28%,rgba(var(--kh-accent-hi-rgb),.92),' +
       'rgba(var(--kh-accent-rgb),.85) 55%,rgba(var(--kh-accent-deep-rgb),.92));' +
@@ -364,7 +364,7 @@
   '.kh-grid{display:grid;gap:16px;}' +
   /* min(Npx,100%) rather than a bare Npx floor: minmax(360px,1fr) is a hard
      360px minimum, so on a 320px phone the track stayed 360px wide and pushed
-     the whole page past the screen edge — the homepage laid out at 380px on a
+     the whole page past the screen edge, the homepage laid out at 380px on a
      320px device. min() lets the track fall back to the container's width
      when the container is the smaller of the two, which is the only case
      where the floor was doing harm. Above these widths nothing changes. */
@@ -454,11 +454,11 @@
   /* ---- stats ---- */
   '.kh-stat b{display:block;font-size:clamp(34px,4.6vw,46px);font-weight:900;color:#fff;line-height:1;' +
     'font-variant-numeric:tabular-nums;letter-spacing:-.03em;}' +
-  /* Solid, not clipped — same fix as #kh-hero h1 .gr and for the same reason.
+  /* Solid, not clipped, same fix as #kh-hero h1 .gr and for the same reason.
      kid-bg.js's ink pass measures whatever background-image sits behind a
      glyph to decide readable ink, and a background-clip:text gradient reads
      to it as a bright surface the text sits ON rather than the text's own
-     fill — so it "corrected" 24x7 / 7 days to near-black ink on a near-black
+     fill, so it "corrected" 24x7 / 7 days to near-black ink on a near-black
      card, undoing the clip. A flat accent color has no background-image for
      the pass to misread, and !important keeps it from re-winning anyway. */
   '.kh-stat b em{font-style:normal;color:var(--kh-accent-soft)!important;' +
@@ -485,23 +485,23 @@
 
   /* ---- the journey runs ACROSS on a wide screen ----
      Four short steps stacked in a column inside an 1180px section used about
-     a third of the width and left the rest of the row empty — the emptiness
+     a third of the width and left the rest of the row empty, the emptiness
      was the layout, not the content. Read left-to-right the timeline also
      says what it means: eight weeks as a span you travel, rather than a list.
 
      The same elements do both jobs. The rail (.kh-tl::before) turns from a
      vertical line into a horizontal one, and each dot moves from the left of
      its item to above it, sitting on that line. Below 901px nothing here
-     applies and the column layout — which is the right shape on a phone —
+     applies and the column layout, which is the right shape on a phone ,
      is untouched.
 
      The numbers line up: the grid's 36px top padding puts each item's content
      at y=36, so a dot at top:-36px sits at y=0. It is 12px tall, so its
-     centre is y=6 — the same as the 2px rail at top:5px. */
+     centre is y=6, the same as the 2px rail at top:5px. */
   '@media(min-width:901px){' +
     '.kh-tl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 26px;' +
       'padding-left:0;padding-top:36px;}' +
-    /* The rail starts and ends ON a dot rather than at the container edge —
+    /* The rail starts and ends ON a dot rather than at the container edge ,
        running it to right:6px left it trailing past the last step into empty
        space, which is the thing this layout is fixing. One column plus the
        6px half-dot is exactly the inset that lands it on the last centre:
@@ -527,13 +527,13 @@
   /* ---- devices ----
      Every colour here is a variable already defined above (--kh-accent /
      --kh-accent-soft / the site's near-black #0A0A0A / the same
-     rgba(255,255,255,x) whites every other card uses) — no new hex values,
+     rgba(255,255,255,x) whites every other card uses), no new hex values,
      matching the constraint that this pass only adds, never re-themes. */
   /* The composition is symmetric about the wrap's centre BY CONSTRUCTION, so
      `margin:0 auto` actually centres what the eye sees.
 
      It did not used to be. The wrap was 820px wide with padding:8px 60px 40px 0
-     — 60px on the right, 0 on the left — and held a 620px laptop that
+     - 60px on the right, 0 on the left, and held a 620px laptop that
      left-aligned inside it while the phone was pinned to the far right. The
      result measured: laptop 310-930 (centre 620), phone 958-1130, a 28px gap
      between them, and a section whose centre was 720. Two disconnected objects,
@@ -541,7 +541,7 @@
 
      Now the wrap is exactly as wide as the laptop, the base overhangs it by 6%
      a side (unchanged), and the phone's right edge is pinned to that same -6%.
-     So the ink runs from -6% to +106% — symmetric — and the phone lands ON the
+     So the ink runs from -6% to +106%, symmetric, and the phone lands ON the
      laptop's bottom-right instead of floating beside it. */
   '.kh-dev-wrap{position:relative;max-width:640px;margin:0 auto;padding:0 0 30px;}' +
   '.kh-dev-lap{width:100%;}' +
@@ -567,7 +567,7 @@
     'inset 0 1px 0 rgba(255,255,255,.09),0 18px 34px rgba(0,0,0,.5);}' +
 
   /* right:-6% is the base's own overhang, so the phone's right edge and the
-     laptop base's right edge are the same vertical line — the detail that
+     laptop base's right edge are the same vertical line, the detail that
      makes the pair read as one object. */
   '.kh-dev-phone{position:absolute;right:-6%;bottom:0;width:172px;border:9px solid #0A0A0A;' +
     'border-radius:30px;overflow:hidden;' +
@@ -609,7 +609,7 @@
   '.kh-faq summary .pm{margin-left:auto;width:26px;height:26px;border-radius:8px;flex-shrink:0;' +
     'display:grid;place-items:center;background:rgba(var(--kh-accent-rgb),.16);color:var(--kh-accent-soft);' +
     'transition:transform .35s cubic-bezier(.22,1,.36,1);}' +
-  /* rotate(45deg) turns the plus into a close cross — the same trick the "+"
+  /* rotate(45deg) turns the plus into a close cross, the same trick the "+"
      character was doing, now on a glyph whose arms are actually equal. */
   '.kh-faq summary .pm svg{width:15px;height:15px;display:block;}' +
   '.kh-faq[open] summary .pm{transform:rotate(45deg);}' +
@@ -626,7 +626,7 @@
   '#kh-cta .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:32px;}' +
   /* text-align is reset here, not inherited. #kh-foot is a <footer>, and the
      lifted index.html stylesheet carries a bare `footer{…text-align:center}`
-     rule that reaches straight into this one — every column heading and link
+     rule that reaches straight into this one, every column heading and link
      came out centred under a left-aligned brand. An id beats an element
      selector, so this settles it without touching the page stylesheet. */
   '#kh-foot{border-top:1px solid var(--kh-line) !important;text-align:left;}' +
@@ -660,7 +660,7 @@
   /* ---------- phone ----------
      The orbit nodes are 58px squares centred ON the ring, so they reach
      orb/2 + 29px from the centre. At 86vw that is 195px from centre on a
-     320px screen — 70px past the section's content edge. Sizing the ring so
+     320px screen - 70px past the section's content edge. Sizing the ring so
      the nodes land inside is the difference between a decoration and a row of
      icons hanging off the page. */
   '@media(max-width:600px){' +
@@ -682,7 +682,7 @@
     '.kh-vid-meta{padding:16px 17px 18px;}' +
     '.kh-vid-btn{width:54px;height:54px;}' +
 
-    /* .kh-g4 carries the eight stats AND the nineteen feature cards — both
+    /* .kh-g4 carries the eight stats AND the nineteen feature cards, both
        are a short label over one or two lines, and both read better two-up
        than as 27 full-width blocks the reader has to scroll past one at a
        time. The reason and testimonial grids (g3, g2) stay single column:
@@ -728,7 +728,7 @@
     '.kh-nav-in .kh-logo{min-height:44px;min-width:44px;}' +
     '.kh-nav-in .kh-btn{min-height:44px;}' +
     /* The card tag, the orbit caption and the journey week markers are 9.5px
-       and 11px — set for a desktop card, under the 12px floor on a phone,
+       and 11px, set for a desktop card, under the 12px floor on a phone,
        and each one is the label that says what the thing beside it is. */
     '.kh-tag{font-size:12px;}' +
     '.kh-core span{font-size:12px;}' +
@@ -737,15 +737,15 @@
 
   /* Narrow phones: the wordmark and two CTAs cannot share 292px. The mark is
      the part that still identifies the site at a glance, so the word goes and
-     the buttons keep their labels — the reverse leaves two buttons nobody can
+     the buttons keep their labels, the reverse leaves two buttons nobody can
      read next to a logo nobody needed. */
   '@media(max-width:420px){' +
     '.kh-nav-in{gap:8px;}' +
     /* Scoped to the nav. This hides the wordmark+caption so the header's two
-       CTAs keep readable labels on a 320px screen — but .kh-logo also appears
+       CTAs keep readable labels on a 320px screen, but .kh-logo also appears
        in the footer, where there is a whole row to spare, and an unscoped
        rule would blank the brand name there too. Hiding .lt directly, not a
-       font-size:0 cascade — see the base .kh-logo comment for why the old
+       font-size:0 cascade, see the base .kh-logo comment for why the old
        cascade trick stopped reaching the wordmark once it moved into .lt. */
     '.kh-nav-in .kh-logo{gap:0;flex-shrink:0;}' +
     '.kh-nav-in .kh-logo .lt{display:none;}' +
@@ -758,7 +758,7 @@
 
   function ic(name) { return I[name] || I.spark || ''; }
 
-  /* Lucide v1.37.0 (ISC), the same family as KidTheme.ICON — but these are the
+  /* Lucide v1.37.0 (ISC), the same family as KidTheme.ICON, but these are the
      interface glyphs rather than the subject ones, so they live here instead
      of in kid-bg's map: an arrow is not a topic a card can be about.
 
@@ -795,12 +795,12 @@
     return list.map(function (f) {
       var tag = f.tag ? '<span class="kh-tag">' + f.tag + '</span>' : '';
       // A card with a real page to send someone to (h) already "does
-      // something" on click — navigates. A card with no page yet (h absent)
+      // something" on click, navigates. A card with no page yet (h absent)
       // used to just sit there; if it also carries an ex(ample), tapping it
       // now expands in place to show one concrete "here's what that looks
       // like" line instead, which is the only kind of interactivity that
       // doesn't fight the cards that already navigate. Which cards those are
-      // is decided by FEATURES alone — don't restate the count here, it has
+      // is decided by FEATURES alone, don't restate the count here, it has
       // gone stale twice already.
       var expandable = !f.h && f.ex;
       var open = f.h
@@ -821,7 +821,7 @@
     if (document.getElementById('kh-root')) return;
     /* One sheet, reused. build() runs again on every return to the home route,
        and appending a fresh copy each time left a stack of identical <style
-       id="kh-css"> elements in <head> — duplicate ids, and the whole sheet
+       id="kh-css"> elements in <head>, duplicate ids, and the whole sheet
        re-parsed on every visit. */
     if (!document.getElementById('kh-css')) {
       var style = document.createElement('style');
@@ -900,7 +900,7 @@
         '<span class="kh-eyebrow kh-rv"><span class="d"></span>AI powered learning for Bharat</span>' +
         '<h1 class="kh-rv">Your doubt, answered <span class="gr">out loud</span>, in seconds.</h1>' +
         '<p class="sub kh-rv">BestBrain is an AI tutor that knows your syllabus. Ask in English, Hindi or ' +
-          'Hinglish — get an explanation, a practice set and proof you improved.</p>' +
+          'Hinglish, get an explanation, a practice set and proof you improved.</p>' +
         '<div class="cta kh-rv">' +
           '<a class="kh-btn p" href="signup.html">Start learning free <span class="ar">' + LU.ar + '</span></a>' +
           '<a class="kh-btn g" href="tutor.html">Try the AI Tutor 🎙️</a>' +
@@ -920,7 +920,7 @@
       '<section id="stats">' +
         '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>By the numbers</span>' +
           '<h2>A platform students actually finish.</h2>' +
-          '<p>Not a content dump — a measured learning system with enough depth to last a whole academic year.</p></div>' +
+          '<p>Not a content dump, a measured learning system with enough depth to last a whole academic year.</p></div>' +
         '<div class="kh-grid kh-g4">' +
           STATS.map(function (s) {
             return '<div class="kh-card kh-stat kh-rv"><b data-to="' + s.n + '">0<em>' + s.suf + '</em></b>' +
@@ -933,7 +933,7 @@
       '<section id="features">' +
         '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>Everything inside</span>' +
           '<h2>One platform. Twenty-six ways to get better.</h2>' +
-          '<p>Every surface is connected — what you learn feeds what you practise, and what you practise feeds what PAL recommends next.</p></div>' +
+          '<p>Every surface is connected, what you learn feeds what you practise, and what you practise feeds what PAL recommends next.</p></div>' +
         '<div class="kh-grid kh-g4">' + cards(FEATURES) + '</div>' +
       '</section>' +
 
@@ -941,14 +941,14 @@
       '<section id="samples">' +
         '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>See it for yourself</span>' +
           '<h2>Watch a real lesson, before you sign up.</h2>' +
-          '<p>Three minutes each, straight out of the Class 6 Science chapter on plants — the same animated lectures waiting inside Learn.</p></div>' +
+          '<p>Three minutes each, straight out of the Class 6 Science chapter on plants, the same animated lectures waiting inside Learn.</p></div>' +
         '<div class="kh-grid kh-g3">' +
           SAMPLES.map(function (v) {
             return '<div class="kh-card kh-vid kh-rv">' +
               '<button type="button" class="kh-vid-stage" data-src="/sampleVideos/' + v.f + '.mp4" ' +
                 'aria-label="Play the lesson: ' + v.t + '">' +
                 /* width/height are the real pixel dimensions so the browser
-                   reserves the box before the JPEG lands — aspect-ratio alone
+                   reserves the box before the JPEG lands, aspect-ratio alone
                    still shifts layout on a cold cache in older Safari. */
                 '<img src="/sampleVideos/' + v.f + '.jpg" alt="" loading="lazy" ' +
                   'decoding="async" width="1280" height="720">' +
@@ -974,7 +974,7 @@
       '<section id="roles">' +
         '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>One account, three dashboards</span>' +
           '<h2>Built for the whole family.</h2>' +
-          '<p>Student, parent and teacher each get their own view of the same real data — nobody stares at a dashboard meant for someone else.</p></div>' +
+          '<p>Student, parent and teacher each get their own view of the same real data, nobody stares at a dashboard meant for someone else.</p></div>' +
         '<div class="kh-grid kh-g3">' + cards(ROLES) + '</div>' +
       '</section>' +
 
@@ -1020,7 +1020,7 @@
       '<section id="devices">' +
         '<div class="kh-head kh-rv"><span class="kh-eyebrow"><span class="d"></span>Every screen</span>' +
           '<h2>Works properly on a laptop <em>and</em> a phone.</h2>' +
-          '<p>No app to install. Same dashboard, same PAL, same progress — on a school computer or your own phone.</p></div>' +
+          '<p>No app to install. Same dashboard, same PAL, same progress, on a school computer or your own phone.</p></div>' +
         '<div class="kh-dev-wrap kh-rv" aria-hidden="true">' +
           '<div class="kh-dev-lap">' +
             '<div class="kh-dev-screen">' +
@@ -1089,7 +1089,7 @@
               'NorthBridge Future Labs Pvt Ltd</b> company.</p>' +
         '</div>' +
         /* Classes is the column a visitor who is not signed in actually
-           needs — the first thing they want to know is whether their class
+           needs, the first thing they want to know is whether their class
            is covered. learn.html reads ?class= (see its VIEW STATE section)
            and useLegacyLinks carries the query string across when it turns
            the .html href into a route, so these land on the right class
@@ -1113,7 +1113,7 @@
 
     /* Static pages own their DOM, so their content is removed outright. Under
        the router it is only HIDDEN: React still owns those nodes, and deleting
-       them leaves its tree describing a page that no longer exists — the next
+       them leaves its tree describing a page that no longer exists, the next
        render then throws. Hiding is reversible, which is exactly what leaving
        the home route needs. */
     if (SPA) {
@@ -1137,7 +1137,7 @@
 
     /* Revealing a card and counting its number are ONE operation.
        They used to be two, and .in was added in four separate places while
-       countUp() was called from only one of them — the observer. Every other
+       countUp() was called from only one of them, the observer. Every other
        path revealed the card and left its number showing the literal "0" the
        markup ships with: with reduced motion on, all eight stats read 0+ /
        0% / 0 days permanently. countUp even carries a reduced-motion branch
@@ -1163,7 +1163,7 @@
     document.querySelectorAll('.kh-rv').forEach(function (n, i) {
       if (reduce) { reveal(n); return; }
 
-      /* The hero is above the fold, and it was starting at opacity:0 — so the
+      /* The hero is above the fold, and it was starting at opacity:0, so the
          first thing a visitor saw was an empty page waiting for an observer.
          An entrance is only worth having where the reader has not arrived
          yet. Anything already on screen is shown at once. */
@@ -1174,7 +1174,7 @@
       io.observe(n);
     });
 
-    /* and nothing may stay hidden — or stuck at zero — because an observer
+    /* and nothing may stay hidden, or stuck at zero, because an observer
        never fired */
     setTimeout(function () {
       document.querySelectorAll('.kh-rv:not(.in)').forEach(function (n) {
@@ -1188,14 +1188,14 @@
        An IntersectionObserver only reports what is on screen at an
        observation point. Scroll smoothly and every card passes through the
        viewport, so every card fires. JUMP, and the ones jumped over never
-       intersect at all — and because .kh-rv is opacity:1 with
+       intersect at all, and because .kh-rv is opacity:1 with
        transform:translateY(16px), an element that never gets .in is not
        hidden, it is permanently sitting 16px below where it belongs.
 
        Jumping is not an edge case here: the six nav links and the six drawer
        links all scrollIntoView, so clicking "FAQ" skips the whole page. After
-       that, scrolling back up showed 37 of 81 elements — every stat card and
-       most of the feature grid — offset by 16px against their neighbours,
+       that, scrolling back up showed 37 of 81 elements, every stat card and
+       most of the feature grid, offset by 16px against their neighbours,
        for the rest of the session.
 
        So: on scroll, reveal anything the reader has reached. Idempotent with
@@ -1248,11 +1248,11 @@
     /* smooth in-page nav.
        Scoped to #kh-root, not document. The router's #root is only hidden
        (display:none), never removed (see build()), and its dead LandingMarkup
-       tree still carries its own id="features" — a bare document.querySelector
+       tree still carries its own id="features", a bare document.querySelector
        resolved to THAT one first (it comes before #kh-root in body order), an
        invisible display:none element with no layout, so scrollIntoView was a
        silent no-op and the "Features" nav link did nothing.
-       Covers the drawer's copy of the links too — same targets, same fix. */
+       Covers the drawer's copy of the links too, same targets, same fix. */
     var khRoot = document.getElementById('kh-root');
     document.querySelectorAll('.kh-nav-links a[href^="#"], .kh-drawer-links a[href^="#"]').forEach(function (a) {
       a.addEventListener('click', function (e) {
@@ -1265,7 +1265,7 @@
 
     /* mobile drawer: burger opens it, scrim/X/Escape/any link closes it.
        Mirrors Navbar.tsx's drawer contract (scrim, inert, Escape, body scroll
-       lock) since that is the pattern this site already committed to — see
+       lock) since that is the pattern this site already committed to, see
        its comments for why each piece is there. */
     var burger = document.getElementById('kh-burger-btn');
     var drawer = document.getElementById('kh-drawer');
@@ -1301,7 +1301,7 @@
 
      #kh-root is rebuilt every time the visitor comes back to the home route,
      and wire() runs again with it. These four are delegated, so one copy
-     already covers whatever the current build put on the page — binding them
+     already covers whatever the current build put on the page, binding them
      per build would stack a fresh pointermove handler on every visit while the
      old ones went on firing against a tree that no longer exists. Each looks
      its nodes up when it runs, for the same reason. */
@@ -1310,7 +1310,7 @@
     if (docWired) return;
     docWired = true;
 
-    /* Expandable feature cards ("tap to see an example") — one delegated
+    /* Expandable feature cards ("tap to see an example"), one delegated
        listener rather than one per card, same reasoning as the pointer-glow
        listener just below. Toggles a class the CSS above animates; the hint
        text and aria-expanded are kept in sync from here rather than in CSS
@@ -1346,7 +1346,7 @@
        survives build() running again on a return to the home route.
 
        The <video> replaces the <button> outright rather than sitting hidden
-       beside it — a hidden <video src> is still a <video src>, and Chrome
+       beside it, a hidden <video src> is still a <video src>, and Chrome
        fetches its metadata (and on some versions buffers ahead) whether or
        not anyone can see it. Nothing here is created until the click. */
     document.addEventListener('click', function (e) {
@@ -1377,7 +1377,7 @@
       /* Autoplay with sound is refused by every browser unless the gesture is
          attributed to the play itself; this call is inside the click handler,
          so it is. If a browser refuses anyway the controls are already there
-         and the poster frame is showing — the card degrades to "press play". */
+         and the poster frame is showing, the card degrades to "press play". */
       var played = video.play();
       if (played && played.catch) played.catch(function () { /* user presses play */ });
     });
@@ -1429,14 +1429,14 @@
      longer watches the URL.
 
      It used to. history.pushState was patched and popstate listened to, each
-     scheduling sync() 60ms later — and the URL changing is not the screen
+     scheduling sync() 60ms later, and the URL changing is not the screen
      changing. React Router navigates inside a transition, so the route commits
      a good while after the address bar updates, and both ends of that gap were
      visible. Leaving home, the hero was still on screen when the page being
      opened swapped #page-css underneath it, so the homepage painted a frame
      wearing the next page's stylesheet. Coming back with the Back button,
-     React committed its own landing markup into #root — the pre-redesign page
-     this file exists to replace — and it stayed up until the timer got round
+     React committed its own landing markup into #root, the pre-redesign page
+     this file exists to replace, and it stayed up until the timer got round
      to hiding it.
 
      Landing's layout effect calls mount/unmount instead (src/lib/useKidHome),
@@ -1448,7 +1448,7 @@
   window.KidHome = { mount: build, unmount: unmount };
 
   function start() {
-    /* Static pages have no router and no #root — one page, one decision. */
+    /* Static pages have no router and no #root, one page, one decision. */
     if (!SPA) { sync(); return; }
     if (window.__kidHomeWanted) build();
   }

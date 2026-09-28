@@ -5,7 +5,7 @@ import css from '../styles/pages/signup.css?inline';
 import script from './scripts/signup.js';
 
 /**
- * Signup — signup.html's real stylesheet, markup and script.
+ * Signup, signup.html's real stylesheet, markup and script.
  *
  * All three are lifted from the original page rather than reimplemented,
  * so the behaviour is the code that was already working, running against

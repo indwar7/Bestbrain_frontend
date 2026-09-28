@@ -5,7 +5,7 @@ import css from '../styles/pages/take-test.css?inline';
 import script from './scripts/take-test.js';
 
 /**
- * TakeTest — take-test.html's real stylesheet, markup and script.
+ * TakeTest, take-test.html's real stylesheet, markup and script.
  *
  * All three are lifted from the original page rather than reimplemented,
  * so the behaviour is the code that was already working, running against

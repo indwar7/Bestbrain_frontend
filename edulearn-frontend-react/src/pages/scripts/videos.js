@@ -1,4 +1,4 @@
-/* Lifted verbatim from edulearn-frontend/videos.html — do not hand-edit.
+/* Lifted verbatim from edulearn-frontend/videos.html, do not hand-edit.
    Regenerate with `npm run sync:js`.
 
    Runs inside the page-script environment: the destructured parameters
@@ -11,7 +11,7 @@ export default function init({ location, document, window, onCleanup }) {
 /* ---- next <script> block ---- */
 
 
-    // EduAPI.API_BASE is the final answer — api.js (loaded synchronously above)
+    // EduAPI.API_BASE is the final answer, api.js (loaded synchronously above)
     // already resolves the host and applies the localStorage.edulearn_api
     // override safely. The old fallbacks were unreachable, and '/backend-api'
     // was a trap: nothing serves it in dev, so a miss returned index.html and
@@ -130,7 +130,7 @@ export default function init({ location, document, window, onCleanup }) {
       } catch(e){
         document.getElementById('stage').innerHTML='';
         // "Is the backend running?" was wrong for the most common failure.
-        // A 401 means the server answered fine and REJECTED THE TOKEN — which
+        // A 401 means the server answered fine and REJECTED THE TOKEN, which
         // happens whenever the session was issued by a different backend than
         // the one being called (the two servers sign with different secrets and
         // use different databases, so their tokens are not interchangeable).
@@ -217,11 +217,11 @@ export default function init({ location, document, window, onCleanup }) {
       list.forEach(function(v){ var k=keyFn(v)||'More lectures'; if(!map[k]){map[k]=[];order.push(k);} map[k].push(v); });
       return order.map(function(k){ return {key:k, items:sortByPart(map[k])}; });
     }
-    // A part number embedded in the title ("Part 3 — …") drives ordering + labels.
+    // A part number embedded in the title ("Part 3 - …") drives ordering + labels.
     function partOf(v){ var m=String(v&&v.title||'').match(/\bpart\s*(\d+)/i); return m?parseInt(m[1],10):null; }
     // The chapter heading + a number badge already convey position, so show the
-    // human title without the "Part N — " prefix.
-    function cleanTitle(v){ return String(v&&v.title||'').replace(/^\s*part\s*\d+\s*[-–—:.]\s*/i,''); }
+    // human title without the "Part N - " prefix.
+    function cleanTitle(v){ return String(v&&v.title||'').replace(/^\s*part\s*\d+\s*[-–\u2014:.]\s*/i,''); }
     // Ascending by part number; un-numbered lectures keep their original order after.
     function sortByPart(items){
       return items.map(function(v,i){ var p=partOf(v); return {v:v,k:(p!=null?p:1000+i)}; })

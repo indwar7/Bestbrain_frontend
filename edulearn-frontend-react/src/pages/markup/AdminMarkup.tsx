@@ -1,4 +1,4 @@
-/* Generated from edulearn-frontend/admin.html — do not hand-edit.
+/* Generated from edulearn-frontend/admin.html, do not hand-edit.
    Regenerate with `npm run sync:markup`. */
 export default function AdminMarkup() {
   return (
@@ -13,7 +13,7 @@ export default function AdminMarkup() {
               </em>
             </h1>
             <p className="sub">
-              {"Every user registered on BestBrain — straight from MongoDB. "}
+              {"Every user registered on BestBrain, straight from MongoDB. "}
               <span className="live">
                 <span className="dot" />
                 <span className="mono" id="auto">
