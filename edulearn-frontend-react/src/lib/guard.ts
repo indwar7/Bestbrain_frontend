@@ -12,6 +12,8 @@ import { roleAllows } from '../context/AuthContext';
  */
 export const PROTECTED_PAGES = new Set([
   'dashboard', 'learn', 'lesson', 'pal', 'tutor', 'challenge', 'mocktest', 'live',
+  // Student-only: the API answers 403 to every other role.
+  'bank', 'homework',
 ]);
 
 /**

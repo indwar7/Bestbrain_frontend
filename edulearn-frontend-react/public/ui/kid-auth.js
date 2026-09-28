@@ -14,8 +14,14 @@
 (function () {
   'use strict';
 
-  var page = (location.pathname.split('/').pop() || '').toLowerCase().replace(/\.html$/, '');
-  if (page !== 'login' && page !== 'signup') return;
+  function curPage() {
+    return (location.pathname.split('/').pop() || '').toLowerCase().replace(/\.html$/, '');
+  }
+  var page = curPage();
+  /* Under React the visitor can reach login/signup without a page load, so
+     the SPA keeps this script alive on every route and builds on demand. */
+  var SPA = !!document.getElementById('root');
+  if (!SPA && page !== 'login' && page !== 'signup') return;
 
   var isLogin = page === 'login';
 
@@ -37,7 +43,7 @@
   /* ---------------------------------------------------------
      COPY, different story on each screen
      --------------------------------------------------------- */
-  var COPY = isLogin ? {
+  function copyFor(isLogin) { return isLogin ? {
     eyebrow: 'Welcome back',
     head: 'Your tutor has been<br><em>waiting</em> for you.',
     sub: 'Pick up the chapter you left, or just ask your next doubt out loud. ' +
@@ -63,7 +69,8 @@
     ],
     quote: 'My son stopped waiting for the next class to ask his doubts.',
     who: 'Meera S. · parent, Class 7',
-  };
+  }; }
+  var COPY = copyFor(isLogin);
 
   var PROOF = [
     { n: '48k+', l: 'Doubts solved' },
@@ -397,6 +404,7 @@
      BUILD
      --------------------------------------------------------- */
   function style() {
+    if (document.getElementById('ka-style')) return;
     var s = document.createElement('style');
     s.id = 'ka-style';
     s.textContent = CSS;
@@ -429,6 +437,10 @@
 
   function build() {
     if (document.getElementById('ka-root')) return;
+    page = curPage();
+    if (page !== 'login' && page !== 'signup') return;
+    isLogin = page === 'login';
+    COPY = copyFor(isLogin);
     var shell = document.querySelector('.auth-shell');
     if (!shell) return;
 
@@ -463,7 +475,16 @@
     /* MOVE, so listeners and ids survive intact */
     views.forEach(function (v) { slot.appendChild(v); });
 
-    shell.parentNode.removeChild(shell);
+    /* The shell stays (hidden by CSS): under React it is the node the router
+       removes on the way out, and deleting it here made that removal throw
+       NotFoundError on every login. When it goes, the rehoused views go too. */
+    var host = shell.parentNode;
+    var gone = new MutationObserver(function () {
+      if (shell.isConnected) return;
+      gone.disconnect();
+      if (root.parentNode) root.parentNode.removeChild(root);
+    });
+    gone.observe(host, { childList: true });
   }
 
   /* The page signals "working" by rewriting the button's text. Watch for that
@@ -743,4 +764,12 @@
   }
   /* the page's own script may swap views in later */
   setTimeout(build, 400);
+
+  /* SPA: login/signup mount on route changes, not page loads */
+  if (SPA) {
+    new MutationObserver(function () {
+      if (document.getElementById('ka-root') || !document.querySelector('.auth-shell')) return;
+      start();
+    }).observe(document.body, { childList: true, subtree: true });
+  }
 })();

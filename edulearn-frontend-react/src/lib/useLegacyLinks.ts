@@ -37,7 +37,20 @@ export function useLegacyLinks(): void {
       if (url.origin !== window.location.origin) return;
 
       const file = url.pathname.split('/').pop() || '';
-      if (!file.endsWith('.html')) return;
+      if (!file.endsWith('.html')) {
+        /*
+          Already an app route ("/learn", "/lesson/x"). The sidebar rail is
+          cloned from the navbar, so its <Link>s lose React's own handler and
+          would otherwise fall through to a full page load on every click.
+        */
+        const seg = url.pathname.split('/')[1] || '';
+        const appPage = seg === '' ? 'index' : seg;
+        if (ROUTE_BY_PAGE[appPage] === undefined) return;
+        e.preventDefault();
+        const target = guardRedirect(appPage, loggedIn, role) || url.pathname + url.search + url.hash;
+        if (target !== window.location.pathname + window.location.search + window.location.hash) navigate(target);
+        return;
+      }
 
       const page = file.slice(0, -'.html'.length);
       const route = ROUTE_BY_PAGE[page];

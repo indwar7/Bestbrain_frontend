@@ -667,7 +667,7 @@ var SUBJECT_API_NAME = {
 
 function syncURL(){
   try{
-    window.history.replaceState(null, '', 'learn.html?class=' + activeClass + '&subject=' + activeSubject);
+    window.history.replaceState(window.history.state, '', '/learn?class=' + activeClass + '&subject=' + activeSubject);
   }catch(e){ /* file:// protocol may refuse, fine for demo */ }
 }
 
