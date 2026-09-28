@@ -53,33 +53,10 @@ try{if(!document.documentElement.classList.contains('kid-dark')){document.docume
       el.textContent = msg; el.style.display = 'block';
     }
 
-    // Build the role-specific request body.
+    // Signup asks for just name, email, phone and password, for every role.
+    // Class, roll number and the like are added later from Settings.
     function buildBody() {
-      var name = (val('firstName') + ' ' + val('lastName')).trim();
-      var base = { name: name, email: val('email'), phone: val('phone'), password: val('password') };
-      if (selectedRole === 'student') {
-        return Object.assign(base, {
-          rollNumber: val('s_roll'),
-          className: val('s_class'),
-          section: val('s_section'),
-          board: val('s_board'),
-          subjects: ['Science', 'Maths']
-        });
-      }
-      if (selectedRole === 'teacher') {
-        return Object.assign(base, {
-          teacherId: val('t_id'),
-          className: val('t_class'),
-          section: val('t_section'),
-          subject: val('t_subject') || 'General'
-        });
-      }
-      // parent
-      return Object.assign(base, {
-        childRollNumber: val('p_roll'),
-        childName: val('p_name'),
-        childClass: val('p_class')
-      });
+      return { name: val('firstName'), email: val('email'), phone: val('phone'), password: val('password') };
     }
 
     async function handleSignup(e) {

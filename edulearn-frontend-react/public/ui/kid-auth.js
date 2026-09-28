@@ -86,7 +86,7 @@
   '.auth-shell{display:none!important;}' +
   /* Google/Apple sign-in is not connected yet; buttons that only say
      "coming soon" do not belong on the way in. */
-  '#ka-root .divider,#ka-root .social-logins{display:none!important;}' +
+  '#ka-root #ka-slot .divider,#ka-root #ka-slot .social-logins{display:none!important;}' +
   'html.kidbg body{overflow-x:hidden;}' +
 
   /* The two-column ratio is deliberately left as bare fr units.
