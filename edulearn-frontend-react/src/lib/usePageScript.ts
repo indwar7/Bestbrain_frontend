@@ -27,6 +27,12 @@ export function usePageScript(script: PageScript, searchOverride?: string): void
     } catch (err) {
       console.error('[edulearn] page script failed:', err);
     }
-    return () => env.dispose();
+    return () => {
+      // Leaving a page must not leave its lecture playing in the background.
+      document.querySelectorAll('video, audio').forEach((m) => {
+        if (!(m as HTMLMediaElement).paused) (m as HTMLMediaElement).pause();
+      });
+      env.dispose();
+    };
   }, [script, navigate, searchOverride]);
 }

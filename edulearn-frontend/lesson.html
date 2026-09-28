@@ -743,6 +743,8 @@ function show(id){
     var el = $(s);
     if(el) el.style.display = (s === id) ? 'flex' : 'none';
   });
+  // A hidden <video> keeps playing, so leaving the video stage stops it.
+  if(id !== 'videoStage'){ var p = $('player'); if(p && !p.paused) p.pause(); }
   try { window.scrollTo(0, 0); } catch(e){}
 }
 
