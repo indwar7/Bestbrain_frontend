@@ -924,7 +924,14 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   .tag, .count,
   /* found by the audit after the range widened, same kind of label, same
      job, they were simply never in the list */
-  .wtile__unit, .chrow__meta, .feat-foot__inner span, .fcol h4{
+  .wtile__unit, .chrow__meta, .feat-foot__inner span, .fcol h4,
+  /* and these, found on the re-audit after the bank/homework work: the
+     video shelf's counts and episode badges, and the admin stat captions */
+  .hero-eyebrow, .shelf-count, .cover .ep, .cover .dur, .stat span,
+  /* the video filter chips and the admin roster's role pills, both only
+     surfaced at 768, where the layout stops stacking and they come back
+     into view */
+  .filters button, .pill{
     font-size:12px !important;
     letter-spacing:.6px !important;
   }
