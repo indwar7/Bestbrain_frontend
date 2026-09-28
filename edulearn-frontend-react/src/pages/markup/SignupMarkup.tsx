@@ -426,11 +426,11 @@ export default function SignupMarkup() {
                   {' '}
                   <label htmlFor="terms">
                     {"I agree to the "}
-                    <a href="#">
+                    <a href="/terms" target="_blank" rel="noopener noreferrer">
                       Terms of Service
                     </a>
                     {" and "}
-                    <a href="#">
+                    <a href="/privacy" target="_blank" rel="noopener noreferrer">
                       Privacy Policy
                     </a>
                   </label>
