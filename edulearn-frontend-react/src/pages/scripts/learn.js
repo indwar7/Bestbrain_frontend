@@ -801,7 +801,8 @@ function chapterRowHTML(cls, subj, ch, number, delay, withTag){
   //  · Test  → the Tests page (chapter context passed along for when it's wired).
   // Book & Practice were removed per product direction. These are real <a>s that
   // sit above the row's stretched hit-link, so they navigate independently.
-  var testHref = 'mocktest.html?class=' + cls + '&subject=' + subj.key + '&ch=' + id;
+  // Questions are stored by chapter slug, same as Bank and Homework below.
+  var testHref = 'mocktest.html?class=' + cls + '&subject=' + subj.key + '&ch=' + ch[0];
   // Bank and Homework are chapter-scoped like the rest, but they key off the
   // chapter SLUG rather than the composite chapter id: the API stores
   // chapterSlug, and building the composite here and taking it apart there
@@ -818,11 +819,13 @@ function chapterRowHTML(cls, subj, ch, number, delay, withTag){
     : '';
   var mods =
     '<span class="mods">' +
-      '<a class="mod" data-tip="Video" href="' + href + '&view=video" aria-label="Watch the video for this chapter">' + ICONS.video + '</a>' +
-      '<a class="mod" data-tip="Notes" href="' + href + '&view=notes" aria-label="Read the notes for this chapter">' + ICONS.notes + '</a>' +
-      '<a class="mod" data-tip="Test" href="' + testHref + '" aria-label="Take the test for this chapter">' + ICONS.test + '</a>' +
-      '<a class="mod" data-tip="Question bank" href="' + bankHref + '" aria-label="Practise questions for this chapter">' + ICONS.bank + '</a>' +
-      '<a class="mod' + (hwPending ? ' has-dot' : '') + '" data-tip="Homework" href="' + hwHref + '" aria-label="Homework for this chapter">' + ICONS.homework + hwDot + '</a>' +
+      // Named buttons, not bare icons: a student should not have to hover to
+      // find out what each one opens.
+      '<a class="mod" href="' + href + '&view=video" aria-label="Watch the video for this chapter">Video</a>' +
+      '<a class="mod" href="' + href + '&view=notes" aria-label="Read the notes for this chapter">Notes</a>' +
+      '<a class="mod" href="' + testHref + '" aria-label="Take the test for this chapter">Test</a>' +
+      '<a class="mod" href="' + bankHref + '" aria-label="Practise questions for this chapter">Question Bank</a>' +
+      '<a class="mod' + (hwPending ? ' has-dot' : '') + '" href="' + hwHref + '" aria-label="Homework for this chapter">Homework' + hwDot + '</a>' +
     '</span>';
   var tag = withTag
     ? '<span class="chrow__subjtag" style="background:' + subj.accent + '">' + esc(subjName(subj)) + '</span>'

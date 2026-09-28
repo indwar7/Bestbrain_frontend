@@ -488,14 +488,14 @@ input{font-family:inherit;color:inherit}
    the chapter, while the mods (higher z-index) stay independently clickable. */
 .chrow__hit{position:absolute;inset:0;z-index:1;border-radius:22px;}
 .chrow__meta{display:flex;align-items:center;gap:14px}
-.mods{position:relative;z-index:2;display:flex;align-items:center;gap:7px}
+.mods{position:relative;z-index:2;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
 /* Pending-homework marker. Sits on the icon's corner rather than beside it so
    adding it cannot reflow the row, the mods strip is already five items wide
    on a phone. Amber for due, rose for overdue: the two states have to differ
    without reading a tooltip. */
 .mod__dot{
-  position:absolute;top:5px;right:5px;
-  width:8px;height:8px;border-radius:50%;
+  position:absolute;top:-3px;right:-3px;
+  width:9px;height:9px;border-radius:50%;
   background:var(--c3,#F59E0B);
   box-shadow:0 0 0 2px var(--card2);
   pointer-events:none;
@@ -508,26 +508,32 @@ input{font-family:inherit;color:inherit}
 .mod{
   position:relative;
   display:flex;align-items:center;justify-content:center;
-  width:36px;height:36px;border-radius:10px;
-  color:var(--muted);
-  background:var(--card2);
+  height:32px;padding:0 13px;border-radius:999px;
+  font-size:13px;font-weight:700;white-space:nowrap;
+  color:#F5F7FA!important;-webkit-text-fill-color:#F5F7FA!important;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
   text-decoration:none;
   transition:color .3s var(--ease),background .3s var(--ease);
 }
 .mod svg{width:19px;height:19px}
-.mod:hover{color:var(--cream);background:var(--line)}
+.mod:hover{background:rgba(255,179,71,.22);border-color:rgba(255,179,71,.55)}
+/* The label is the button now; no hover tooltip needed. */
+.mod::after{display:none!important}
 .mod::after{
   content:attr(data-tip);
   position:absolute;bottom:calc(100% + 8px);left:50%;
   transform:translateX(-50%) translateY(4px);
   font-family:'Fragment Mono',monospace;
-  font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
-  background:var(--cream);color:var(--ink);
-  padding:4px 9px;border-radius:6px;
+  font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  /* Fixed dark chip: the app skin forces white text, which on the old cream
+     background made the label invisible. */
+  background:#0A0A0A!important;color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;
+  border:1px solid rgba(255,255,255,.18);box-shadow:0 6px 18px rgba(0,0,0,.35);
+  padding:5px 10px;border-radius:7px;
   white-space:nowrap;
   opacity:0;pointer-events:none;
   transition:opacity .25s var(--ease),transform .25s var(--ease);
-  z-index:5;
+  z-index:50;
 }
 .mod:hover::after{opacity:1;transform:translateX(-50%) translateY(0)}
 .pbar{
@@ -883,4 +889,20 @@ input{font-family:inherit;color:inherit}
     border-color:color-mix(in srgb, var(--cc) 78%, #FFFFFF);
   }
   .ctab.is-active .ctab__count{color:rgba(5,8,15,.86);}
+}
+
+/* Chapter buttons are named pills now ("Video", "Notes", ...). vivid.css still
+   sizes .mod as a 30-44px icon square with !important, so this wins by
+   specificity rather than by order. */
+html body .chrow .mods a.mod{
+  width:auto !important; min-width:0 !important; height:34px !important; min-height:34px !important;
+  padding:0 14px !important; border-radius:999px !important;
+  font-size:13px !important; font-weight:800 !important; line-height:1 !important; white-space:nowrap !important;
+  background:#FFFFFF !important; color:#0A0A0A !important; -webkit-text-fill-color:#0A0A0A !important;
+  border:2px solid #0A0A0A !important;
+}
+html body .chrow:hover .mods a.mod{ background:#FFF4DE !important; }
+html body .chrow .mods a.mod:hover{ background:#FFB347 !important; }
+@media (max-width:900px){
+  html body .chrow .mods a.mod{ height:40px !important; min-height:40px !important; padding:0 14px !important; }
 }

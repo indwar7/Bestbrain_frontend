@@ -189,7 +189,7 @@ var QUIZ_CLASS = (function(){
   return m ? parseInt(m[0], 10) : null;
 })();
 /* card key -> the subject string the questions are stored under */
-var SUBJECT_OF = { maths: 'Maths', science: 'Science' };
+var SUBJECT_OF = { maths: 'Maths', science: 'Science', social: 'Social Science', english: 'English', hindi: 'Hindi' };
 
 /* Put the student's real class on the cards instead of a flat "Class 9". */
 (function labelCards(){
@@ -384,11 +384,14 @@ function nextQuestion(){
   var C = 138.2;
   cancelAnimationFrame(qTimerRAF);
   function frame(){
+    var qNum = document.getElementById('qNum');
+    // The page was left mid-question: stop the clock instead of throwing.
+    if (!qNum) { cancelAnimationFrame(qTimerRAF); return; }
     var remaining = (deadline - Date.now()) / 1000;
     /* out of time: submit whatever is selected (null if nothing) */
     if(remaining <= 0){ answer(T.picked, true); return; }
     var arc = document.getElementById('qArc');
-    document.getElementById('qNum').textContent = Math.ceil(remaining);
+    qNum.textContent = Math.ceil(remaining);
     arc.setAttribute('stroke-dashoffset', (C * (1 - remaining / Q_SECONDS)).toFixed(1));
     arc.setAttribute('stroke', remaining > 20 ? 'var(--teal)' : remaining > 10 ? 'var(--amber)' : 'var(--rose)');
     qTimerRAF = requestAnimationFrame(frame);
@@ -628,8 +631,15 @@ var CHAPTER_SUBJECT = {
   'respiration': 'science', 'motion-and-time': 'science', 'electric-current': 'science', 'light': 'science'
 };
 var sharedChapter = new URLSearchParams(location.search).get('chapter');
+// Learn's per-chapter "Test" icon sends ?subject=&ch=: go straight into that
+// chapter's quiz instead of the generic picker.
+var chapterSubject = new URLSearchParams(location.search).get('subject');
+var chapterParam = new URLSearchParams(location.search).get('ch');
 if (sharedChapter && CHAPTER_SUBJECT[sharedChapter]) {
   startTest(CHAPTER_SUBJECT[sharedChapter]);
+} else if (chapterParam && SUBJECT_OF[chapterSubject] && QUIZ_USER) {
+  show('setup');
+  startTest(chapterSubject);
 } else {
   show('setup');
 }

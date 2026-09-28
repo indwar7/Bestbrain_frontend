@@ -637,7 +637,7 @@
       /* the quiz options are styled explicitly by kid-quiz, an inline warm
          background written here would outrank that stylesheet and put them
          back to brown-on-brown */
-      if (n.closest && n.closest('.kb-sky,#kh-root,#ka-root,#kq-player,#optGrid,.role-tabs')) {
+      if (n.closest && n.closest('.kb-sky,#kh-root,#ka-root,#kq-player,#optGrid,.role-tabs,.mods')) {
         /* Mark it even though we are leaving it alone: the settled-pass filter
            keys off this attribute, and a skipped subtree that stays unmarked is
            re-queried and re-measured on every mutation for the life of the page
@@ -893,7 +893,7 @@
          rather than the text's own fill, so it "corrected" both the hero's
          accent word and the homepage stat suffixes to flat ink, silently
          discarding their intended colour every time. */
-      if (n.closest('.kb-sky,#kh-root,#ka-root,#kq-player')) { n.setAttribute('data-kid-ink', 'skip'); continue; }
+      if (n.closest('.kb-sky,#kh-root,#ka-root,#kq-player,.mods')) { n.setAttribute('data-kid-ink', 'skip'); continue; }
       if (!ownsText(n)) { n.setAttribute('data-kid-ink', 'notext'); continue; }
       var cs = getComputedStyle(n);
       var s = surfaceLum(n, cs);
