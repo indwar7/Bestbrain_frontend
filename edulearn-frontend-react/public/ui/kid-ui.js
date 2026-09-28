@@ -449,11 +449,11 @@
     '</svg>';
 
   var TIPS = [
-    'Hi! I am PAL 👋 Tap me whenever you get stuck.',
-    'Naya AI Tutor try kiya? Mic dabao aur bolo, main sun raha hoon 🎙️',
-    'Roz 15 minute padho, streak banega, badge milega 🔥',
-    'Fractions ka trick: ek chapati ke 4 tukde socho 🍕',
-    'Ek chapter khatam? Quiz khel lo - 50 star coins pakke ⭐'
+    'नमस्ते! मैं PAL हूँ 👋 जब भी अटको, मुझे टैप करो।',
+    'नया AI ट्यूटर आज़माया? माइक दबाओ और बोलो, मैं सुन रहा हूँ 🎙️',
+    'रोज़ 15 मिनट पढ़ो, स्ट्रीक बनेगी, बैज मिलेगा 🔥',
+    'भिन्न का ट्रिक: एक चपाती के 4 टुकड़े सोचो 🍕',
+    'एक चैप्टर ख़त्म? क्विज़ खेलो, 50 स्टार कॉइन पक्के ⭐'
   ];
 
   /* React serves everything from one document. Two things follow:
