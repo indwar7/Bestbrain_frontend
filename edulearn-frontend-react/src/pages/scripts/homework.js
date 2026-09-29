@@ -29,6 +29,17 @@ export default function init({ location, document, window, onCleanup }) {
 
     var params = new URLSearchParams(location.search);
     var chapterSlug = params.get('ch') || '';
+
+    // "Electricity: Circuits and their Components", not "electricity circuits".
+    function chapterName(h) {
+      var C = window.EduCurriculum && window.EduCurriculum.CURRICULUM;
+      var me = (window.EduAPI && EduAPI.getUser && EduAPI.getUser()) || {};
+      var cls = C && C[parseInt(String(h.className || me.className || params.get('class') || '').replace(/\D/g, ''), 10)];
+      var key = { 'Maths': 'maths', 'Science': 'science', 'Social Science': 'social', 'English': 'english', 'Hindi': 'hindi' }[h.subject];
+      var list = cls && key && cls[key];
+      var hit = Array.isArray(list) && list.filter(function (c) { return (Array.isArray(c) ? c[0] : c.slug) === h.chapterSlug; })[0];
+      return hit ? (Array.isArray(hit) ? hit[1] : hit.name) : h.chapterSlug.replace(/-/g, ' ');
+    }
     var subjectKey = params.get('subject') || '';
     var SUBJECT_NAME = { maths: 'Maths', science: 'Science', social: 'Social Science', english: 'English', hindi: 'Hindi' };
     var subject = SUBJECT_NAME[subjectKey] || '';
@@ -100,7 +111,7 @@ export default function init({ location, document, window, onCleanup }) {
         return '<div class="card hw">' +
           '<div class="hw__body">' +
             '<h2 class="hw__title">' + esc(h.title) + '</h2>' +
-            '<p class="hw__meta">' + esc(h.subject) + (h.chapterSlug ? ' · ' + esc(h.chapterSlug.replace(/-/g, ' ')) : '') +
+            '<p class="hw__meta">' + esc(h.subject) + (h.chapterSlug ? ' · ' + esc(chapterName(h)) : '') +
               ' · ' + h.questionCount + ' question' + (h.questionCount === 1 ? '' : 's') + '</p>' +
             (h.instructions ? '<p class="hw__instructions">' + esc(h.instructions) + '</p>' : '') +
             pillFor(h) +
