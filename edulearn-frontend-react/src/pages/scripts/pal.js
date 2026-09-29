@@ -232,7 +232,7 @@ function studentReply(text){
   var wantNotes = /\b(notes?|summar|revis|key points?|explain|samjha|kya hai|what is|batao|easy words)\b/.test(t);
 
   if(/^(hi|hello|hey|namaste|hii+|yo)\b/.test(t) && t.length < 18){
-    return { text:'Namaste! I’m **PAL**, your study buddy.\nAsk me any chapter, like **"summarise Polynomials"**, **"explain Heat"** or **"quiz me on Motion"**.' };
+    return { text:'Namaste! I’m **PAL**, your study buddy.\nAsk me any chapter, like **"summarise Heat Transfer in Nature"**, **"explain electric circuits"** or **"quiz me on acids and bases"**.' };
   }
   if(/thank/.test(t)){
     return { text:'Anytime. One chapter a day beats ten before the exam, pick tomorrow’s now?' };
@@ -244,7 +244,7 @@ function studentReply(text){
       var open = Object.keys(state.chapters).filter(function(k){ return !state.chapters[k].mastered; });
       if(open.length) line += '\n\nYou have **' + open.length + ' chapters in progress**, finishing beats starting.';
     }
-    return { text: line, chips:['Quiz me on Polynomials','Summarise Motion','Explain the French Revolution'] };
+    return { text: line, chips:['Quiz me on acids and bases','Summarise Heat Transfer in Nature','Explain electric circuits'] };
   }
 
   if(wantQuiz){
@@ -277,7 +277,7 @@ function studentReply(text){
   if(wantNotes){
     return { text:'Tell me the chapter and I’ll do the rest, for example **"notes on Gravitation"** or **"summarise The Mughal Empire"**. I cover Classes 6–9, all five subjects.' };
   }
-  return { text:'I’m built for your syllabus, try naming a chapter:\n- **"Summarise Polynomials"**\n- **"Explain Heat in easy words"**\n- **"Quiz me on the French Revolution"**\n\nOr ask **"what should I study today?"** and I’ll plan it.' };
+  return { text:'I’m built for your syllabus, try naming a chapter:\n- **"Summarise Life Processes in Plants"**\n- **"Explain Heat in easy words"**\n- **"Quiz me on metals and non-metals"**\n\nOr ask **"what should I study today?"** and I’ll plan it.' };
 }
 
 function parentReply(text){
@@ -348,7 +348,7 @@ function teacherReply(text){
     return { text:'**' + weak.length + ' of ' + ROSTER.length + ' students** are below 70% this month (demo roster):\n' +
       weak.map(function(r){ return '- **' + r.n + '** - ' + r.avg + '%, weakest in ' + r.weak; }).join('\n') +
       '\n\nSuggested move: assign PAL bridging practice on their weak chapters, it steps back to earlier grades privately, so nobody feels singled out.',
-      chips:['Generate worksheet on Polynomials','Class average?'] };
+      chips:['Generate worksheet on Electric Circuits','Class average?'] };
   }
   if(/\b(average|class|performance|overall|analytics)\b/.test(t)){
     var avg = Math.round(ROSTER.reduce(function(a, r){ return a + r.avg; }, 0) / ROSTER.length);
@@ -357,7 +357,7 @@ function teacherReply(text){
       chips:['Who is struggling?','Generate worksheet on Number Systems'] };
   }
   return { text:'Teacher mode at your service. I can:\n- **Generate worksheets** - "worksheet on Motion" (answer key included)\n- **Spot struggling students** - "who is weak this month?"\n- **Class analytics** - "class average?"\n- **Remedial plans** using PAL’s quiet grade-bridging',
-    chips:['Class average?','Who is struggling?','Generate worksheet on Polynomials'] };
+    chips:['Class average?','Who is struggling?','Generate worksheet on Electric Circuits'] };
 }
 
 function reply(text){
@@ -409,10 +409,10 @@ function renderChatList(){
 }
 
 var ROLE_META = {
-  student: { badge:'Student mode', color:'var(--teal)', ph:'Ask a doubt - "explain Polynomials in easy words"',
+  student: { badge:'Student mode', color:'var(--teal)', ph:'Ask a doubt - "explain photosynthesis in easy words"',
     welcome:'Stuck on a chapter? <em>Ask me.</em>',
     sub:'Summaries, easy explanations and quick quizzes for Classes 6–9, in English ya Hinglish.',
-    starters:[['Summarise','Summarise Polynomials for me'],['Explain','Explain the French Revolution in easy words'],['Quiz','Quiz me on Motion'],['Plan','What should I study today?']] },
+    starters:[['Summarise','Summarise Heat Transfer in Nature for me'],['Explain','Explain electric circuits in easy words'],['Quiz','Quiz me on acids and bases'],['Plan','What should I study today?']] },
   parent: { badge:'Parent mode', color:'var(--amber)', ph:'Ask about your child - "how is she doing in Maths?"',
     welcome:'Know exactly how your <em>child is doing.</em>',
     sub:'Progress, weak subjects, study time and live-class attentiveness, explained in plain words, not charts.',
@@ -420,7 +420,7 @@ var ROLE_META = {
   teacher: { badge:'Teacher mode', color:'var(--peri)', ph:'Ask for your class - "generate a worksheet on Motion"',
     welcome:'Your class, <em>one question away.</em>',
     sub:'Worksheets with answer keys, struggling-student lists and remedial plans, generated in seconds.',
-    starters:[['Worksheet','Generate a worksheet on Polynomials'],['Students','Who is struggling this month?'],['Analytics','What is the class average?'],['Remedial','Draft a remedial plan for Number Systems']] }
+    starters:[['Worksheet','Generate a worksheet on Electric Circuits'],['Students','Who is struggling this month?'],['Analytics','What is the class average?'],['Remedial','Draft a remedial plan for Number Systems']] }
 };
 
 function setRole(role, skipNew){

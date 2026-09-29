@@ -150,8 +150,8 @@
 
   /* Class 6 chapters, and not science alone, a study sheet is as useful for
      fractions or the Mughal empire as it is for photosynthesis. */
-  var SUGGEST = ['Food: Where Does It Come From?', 'Fractions', 'Light and Shadows',
-    'Electricity and Circuits', 'Our Past - Early Humans'];
+  var SUGGEST = ['Electricity: Circuits and their Components', 'Heat Transfer in Nature',
+    'Life Processes in Plants', 'Light: Shadows and Reflections', 'Exploring Substances: Acidic, Basic and Neutral'];
 
   var doc = null;
 

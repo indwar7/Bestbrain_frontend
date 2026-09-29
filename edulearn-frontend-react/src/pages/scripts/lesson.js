@@ -340,6 +340,14 @@ var NOTES = {
   }
 };
 
+/* The same slug can name chapters in two classes (Class 6 and Class 7 both
+   have "light-shadows"), so class-specific notes are keyed "<class>:<slug>"
+   and win over a bare slug. */
+function noteFor(){
+  if(!LESSON.slug) return null;
+  return NOTES[String(LESSON.cls).replace(/\D/g, '') + ':' + LESSON.slug] || NOTES[LESSON.slug] || null;
+}
+
 /* ------------------------------------------------------------------
    View switching
    ------------------------------------------------------------------ */
@@ -393,7 +401,7 @@ function uploadedNotesHTML(){
 }
 
 function renderNotes(){
-  var note = LESSON.slug ? NOTES[LESSON.slug] : null;
+  var note = noteFor();
   var host = $('notesBody');
   var head =
     '<div class="notes__crumb mono">' + esc(LESSON.chapterCrumb || 'Lesson') + '</div>' +
@@ -444,7 +452,7 @@ function setNotes(list){
   uploadedNotes = list || [];
   var notesTag = $('notesTag'), notesTagTxt = $('notesTagText');
   if(notesTag && notesTagTxt){
-    var hasStatic = !!(LESSON.slug && NOTES[LESSON.slug]);
+    var hasStatic = !!noteFor();
     if(uploadedNotes.length){
       notesTag.classList.add('is-live');
       notesTagTxt.textContent = uploadedNotes.length + ' note' + (uploadedNotes.length > 1 ? 's' : '') + (hasStatic ? ' + summary' : '');
@@ -500,7 +508,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Mark on the Notes card whether real notes exist for this chapter.
   var notesTag = $('notesTag'), notesTagTxt = $('notesTagText');
   if(notesTag && notesTagTxt){
-    if(LESSON.slug && NOTES[LESSON.slug]){ notesTag.classList.add('is-live'); notesTagTxt.textContent = 'Notes ready'; }
+    if(noteFor()){ notesTag.classList.add('is-live'); notesTagTxt.textContent = 'Notes ready'; }
     else { notesTagTxt.textContent = 'Coming soon'; }
   }
 
