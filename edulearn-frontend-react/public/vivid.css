@@ -1108,3 +1108,12 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
     min-height:44px; display:flex; align-items:center;
   }
 }
+
+/* ================================================================
+   BestBrain logo: always white, on every page and at every moment
+   (including before the dark skin script has run).
+   ================================================================ */
+html body .brand__word, html body .brand .brand__word, html body .logo-text,
+html body .ka-logo .lt, html body .kh-logo .lt, html body #kid-rail .brand__word{
+  background:none !important; color:#FFFFFF !important; -webkit-text-fill-color:#FFFFFF !important;
+}
