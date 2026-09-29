@@ -14,8 +14,29 @@ import react from '@vitejs/plugin-react';
 // (which deliberately does not include arbitrary localhost ports).
 const API_TARGET = process.env.VITE_API_TARGET || 'https://api.bestbrainplus.com';
 
+/*
+  The shared scripts and stylesheets in public/ (ui/*.js, vivid.css, ...) keep
+  fixed names, and the server caches static files for a year. Without a
+  version on the URL a returning visitor keeps last month's copy, so a fix to
+  one of them (say, removing the PAL mascot) never reaches them. Stamp every
+  local, unhashed <script src>/<link href> in index.html with this build's id.
+*/
+const BUILD_ID = Date.now().toString(36);
+function versionPublicAssets() {
+  return {
+    name: 'version-public-assets',
+    apply: 'build' as const,
+    transformIndexHtml(html: string) {
+      return html.replace(
+        /(<(?:script|link)\b[^>]*?\s(?:src|href)=")(\/(?!assets\/)[^"?#]+\.(?:js|css))(")/g,
+        (_m, pre, url, post) => `${pre}${url}?v=${BUILD_ID}${post}`
+      );
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), versionPublicAssets()],
   server: {
     proxy: {
       '/api': { target: API_TARGET, changeOrigin: true },
