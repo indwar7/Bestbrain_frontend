@@ -913,6 +913,18 @@ EduAPI.listNotes({ className: LESSON.cls, subject: LESSON.subject, topic: search
 
 EduAPI.listVideos({ className: LESSON.cls, subject: LESSON.subject, topic: searchTerm })
   .then(function(videos){
+    // The same lecture uploaded twice (a "▶" web copy next to its heavy
+    // original) is one part, not two: keep one per title, the ▶ copy first.
+    var byTitle = {};
+    (videos || []).forEach(function(v){
+      var key = String(v.title || '').replace(/▶/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+      var kept = byTitle[key];
+      if (!kept || (/▶/.test(v.title || '') && !/▶/.test(kept.title || ''))) byTitle[key] = v;
+    });
+    videos = (videos || []).filter(function(v){
+      var key = String(v.title || '').replace(/▶/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+      return byTitle[key] === v;
+    });
     if (!videos.length) { if (window.HUB) window.HUB.setVideoState('none'); return; }
 
     // A chapter can have several parts. If every title carries an explicit part
@@ -993,6 +1005,9 @@ EduAPI.listVideos({ className: LESSON.cls, subject: LESSON.subject, topic: searc
     // Not actually eligible for this specific video (e.g. wrong class/subject)
     //, fall back to the honest placeholder instead of a broken player.
     player.addEventListener('error', function(){
+      // A lecture exists but would not play: say that, not "nothing uploaded".
+      var sub = document.getElementById('placeholderSub');
+      if (sub) sub.textContent = 'This video could not be played right now. Check your connection and try again, or open it in Chrome.';
       if (window.HUB) window.HUB.setVideoState('none');
     });
   })
