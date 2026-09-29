@@ -272,3 +272,8 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
     scroll-behavior:auto!important;
   }
 }
+
+/* The logo is always white on the dark auth screens, including the moment
+   before the dark skin is applied, when a global rule un-clips the gradient
+   text and it rendered black. */
+html body .brand-logo .logo-text{background:none !important;color:#FFFFFF !important;-webkit-text-fill-color:#FFFFFF !important;}
