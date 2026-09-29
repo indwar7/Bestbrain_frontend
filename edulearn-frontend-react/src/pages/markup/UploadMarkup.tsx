@@ -75,16 +75,21 @@ export default function UploadMarkup() {
                   English
                 </option>
                 <option>
-                  Social Studies
+                  Social Science
+                </option>
+                <option>
+                  Hindi
                 </option>
               </select>
             </div>
           </div>
-          <label>
-            Topic
+          <label htmlFor="chapterPick">
+            Chapter *
           </label>
           {' '}
-          <input id="topic" placeholder="Numericals" />
+          <select id="chapterPick" />
+          {' '}
+          <input id="topic" placeholder="Type the topic" aria-label="Topic" style={{ display: "none" }} />
           {' '}
           <label>
             Description

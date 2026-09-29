@@ -56,6 +56,51 @@ export default function init({ location, document, window, onCleanup }) {
       }
     })();
 
+    /* Chapter picker. An upload shows under a chapter only when its topic
+       matches that chapter, and a hand-typed topic is easy to get slightly
+       wrong, so the chapter is picked from the syllabus for the chosen class
+       and subject. "Other topic" keeps the free-text box for anything else. */
+    var SUBJECT_KEY = { 'maths':'maths', 'science':'science', 'english':'english',
+                        'social science':'social', 'social studies':'social', 'hindi':'hindi' };
+    var topicInput = document.getElementById('topic');
+    var chapterPick = document.getElementById('chapterPick');
+    function syncTopic(){
+      var other = chapterPick.value === '__other';
+      topicInput.style.display = other ? '' : 'none';
+      topicInput.value = other ? '' : chapterPick.value;
+      if (other) topicInput.focus();
+    }
+    function fillChapters(){
+      var C = window.EduCurriculum && window.EduCurriculum.CURRICULUM;
+      var cls = C && C[parseInt(String(document.getElementById('className').value).replace(/\D/g, ''), 10)];
+      var list = cls && cls[SUBJECT_KEY[String(document.getElementById('subject').value).trim().toLowerCase()]];
+      chapterPick.innerHTML = '';
+      function add(value, text){
+        var o = document.createElement('option');
+        o.value = value; o.textContent = text;
+        chapterPick.appendChild(o);
+      }
+      add('', 'Choose the chapter');
+      (Array.isArray(list) ? list : []).forEach(function(ch, i){
+        var slug = Array.isArray(ch) ? ch[0] : ch.slug;
+        var name = Array.isArray(ch) ? ch[1] : ch.name;
+        // The words of the slug are exactly what the lesson page searches for.
+        add(String(slug).replace(/-/g, ' '), (i + 1) + '. ' + name);
+      });
+      add('__other', 'Other topic (type it)');
+      syncTopic();
+    }
+    if (chapterPick && topicInput){
+      chapterPick.addEventListener('change', syncTopic);
+      document.getElementById('className').addEventListener('change', fillChapters);
+      document.getElementById('subject').addEventListener('change', fillChapters);
+      // curriculum.js is deferred and can land after this script under the router.
+      (function waitForCurriculum(tries){
+        if ((window.EduCurriculum && window.EduCurriculum.CURRICULUM) || tries <= 0) { fillChapters(); return; }
+        setTimeout(function(){ waitForCurriculum(tries - 1); }, 120);
+      })(25);
+    }
+
     var fileInput = document.getElementById('file');
     var drop = document.getElementById('drop');
     drop.addEventListener('click', function(){ fileInput.click(); });
@@ -117,6 +162,7 @@ export default function init({ location, document, window, onCleanup }) {
       var title = document.getElementById('title').value.trim();
       var file = fileInput.files[0];
       if (!title){ msg('Please enter a title.', false); return; }
+      if (!document.getElementById('topic').value.trim()){ msg('Please choose the chapter this belongs to.', false); return; }
       if (!file){ msg(cfg.need, false); return; }
 
       var fd = new FormData();
