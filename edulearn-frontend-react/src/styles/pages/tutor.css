@@ -58,6 +58,24 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .blink-r{transform-origin:60px 51px}
 @keyframes blink{0%,92%,100%{transform:scaleY(1)}95%,97%{transform:scaleY(.12)}}
 
+/* AI teacher avatar */
+.orb--avatar{width:80%;background:#E6F4F1}
+.orb--avatar svg{width:100%;height:100%;border-radius:50%;display:block}
+.av .av-mouth > *{display:none}
+.av[data-mouth="rest"] .m-rest,.av[data-mouth="m"] .m-m,.av[data-mouth="a"] .m-a,
+.av[data-mouth="e"] .m-e,.av[data-mouth="o"] .m-o{display:inline}
+.av-head{transform-box:view-box;transform-origin:100px 150px;transition:transform .5s var(--ease)}
+.av-eye{transform-box:fill-box;transform-origin:center;animation:blink 4.4s infinite}
+.av-eye + .av-eye{animation-delay:.02s}
+.av-brows,.av-eyes{transition:transform .4s var(--ease)}
+.is-listening .av-head{transform:rotate(-5deg)}
+.is-thinking .av-brows{transform:translateY(-3px)}
+.is-thinking .av-eyes{transform:translate(3px,-2px)}
+.is-speaking .av-head{animation:avnod 1.6s ease-in-out infinite}
+@keyframes avnod{0%,100%{transform:rotate(0)}30%{transform:rotate(1.6deg) translateY(1px)}70%{transform:rotate(-1.4deg)}}
+.avname{font-family:'Fraunces',serif;font-weight:600;font-size:17px;margin-top:-4px}
+.avname span{font-family:'Nunito',sans-serif;font-weight:600;font-size:13px;color:var(--muted)}
+
 /* orb states */
 .is-listening .orb{transform:scale(1.04)}
 .is-listening .ring--1{animation:pulse 1.8s var(--ease) infinite;border-color:rgba(16,185,129,.65)}
@@ -65,7 +83,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 @keyframes pulse{0%{transform:scale(.96);opacity:1}100%{transform:scale(1.22);opacity:0}}
 .is-thinking .ring--2{animation:spin 2.6s linear infinite;border-color:rgba(99,102,241,.7)}
 @keyframes spin{to{transform:rotate(360deg)}}
-.is-speaking .orb{animation:talkbob 1s ease-in-out infinite alternate}
+.is-speaking .orb:not(.orb--avatar){animation:talkbob 1s ease-in-out infinite alternate}
 @keyframes talkbob{from{transform:scale(1)}to{transform:scale(1.035)}}
 
 /* equalizer bars (speaking) */
@@ -120,5 +138,5 @@ select.langsel{border:1px solid var(--line);background:var(--card);color:var(--c
   .stage{min-height:62vh}
 }
 @media (prefers-reduced-motion:reduce){
-  .ring,.orb,.eq i,.livepill .dot,.blink{animation:none!important}
+  .ring,.orb,.eq i,.livepill .dot,.blink,.av-eye,.av-head{animation:none!important}
 }

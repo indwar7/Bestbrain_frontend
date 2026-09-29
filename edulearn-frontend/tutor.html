@@ -75,6 +75,24 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .blink-r{transform-origin:60px 51px}
 @keyframes blink{0%,92%,100%{transform:scaleY(1)}95%,97%{transform:scaleY(.12)}}
 
+/* AI teacher avatar */
+.orb--avatar{width:80%;background:#E6F4F1}
+.orb--avatar svg{width:100%;height:100%;border-radius:50%;display:block}
+.av .av-mouth > *{display:none}
+.av[data-mouth="rest"] .m-rest,.av[data-mouth="m"] .m-m,.av[data-mouth="a"] .m-a,
+.av[data-mouth="e"] .m-e,.av[data-mouth="o"] .m-o{display:inline}
+.av-head{transform-box:view-box;transform-origin:100px 150px;transition:transform .5s var(--ease)}
+.av-eye{transform-box:fill-box;transform-origin:center;animation:blink 4.4s infinite}
+.av-eye + .av-eye{animation-delay:.02s}
+.av-brows,.av-eyes{transition:transform .4s var(--ease)}
+.is-listening .av-head{transform:rotate(-5deg)}
+.is-thinking .av-brows{transform:translateY(-3px)}
+.is-thinking .av-eyes{transform:translate(3px,-2px)}
+.is-speaking .av-head{animation:avnod 1.6s ease-in-out infinite}
+@keyframes avnod{0%,100%{transform:rotate(0)}30%{transform:rotate(1.6deg) translateY(1px)}70%{transform:rotate(-1.4deg)}}
+.avname{font-family:'Fraunces',serif;font-weight:600;font-size:17px;margin-top:-4px}
+.avname span{font-family:'Nunito',sans-serif;font-weight:600;font-size:13px;color:var(--muted)}
+
 /* orb states */
 .is-listening .orb{transform:scale(1.04)}
 .is-listening .ring--1{animation:pulse 1.8s var(--ease) infinite;border-color:rgba(16,185,129,.65)}
@@ -82,7 +100,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 @keyframes pulse{0%{transform:scale(.96);opacity:1}100%{transform:scale(1.22);opacity:0}}
 .is-thinking .ring--2{animation:spin 2.6s linear infinite;border-color:rgba(99,102,241,.7)}
 @keyframes spin{to{transform:rotate(360deg)}}
-.is-speaking .orb{animation:talkbob 1s ease-in-out infinite alternate}
+.is-speaking .orb:not(.orb--avatar){animation:talkbob 1s ease-in-out infinite alternate}
 @keyframes talkbob{from{transform:scale(1)}to{transform:scale(1.035)}}
 
 /* equalizer bars (speaking) */
@@ -137,7 +155,7 @@ select.langsel{border:1px solid var(--line);background:var(--card);color:var(--c
   .stage{min-height:62vh}
 }
 @media (prefers-reduced-motion:reduce){
-  .ring,.orb,.eq i,.livepill .dot,.blink{animation:none!important}
+  .ring,.orb,.eq i,.livepill .dot,.blink,.av-eye,.av-head{animation:none!important}
 }
 </style>
 </head>
@@ -176,17 +194,70 @@ select.langsel{border:1px solid var(--line);background:var(--card);color:var(--c
       <span class="ring ring--1"></span>
       <span class="ring ring--2"></span>
       <span class="ring ring--3"></span>
-      <div class="orb" aria-hidden="true">
-        <svg viewBox="0 0 100 100">
-          <circle cx="50" cy="9" r="4" fill="#3DE8C5"/>
-          <line x1="50" y1="21" x2="50" y2="12" stroke="#7C9BFF" stroke-width="2.5" stroke-linecap="round"/>
-          <circle cx="50" cy="56" r="34" fill="#121C30" stroke="url(#auroraGrad)" stroke-width="2.5"/>
-          <rect class="blink blink-l" x="36" y="44" width="8" height="14" rx="4" fill="#F2EDE3"/>
-          <rect class="blink blink-r" x="56" y="44" width="8" height="14" rx="4" fill="#F2EDE3"/>
-          <path d="M42 67 q8 7 16 0" fill="none" stroke="#F2EDE3" stroke-width="2.5" stroke-linecap="round"/>
+      <div class="orb orb--avatar" aria-hidden="true">
+        <!-- AI teacher avatar. The mouth shape is driven from JS (data-mouth
+             on #avatar) while the TTS voice talks; everything else (blink,
+             listening tilt, thinking brows, speaking nod) is CSS off the
+             stage's is-* state classes. -->
+        <svg id="avatar" class="av" viewBox="0 0 200 200" data-mouth="rest">
+          <defs><clipPath id="avClip"><circle cx="100" cy="100" r="100"/></clipPath></defs>
+          <g clip-path="url(#avClip)">
+            <circle cx="100" cy="100" r="100" fill="#E6F4F1"/>
+            <circle cx="100" cy="100" r="78" fill="#D5EEE8"/>
+            <!-- body -->
+            <path d="M34 200 Q38 152 100 146 Q162 152 166 200 Z" fill="#0F766E"/>
+            <path d="M84 147 L100 170 L116 147 Z" fill="#0B5A54"/>
+            <path d="M118 148 Q150 156 160 200 L138 200 Q132 168 112 152 Z" fill="#F59E0B" opacity=".92"/>
+            <rect x="89" y="124" width="22" height="28" rx="9" fill="#C8906E"/>
+            <g class="av-head">
+              <!-- hair behind + bun -->
+              <circle cx="100" cy="40" r="20" fill="#2A1A16"/>
+              <ellipse cx="100" cy="88" rx="44" ry="48" fill="#2A1A16"/>
+              <!-- ears + earrings -->
+              <ellipse cx="62" cy="96" rx="6" ry="9" fill="#D39A76"/>
+              <ellipse cx="138" cy="96" rx="6" ry="9" fill="#D39A76"/>
+              <circle cx="62" cy="108" r="2.6" fill="#F59E0B"/>
+              <circle cx="138" cy="108" r="2.6" fill="#F59E0B"/>
+              <!-- face -->
+              <ellipse cx="100" cy="94" rx="37" ry="42" fill="#DDA582"/>
+              <!-- hair front, side parting -->
+              <path d="M61 92 Q58 50 100 47 Q142 50 139 92 Q134 68 114 60 Q98 72 72 72 Q64 80 61 92 Z" fill="#2A1A16"/>
+              <!-- brows -->
+              <g class="av-brows" stroke="#2A1A16" stroke-width="3" stroke-linecap="round" fill="none">
+                <path d="M75 78 Q84 73 93 77"/>
+                <path d="M107 77 Q116 73 125 78"/>
+              </g>
+              <!-- eyes -->
+              <g class="av-eyes" fill="#2A1A16">
+                <ellipse class="av-eye" cx="84" cy="90" rx="4.3" ry="5.2"/>
+                <ellipse class="av-eye" cx="116" cy="90" rx="4.3" ry="5.2"/>
+              </g>
+              <circle cx="85.6" cy="88.2" r="1.3" fill="#fff"/>
+              <circle cx="117.6" cy="88.2" r="1.3" fill="#fff"/>
+              <!-- glasses -->
+              <g stroke="#334155" stroke-width="1.8" fill="none">
+                <rect x="72" y="80" width="24" height="20" rx="8"/>
+                <rect x="104" y="80" width="24" height="20" rx="8"/>
+                <path d="M96 88 Q100 85 104 88"/>
+              </g>
+              <!-- nose + cheeks -->
+              <path d="M100 95 Q96.5 106 101 108" stroke="#B87A5A" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <circle cx="78" cy="108" r="6" fill="#E57F72" opacity=".22"/>
+              <circle cx="122" cy="108" r="6" fill="#E57F72" opacity=".22"/>
+              <!-- mouth: one shape per viseme, CSS shows the one data-mouth names -->
+              <g class="av-mouth">
+                <path class="m-rest" d="M89 119 Q100 127 111 119" stroke="#9A3B3B" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+                <path class="m-m" d="M91 121 Q100 123 109 121" stroke="#9A3B3B" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+                <g class="m-a"><path d="M89 118 Q100 116 111 118 Q107 133 100 133 Q93 133 89 118 Z" fill="#6B1F2A"/><path d="M92 119 Q100 118 108 119 L107 122 Q100 121 93 122 Z" fill="#fff"/><ellipse cx="100" cy="129" rx="5" ry="2.6" fill="#D9566B"/></g>
+                <g class="m-e"><path d="M87 119 Q100 115 113 119 Q100 128 87 119 Z" fill="#6B1F2A"/><path d="M90 119 Q100 117 110 119 L109 121 Q100 120 91 121 Z" fill="#fff"/></g>
+                <ellipse class="m-o" cx="100" cy="121" rx="5.5" ry="7" fill="#6B1F2A"/>
+              </g>
+            </g>
+          </g>
         </svg>
       </div>
     </div>
+    <div class="avname">PAL <span>· your AI teacher</span></div>
 
     <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 
@@ -372,6 +443,29 @@ function stopListening(){
   }
 }
 
+/* ---------- avatar lip sync ---------- */
+// speechSynthesis gives no access to the audio itself, so the mouth is driven
+// from what we do know: while an utterance plays, cycle open mouth shapes at
+// speaking pace, and snap shut briefly on every word boundary. Not true
+// phoneme sync, but at this size it reads as the teacher talking.
+var avatar = document.getElementById('avatar');
+var mouthTimer = null;
+var MOUTHS = ['a','e','o','a','e','m'];
+function setMouth(m){ if (avatar) avatar.setAttribute('data-mouth', m); }
+function startMouth(){
+  stopMouth();
+  mouthTimer = setInterval(function(){
+    setMouth(MOUTHS[Math.floor(Math.random()*MOUTHS.length)]);
+  }, 115);
+}
+function stopMouth(){
+  if (mouthTimer) { clearInterval(mouthTimer); mouthTimer = null; }
+  setMouth('rest');
+}
+function mouthWordBreak(){
+  setMouth('m');
+}
+
 /* ---------- text-to-speech (TTS) ---------- */
 var cachedVoice = null;
 function pickVoice(){
@@ -380,7 +474,12 @@ function pickVoice(){
   if (!voices.length) return null;
   var lang = langSel.value; // 'en-IN' | 'hi-IN'
   function find(pred){ for (var i=0;i<voices.length;i++) if (pred(voices[i])) return voices[i]; return null; }
+  // The avatar is a woman teacher, so prefer a female voice where the
+  // platform names one (Google's hi-IN voice is female; macOS/iOS/Windows
+  // name theirs).
+  var FEMALE = /female|woman|lekha|veena|heera|kalpana|swara|neerja|aditi|raveena|priya|samantha|karen|moira|tessa|zira/i;
   cachedVoice =
+    find(function(v){ return v.lang === lang && FEMALE.test(v.name); }) ||
     find(function(v){ return v.lang === lang && /Google/i.test(v.name); }) ||
     find(function(v){ return v.lang === lang; }) ||
     find(function(v){ return v.lang && v.lang.indexOf(lang.slice(0,2)) === 0; }) ||
@@ -402,7 +501,10 @@ function speakNext(){
   if (v) u.voice = v;
   u.lang = langSel.value;
   u.rate = 1.02;
+  u.onstart = startMouth;
+  u.onboundary = function(e){ if (!e.name || e.name === 'word') mouthWordBreak(); };
   u.onend = u.onerror = function(){
+    stopMouth();
     speaking = false;
     speakNext();
   };
@@ -413,6 +515,7 @@ function speakNext(){
 function stopSpeaking(){
   speakQueue = [];
   speaking = false;
+  stopMouth();
   try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch(e){}
 }
 

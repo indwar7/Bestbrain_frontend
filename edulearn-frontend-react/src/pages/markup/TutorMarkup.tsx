@@ -28,16 +28,108 @@ export default function TutorMarkup() {
             <span className="ring ring--2" />
             {' '}
             <span className="ring ring--3" />
-            <div className="orb" aria-hidden="true">
-              <svg viewBox="0 0 100 100">
-                <circle cx="50" cy="9" r="4" fill="#3DE8C5" />
-                <line x1="50" y1="21" x2="50" y2="12" stroke="#7C9BFF" strokeWidth="2.5" strokeLinecap="round" />
-                <circle cx="50" cy="56" r="34" fill="#121C30" stroke="url(#auroraGrad)" strokeWidth="2.5" />
-                <rect className="blink blink-l" x="36" y="44" width="8" height="14" rx="4" fill="#F2EDE3" />
-                <rect className="blink blink-r" x="56" y="44" width="8" height="14" rx="4" fill="#F2EDE3" />
-                <path d="M42 67 q8 7 16 0" fill="none" stroke="#F2EDE3" strokeWidth="2.5" strokeLinecap="round" />
+            <div className="orb orb--avatar" aria-hidden="true">
+              {/* AI teacher avatar. The mouth shape is driven from JS (data-mouth
+               on #avatar) while the TTS voice talks; everything else (blink,
+               listening tilt, thinking brows, speaking nod) is CSS off the
+               stage's is-* state classes. */}
+              <svg id="avatar" className="av" viewBox="0 0 200 200" data-mouth="rest">
+                <defs>
+                  <clipPath id="avClip">
+                    <circle cx="100" cy="100" r="100" />
+                  </clipPath>
+                </defs>
+                <g clipPath="url(#avClip)">
+                  <circle cx="100" cy="100" r="100" fill="#E6F4F1" />
+                  <circle cx="100" cy="100" r="78" fill="#D5EEE8" />
+                  {/* body */}
+                  <path d="M34 200 Q38 152 100 146 Q162 152 166 200 Z" fill="#0F766E" />
+                  <path d="M84 147 L100 170 L116 147 Z" fill="#0B5A54" />
+                  <path d="M118 148 Q150 156 160 200 L138 200 Q132 168 112 152 Z" fill="#F59E0B" opacity=".92" />
+                  <rect x="89" y="124" width="22" height="28" rx="9" fill="#C8906E" />
+                  <g className="av-head">
+                    {/* hair behind + bun */}
+                    <circle cx="100" cy="40" r="20" fill="#2A1A16" />
+                    <ellipse cx="100" cy="88" rx="44" ry="48" fill="#2A1A16" />
+                    {/* ears + earrings */}
+                    <ellipse cx="62" cy="96" rx="6" ry="9" fill="#D39A76" />
+                    <ellipse cx="138" cy="96" rx="6" ry="9" fill="#D39A76" />
+                    <circle cx="62" cy="108" r="2.6" fill="#F59E0B" />
+                    <circle cx="138" cy="108" r="2.6" fill="#F59E0B" />
+                    {/* face */}
+                    <ellipse cx="100" cy="94" rx="37" ry="42" fill="#DDA582" />
+                    {/* hair front, side parting */}
+                    <path
+                      d="M61 92 Q58 50 100 47 Q142 50 139 92 Q134 68 114 60 Q98 72 72 72 Q64 80 61 92 Z"
+                      fill="#2A1A16"
+                     />
+                    {/* brows */}
+                    <g className="av-brows" stroke="#2A1A16" strokeWidth="3" strokeLinecap="round" fill="none">
+                      <path d="M75 78 Q84 73 93 77" />
+                      <path d="M107 77 Q116 73 125 78" />
+                    </g>
+                    {/* eyes */}
+                    <g className="av-eyes" fill="#2A1A16">
+                      <ellipse className="av-eye" cx="84" cy="90" rx="4.3" ry="5.2" />
+                      <ellipse className="av-eye" cx="116" cy="90" rx="4.3" ry="5.2" />
+                    </g>
+                    <circle cx="85.6" cy="88.2" r="1.3" fill="#fff" />
+                    <circle cx="117.6" cy="88.2" r="1.3" fill="#fff" />
+                    {/* glasses */}
+                    <g stroke="#334155" strokeWidth="1.8" fill="none">
+                      <rect x="72" y="80" width="24" height="20" rx="8" />
+                      <rect x="104" y="80" width="24" height="20" rx="8" />
+                      <path d="M96 88 Q100 85 104 88" />
+                    </g>
+                    {/* nose + cheeks */}
+                    <path
+                      d="M100 95 Q96.5 106 101 108"
+                      stroke="#B87A5A"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeLinecap="round"
+                     />
+                    <circle cx="78" cy="108" r="6" fill="#E57F72" opacity=".22" />
+                    <circle cx="122" cy="108" r="6" fill="#E57F72" opacity=".22" />
+                    {/* mouth: one shape per viseme, CSS shows the one data-mouth names */}
+                    <g className="av-mouth">
+                      <path
+                        className="m-rest"
+                        d="M89 119 Q100 127 111 119"
+                        stroke="#9A3B3B"
+                        strokeWidth="2.6"
+                        fill="none"
+                        strokeLinecap="round"
+                       />
+                      <path
+                        className="m-m"
+                        d="M91 121 Q100 123 109 121"
+                        stroke="#9A3B3B"
+                        strokeWidth="2.6"
+                        fill="none"
+                        strokeLinecap="round"
+                       />
+                      <g className="m-a">
+                        <path d="M89 118 Q100 116 111 118 Q107 133 100 133 Q93 133 89 118 Z" fill="#6B1F2A" />
+                        <path d="M92 119 Q100 118 108 119 L107 122 Q100 121 93 122 Z" fill="#fff" />
+                        <ellipse cx="100" cy="129" rx="5" ry="2.6" fill="#D9566B" />
+                      </g>
+                      <g className="m-e">
+                        <path d="M87 119 Q100 115 113 119 Q100 128 87 119 Z" fill="#6B1F2A" />
+                        <path d="M90 119 Q100 117 110 119 L109 121 Q100 120 91 121 Z" fill="#fff" />
+                      </g>
+                      <ellipse className="m-o" cx="100" cy="121" rx="5.5" ry="7" fill="#6B1F2A" />
+                    </g>
+                  </g>
+                </g>
               </svg>
             </div>
+          </div>
+          <div className="avname">
+            {"PAL "}
+            <span>
+              · your AI teacher
+            </span>
           </div>
           <div className="eq" aria-hidden="true">
             <i />
@@ -150,7 +242,6 @@ export default function TutorMarkup() {
           </div>
         </aside>
       </div>
-      {' '}
       {' '}
       {' '}
       {' '}

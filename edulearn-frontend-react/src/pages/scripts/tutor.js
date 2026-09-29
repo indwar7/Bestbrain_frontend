@@ -149,6 +149,29 @@ function stopListening(){
   }
 }
 
+/* ---------- avatar lip sync ---------- */
+// speechSynthesis gives no access to the audio itself, so the mouth is driven
+// from what we do know: while an utterance plays, cycle open mouth shapes at
+// speaking pace, and snap shut briefly on every word boundary. Not true
+// phoneme sync, but at this size it reads as the teacher talking.
+var avatar = document.getElementById('avatar');
+var mouthTimer = null;
+var MOUTHS = ['a','e','o','a','e','m'];
+function setMouth(m){ if (avatar) avatar.setAttribute('data-mouth', m); }
+function startMouth(){
+  stopMouth();
+  mouthTimer = setInterval(function(){
+    setMouth(MOUTHS[Math.floor(Math.random()*MOUTHS.length)]);
+  }, 115);
+}
+function stopMouth(){
+  if (mouthTimer) { clearInterval(mouthTimer); mouthTimer = null; }
+  setMouth('rest');
+}
+function mouthWordBreak(){
+  setMouth('m');
+}
+
 /* ---------- text-to-speech (TTS) ---------- */
 var cachedVoice = null;
 function pickVoice(){
@@ -157,7 +180,12 @@ function pickVoice(){
   if (!voices.length) return null;
   var lang = langSel.value; // 'en-IN' | 'hi-IN'
   function find(pred){ for (var i=0;i<voices.length;i++) if (pred(voices[i])) return voices[i]; return null; }
+  // The avatar is a woman teacher, so prefer a female voice where the
+  // platform names one (Google's hi-IN voice is female; macOS/iOS/Windows
+  // name theirs).
+  var FEMALE = /female|woman|lekha|veena|heera|kalpana|swara|neerja|aditi|raveena|priya|samantha|karen|moira|tessa|zira/i;
   cachedVoice =
+    find(function(v){ return v.lang === lang && FEMALE.test(v.name); }) ||
     find(function(v){ return v.lang === lang && /Google/i.test(v.name); }) ||
     find(function(v){ return v.lang === lang; }) ||
     find(function(v){ return v.lang && v.lang.indexOf(lang.slice(0,2)) === 0; }) ||
@@ -179,7 +207,10 @@ function speakNext(){
   if (v) u.voice = v;
   u.lang = langSel.value;
   u.rate = 1.02;
+  u.onstart = startMouth;
+  u.onboundary = function(e){ if (!e.name || e.name === 'word') mouthWordBreak(); };
   u.onend = u.onerror = function(){
+    stopMouth();
     speaking = false;
     speakNext();
   };
@@ -190,6 +221,7 @@ function speakNext(){
 function stopSpeaking(){
   speakQueue = [];
   speaking = false;
+  stopMouth();
   try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch(e){}
 }
 
