@@ -4,6 +4,7 @@ import AuroraDefs from './components/AuroraDefs';
 import ErrorBoundary from './components/ErrorBoundary';
 import FeatureFooter from './components/FeatureFooter';
 import ProtectedRoute from './components/ProtectedRoute';
+import ClassPrompt from './components/ClassPrompt';
 import { useAuth } from './context/AuthContext';
 import { guardRedirect } from './lib/guard';
 import { useLegacyLinks } from './lib/useLegacyLinks';
@@ -185,6 +186,9 @@ export default function App() {
         form/reader/chat pages (a 1600px footer would overhang their content).
       */}
       {FOOTER_PAGES.has(page) && <FeatureFooter />}
+
+      {/* A student who signed up with the short form has no class yet. */}
+      {!chromeless && <ClassPrompt />}
 
       {/* Defines url(#auroraGrad), which the brand mark fills itself with. */}
       <AuroraDefs />

@@ -277,3 +277,24 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
    before the dark skin is applied, when a global rule un-clips the gradient
    text and it rendered black. */
 html body .brand-logo .logo-text{background:none !important;color:#FFFFFF !important;-webkit-text-fill-color:#FFFFFF !important;}
+
+/* ---- signup step 2: one tap for the class (see signup.js) ---- */
+#signupStep{display:none}
+#signupFormView.is-step > *:not(#signupStep){display:none !important}
+#signupFormView.is-step > #signupStep{display:block}
+html body #signupStep .step-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 18px}
+html body #signupStep .step-class, html body #signupStep .step-go{
+  min-height:58px;border-radius:16px;border:2px solid #0A0A0A !important;cursor:pointer;
+  background:linear-gradient(120deg,#FFC400,#FFDD3C) !important;
+  color:#0A0A0A !important;-webkit-text-fill-color:#0A0A0A !important;
+  font-family:inherit;font-size:17px !important;font-weight:900 !important;
+  transition:transform .15s ease;
+}
+html body #signupStep .step-go{width:100%;margin:6px 0 18px}
+html body #signupStep .step-class:hover:not(:disabled), html body #signupStep .step-go:hover:not(:disabled){transform:translateY(-2px)}
+html body #signupStep button:disabled{opacity:.6;cursor:default}
+html body #signupStep .step-back{
+  display:block;margin:4px auto 0;padding:10px 18px;border:0;background:none !important;cursor:pointer;
+  color:rgba(255,255,255,.8) !important;-webkit-text-fill-color:rgba(255,255,255,.8) !important;
+  font-family:inherit;font-size:14px;font-weight:700;text-decoration:underline;
+}
