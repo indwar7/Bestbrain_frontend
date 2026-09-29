@@ -839,9 +839,14 @@
     while (w && w !== document.documentElement && hops < 10) {
       var wcs = w === n ? cs : getComputedStyle(w);
       if (!w.classList.contains('kid-seam')) {
-        var c = rgbaOf(wcs.backgroundColor);
-        if (c && c.a >= .5) return lum(wcs.backgroundColor);
-        var bi = wcs.backgroundImage;
+        /* A surface the warming pass has just recoloured reports its OLD
+           colour for as long as its CSS transition runs (.opt has one), so an
+           answer option was judged bright and given black text on what is a
+           dark card. What we wrote inline is where it is going: judge that. */
+        var bgc = w.style.getPropertyValue('background-color') || wcs.backgroundColor;
+        var c = rgbaOf(bgc);
+        if (c && c.a >= .5) return lum(bgc);
+        var bi = w.style.getPropertyValue('background-image') || wcs.backgroundImage;
         if (bi && bi.indexOf('gradient') !== -1) {
           var stops = bi.match(/rgba?\([^)]+\)/g);
           if (stops) {
@@ -866,6 +871,7 @@
   var inkPass = 0;
   function inkFix() {
     inkPass++;
+    var gaveDark = false;
     var all = inkPass > SETTLE
       ? document.body.querySelectorAll('*:not([data-kid-ink])')
       : document.body.querySelectorAll('*');
@@ -910,6 +916,33 @@
          glyph exactly as it was */
       n.style.setProperty('-webkit-text-fill-color', want, 'important');
       n.setAttribute('data-kid-ink', want);
+      if (want === '#0A0A0A') gaveDark = true;
+    }
+    rejudgeDark();
+    /* and once more after any transition on the surface has finished */
+    if (gaveDark) {
+      clearTimeout(rejudgeTimer);
+      rejudgeTimer = setTimeout(rejudgeDark, 600);
+    }
+  }
+
+  /* Dark ink is a judgment about the surface behind the text, and that
+     surface changes after we look: the warming pass recolours it, and while a
+     CSS transition runs the browser still reports the OLD colour. An answer
+     option judged in that moment kept black text on a dark card for good.
+     Dark ink is rare, so every element that has it is judged again; white ink
+     on the dark canvas is the safe default and is left alone. */
+  var rejudgeTimer = 0;
+  function rejudgeDark() {
+    var dark = document.body.querySelectorAll('[data-kid-ink="#0A0A0A"]');
+    for (var i = 0; i < dark.length; i++) {
+      var n = dark[i];
+      var s = surfaceLum(n, getComputedStyle(n));
+      if (s === null) s = .02;
+      if ((s + .05) / (.0392 + .05) > 1.05 / (s + .05)) continue;   // still bright
+      n.style.setProperty('color', '#FFFFFF', 'important');
+      n.style.setProperty('-webkit-text-fill-color', '#FFFFFF', 'important');
+      n.setAttribute('data-kid-ink', '#FFFFFF');
     }
   }
 

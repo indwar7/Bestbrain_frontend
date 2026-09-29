@@ -26,6 +26,8 @@
   var NO_RAIL = ['index', 'login', 'signup', 'privacy', 'terms', 'demo-pal-slides'];
 
   function pageKey() {
+    // "/lesson/<chapter>" is the lesson page, whatever the chapter is called
+    if (/^\/lesson\//.test(location.pathname)) return 'lesson';
     var last = (location.pathname.split('/').pop() || '').toLowerCase();
     return (last.replace(/\.html$/, '')) || 'index';
   }
@@ -290,6 +292,13 @@
   '#kid-top .kt-ttl .dot{width:8px;height:8px;border-radius:50%;background:#FF7A00;' +
     'box-shadow:0 0 12px #FF7A00;flex-shrink:0;animation:kr-pop 2.2s ease-in-out infinite;}' +
   '#kid-top .spacer{flex:1;}' +
+  '#kid-back{display:inline-flex;align-items:center;gap:6px;flex:none;height:38px;padding:0 15px 0 11px;' +
+    'margin-right:14px;border-radius:99px;border:1px solid rgba(255,255,255,.24)!important;cursor:pointer;' +
+    'background:rgba(255,255,255,.09)!important;color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;' +
+    'font-family:inherit;font-size:14px;font-weight:800;transition:border-color .15s ease,background .15s ease;}' +
+  '#kid-back:hover{border-color:#FFB347!important;background:rgba(255,179,71,.2)!important;}' +
+  '#kid-back:focus-visible{outline:3px solid #FFB347;outline-offset:2px;}' +
+  '#kid-back svg{display:block;}' +
   '#kid-top .hchip{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:99px;' +
     'font-size:12.5px;font-weight:800;color:#fff;background:' + G + ';border:1px solid ' + GB + ';' +
     'white-space:nowrap;transition:transform .3s ease,border-color .3s ease;}' +
@@ -478,7 +487,7 @@
      title always say where the student is. */
   var NAV_PARENT = {
     lesson: 'learn', videos: 'learn', 'take-test': 'mocktest', 'create-test': 'mocktest',
-    upload: 'dashboard', admin: 'dashboard', bank: 'dashboard', homework: 'dashboard',
+    upload: 'dashboard', admin: 'dashboard', bank: 'learn', homework: 'learn',
     'homework-assign': 'dashboard'
   };
 
@@ -684,6 +693,29 @@
     adopt(); setTimeout(adopt, 400); setTimeout(adopt, 1400);
   }
 
+  /* Back returns to the screen the person came from. When this tab has no
+     earlier screen (a shared link, a reload), it goes to where the page
+     belongs: Learn for a chapter's Video, Notes, Quiz, Question Bank and
+     Homework, the dashboard for everything else. */
+  function goBack() {
+    var st = window.history.state;
+    if (st && typeof st.idx === 'number' && st.idx > 0) { window.history.back(); return; }
+    var q = new URLSearchParams(location.search);
+    var key = pageKey();
+    var to = 'dashboard.html';
+    if (key === 'lesson' || q.get('ch') || q.get('chapter') || NAV_PARENT[key] === 'learn') {
+      to = 'learn.html' + (q.get('class') && q.get('subject')
+        ? '?class=' + encodeURIComponent(q.get('class')) + '&subject=' + encodeURIComponent(q.get('subject'))
+        : '');
+    }
+    var a = document.createElement('a');
+    a.href = to;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
   function buildTop() {
     if (document.getElementById('kid-top') ||
         !document.documentElement.classList.contains('kid-rail-on')) return;
@@ -704,6 +736,19 @@
           '<span class="hchip c" id="kid-hud-level">🚀 Level -</span>'
         : '');
     bar.querySelector('.kt-ttl').appendChild(document.createTextNode(title));
+    /* A way back on every screen except the home one. */
+    if (pageKey() !== 'dashboard') {
+      var back = document.createElement('button');
+      back.type = 'button';
+      back.id = 'kid-back';
+      back.setAttribute('aria-label', 'Go back to the previous page');
+      back.innerHTML =
+        '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>' +
+        '<span>Back</span>';
+      back.addEventListener('click', goBack);
+      bar.insertBefore(back, bar.firstChild);
+    }
     document.body.appendChild(bar);
     buildDrawer(bar);
     paintProgress();

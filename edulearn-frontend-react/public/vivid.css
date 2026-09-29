@@ -1137,3 +1137,28 @@ html body #kh-root a.kh-btn.g[href*="login"]{
   box-shadow:0 4px 16px rgba(255,196,0,.28) !important;
 }
 html body #kh-root a.kh-btn.g[href*="login"]:hover{ background:#FFF4CC !important; }
+
+/* ================================================================
+   Answer options (Question Bank, Homework, homework review): dark
+   from the first paint under the dark skin, with white text. They
+   used to be painted as white cards and recoloured by script a moment
+   later, which flashed on every question and left the text black on a
+   dark card. #optGrid (the timed quiz) is styled by kid-quiz.js.
+   ================================================================ */
+html.kid-dark body .opt:not(#optGrid .opt){
+  background:rgba(255,255,255,.07) !important; border-color:rgba(255,255,255,.16) !important;
+  color:#FFFFFF !important; -webkit-text-fill-color:#FFFFFF !important;
+  transition:border-color .18s !important;
+}
+html.kid-dark body .opt:not(#optGrid .opt) > span:not(.opt__k){
+  color:#FFFFFF !important; -webkit-text-fill-color:#FFFFFF !important;
+}
+html.kid-dark body .opt:not(#optGrid .opt):hover:not(:disabled){ border-color:#FFB347 !important; }
+html.kid-dark body .opt.is-picked:not(#optGrid .opt){ border-color:#FF7A00 !important; background:rgba(255,122,0,.22) !important; }
+html.kid-dark body .opt.bank-right:not(#optGrid .opt){ border-color:#34D399 !important; background:rgba(52,211,153,.2) !important; }
+html.kid-dark body .opt.bank-wrong:not(#optGrid .opt){ border-color:#F87171 !important; background:rgba(239,68,68,.2) !important; }
+html.kid-dark body .expl{
+  background:rgba(255,255,255,.07) !important; border-color:rgba(255,255,255,.16) !important;
+  color:#FFFFFF !important; -webkit-text-fill-color:#FFFFFF !important;
+}
+html.kid-dark body .expl b{ color:#FFB347 !important; -webkit-text-fill-color:#FFB347 !important; }
