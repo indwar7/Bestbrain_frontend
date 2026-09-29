@@ -1117,3 +1117,23 @@ html body .brand__word, html body .brand .brand__word, html body .logo-text,
 html body .ka-logo .lt, html body .kh-logo .lt, html body #kid-rail .brand__word{
   background:none !important; color:#FFFFFF !important; -webkit-text-fill-color:#FFFFFF !important;
 }
+
+/* "Sign in" on signup (and "Sign up for free" on login): the way across for
+   someone on the wrong screen, so it is bold and highlighted, not a faint link. */
+html body .signin-link a, html body .signup-link a{
+  display:inline-block !important; margin-left:6px !important; padding:7px 16px !important;
+  border-radius:999px !important; background:linear-gradient(120deg,#FFC400,#FFDD3C) !important;
+  color:#0A0A0A !important; -webkit-text-fill-color:#0A0A0A !important;
+  font-weight:900 !important; text-decoration:none !important;
+  box-shadow:0 4px 16px rgba(255,196,0,.35) !important; transition:transform .15s ease !important;
+}
+html body .signin-link a:hover, html body .signup-link a:hover{ transform:translateY(-1px) !important; }
+
+/* Main screen "Log in": highlighted too, a solid white button next to the
+   yellow "Start learning", so returning students spot it at once. */
+html body #kh-root a.kh-btn.g[href*="login"]{
+  background:#FFFFFF !important; color:#0A0A0A !important; -webkit-text-fill-color:#0A0A0A !important;
+  font-weight:900 !important; border:2px solid #FFC400 !important;
+  box-shadow:0 4px 16px rgba(255,196,0,.28) !important;
+}
+html body #kh-root a.kh-btn.g[href*="login"]:hover{ background:#FFF4CC !important; }
