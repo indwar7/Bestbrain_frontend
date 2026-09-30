@@ -553,25 +553,16 @@
     var key = q.stem + '|' + q.picked + '|' + q.correct;
     if (key === lastKey) return;          // same question, already handled
     lastKey = key;
-    /* the button is there after every answer; only a mistake opens the
-       explainer by itself */
+    /* The button is there after every answer, right or wrong. The explainer
+       never opens by itself: the student reads the solution first and asks
+       for the video if they want it. */
     addReplayButton();
-    clearTimeout(pendingPlay);
-    if (!q.wasWrong) return;
-    /* let the red option register first, the explainer is a follow-up to
-       seeing the mistake, not a replacement for it */
-    pendingPlay = setTimeout(function () {
-      var now = readQuestion();
-      if (now && now.wasWrong) play(buildScenes(q));
-    }, 700);
   }
 
   /* The explainer lives on <body>, outside any page, so it has to be told
      when the page it belongs to goes away, or it (and its voice) follows the
      student to the next screen and sits on top of it. */
-  var pendingPlay = 0;
   window.addEventListener('edulearn:pageleave', function () {
-    clearTimeout(pendingPlay);
     lastKey = '';
     close();
   });
