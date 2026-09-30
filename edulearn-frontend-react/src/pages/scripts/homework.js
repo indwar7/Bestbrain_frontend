@@ -116,19 +116,37 @@ export default function init({ location, document, window, onCleanup }) {
             (h.instructions ? '<p class="hw__instructions">' + esc(h.instructions) + '</p>' : '') +
             pillFor(h) +
           '</div>' +
-          '<button class="' + (done ? 'btn-ghost' : 'btn') + '" data-open="' + esc(h.id) + '"' +
-            (done ? ' disabled' : '') + ' type="button">' +
-            (done ? 'Handed in' : 'Start') + '</button>' +
+          (done
+            // Handed in: a real button that shows what was answered, not a
+            // disabled one that looks clickable and does nothing.
+            ? '<button class="btn-ghost" data-review="' + esc(h.id) + '" type="button">View answers</button>'
+            : '<button class="btn" data-open="' + esc(h.id) + '" type="button">Start</button>') +
         '</div>';
       }).join('');
 
       Array.prototype.forEach.call(list.querySelectorAll('[data-open]'), function (b) {
         b.addEventListener('click', function () { openHomework(b.getAttribute('data-open')); });
       });
+      Array.prototype.forEach.call(list.querySelectorAll('[data-review]'), function (b) {
+        b.addEventListener('click', function () { openReview(b.getAttribute('data-review')); });
+      });
     }
 
     // ---------------- attempt ----------------
     var A = null; // { id, questions[], answers{}, i }
+
+    function openReview(id) {
+      EduAPI.getHomework(id).then(function (res) {
+        var h = res.homework || {};
+        if (!res.review) { openHomework(id); return; }
+        renderResult({
+          submission: { score: h.score, total: h.total != null ? h.total : res.review.length, status: h.status },
+          review: res.review
+        });
+      }).catch(function (e) {
+        alert(e && e.message ? e.message : 'Could not open your answers.');
+      });
+    }
 
     function openHomework(id) {
       EduAPI.getHomework(id).then(function (res) {
@@ -200,9 +218,14 @@ export default function init({ location, document, window, onCleanup }) {
     function renderResult(res) {
       var s = res.submission;
       el('score').innerHTML = s.score + ' <small>/ ' + s.total + '</small>';
-      el('scoreNote').textContent = s.status === 'late'
+      var answered = (res.review || []).filter(function (r) { return r.selectedIndex >= 0; }).length;
+      el('scoreNote').textContent = (s.status === 'late'
         ? 'Handed in after the due date, it still counts, and your teacher can see it was late.'
-        : 'Handed in on time.';
+        : 'Handed in on time.') +
+        (answered < (res.review || []).length
+          ? ' ' + ((res.review || []).length - answered) + ' question(s) were left unanswered and count as wrong.'
+          : '') +
+        ' Below are the right answers and why.';
 
       el('review').innerHTML = (res.review || []).map(function (r, n) {
         return '<div class="card">' +
