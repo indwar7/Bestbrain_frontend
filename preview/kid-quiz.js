@@ -274,8 +274,11 @@
 
   function readQuestion() {
     var wrong = document.querySelector('.opt.is-wrong, .opt.wrong, .opt.is-incorrect');
-    if (!wrong) return null;
     var right = document.querySelector('.opt.is-right, .opt.correct, .opt.is-correct');
+    /* Nothing marked yet: the question has not been answered. A question
+       answered correctly has a right option and no wrong one, and it can be
+       explained too, the button used to sit there and do nothing. */
+    if (!wrong && !right) return null;
     var stem = text(document.getElementById('qText')) ||
                text(document.querySelector('.qtext, .qstem, .question'));
     var sol = blockText(document.getElementById('solBody'));
@@ -292,6 +295,7 @@
     }
     return {
       stem: stem,
+      wasWrong: !!wrong,
       picked: opt(wrong),
       correct: opt(right),
       solution: sol
@@ -322,7 +326,7 @@
     sc.push({
       kind: 'title',
       say: 'Let us understand this question together.',
-      html: '<div class="kq-kicker">Why that was wrong</div>' +
+      html: '<div class="kq-kicker">' + (q.wasWrong ? 'Why that was wrong' : 'Why this is right') + '</div>' +
             '<div class="kq-h">' + esc(q.stem || 'Let us look at this question') + '</div>' +
             '<div class="kq-p">Let us go through it step by step.</div>'
     });
@@ -546,14 +550,18 @@
   function maybeExplain() {
     var q = readQuestion();
     if (!q) { lastKey = ''; return; }
-    var key = q.stem + '|' + q.picked;
+    var key = q.stem + '|' + q.picked + '|' + q.correct;
     if (key === lastKey) return;          // same question, already handled
     lastKey = key;
+    /* the button is there after every answer; only a mistake opens the
+       explainer by itself */
     addReplayButton();
+    if (!q.wasWrong) return;
     /* let the red option register first, the explainer is a follow-up to
        seeing the mistake, not a replacement for it */
     setTimeout(function () {
-      if (readQuestion()) play(buildScenes(q));
+      var now = readQuestion();
+      if (now && now.wasWrong) play(buildScenes(q));
     }, 700);
   }
 
