@@ -184,3 +184,35 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   body{min-height:100dvh;}
   .qcard{min-height:calc(100dvh - 210px);}
 }
+
+/* ---- chapter picker (built by mocktest.js) ---- */
+.pickgrid.qpick{display:block}
+.qpick__tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+html body .qpick__tab{height:40px;padding:0 18px;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;
+  background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.2)!important;
+  color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+html body .qpick__tab.is-on{background:linear-gradient(120deg,#FFC400,#FFDD3C)!important;border-color:#0A0A0A!important;
+  color:#0A0A0A!important;-webkit-text-fill-color:#0A0A0A!important}
+.qpick__list{display:grid;gap:10px}
+html body .qpick__row{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;
+  background:rgba(0,0,0,.45)!important;border:1px solid rgba(255,255,255,.14)!important}
+html body .qpick__n{flex:none;width:34px;font-family:'Fragment Mono',monospace;font-size:13px;
+  color:#FFB347!important;-webkit-text-fill-color:#FFB347!important}
+html body .qpick__name{flex:1;min-width:0;font-size:16px;font-weight:800;color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+html body .qpick__meta{flex:none;font-size:13px;color:rgba(255,255,255,.7)!important;-webkit-text-fill-color:rgba(255,255,255,.7)!important}
+html body .qpick__go{flex:none;height:40px;padding:0 18px;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:900;
+  background:linear-gradient(120deg,#FFC400,#FFDD3C)!important;border:2px solid #0A0A0A!important;
+  color:#0A0A0A!important;-webkit-text-fill-color:#0A0A0A!important}
+html body .qpick__go:disabled{cursor:default;opacity:.55;background:rgba(255,255,255,.1)!important;border-color:rgba(255,255,255,.2)!important;
+  color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+@media (max-width:640px){
+  html body .qpick__row{flex-wrap:wrap;gap:8px 12px}
+  html body .qpick__name{flex-basis:calc(100% - 50px)}
+  html body .qpick__meta{margin-left:46px}
+  html body .qpick__go{margin-left:auto}
+}
+/* The dark skin whitens button text with a more specific rule; the picker's
+   yellow buttons and the selected tab keep dark text. */
+html.kid-dark body .pickgrid.qpick .qpick__row .qpick__go:not(:disabled),
+html.kid-dark body .pickgrid.qpick .qpick__tabs .qpick__tab.is-on{
+  color:#0A0A0A!important;-webkit-text-fill-color:#0A0A0A!important}

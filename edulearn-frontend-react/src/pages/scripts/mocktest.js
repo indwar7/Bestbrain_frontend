@@ -203,6 +203,97 @@ var SUBJECT_OF = { maths: 'Maths', science: 'Science', social: 'Social Science',
   });
 })();
 
+/* ---------- chapter picker ----------
+   Every chapter of the student's class, subject by subject, each with its own
+   quiz. A chapter whose question bank is still empty says so instead of
+   quietly serving questions from the rest of the subject. */
+var SUBJECT_KEYS = ['science', 'maths', 'social', 'english', 'hindi'];
+function curriculumFor(key){
+  var C = window.EduCurriculum && window.EduCurriculum.CURRICULUM;
+  var cls = C && QUIZ_CLASS && C[QUIZ_CLASS];
+  var list = cls && cls[key];
+  return Array.isArray(list) ? list.map(function(c){
+    return Array.isArray(c) ? { slug: c[0], name: c[1] } : { slug: c.slug, name: c.name };
+  }) : [];
+}
+function chapterTitle(key, slug){
+  var hit = curriculumFor(key).filter(function(c){ return c.slug === slug; })[0];
+  return hit ? hit.name : '';
+}
+function escHtml(v){
+  return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function buildChapterPicker(){
+  var grid = document.querySelector('.pickgrid');
+  if (!grid || !QUIZ_USER || !QUIZ_CLASS || !window.EduAPI) return false;
+  if (!curriculumFor('science').length && !curriculumFor('maths').length) return false;
+  var keys = SUBJECT_KEYS.filter(function(k){ return curriculumFor(k).length; });
+  var urlSubj = new URLSearchParams(window.location.search).get('subject');
+  var current = keys.indexOf(urlSubj) !== -1 ? urlSubj : keys[0];
+
+  grid.classList.add('qpick');
+  grid.innerHTML =
+    '<div class="qpick__tabs" role="tablist" aria-label="Subject">' +
+      keys.map(function(k){
+        return '<button type="button" role="tab" class="qpick__tab" data-subj="' + k + '">' + escHtml(SUBJECT_OF[k]) + '</button>';
+      }).join('') +
+    '</div>' +
+    '<div class="qpick__list" id="qpickList"></div>';
+
+  function paint(key){
+    current = key;
+    Array.prototype.forEach.call(grid.querySelectorAll('.qpick__tab'), function(t){
+      var on = t.getAttribute('data-subj') === key;
+      t.classList.toggle('is-on', on);
+      t.setAttribute('aria-selected', String(on));
+    });
+    var list = document.getElementById('qpickList');
+    var chapters = curriculumFor(key);
+    list.innerHTML = chapters.map(function(c, i){
+      return '<div class="qpick__row">' +
+        '<span class="qpick__n">' + String(i + 1).padStart(2, '0') + '</span>' +
+        '<span class="qpick__name">' + escHtml(c.name) + '</span>' +
+        '<span class="qpick__meta" data-count="' + escHtml(c.slug) + '">Checking…</span>' +
+        '<button type="button" class="qpick__go" data-quiz-ch="' + escHtml(c.slug) + '" disabled>Start quiz</button>' +
+      '</div>';
+    }).join('');
+    Array.prototype.forEach.call(list.querySelectorAll('[data-quiz-ch]'), function(b){
+      b.addEventListener('click', function(){
+        var slug = b.getAttribute('data-quiz-ch');
+        startTest(key, slug, chapterTitle(key, slug));
+      });
+    });
+    EduAPI.getBankChapterCounts(SUBJECT_OF[key]).then(function(res){
+      if (current !== key) return;
+      var counts = (res && res.chapters) || {};
+      chapters.forEach(function(c){
+        var n = counts[c.slug] || 0;
+        var meta = list.querySelector('[data-count="' + c.slug + '"]');
+        var go = list.querySelector('[data-quiz-ch="' + c.slug + '"]');
+        if (meta) meta.textContent = n ? n + ' questions' : 'Questions coming soon';
+        if (go) { go.disabled = !n; go.textContent = n ? 'Start quiz' : 'Coming soon'; }
+      });
+    }).catch(function(){
+      chapters.forEach(function(c){
+        var meta = list.querySelector('[data-count="' + c.slug + '"]');
+        var go = list.querySelector('[data-quiz-ch="' + c.slug + '"]');
+        if (meta) meta.textContent = '';
+        if (go) go.disabled = false;
+      });
+    });
+  }
+  Array.prototype.forEach.call(grid.querySelectorAll('.qpick__tab'), function(t){
+    t.addEventListener('click', function(){ paint(t.getAttribute('data-subj')); });
+  });
+  paint(current);
+  return true;
+}
+/* curriculum.js is deferred and can land after this script under the router */
+(function waitForCurriculum(tries){
+  if (buildChapterPicker() || tries <= 0) return;
+  setTimeout(function(){ waitForCurriculum(tries - 1); }, 120);
+})(25);
+
 function quizMessage(msg){
   var host = document.querySelector('.pickgrid');
   if (!host) return;
@@ -241,17 +332,20 @@ function fromApi(q, i){
   };
 }
 
-function startTest(key){
+function startTest(key, chapterSlug, chapterName){
   // Signed in → the student's own class, decided by the server.
-  if (QUIZ_USER && window.EduAPI && EduAPI.startMockTest) return startFromApi(key);
+  if (QUIZ_USER && window.EduAPI && EduAPI.startMockTest) return startFromApi(key, chapterSlug, chapterName);
   startLocal(key);
 }
 
-function startFromApi(key){
+function startFromApi(key, chapterSlug, chapterName){
   var subject = SUBJECT_OF[key] || 'Science';
   var params = new URLSearchParams(window.location.search);
-  var chapter = params.get('ch') || params.get('chapter') || undefined;
-  var btn = document.querySelector('[data-test="' + key + '"]');
+  var chapter = chapterSlug || params.get('ch') || params.get('chapter') || undefined;
+  var btn = chapterSlug
+    ? document.querySelector('[data-quiz-ch="' + chapterSlug + '"]')
+    : document.querySelector('[data-test="' + key + '"]');
+  if (!chapterName && chapter) chapterName = chapterTitle(key, chapter);
   var label = btn ? btn.textContent : '';
   if (btn) { btn.disabled = true; btn.textContent = 'Loading…'; }
   quizMessage('');
@@ -265,7 +359,7 @@ function startFromApi(key){
       return;
     }
     beginTest({
-      name: 'Class ' + (QUIZ_CLASS || '') + ' ' + subject,
+      name: chapterName || ('Class ' + (QUIZ_CLASS || '') + ' ' + subject),
       /* the results screen offers the other subject, it reads def.other */
       other: key === 'maths' ? 'science' : 'maths',
       bank: qs.map(fromApi)
