@@ -101,3 +101,10 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
       .navrow .btn,.navrow .btn-ghost{flex:1;}
     }
   
+/* ---- written questions + PDF upload ---- */
+.written{margin-top:16px}
+.written__list{margin:10px 0 14px 20px;padding:0;display:grid;gap:8px;font-size:16px;line-height:1.5}
+html body .written__list li, html body .written__status, html body .written__msg{color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+html body .written__status a{color:#FFB347!important;-webkit-text-fill-color:#FFB347!important;font-weight:800}
+.written__status{font-size:14px;margin-bottom:12px}
+.written__msg{margin-top:10px;font-size:14px;min-height:1em}

@@ -112,9 +112,15 @@ export default function init({ location, document, window, onCleanup }) {
           '<div class="hw__body">' +
             '<h2 class="hw__title">' + esc(h.title) + '</h2>' +
             '<p class="hw__meta">' + esc(h.subject) + (h.chapterSlug ? ' · ' + esc(chapterName(h)) : '') +
-              ' · ' + h.questionCount + ' question' + (h.questionCount === 1 ? '' : 's') + '</p>' +
+              ' · ' + h.questionCount + ' question' + (h.questionCount === 1 ? '' : 's') +
+              (h.writtenCount ? ' · ' + h.writtenCount + ' written (upload PDF)' : '') + '</p>' +
             (h.instructions ? '<p class="hw__instructions">' + esc(h.instructions) + '</p>' : '') +
             pillFor(h) +
+            (h.writtenCount
+              ? (h.upload
+                  ? ' <span class="pill done">Written answers uploaded</span>'
+                  : ' <span class="pill due">Written answers not uploaded</span>')
+              : '') +
           '</div>' +
           (done
             // Handed in: a real button that shows what was answered, not a
@@ -135,10 +141,78 @@ export default function init({ location, document, window, onCleanup }) {
     // ---------------- attempt ----------------
     var A = null; // { id, questions[], answers{}, i }
 
+    /* ---------------- written answers ----------------
+       Questions answered on paper; the student uploads one PDF (or a photo)
+       with all the answers. Uploading again replaces the file. */
+    function fmtSize(n) {
+      n = Number(n) || 0;
+      return n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+    }
+    function fileLink(id) {
+      return EduAPI.API_BASE + '/api/homework/' + encodeURIComponent(id) +
+        '/upload/file?token=' + encodeURIComponent(EduAPI.getToken());
+    }
+    function renderWritten(hostId, id, hw) {
+      var host = el(hostId);
+      if (!host) return;
+      var qs = (hw && hw.writtenQuestions) || [];
+      if (!qs.length) { host.innerHTML = ''; return; }
+      var up = hw.upload;
+      host.innerHTML =
+        '<div class="card written">' +
+          '<div class="qnum">Written questions · answer on paper, upload as PDF</div>' +
+          '<ol class="written__list">' + qs.map(function (q) { return '<li>' + esc(q) + '</li>'; }).join('') + '</ol>' +
+          '<div class="written__status">' + (up
+            ? '✓ Uploaded: <a href="' + esc(fileLink(id)) + '" target="_blank" rel="noopener">' + esc(up.originalName || 'answers') + '</a> (' + fmtSize(up.size) + ')'
+            : 'Not uploaded yet.') + '</div>' +
+          '<input type="file" class="written__file" accept="application/pdf,.pdf,image/*" hidden>' +
+          '<button class="btn written__btn" type="button">' + (up ? 'Replace PDF' : 'Upload PDF') + '</button>' +
+          '<div class="written__msg" role="status"></div>' +
+        '</div>';
+      var input = host.querySelector('.written__file');
+      var btn = host.querySelector('.written__btn');
+      var msg = host.querySelector('.written__msg');
+      btn.addEventListener('click', function () { input.click(); });
+      input.addEventListener('change', function () {
+        var file = input.files && input.files[0];
+        if (!file) return;
+        if (!(file.type === 'application/pdf' || /^image\//.test(file.type) || /\.pdf$/i.test(file.name))) {
+          msg.textContent = 'Please choose a PDF or a photo.'; return;
+        }
+        if (file.size > 20 * 1024 * 1024) { msg.textContent = 'That file is too large (max 20 MB).'; return; }
+        var fd = new FormData();
+        fd.append('file', file);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', EduAPI.API_BASE + '/api/homework/' + encodeURIComponent(id) + '/upload');
+        xhr.setRequestHeader('Authorization', 'Bearer ' + EduAPI.getToken());
+        xhr.upload.onprogress = function (e) {
+          if (e.lengthComputable) msg.textContent = 'Uploading… ' + Math.round(e.loaded / e.total * 100) + '%';
+        };
+        btn.disabled = true;
+        msg.textContent = 'Uploading…';
+        xhr.onload = function () {
+          btn.disabled = false;
+          var res = {};
+          try { res = JSON.parse(xhr.responseText); } catch (e) {}
+          if (xhr.status === 201 && res.upload) {
+            hw.upload = res.upload;
+            renderWritten(hostId, id, hw);
+            var m = el(hostId).querySelector('.written__msg');
+            if (m) m.textContent = 'Uploaded. Your teacher can see it now.';
+          } else {
+            msg.textContent = res.error || 'Upload failed. Please try again.';
+          }
+        };
+        xhr.onerror = function () { btn.disabled = false; msg.textContent = 'Could not reach the server. Check your connection.'; };
+        xhr.send(fd);
+      });
+    }
+
     function openReview(id) {
       EduAPI.getHomework(id).then(function (res) {
         var h = res.homework || {};
         if (!res.review) { openHomework(id); return; }
+        A = { id: id, hw: h };
         renderResult({
           submission: { score: h.score, total: h.total != null ? h.total : res.review.length, status: h.status },
           review: res.review
@@ -150,7 +224,8 @@ export default function init({ location, document, window, onCleanup }) {
 
     function openHomework(id) {
       EduAPI.getHomework(id).then(function (res) {
-        A = { id: id, questions: res.questions || [], answers: {}, i: 0, title: res.homework.title };
+        A = { id: id, hw: res.homework, questions: res.questions || [], answers: {}, i: 0, title: res.homework.title };
+        renderWritten('writtenAttempt', id, res.homework);
         if (!A.questions.length) { alert('This homework has no questions yet.'); return; }
         show('attempt');
         paintQuestion();
@@ -254,6 +329,8 @@ export default function init({ location, document, window, onCleanup }) {
         }
       });
 
+      if (A && A.hw) renderWritten('writtenResult', A.id, A.hw);
+      else if (el('writtenResult')) el('writtenResult').innerHTML = '';
       show('result');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }

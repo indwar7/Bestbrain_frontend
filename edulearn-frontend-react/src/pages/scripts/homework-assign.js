@@ -235,8 +235,15 @@ export default function init({ location, document, window, onCleanup }) {
               box.innerHTML = (r.submissions || []).length
                 ? '<div class="muted" style="padding:0 0 12px">' +
                     r.submissions.map(function (s) {
-                      return esc(s.studentName || s.rollNumber || 'Student') + ' - ' + s.score + '/' + s.total +
-                        (s.status === 'late' ? ' (late)' : '');
+                      var pdf = s.upload
+                        ? ' · <a href="' + esc(EduAPI.API_BASE + '/api/homework/' + encodeURIComponent(id) +
+                            '/upload/file?student=' + encodeURIComponent(s.studentId) +
+                            '&token=' + encodeURIComponent(EduAPI.getToken())) +
+                          '" target="_blank" rel="noopener">View written answers (PDF)</a>'
+                        : '';
+                      return esc(s.studentName || s.rollNumber || 'Student') + ' - ' +
+                        (s.status === 'uploaded' ? 'multiple choice not submitted yet' : s.score + '/' + s.total) +
+                        (s.status === 'late' ? ' (late)' : '') + pdf;
                     }).join('<br>') + '</div>'
                 : '<p class="muted" style="padding:0 0 12px">Nobody has handed this in yet.</p>';
             });

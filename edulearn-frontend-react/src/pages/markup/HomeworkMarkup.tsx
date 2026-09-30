@@ -55,6 +55,7 @@ export default function HomeworkMarkup() {
             </div>
             <div id="attemptMsg" />
           </div>
+          <div id="writtenAttempt" />
         </div>
         {/* results view */}
         <div id="resultView" hidden={true}>
@@ -65,6 +66,7 @@ export default function HomeworkMarkup() {
               Back to homework
             </button>
           </div>
+          <div id="writtenResult" />
           <div id="review" />
         </div>
       </div>
