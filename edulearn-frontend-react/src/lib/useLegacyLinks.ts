@@ -15,6 +15,17 @@ import { ROUTE_BY_PAGE } from './pages';
  * click. Anything it does not recognise is left alone and behaves as a normal
  * link.
  */
+/**
+ * A link to the screen you are already on starts that screen again: "Quizzes"
+ * pressed in the middle of a quiz goes back to the quiz list. The router alone
+ * does nothing for it (same route, same component), which read as the menu
+ * being stuck. App listens for this and remounts the page.
+ */
+export const RESTART_EVENT = 'edulearn:restart-page';
+function restartPage(): void {
+  window.dispatchEvent(new Event(RESTART_EVENT));
+}
+
 export function useLegacyLinks(): void {
   const navigate = useNavigate();
   const { loggedIn, role } = useAuth();
@@ -61,7 +72,9 @@ export function useLegacyLinks(): void {
         if (ROUTE_BY_PAGE[appPage] === undefined) return;
         e.preventDefault();
         const target = guardRedirect(appPage, loggedIn, role) || url.pathname + url.search + url.hash;
+        const samePath = target.split(/[?#]/)[0] === window.location.pathname;
         if (target !== window.location.pathname + window.location.search + window.location.hash) navigate(target);
+        if (samePath && !url.hash) restartPage();
         return;
       }
 
@@ -112,7 +125,9 @@ export function useLegacyLinks(): void {
       if (url.hash) to += url.hash;
 
       e.preventDefault();
+      const sameRoute = to.split(/[?#]/)[0] === window.location.pathname;
       navigate(to);
+      if (sameRoute && !url.hash) restartPage();
     }
 
     // api.ts's requireAuth() has no router access, so it asks for navigation

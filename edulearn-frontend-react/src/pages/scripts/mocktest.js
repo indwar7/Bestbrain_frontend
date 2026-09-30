@@ -220,6 +220,13 @@ function quizMessage(msg){
 /* ---------- adaptive test engine ---------- */
 var T = null;
 var qTimerRAF = null;
+/* Leaving the quiz (another page, or "Quizzes" pressed mid-paper) has to stop
+   the question clock. It runs on requestAnimationFrame, which nothing else
+   cancels, and a clock left running would time out against the next paper. */
+if (typeof onCleanup === 'function') onCleanup(function(){
+  cancelAnimationFrame(qTimerRAF);
+  if (T) { T.done = true; T.answered = true; }
+});
 
 /* One API question in the shape the engine already reads. The answer and the
    worked solution are deliberately missing: the server withholds them until

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import AuroraDefs from './components/AuroraDefs';
@@ -7,7 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import ClassPrompt from './components/ClassPrompt';
 import { useAuth } from './context/AuthContext';
 import { guardRedirect } from './lib/guard';
-import { useLegacyLinks } from './lib/useLegacyLinks';
+import { useLegacyLinks, RESTART_EVENT } from './lib/useLegacyLinks';
 import { useScrollReset } from './lib/useScrollReset';
 import { usePageChrome } from './lib/usePageChrome';
 import { useKidSkin } from './lib/useKidSkin';
@@ -81,6 +82,15 @@ export default function App() {
   // pages did; this turns those into in-app navigations.
   useLegacyLinks();
 
+  // A link to the screen already showing starts it again (see RESTART_EVENT):
+  // the page is remounted through the key on <Routes> below.
+  const [restart, setRestart] = useState(0);
+  useEffect(() => {
+    const onRestart = () => { setRestart((n) => n + 1); window.scrollTo(0, 0); };
+    window.addEventListener(RESTART_EVENT, onRestart);
+    return () => window.removeEventListener(RESTART_EVENT, onRestart);
+  }, []);
+
   // A client-side navigation keeps the outgoing page's scroll position, so
   // the landing page's footer links opened their destination mid-document.
   useScrollReset();
@@ -90,7 +100,7 @@ export default function App() {
 
   // Last, so the skin measures the stylesheet the two hooks above just put in
   // place, and before this commit paints.
-  useKidSkin(pathname);
+  useKidSkin(pathname + '#' + restart);
 
   return (
     <>
@@ -101,7 +111,7 @@ export default function App() {
       {!chromeless && <Navbar page={page} />}
 
       <ErrorBoundary resetKey={pathname}>
-      <Routes>
+      <Routes key={restart}>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
