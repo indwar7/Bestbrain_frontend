@@ -324,7 +324,7 @@
       say: 'Let us understand this question together.',
       html: '<div class="kq-kicker">Why that was wrong</div>' +
             '<div class="kq-h">' + esc(q.stem || 'Let us look at this question') + '</div>' +
-            '<div class="kq-p">Chalo, isko step by step samajhte hain.</div>'
+            '<div class="kq-p">Let us go through it step by step.</div>'
     });
     if (q.picked) {
       sc.push({
@@ -333,7 +333,7 @@
         html: '<div class="kq-kicker">Your answer</div>' +
               '<div class="kq-chip bad"><span class="kq-mark">✕</span>' +
               '<span class="kq-txt">' + esc(q.picked) + '</span></div>' +
-              '<div class="kq-p">Ye wala sahi nahi tha, dekhte hain kyun.</div>'
+              '<div class="kq-p">That one was not right. Let us see why.</div>'
       });
     }
     if (q.correct) {
@@ -343,7 +343,7 @@
         html: '<div class="kq-kicker">Correct answer</div>' +
               '<div class="kq-chip good"><span class="kq-mark">✓</span>' +
               '<span class="kq-txt">' + esc(q.correct) + '</span></div>' +
-              '<div class="kq-p">Ab samajhte hain ye kyun sahi hai.</div>'
+              '<div class="kq-p">Now let us see why this is correct.</div>'
       });
     }
     var steps = sentences(q.solution).slice(0, 5);
@@ -360,7 +360,7 @@
       kind: 'end',
       say: 'Got it? Try the next question.',
       html: '<div class="kq-kicker">You are set</div>' +
-            '<div class="kq-h">Samajh aa gaya? Agla question try karo.</div>' +
+            '<div class="kq-h">Got it? Try the next question.</div>' +
             '<div class="kq-p">This explainer replays any time, tap the ▶ button under the question.</div>'
     });
     sc.forEach(function (s) { s.dur = secondsFor(s.say); });
@@ -429,6 +429,9 @@
       try {
         speechSynthesis.cancel();
         var u = new SpeechSynthesisUtterance(line);
+        /* English narration, whatever the device's own language is: without
+           this a phone set to Hindi reads the English line with a Hindi voice. */
+        u.lang = 'en-IN';
         var vs = speechSynthesis.getVoices() || [];
         for (var i = 0; i < vs.length; i++) {
           if (/en-IN|en_IN/i.test(vs[i].lang)) { u.voice = vs[i]; break; }

@@ -295,7 +295,7 @@ function parentReply(text){
       ? '\n- **Camera attention: eyes on screen ' + r.onScreenPct + '% of the class**, looked away ' + (r.lookAwayCount || 0) + ' times'
       : '\n- Looked away **' + (r.awayCount || 0) + ' times** (tracked by tab focus)';
     return { text:'Latest live class - **' + r.topic + '**:\n- Attention score: **' + r.score + '/100**' + camLine + '\n- Asked **' + (r.chats || 0) + ' doubts** in chat, attended ' + r.duration +
-      '\n\n' + (r.score >= 80 ? 'Excellent focus, worth a shabashi today.' : r.score >= 50 ? 'Decent focus with some drift, a quieter study corner could help.' : 'Focus dropped a lot, try shorter sessions, phone in another room.') +
+      '\n\n' + (r.score >= 80 ? 'Excellent focus, worth a pat on the back today.' : r.score >= 50 ? 'Decent focus with some drift, a quieter study corner could help.' : 'Focus dropped a lot, try shorter sessions, phone in another room.') +
       (r.camUsed ? '\n\nThis report used live **camera monitoring**, the video never left the device, only the score was saved.' : ''),
       chips:['How is overall progress?','Any weak subjects?'] };
   }
@@ -411,7 +411,7 @@ function renderChatList(){
 var ROLE_META = {
   student: { badge:'Student mode', color:'var(--teal)', ph:'Ask a doubt - "explain photosynthesis in easy words"',
     welcome:'Stuck on a chapter? <em>Ask me.</em>',
-    sub:'Summaries, easy explanations and quick quizzes for Classes 6–9, in English ya Hinglish.',
+    sub:'Summaries, easy explanations and quick quizzes for Classes 6–9, in English or Hinglish.',
     starters:[['Summarise','Summarise Heat Transfer in Nature for me'],['Explain','Explain electric circuits in easy words'],['Quiz','Quiz me on acids and bases'],['Plan','What should I study today?']] },
   parent: { badge:'Parent mode', color:'var(--amber)', ph:'Ask about your child - "how is she doing in Maths?"',
     welcome:'Know exactly how your <em>child is doing.</em>',
