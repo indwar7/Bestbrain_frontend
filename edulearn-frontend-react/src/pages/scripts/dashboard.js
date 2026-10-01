@@ -1489,6 +1489,28 @@ async function loadSubscriptionCard(user){
       return;
     }
 
+    var subLine = document.getElementById('plusSub');
+    if (subLine && config && config.monthlyCoins) {
+      subLine.textContent = 'AI features (PAL and the AI Tutor) with ' + config.monthlyCoins + ' coins every month.';
+    }
+    // Online payment is not switched on yet: show the plan and its price as
+    // coming soon, with nothing that could take money.
+    if (config && config.checkoutEnabled === false) {
+      action.innerHTML = '';
+      if (config.price) {
+        var p0 = document.createElement('span');
+        p0.className = 'plus-price';
+        p0.textContent = '₹' + Number(config.price).toLocaleString('en-IN') + '/month';
+        action.appendChild(p0);
+      }
+      var soon = document.createElement('span');
+      soon.className = 'plus-active-chip plus-soon';
+      soon.textContent = 'Coming soon';
+      action.appendChild(soon);
+      wrap.style.display = 'flex';
+      return;
+    }
+
     if (!config || !config.subscriptionButtonId) return; // nothing to sell without a button id
     if (config.webhookConfigured === false) {
       // The button would still take ₹900, but nothing on this server can ever

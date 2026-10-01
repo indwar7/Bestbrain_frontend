@@ -210,7 +210,7 @@ export default function DashboardMarkup() {
           </span>
           {' '}
           <button type="button" className="low-coin-buy" data-buy-coins="">
-            Get coins
+            How to earn
           </button>
         </div>
         {/* ============================================================

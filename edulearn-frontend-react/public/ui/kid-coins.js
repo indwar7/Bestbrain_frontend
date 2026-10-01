@@ -36,6 +36,9 @@
   '.kc-earn{padding:14px 16px;border-radius:16px;background:rgba(255,179,71,.1)!important;border:1px solid rgba(255,179,71,.3)!important;font-size:14px;line-height:1.7;}' +
   '.kc-earn b{color:#FFB347!important;-webkit-text-fill-color:#FFB347!important;}' +
   '.kc-use{margin-top:12px;font-size:13px;opacity:.75;}' +
+  '.kc-plan{margin-top:12px;padding:12px 14px;border-radius:14px;font-size:14px;background:rgba(255,255,255,.06)!important;border:1px solid rgba(255,255,255,.16)!important;}' +
+  '.kc-plan:empty{display:none;}' +
+  '.kc-plan b{color:#FFC400!important;-webkit-text-fill-color:#FFC400!important;}' +
   '#kid-hud-coins{cursor:pointer;}';
 
   function el(html) { var d = document.createElement('div'); d.innerHTML = html; return d.firstChild; }
@@ -78,13 +81,14 @@
     var wrap = el(
       '<div id="kc-wrap" role="dialog" aria-modal="true" aria-labelledby="kc-title"><div id="kc-box">' +
         '<button id="kc-close" type="button" aria-label="Close">×</button>' +
-        '<h2 id="kc-title">Get more coins</h2>' +
+        '<h2 id="kc-title">Your coins</h2>' +
         '<div class="kc-bal">You have <b id="kc-balance">…</b> coins</div>' +
-        '<div class="kc-packs" id="kc-packs">Loading…</div>' +
+        '<div class="kc-packs" id="kc-packs"></div>' +
         '<p class="kc-msg" id="kc-msg" role="status"></p>' +
         '<div class="kc-earn"><b>Earn free coins in the Arena</b><br>' +
           '+5 for playing each day · +5 for a right answer · +20 for finishing in the top 3 of the hour</div>' +
-        '<div class="kc-use">Coins unlock PAL answers (3 each) and lecture videos (25 each).</div>' +
+        '<div class="kc-use">Coins are for the AI features: each PAL answer and each AI Tutor answer uses 3. Lectures, notes, quizzes and homework are free.</div>' +
+        '<div class="kc-plan" id="kc-plan"></div>' +
       '</div></div>');
     document.body.appendChild(wrap);
     document.addEventListener('keydown', onKey);
@@ -95,15 +99,22 @@
     function say(text, kind) { msg.textContent = text; msg.className = 'kc-msg' + (kind ? ' ' + kind : ''); }
 
     api().getCoinBalance().then(function (r) { setBalance(r.balance); }).catch(function () {});
+    if (api().getSubscriptionConfig) api().getSubscriptionConfig().then(function (c) {
+      var plan = document.getElementById('kc-plan');
+      if (!plan || !c || !c.price) return;
+      plan.innerHTML = '<b>BestBrain Plus</b> · ₹' + c.price + '/month · ' + (c.monthlyCoins || c.price) +
+        ' coins every month' + (c.checkoutEnabled ? '' : ' · <i>coming soon</i>');
+    }).catch(function () {});
     api().getCoinPacks().then(function (r) {
       var host = document.getElementById('kc-packs');
       if (!host) return;
+      // Buying is switched off for now: no packs, just the free ways to earn.
+      if (!r.enabled || !r.packs.length) { host.remove(); return; }
       host.innerHTML = r.packs.map(function (p, i) {
         return '<div class="kc-pack' + (i === r.packs.length - 1 ? ' best' : '') + '">' +
           '<span class="c">' + p.coins + ' coins<small>' + p.label + '</small></span>' +
           '<button class="kc-buy" type="button" data-pack="' + p.id + '">₹' + p.price + '</button></div>';
       }).join('');
-      if (!r.enabled) say('Buying coins will open soon. Meanwhile, earn them free in the Arena.');
       Array.prototype.forEach.call(host.querySelectorAll('.kc-buy'), function (b) {
         b.disabled = !r.enabled;
         b.addEventListener('click', function () { buy(b.getAttribute('data-pack'), b); });

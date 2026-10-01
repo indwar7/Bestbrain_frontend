@@ -585,7 +585,7 @@ function askBackend(c, text, sessionId, canRetry){
     var text2 = (err && err.code === 'pal_not_configured')
       ? 'PAL’s AI service is not set up on the server right now, so I can’t answer yet. This needs an admin to fix, please report it.'
       : (err && (err.code === 'insufficient_coins' || err.status === 402))
-      ? 'You’re out of coins for PAL questions. Tap your coins at the top to get more (or earn them free in the Arena), then ask me again.'
+      ? 'You’re out of coins for PAL questions. Earn more free in the Arena (+5 every day, +5 for a right answer), then ask me again.'
       : 'Sorry, I could not reach PAL just now (' + (err && err.message ? err.message : 'connection issue') + '). Please try again in a moment.';
     var m = { who:'pal', text: text2, quiz: null, quizDone: null, chips: null };
     streamIn(m, function(){
