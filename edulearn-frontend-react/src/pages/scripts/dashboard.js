@@ -1576,7 +1576,8 @@ async function loadSubscriptionCard(user){
 // the warning state - 100 is roughly one video's worth (25) with room to
 // spare, so it fires with enough runway left to actually act on it, not at
 // the moment the balance is already gone.
-var LOW_COIN_THRESHOLD = 100;
+// Below this a student has only a few AI answers left (3 coins each).
+var LOW_COIN_THRESHOLD = 10;
 
 async function loadCoinChip(){
   var chip = document.getElementById('coinChip');

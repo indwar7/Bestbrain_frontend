@@ -133,9 +133,14 @@ select.langsel{border:1px solid var(--line);background:var(--card);color:var(--c
 
 @media (max-width:900px){
   body{overflow:auto}
-  .call{grid-template-columns:1fr;overflow-y:auto}
+  /* On a phone the call is as tall as its content and the page scrolls; a
+     viewport-tall grid squeezed the stage row and the avatar, mic and hint
+     spilled over the transcript. */
+  .call{grid-template-columns:1fr;grid-template-rows:auto auto;flex:none;height:auto;overflow:visible}
   .transcript{border-left:none;border-top:1px solid var(--line);padding:16px 0;max-height:40vh}
-  .stage{min-height:62vh}
+  /* grow with the avatar and controls; a capped row let the mic hint spill
+     over the transcript header */
+  .stage{min-height:max-content}
 }
 @media (prefers-reduced-motion:reduce){
   .ring,.orb,.eq i,.livepill .dot,.blink,.av-eye,.av-head{animation:none!important}

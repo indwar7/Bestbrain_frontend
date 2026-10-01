@@ -99,6 +99,8 @@ html{background:#050505!important;color-scheme:dark}html body{background:#050505
       .qtext{font-size:17px;}
       .hw{flex-direction:column;gap:12px;}
       .navrow .btn,.navrow .btn-ghost{flex:1;}
+      .navrow #submitBtn{flex-basis:100%;order:3;}
+      .navrow .prog{flex-basis:100%;order:4;margin-left:0;text-align:center;}
     }
   
 /* ---- written questions + PDF upload ---- */

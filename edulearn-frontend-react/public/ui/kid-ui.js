@@ -75,6 +75,10 @@
   var progressPromise = null;
   /* One fetch, cached and shared, every chip that shows a number reads from
      the same object, so the header and the body can no longer disagree. */
+  /* Coins change as the student uses the app (Arena, PAL, the question
+     bank), so forget the cached read whenever they move to another screen. */
+  window.addEventListener('edulearn:pageleave', function () { progressPromise = null; });
+
   function loadProgress() {
     if (progressPromise) return progressPromise;
     var t = token();
