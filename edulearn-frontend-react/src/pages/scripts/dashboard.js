@@ -1491,7 +1491,8 @@ async function loadSubscriptionCard(user){
 
     var subLine = document.getElementById('plusSub');
     if (subLine && config && config.monthlyCoins) {
-      subLine.textContent = 'AI features (PAL and the AI Tutor) with ' + config.monthlyCoins + ' coins every month.';
+      subLine.textContent = 'Includes ₹' + (config.freeUsageInr || 50) + ' of AI features (PAL and the AI Tutor) every month, ' +
+        config.monthlyCoins + ' coins. Need more? Win them in the Arena or buy coins.';
     }
     // Online payment is not switched on yet: show the plan and its price as
     // coming soon, with nothing that could take money.

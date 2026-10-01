@@ -102,8 +102,8 @@
     if (api().getSubscriptionConfig) api().getSubscriptionConfig().then(function (c) {
       var plan = document.getElementById('kc-plan');
       if (!plan || !c || !c.price) return;
-      plan.innerHTML = '<b>BestBrain Plus</b> · ₹' + c.price + '/month · ' + (c.monthlyCoins || c.price) +
-        ' coins every month' + (c.checkoutEnabled ? '' : ' · <i>coming soon</i>');
+      plan.innerHTML = '<b>BestBrain Plus</b> · ₹' + c.price + '/month · includes ₹' + (c.freeUsageInr || 50) +
+        ' of AI features (' + c.monthlyCoins + ' coins) every month' + (c.checkoutEnabled ? '' : ' · <i>coming soon</i>');
     }).catch(function () {});
     api().getCoinPacks().then(function (r) {
       var host = document.getElementById('kc-packs');
