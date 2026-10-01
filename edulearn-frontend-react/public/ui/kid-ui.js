@@ -650,7 +650,9 @@
           ((window.KidTheme && window.KidTheme.ICON.book) || '') + '</i>Homework';
         links.appendChild(hw);
       }
-      if (role() === 'student' && !links.querySelector('.kid-pdf-link')) {
+      /* Hidden for now (Aseem Sir, 30 Sep 2026). Set SHOW_PDF_MAKER to true to bring it back. */
+      var SHOW_PDF_MAKER = false;
+      if (SHOW_PDF_MAKER && role() === 'student' && !links.querySelector('.kid-pdf-link')) {
         var pdf = document.createElement('a');
         pdf.className = 'nav__link kid-pdf-link';
         pdf.href = '#';
