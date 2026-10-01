@@ -241,6 +241,8 @@
     'color:#fff!important;-webkit-text-fill-color:#fff!important;}' +
   '.kq-tag i{width:7px;height:7px;border-radius:50%;background:#F87171;box-shadow:0 0 10px #F87171;}' +
   '@media(max-width:700px){.kq-time{display:none}}' +
+  /* a 16:9 stage on a phone is too short: the scene text ran under the caption and PAL's chip */
+  '@media(max-width:700px){.kq-stage{aspect-ratio:auto;min-height:min(70vh,560px)}}' +
   '@media(prefers-reduced-motion:reduce){#kq-player *{animation:none!important;transition:none!important}}';
 
   function style() {
