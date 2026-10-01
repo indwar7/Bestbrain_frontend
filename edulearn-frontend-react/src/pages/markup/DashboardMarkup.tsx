@@ -206,8 +206,12 @@ export default function DashboardMarkup() {
             <b id="lowCoinBalance">
               0
             </b>
-            {" left. Recharge to keep learning without a break."}
+            {" left. "}
           </span>
+          {' '}
+          <button type="button" className="low-coin-buy" data-buy-coins="">
+            Get coins
+          </button>
         </div>
         {/* ============================================================
          BESTBRAIN PLUS, subscription upsell / active badge.

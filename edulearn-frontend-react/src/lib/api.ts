@@ -576,6 +576,20 @@ export function getHomeworkSubmissions(id: string) {
 }
 
 export function getChallenge() { return request('/api/assessments/challenge'); }
+// Coin store (Razorpay one-time orders)
+export function getCoinPacks() {
+  return request<{ enabled: boolean; packs: { id: string; coins: number; price: number; label: string }[] }>('/api/coins/packs');
+}
+export function createCoinOrder(packId: string) {
+  return request('/api/coins/order', { method: 'POST', body: { packId } });
+}
+export function verifyCoinPayment(orderId: string, paymentId: string, signature: string) {
+  return request('/api/coins/verify', { method: 'POST', body: { orderId, paymentId, signature } });
+}
+export function getCoinBalance() {
+  return request<{ balance: number }>('/api/coins');
+}
+
 export function answerChallenge(questionId: string, chosenIndex: number, msTaken: number) {
   return request('/api/assessments/challenge/answer', {
     method: 'POST', body: { questionId, chosenIndex, msTaken },

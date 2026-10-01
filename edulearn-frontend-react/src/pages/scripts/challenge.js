@@ -188,6 +188,17 @@ function startPlayReal(question){
   playTimer = requestAnimationFrame(frame);
 }
 
+/* Coins this answer earned, from the server's reply. */
+function coinLine(c){
+  if(!c) return '';
+  var got = (c.daily || 0) + (c.correct || 0);
+  var parts = [];
+  if(c.daily) parts.push('+' + c.daily + ' daily gift');
+  if(c.correct) parts.push('+' + c.correct + ' right answer');
+  return '<div class="res__coins">' + (got ? '⭐ ' + got + ' coins earned (' + parts.join(', ') + ')' : '⭐ No coins this time') +
+    '<br><small>Finish in the top 3 this hour for +' + (c.top3Bonus || 20) + ' more.</small></div>';
+}
+
 function renderDoneReal(res, missed){
   var verdict, detail;
   if(missed){
@@ -205,6 +216,7 @@ function renderDoneReal(res, missed){
     '<div style="margin-top:16px" class="res__points">+' + (res.points || 0) + '</div>' +
     '<div class="res__verdict">' + verdict + '</div>' +
     '<div class="res__detail">' + detail + '</div>' +
+    coinLine(res.coins) +
     '<div class="nextdrop">' +
       '<div class="mono">Next drop in</div>' +
       '<b id="nextClock">--:--</b>' +

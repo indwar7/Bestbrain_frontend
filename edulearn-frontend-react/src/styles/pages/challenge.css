@@ -179,3 +179,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   body{min-height:100dvh;}
 }
 
+
+html body .res__coins{margin-top:14px;padding:12px 14px;border-radius:14px;font-weight:800;font-size:15px;line-height:1.5;
+  background:rgba(255,196,0,.12)!important;border:1px solid rgba(255,196,0,.4)!important;color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+html body .res__coins small{font-weight:700;opacity:.8}
