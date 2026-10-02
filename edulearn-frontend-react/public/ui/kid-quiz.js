@@ -53,13 +53,21 @@
       /[\w-]\.(html?|php|json|js|css|png|jpe?g|svg|pdf)\b/i.test(s);
   }
 
+  /* Study content is not the product's label. A science question's "test
+     tube", "starch test" or "lime water test" was coming out as "quiz tube",
+     so questions, options, explanations, notes and chat are left exactly as
+     written. */
+  var CONTENT = '#kq-player,#qtext,#qText,.qtext,#opts,#optGrid,#feedback,#solution,#qHint,' +
+    '#resReview,#review,.review-row,#writtenAttempt,#writtenResult,.written__list,' +
+    '#notesStage,#notesBody,#notesTag,#chatList,#chatLog,#questionsHost,[data-noreword]';
+
   function rewordTree(root) {
     if (!root) return;
     var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
       acceptNode: function (n) {
         var p = n.parentNode;
         if (!p || SKIP_TAGS[p.nodeName]) return NodeFilter.FILTER_REJECT;
-        if (p.closest && p.closest('#kq-player')) return NodeFilter.FILTER_REJECT;
+        if (p.closest && p.closest(CONTENT)) return NodeFilter.FILTER_REJECT;
         if (!/test/i.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
         if (looksLikeUrlOrPath(n.nodeValue)) return NodeFilter.FILTER_REJECT;
         return NodeFilter.FILTER_ACCEPT;
@@ -75,6 +83,7 @@
     var attrs = ['placeholder', 'title', 'aria-label', 'value'];
     var els = root.querySelectorAll ? root.querySelectorAll('[placeholder],[title],[aria-label],input[type=submit],input[type=button]') : [];
     for (var i = 0; i < els.length; i++) {
+      if (els[i].closest && els[i].closest(CONTENT)) continue;
       for (var a = 0; a < attrs.length; a++) {
         var v = els[i].getAttribute(attrs[a]);
         if (v && /test/i.test(v) && !looksLikeUrlOrPath(v)) {
